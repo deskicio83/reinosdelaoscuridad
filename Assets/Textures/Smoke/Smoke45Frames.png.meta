@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 4416635114f633a4f8bfd7b40f4df693
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7505564461578593453
+    second: Smoke45Frames_0
+  - first:
+      213: -5605640344394291989
+    second: Smoke45Frames_1
+  - first:
+      213: 844319311219239931
+    second: Smoke45Frames_2
+  - first:
+      213: -9002896618744697082
+    second: Smoke45Frames_3
+  - first:
+      213: -5655170815623247154
+    second: Smoke45Frames_4
+  - first:
+      213: -8593211954593964930
+    second: Smoke45Frames_5
+  - first:
+      213: -7278984768824686402
+    second: Smoke45Frames_6
+  - first:
+      213: 2012258800457367228
+    second: Smoke45Frames_7
+  - first:
+      213: 2135860362098925042
+    second: Smoke45Frames_8
+  - first:
+      213: -7556113039757832231
+    second: Smoke45Frames_9
+  - first:
+      213: 8980717187781300230
+    second: Smoke45Frames_10
+  - first:
+      213: -147436531259494617
+    second: Smoke45Frames_11
+  - first:
+      213: 8216393703428059405
+    second: Smoke45Frames_12
+  - first:
+      213: -8588802320987207227
+    second: Smoke45Frames_13
+  - first:
+      213: -7359267811417829046
+    second: Smoke45Frames_14
+  - first:
+      213: -6954404959416921137
+    second: Smoke45Frames_15
+  - first:
+      213: -8977462631157296000
+    second: Smoke45Frames_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 0
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Smoke45Frames_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 1540
+        width: 228
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da420339c1f192860800000000000000
+      internalID: 7505564461578593453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_1
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1541
+        width: 235
+        height: 236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be4a7c58ec3c432b0800000000000000
+      internalID: -5605640344394291989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_2
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 1697
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfba93ea0ff97bb00800000000000000
+      internalID: 844319311219239931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_3
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 1541
+        width: 240
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60f282289394f0380800000000000000
+      internalID: -9002896618744697082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_4
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 1540
+        width: 250
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecace960b1cc481b0800000000000000
+      internalID: -5655170815623247154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_5
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 511
+        width: 769
+        height: 1281
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c59ce8147ceb880800000000000000
+      internalID: -8593211954593964930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 511
+        width: 1025
+        height: 1026
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb8c9b02be9dbfa90800000000000000
+      internalID: -7278984768824686402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 255
+        width: 257
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbe3a65b7bafceb10800000000000000
+      internalID: 2012258800457367228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_8
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 255
+        width: 258
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fd5ebcdea914ad10800000000000000
+      internalID: 2135860362098925042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_9
+      rect:
+        serializedVersion: 2
+        x: 509
+        y: 255
+        width: 516
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9df898e693b432790800000000000000
+      internalID: -7556113039757832231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_10
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 255
+        width: 255
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60013fd43bae1ac70800000000000000
+      internalID: 8980717187781300230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_11
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 255
+        width: 250
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72fac57814334fdf0800000000000000
+      internalID: -147436531259494617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_12
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 255
+        width: 245
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d01f59b7a8e760270800000000000000
+      internalID: 8216393703428059405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_13
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 0
+        width: 240
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c9c1836bc17ec880800000000000000
+      internalID: -8588802320987207227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_14
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 2
+        width: 235
+        height: 242
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a415975aae0aed990800000000000000
+      internalID: -7359267811417829046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_15
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 4
+        width: 232
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc35db1198dfc7f90800000000000000
+      internalID: -6954404959416921137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke45Frames_16
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 5
+        width: 228
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08496853d45a96380800000000000000
+      internalID: -8977462631157296000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Smoke45Frames_0: 7505564461578593453
+      Smoke45Frames_1: -5605640344394291989
+      Smoke45Frames_10: 8980717187781300230
+      Smoke45Frames_11: -147436531259494617
+      Smoke45Frames_12: 8216393703428059405
+      Smoke45Frames_13: -8588802320987207227
+      Smoke45Frames_14: -7359267811417829046
+      Smoke45Frames_15: -6954404959416921137
+      Smoke45Frames_16: -8977462631157296000
+      Smoke45Frames_2: 844319311219239931
+      Smoke45Frames_3: -9002896618744697082
+      Smoke45Frames_4: -5655170815623247154
+      Smoke45Frames_5: -8593211954593964930
+      Smoke45Frames_6: -7278984768824686402
+      Smoke45Frames_7: 2012258800457367228
+      Smoke45Frames_8: 2135860362098925042
+      Smoke45Frames_9: -7556113039757832231
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

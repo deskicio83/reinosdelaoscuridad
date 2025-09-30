@@ -1,0 +1,3 @@
+C:\Users\1542031\Documents\Reinos de la Oscuridad\Reinos de la Oscuridad\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\1542031\Documents\Reinos de la Oscuridad\Reinos de la Oscuridad\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+C:\Users\1542031\Documents\Reinos de la Oscuridad\Reinos de la Oscuridad\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

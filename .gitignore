@@ -1,0 +1,31 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+.crash/
+SysInfo.txt
+
+# Paquetes y caches
+Packages/com.unity.package-manager/.*
+ProjectSettings/ProjectVersion.txt ! (se incluye)
+# (ProjectSettings y Packages se INCLUYEN)
+
+# VS / IDE
+.vs/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.suo
+*.svd
+*.pdb
+
+# Otros
+*.apk
+*.aab
+*.unitypackage
