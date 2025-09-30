@@ -1,0 +1,488 @@
+{
+  "playerName": "DarkLord42",
+  "playerLevel": 15,
+  "energia": 99,
+  "energiaMax": 120,
+  "oroNegro": 7690,
+  "caosifera": 385,
+  "resources": {
+    "summonScrolls": 6,
+    "ascensionStones": 44
+  },
+  "heroes": [
+    {
+      "heroId": "ElBufonFunebre",
+      "exp": 31800,
+      "level": 33,
+      "stars": 4,
+      "ascension": 1,
+      "skills": [
+        {
+          "skillId": "ElBufonFunebre_basic",
+          "level": 5
+        },
+        {
+          "skillId": "ElBufonFunebre_strong",
+          "level": 5
+        },
+        {
+          "skillId": "ElBufonFunebre_ultimate",
+          "level": 7
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [
+        {
+          "instanceId": "gear_3001",
+          "gearId": "mente_peligrosa_botas_001",
+          "rarity": "memeticamente_unico",
+          "upgradeLevel": 8,
+          "mainStatType": "spd",
+          "substats": [
+            {
+              "type": "tcri%",
+              "value": 5.0
+            },
+            {
+              "type": "atk%",
+              "value": 3.0
+            }
+          ]
+        }
+      ],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": true,
+      "lado": ""
+    },
+    {
+      "heroId": "SigridLaAudaz",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "SigridLaAudaz_basic",
+          "level": 3
+        },
+        {
+          "skillId": "SigridLaAudaz_strong",
+          "level": 5
+        },
+        {
+          "skillId": "SigridLaAudaz_ultimate",
+          "level": 5
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [
+        {
+          "instanceId": "gear_2001",
+          "gearId": "dolor_comico_casco_001",
+          "rarity": "mugroso",
+          "upgradeLevel": 5,
+          "mainStatType": "hp%",
+          "substats": [
+            {
+              "type": "atk%",
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_2003",
+          "gearId": "dolor_comico_espada_001",
+          "rarity": "absurdamente_escaso",
+          "upgradeLevel": 8,
+          "mainStatType": "atk%",
+          "substats": [
+            {
+              "type": "tcri%",
+              "value": 6.0
+            },
+            {
+              "type": "dcri%",
+              "value": 8.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_2004",
+          "gearId": "dolor_comico_escudo_001",
+          "rarity": "divinamente_ridiculo",
+          "upgradeLevel": 11,
+          "mainStatType": "def%",
+          "substats": [
+            {
+              "type": "hp%",
+              "value": 6.0
+            },
+            {
+              "type": "res",
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_2005",
+          "gearId": "dolor_comico_guantes_001",
+          "rarity": "memeticamente_unico",
+          "upgradeLevel": 15,
+          "mainStatType": "atk%",
+          "substats": [
+            {
+              "type": "tcri%",
+              "value": 7.0
+            },
+            {
+              "type": "atk%",
+              "value": 5.0
+            },
+            {
+              "type": "hp%",
+              "value": 4.0
+            },
+            {
+              "type": "spd",
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_2006",
+          "gearId": "dolor_comico_pechera_001",
+          "rarity": "mugroso",
+          "upgradeLevel": 2,
+          "mainStatType": "hp%",
+          "substats": [
+            {
+              "type": "res",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_2002",
+          "gearId": "dolor_comico_botas_001",
+          "rarity": "extranito",
+          "upgradeLevel": 3,
+          "mainStatType": "spd",
+          "substats": [
+            {
+              "type": "tcri%",
+              "value": 2.0
+            }
+          ]
+        }
+      ],
+      "locked": true,
+      "favorite": true,
+      "customName": "",
+      "awaken": true,
+      "lado": ""
+    },
+    {
+      "heroId": "OliviaSatina",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "OliviaSatina_basic",
+          "level": 5
+        },
+        {
+          "skillId": "OliviaSatina_strong",
+          "level": 6
+        },
+        {
+          "skillId": "OliviaSatina_ultimate",
+          "level": 4
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [
+        {
+          "instanceId": "gear_1001",
+          "gearId": "juicio_briliante_escudo_001",
+          "rarity": "mugroso",
+          "upgradeLevel": 0,
+          "mainStatType": "def%",
+          "substats": []
+        },
+        {
+          "instanceId": "gear_1002",
+          "gearId": "rencor_bebe_guantes_001",
+          "rarity": "extranito",
+          "upgradeLevel": 1,
+          "mainStatType": "atk%",
+          "substats": [
+            {
+              "type": "tcri%",
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "instanceId": "gear_1003",
+          "gearId": "santo_rancio_botas_001",
+          "rarity": "absurdamente_escaso",
+          "upgradeLevel": 6,
+          "mainStatType": "hp%",
+          "substats": [
+            {
+              "type": "def%",
+              "value": 4.0
+            },
+            {
+              "type": "spd",
+              "value": 1.0
+            }
+          ]
+        }
+      ],
+      "locked": true,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "BabaMuertita",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "BabaMuertita_basic",
+          "level": 2
+        },
+        {
+          "skillId": "BabaMuertita_strong",
+          "level": 1
+        },
+        {
+          "skillId": "BabaMuertita_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "KrullElDestructor",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "KrullElDestructor_basic",
+          "level": 2
+        },
+        {
+          "skillId": "KrullElDestructor_strong",
+          "level": 1
+        },
+        {
+          "skillId": "KrullElDestructor_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "GolemArcano",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "GolemArcano_basic",
+          "level": 2
+        },
+        {
+          "skillId": "GolemArcano_strong",
+          "level": 1
+        },
+        {
+          "skillId": "GolemArcano_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "GrulkElEnanoBlindado",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "GrulkElEnanoBlindado_basic",
+          "level": 2
+        },
+        {
+          "skillId": "GrulkElEnanoBlindado_strong",
+          "level": 1
+        },
+        {
+          "skillId": "GrulkElEnanoBlindado_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": true,
+      "lado": ""
+    },
+    {
+      "heroId": "LadyBrisaviva",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "LadyBrisaviva_basic",
+          "level": 2
+        },
+        {
+          "skillId": "LadyBrisaviva_strong",
+          "level": 1
+        },
+        {
+          "skillId": "LadyBrisaviva_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "AlondriaGuardianaDeLaPureza",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "AlondriaGuardianaDeLaPureza_basic",
+          "level": 2
+        },
+        {
+          "skillId": "AlondriaGuardianaDeLaPureza_strong",
+          "level": 1
+        },
+        {
+          "skillId": "AlondriaGuardianaDeLaPureza_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": true,
+      "lado": ""
+    },
+    {
+      "heroId": "TianSabioDelAlba",
+      "exp": 31800,
+      "level": 33,
+      "stars": 6,
+      "ascension": 2,
+      "skills": [
+        {
+          "skillId": "TianSabioDelAlba_basic",
+          "level": 2
+        },
+        {
+          "skillId": "TianSabioDelAlba_strong",
+          "level": 1
+        },
+        {
+          "skillId": "TianSabioDelAlba_ultimate",
+          "level": 2
+        }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": true,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    }
+  ],
+  "gearInventory": [],
+  "artifactInventory": [
+    {
+      "artifactId": "ancient_totem",
+      "level": 2
+    },
+    {
+      "artifactId": "mystic_eye",
+      "level": 3
+    }
+  ],
+  "lastLogin": "2025-07-25T12:03:12Z",
+  "lastLoginTimestamp": 1753504992,
+  "maxHeroSpaces": 20,
+  "awakenInventory": {
+    "items": {
+      "caos_extracto": 245,
+      "caos_infusion": 120,
+      "caos_destilado": 210,
+      "element_luz_extracto": 185,
+      "element_luz_infusion": 175,
+      "element_luz_destilado": 188,
+      "element_oscuridad_extracto": 200,
+      "element_oscuridad_infusion": 170,
+      "element_oscuridad_destilado": 176,
+      "element_fuego_extracto": 200,
+      "element_fuego_infusion": 185,
+      "element_fuego_destilado": 188,
+      "element_naturaleza_extracto": 200,
+      "element_naturaleza_infusion": 185,
+      "element_naturaleza_destilado": 188,
+      "element_agua_extracto": 200,
+      "element_agua_infusion": 155,
+      "element_agua_destilado": 164
+    }
+  },
+  "equipment": [],
+  "heroSceneCompactView": true
+}

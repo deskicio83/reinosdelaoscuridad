@@ -1,0 +1,293 @@
+Heroe
+
+Create a highly detailed character illustration based on this information:
+
+Name: Espiritu Travieso (⭐⭐⭐)
+Awaken name: Pixie, la Sombra Juguetona
+Specific class: Impulsor (potencia estadísticas del equipo)
+Standard class: Especialista
+Element: Fuego
+Lado: Profano
+Reino: Guarderia Apocaliptica
+Description: Espiritu revoltoso de guarderia. Cambia espadas de goma por bromas espectrales, desordena siestas y reparte sustos blanditos. Ideal para sabotear con una sonrisa.
+
+Specific image instructions:
+ - The background must reflect the character's standard class and element (for example, a stormy shoreline or windswept battlefield for blue attackers).
+ - The character must be in a dynamic pose that clearly expresses their personality and role, based on the description and sexualized. 
+ - Make sure all mentioned attributes (weapons, armor, dynamic motion, etc.) are clearly visible.
+ - Do not include any text in the image.
+
+
+
+Avatar(adjuntar Heroe):
+  Using the uploaded image as reference, generate a square 1:1 avatar focused mainly on the character’s face. Keep the same colors, style, and visual identity of the original full-body character. Simplify the framing to highlight the head and facial features, while preserving the original cartoonish and colorful design. Match the avatar background as closely as possible to the original image’s background so it feels consistent. Output as transparent PNG if background is plain, otherwise replicate the background from the reference.
+
+
+Heroe Awaken (adjuntar Heroe):
+    Using the uploaded image as reference, generate a square 1:1 “Awakening” version of the same hero. Keep the same character identity (face, hair, silhouette, costume motifs). Do not add text or logos. Maintain the original cartoonish fantasy style.
+
+    COLOR/PALETTE PRESERVATION (MANDATORY):
+    - Use the uploaded image’s base palette for the CHARACTER. Do NOT recolor hair, skin, outfit, or weapon.
+    - No global tint/LUT/white-balance/saturation shifts. Apply only local contrast/lighting tweaks.
+    - Clamp highlights (no blown whites) and preserve midtones to avoid palette drift.
+
+    BACKGROUND TONE FROM REFERENCE (MANDATORY):
+    - Derive the background’s hue/mood from the **existing background in the uploaded image**. Sample its dominant hues and keep the same hue family and contrast.
+    - If the reference already has a background: **preserve and subtly enhance** it (light rays, particles, abstract energy) without changing its color family.
+    - If the reference background is minimal/flat: **synthesize** a dramatic but subdued background using **only analogous hues** from the reference background. No neon, no new dominant colors.
+    - Do NOT apply any global color cast to the character. Background adjustments must not recolor the character.
+
+    Power-up look (subtle, not overly bright):
+    - Prioritize local contrast and shape readability. No global exposure lift.
+    - Soft rim light, restrained eye glow, gentle aura, short motion streaks. Keep bloom LOW.
+    - Limit very bright pixels to ≤8–10% of the frame.
+
+    Element-colored VFX (ACCENT-ONLY, optional):
+    - If used, keep Element-derived effects **muted** and **small** (≤10–12% of the image). No monochrome/overall cast and never override the background tone from the reference.
+
+    Gear:
+    - If armor/helmet exists, enhance with thin radiant edge highlights and subtle rune seams (muted). If not present, do not add heavy metal gear.
+
+    Output:
+    - High-resolution PNG, square (1:1), with the rendered background (no transparency).
+
+
+
+
+Avatar Awaken(adjuntar Heroe Awaken):
+
+  Using the uploaded image as reference, generate a square 1:1 avatar focused mainly on the character’s face. Keep the same colors, style, and visual identity of the original full-body character. Simplify the framing to highlight the head and facial features, while preserving the original cartoonish and colorful design. Match the avatar background as closely as possible to the original image’s background so it feels consistent. Output as transparent PNG if background is plain, otherwise replicate the background from the reference.
+
+Name: Caballero Calabazon (⭐⭐⭐⭐)
+Awaken name: Sir Calabaza Justa
+Specific class: Barrera (escudos preventivos + curas ligeras)
+Standard class: Tanque
+Element: Agua
+Lado: Profano
+Reino: Circo Agonizante
+Description: Caballero con armadura de calabaza que lucha con honor y protege a sus companeros con valentia y fuerza. Ahora deambula bajo carpas desgarradas, luces intermitentes y jaulas oxidadas donde la risa duele. Su poder fluye en bruma fria y vapor denso. Opera bajo carpas desgarradas y focos intermitentes. Aplica soluciones torcidas y eficaces, aunque despierten remordimientos.
+
+Name: Engranaje Sombrio (⭐⭐⭐)
+Awaken name: Nekehayo, El Engranaje Sombrio
+Specific class: Controlador (niega turnos con control duro)
+Standard class: Especialista
+Element: Oscuridad
+Lado: Profano
+Reino: Cielos Oxidados
+Description: Engranaje Sombrio navega cielos oxidados entre engranajes flotantes y hierro corroído. Mueve barras de turno como si fueran cuentas de rosario, combina control de tempo y debilitaciones quirúrgicas con humor sin piedad. Del lado profano prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Espantapajaros Maldito (⭐⭐⭐)
+Awaken name: Xicuhe, El Espantapajaros
+Specific class: Batería (acelera aliados y retrasa enemigos)
+Standard class: Especialista
+Element: Naturaleza
+Lado: Profano
+Reino: Guarderia Apocaliptica
+Description: Espantapajaros animado por savia oscura. Entre cunas y columpios cultiva enredaderas que atan tobillos y dejan paja por doquier. El campo crece donde pisa.
+
+Name: Cocinero Ardiente (⭐⭐⭐)
+Awaken name: Bomelaxila, El Cocinero Ardiente
+Specific class: Escurridizo (evita fallos y esquiva con AGI/LUK)
+Standard class: Atacante
+Element: Fuego
+Lado: Puro
+Reino: Catedral en Llamas
+Description: El Cocinero Ardiente es una leyenda local por razones desconocidas, probablemente porque nadie se atrevio a preguntar. Dicen que su mayor hazaña fue sobrevivir a una reunion de vecinos en Catedral en Llamas.
+
+Name: Guardian (⭐⭐⭐)
+Awaken name: Kharamesh, el Guardian Estatico
+Specific class: Persistente (acumula venenos/quemaduras/sangrados)
+Standard class: Atacante
+Element: Fuego
+Lado: Puro
+Reino: Abismo del Recuerdo
+Description: Antiguo templo que cobra vida para proteger el equilibrio y mantener la paz con su presencia.
+
+Name: Dramaturgo (⭐⭐⭐⭐⭐)
+Awaken name: Tenebro, el Dramaturgo Dramatico
+Specific class: Escurridizo (evita fallos y esquiva con AGI/LUK)
+Standard class: Atacante
+Element: Luz
+Lado: Profano
+Reino: Circo Agonizante
+Description: Maestro del espectaculo oscuro. inflige daño devastador mientras dramatiza cada movimiento. Su presencia escenica infunde miedo y desorden.
+
+Name: Justiciero (⭐⭐⭐⭐⭐)
+Awaken name: Tian, el Sabio del Alba
+Specific class: Persistente (acumula venenos/quemaduras/sangrados)
+Standard class: Atacante
+Element: Fuego
+Lado: Puro
+Reino: Cielos Oxidados
+Description: Justiciero navega cielos oxidados entre engranajes flotantes y hierro corroído. Persigue objetivos con tozudez cómica, combina golpes precisos y presión constante con humor sin piedad. Del lado puro prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Titiritero (⭐⭐⭐⭐)
+Awaken name: Panuve, El Titiritero Infernal
+Specific class: Despojador (elimina/bloquea buffs enemigos)
+Standard class: Especialista
+Element: Fuego
+Lado: Profano
+Reino: Circo Agonizante
+Description: Maneja marionetas poseídas que se burlan del público y lo atacan por turnos. Suele hablar con sus títeres y obedecerles sin darse cuenta.
+
+Name: Trapecista del Dolor (⭐⭐⭐⭐)
+Awaken name: Tuhozeqebu, el Trapecista del Dolor
+Specific class: Cazajefes (daño por % de HP o bonus contra jefes)
+Standard class: Atacante
+Element: Agua
+Lado: Puro
+Reino: Circo Agonizante
+Description: Vuela entre cadenas oxidadas mientras lanza cuchillos con forma de sonrisas. Su número estrella: caer mal y fingir que fue intencional.
+
+Name: Manguera del Caos (⭐⭐⭐⭐)
+Awaken name: Chorro Hereje
+Specific class: Provocador (obliga a los enemigos a atacarlo)
+Standard class: Tanque
+Element: Agua
+Lado: Profano
+Reino: Guarderia Apocaliptica
+Description: Ex-acolito que cambió el incienso por mangueras a presión. En la Guardería, apaga berrinches con geiseres y riega peluches hasta que confiesan.
+
+Name: Osito Blindado (⭐⭐⭐)
+Awaken name: Ala de Peluche
+Specific class: Evasivo (evita golpes para sobrevivir)
+Standard class: Tanque
+Element: Luz
+Lado: Puro
+Reino: Guarderia Apocaliptica
+Description: Un peluche con armadura y fe ingenua. De vuelta a pasillos pegajosos, coordina siestas blindadas y amortigua berrinches con su coraza.
+
+Name: Zarzal del Abismo (⭐⭐⭐)
+Awaken name: Raiz del Remordimiento
+Specific class: Acribillador (varios golpes que rompen escudos/guardias)
+Standard class: Atacante
+Element: Naturaleza
+Lado: Profano
+Reino: Abismo del Recuerdo
+Description: Espinero itinerante que se alimenta de disculpas mal hechas. En el Abismo del Recuerdo sus raices buscan culpas y las pinchan hasta sangrar historias.
+
+Name: Linteo Luminiscente (⭐⭐⭐)
+Awaken name: Archivista Penitente
+Specific class: Invocador (crea esbirros o tótems de apoyo)
+Standard class: Especialista
+Element: Fuego
+Lado: Puro
+Reino: Cripta de Fe Vencida
+Description: Escriba obsesivo con apósitos brillantes. Catalogar huesos le calma; sellar maldiciones con tiras adhesivas le da paz.
+
+Name: Guarda del Indice (⭐⭐⭐⭐⭐)
+Awaken name: Centinela Sombrio
+Specific class: Tenaz (resiste control y debuffs (alta RES))
+Standard class: Tanque
+Element: Oscuridad
+Lado: Puro
+Reino: Biblioteca Gritona
+Description: Coloso encuadernado en piel de noche. Protege pasillos a martillazos de sello y devuelve los susurros a las páginas.
+
+Name: Domador de Cepos (⭐⭐⭐)
+Awaken name: Maestro de Lianas
+Specific class: Ladrón (roba/transfiere/copia buffs)
+Standard class: Especialista
+Element: Naturaleza
+Lado: Puro
+Reino: Circo Agonizante
+Description: Artista de pista que enseña a las trampas a hacer reverencias. En el Circo Agonizante, los cepos aplauden y las lianas hacen malabares con héroes despistados.
+
+Name: Burbujas del Alba (⭐⭐⭐)
+Awaken name: Espuma Sagrada
+Specific class: Contraatacante (golpea al ser golpeado)
+Standard class: Atacante
+Element: Agua
+Lado: Puro
+Reino: Guarderia Apocaliptica
+Description: Hacedor de pompas benditas: distrae berrinches con geiseres brillantes y deja el suelo tan mojado como pacifico.
+
+Name: Chispa de Guarderia (⭐⭐⭐⭐)
+Awaken name: Encendedor Angelical
+Specific class: Oportunista (+daño si el enemigo está debilitado)
+Standard class: Atacante
+Element: Luz
+Lado: Puro
+Reino: Catedral en Llamas
+Description: Tras dominar nanas incandescentes, ahora enciende velas y apaga herejias traviesas. En la Catedral en Llamas, su llama canta al compas del organo.
+
+Name: Cuidahoja Amable (⭐⭐⭐⭐)
+Awaken name: Jardinero de Halos
+Specific class: Seco (bloquea curas y sustain enemigo)
+Standard class: Especialista
+Element: Luz
+Lado: Puro
+Reino: Cripta de Fe Vencida
+Description: Jardinero de halos que ahora cuida rosales memoriales y lianas calmantes entre lapidas. En la Cripta de Fe Vencida, amarra huesos inquietos con buenos modales.
+
+Name: Foco del Pataleta (⭐⭐⭐)
+Awaken name: Reflector Hereje
+Specific class: Acribillador (varios golpes que rompen escudos/guardias)
+Standard class: Atacante
+Element: Agua
+Lado: Profano
+Reino: Guarderia Apocaliptica
+Description: Iluminador de berrinches: canaliza luz malintencionada para marcar objetivos y desordenar siestas. Si brilla, molesta.
+
+Name: Sonajero Maldito (⭐⭐⭐⭐)
+Awaken name: Ritmo del Pavor
+Specific class: Asesino (golpe único de alto daño)
+Standard class: Atacante
+Element: Oscuridad
+Lado: Profano
+Reino: Guarderia Apocaliptica
+Description: Agita un sonajero que suena a pasos en la noche. Ritmos sombríos que rompen cunas de valor y llaman sombras curiosas.
+
+Name: Guardia Umbrío de la Cripta (⭐⭐⭐)
+Awaken name: Guardia, Umbrio Cripta
+Specific class: Provocador (obliga a los enemigos a atacarlo)
+Standard class: Tanque
+Element: Oscuridad
+Lado: -
+Reino: Cripta de Fe Vencida
+Description: Guardia Umbrío de la Cripta navega cripta de fe vencida entre votos rotos y altares vacíos. Se planta delante y roba la atención ajena, combina aguante férreo y provocaciones calculadas con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Escriba Nocturno (⭐⭐⭐⭐⭐)
+Awaken name: Escriba, Nocturno
+Specific class: Quebrador (amplifica daño aplicando debuffs clave)
+Standard class: Especialista
+Element: Oscuridad
+Lado: -
+Reino: Biblioteca Gritona
+Description: Escriba Nocturno navega biblioteca gritona entre páginas que chillan y estanterías vivas. Combina control de tempo y debilitaciones quirúrgicas con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Cazador de Espinas (⭐⭐⭐)
+Awaken name: Cazador, Espinas
+Specific class: Asesino (golpe único de alto daño)
+Standard class: Atacante
+Element: Naturaleza
+Lado: -
+Reino: Catedral en Llamas
+Description: Cazador de Espinas navega catedral en llamas entre incensarios ardientes y coros chamuscados. Remata cuando nadie mira y se esfuma entre chispas, combina golpes precisos y presión constante con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Maestro de Marcas del Circo (⭐⭐⭐⭐⭐)
+Awaken name: Maestro, Marcas Circo
+Specific class: Detonador (coloca y detona marcas)
+Standard class: Especialista
+Element: Naturaleza
+Lado: -
+Reino: Circo Agonizante
+Description: Maestro de Marcas del Circo navega circo agonizante entre carpas desgarradas y bufones demoníacos. Combina control de tempo y debilitaciones quirúrgicas con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Acólito del Escudo Ígneo (⭐⭐⭐)
+Awaken name: Acólito, Escudo Ígneo
+Specific class: Muro (reduce el daño recibido)
+Standard class: Tanque
+Element: Fuego
+Lado: -
+Reino: Catedral en Llamas
+Description: Acólito del Escudo Ígneo navega catedral en llamas entre incensarios ardientes y coros chamuscados. Levanta escudos como si fueran himnos, combina aguante férreo y provocaciones calculadas con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.
+
+Name: Custodio Ígneo de la Cripta (⭐⭐⭐⭐⭐)
+Awaken name: Custodio, Ígneo Cripta
+Specific class: Barrera (escudos preventivos + curas ligeras)
+Standard class: Tanque
+Element: Fuego
+Lado: -
+Reino: Cripta de Fe Vencida
+Description: Custodio Ígneo de la Cripta navega cripta de fe vencida entre votos rotos y altares vacíos. Levanta escudos como si fueran himnos, combina aguante férreo y provocaciones calculadas con humor sin piedad. prefiere soluciones absurdas que, sorprendentemente, funcionan.

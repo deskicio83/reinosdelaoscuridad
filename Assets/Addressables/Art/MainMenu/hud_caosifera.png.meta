@@ -1,0 +1,3627 @@
+fileFormatVersion: 2
+guid: 6c78a8fd51a61cc47af90b3bb948cb54
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6911234986443535609
+    second: hud_caosifera_0
+  - first:
+      213: -3737615949666298680
+    second: hud_caosifera_1
+  - first:
+      213: 5042412942222607492
+    second: hud_caosifera_2
+  - first:
+      213: -6485133852772896273
+    second: hud_caosifera_3
+  - first:
+      213: -7575143283460079865
+    second: hud_caosifera_4
+  - first:
+      213: 7102385368364473041
+    second: hud_caosifera_5
+  - first:
+      213: 7388918522584469856
+    second: hud_caosifera_6
+  - first:
+      213: -79984568550840851
+    second: hud_caosifera_7
+  - first:
+      213: 7069885774330779819
+    second: hud_caosifera_8
+  - first:
+      213: 4288848827283379948
+    second: hud_caosifera_9
+  - first:
+      213: 9198000732384941658
+    second: hud_caosifera_10
+  - first:
+      213: 2624719104713871688
+    second: hud_caosifera_11
+  - first:
+      213: 5236209712934420858
+    second: hud_caosifera_12
+  - first:
+      213: 5188496250313135566
+    second: hud_caosifera_13
+  - first:
+      213: -2235331280289274655
+    second: hud_caosifera_14
+  - first:
+      213: 6794752412184763135
+    second: hud_caosifera_15
+  - first:
+      213: 2860233893649891204
+    second: hud_caosifera_16
+  - first:
+      213: -9052100140286075647
+    second: hud_caosifera_17
+  - first:
+      213: -5661588481978167301
+    second: hud_caosifera_18
+  - first:
+      213: 526266244377135042
+    second: hud_caosifera_19
+  - first:
+      213: -4338392796861005228
+    second: hud_caosifera_20
+  - first:
+      213: 2964561892241919099
+    second: hud_caosifera_21
+  - first:
+      213: 671780475556867680
+    second: hud_caosifera_22
+  - first:
+      213: 5493124123668820279
+    second: hud_caosifera_23
+  - first:
+      213: 5060165857973792437
+    second: hud_caosifera_24
+  - first:
+      213: -6502532959777797348
+    second: hud_caosifera_25
+  - first:
+      213: 6821181393203613020
+    second: hud_caosifera_26
+  - first:
+      213: -4870091165311320172
+    second: hud_caosifera_27
+  - first:
+      213: 3794738116114261915
+    second: hud_caosifera_28
+  - first:
+      213: 4034312019754069861
+    second: hud_caosifera_29
+  - first:
+      213: 3330105385753707044
+    second: hud_caosifera_30
+  - first:
+      213: 3604037324102154691
+    second: hud_caosifera_31
+  - first:
+      213: 6444158640710508596
+    second: hud_caosifera_32
+  - first:
+      213: 3514015159185731907
+    second: hud_caosifera_33
+  - first:
+      213: 4989446886124050878
+    second: hud_caosifera_34
+  - first:
+      213: 200752766298564387
+    second: hud_caosifera_35
+  - first:
+      213: 3746940696202490368
+    second: hud_caosifera_36
+  - first:
+      213: -4633775837516959858
+    second: hud_caosifera_37
+  - first:
+      213: -7137495324290442076
+    second: hud_caosifera_38
+  - first:
+      213: -4582547528840874452
+    second: hud_caosifera_39
+  - first:
+      213: -6547824911045368001
+    second: hud_caosifera_40
+  - first:
+      213: 6684904336079721473
+    second: hud_caosifera_41
+  - first:
+      213: -8792597306522510039
+    second: hud_caosifera_42
+  - first:
+      213: 4706940068351614381
+    second: hud_caosifera_43
+  - first:
+      213: 5680238560201460042
+    second: hud_caosifera_44
+  - first:
+      213: -5770418942462597037
+    second: hud_caosifera_45
+  - first:
+      213: -7412168448830808904
+    second: hud_caosifera_46
+  - first:
+      213: -1589805714709118401
+    second: hud_caosifera_47
+  - first:
+      213: -7410807445208070565
+    second: hud_caosifera_48
+  - first:
+      213: -6522311790859268241
+    second: hud_caosifera_49
+  - first:
+      213: -7013398546807750687
+    second: hud_caosifera_50
+  - first:
+      213: -1573225557557365219
+    second: hud_caosifera_51
+  - first:
+      213: 1052630838306588843
+    second: hud_caosifera_52
+  - first:
+      213: -4660580856642544714
+    second: hud_caosifera_53
+  - first:
+      213: -2013864998207837355
+    second: hud_caosifera_54
+  - first:
+      213: -712142185028424281
+    second: hud_caosifera_55
+  - first:
+      213: 4832980877736821682
+    second: hud_caosifera_56
+  - first:
+      213: -3388033697237060606
+    second: hud_caosifera_57
+  - first:
+      213: 4961162666896366931
+    second: hud_caosifera_58
+  - first:
+      213: -2182401215882032554
+    second: hud_caosifera_59
+  - first:
+      213: -8347205181600233561
+    second: hud_caosifera_60
+  - first:
+      213: 3998355898828469513
+    second: hud_caosifera_61
+  - first:
+      213: 3831686305703107934
+    second: hud_caosifera_62
+  - first:
+      213: -8675273365914511449
+    second: hud_caosifera_63
+  - first:
+      213: 6668885973864751225
+    second: hud_caosifera_64
+  - first:
+      213: 5622511067387477625
+    second: hud_caosifera_65
+  - first:
+      213: 7240542732235423239
+    second: hud_caosifera_66
+  - first:
+      213: 1495608809329347194
+    second: hud_caosifera_67
+  - first:
+      213: -155558852888681858
+    second: hud_caosifera_68
+  - first:
+      213: -2628224244534601096
+    second: hud_caosifera_69
+  - first:
+      213: -1685158048285154093
+    second: hud_caosifera_70
+  - first:
+      213: 4608284614753715982
+    second: hud_caosifera_71
+  - first:
+      213: -3559948046532052815
+    second: hud_caosifera_72
+  - first:
+      213: 4636549246597926729
+    second: hud_caosifera_73
+  - first:
+      213: -5404018109178513693
+    second: hud_caosifera_74
+  - first:
+      213: -5917909983135803195
+    second: hud_caosifera_75
+  - first:
+      213: -138831372252586156
+    second: hud_caosifera_76
+  - first:
+      213: -1958330972114763122
+    second: hud_caosifera_77
+  - first:
+      213: -620602998320662787
+    second: hud_caosifera_78
+  - first:
+      213: 338001404411164403
+    second: hud_caosifera_79
+  - first:
+      213: -533830889351537987
+    second: hud_caosifera_80
+  - first:
+      213: 7334691016258729093
+    second: hud_caosifera_81
+  - first:
+      213: -3850770173660811786
+    second: hud_caosifera_82
+  - first:
+      213: -686671837297533160
+    second: hud_caosifera_83
+  - first:
+      213: 2718136719346898712
+    second: hud_caosifera_84
+  - first:
+      213: -6147390238380069998
+    second: hud_caosifera_85
+  - first:
+      213: 5971211833212442590
+    second: hud_caosifera_86
+  - first:
+      213: -3750781999891703505
+    second: hud_caosifera_87
+  - first:
+      213: -8509844785851903744
+    second: hud_caosifera_88
+  - first:
+      213: 8694607539045809888
+    second: hud_caosifera_89
+  - first:
+      213: -5605155566672833264
+    second: hud_caosifera_90
+  - first:
+      213: 1586137721764077037
+    second: hud_caosifera_91
+  - first:
+      213: -2617743066818743282
+    second: hud_caosifera_92
+  - first:
+      213: -8496166829932568246
+    second: hud_caosifera_93
+  - first:
+      213: 1654184193878905259
+    second: hud_caosifera_94
+  - first:
+      213: 7318427411440927722
+    second: hud_caosifera_95
+  - first:
+      213: -7186949081262748939
+    second: hud_caosifera_96
+  - first:
+      213: 596470332831291912
+    second: hud_caosifera_97
+  - first:
+      213: -9064067130871698882
+    second: hud_caosifera_98
+  - first:
+      213: -1767944036293997055
+    second: hud_caosifera_99
+  - first:
+      213: 4636300197917357893
+    second: hud_caosifera_100
+  - first:
+      213: 2695120522374172965
+    second: hud_caosifera_101
+  - first:
+      213: -2516022367735195520
+    second: hud_caosifera_102
+  - first:
+      213: 5750641375966528581
+    second: hud_caosifera_103
+  - first:
+      213: -8560920810346446769
+    second: hud_caosifera_104
+  - first:
+      213: -9158978238946387212
+    second: hud_caosifera_105
+  - first:
+      213: 3272598228538045576
+    second: hud_caosifera_106
+  - first:
+      213: -5093794431429097957
+    second: hud_caosifera_107
+  - first:
+      213: 4714471281398963065
+    second: hud_caosifera_108
+  - first:
+      213: 3008635988169417093
+    second: hud_caosifera_109
+  - first:
+      213: -5947403131123007001
+    second: hud_caosifera_110
+  - first:
+      213: 2305085964326451124
+    second: hud_caosifera_111
+  - first:
+      213: -4490892812114664741
+    second: hud_caosifera_112
+  - first:
+      213: -5355623649387601240
+    second: hud_caosifera_113
+  - first:
+      213: -1854357990325825096
+    second: hud_caosifera_114
+  - first:
+      213: -4563025753119377825
+    second: hud_caosifera_115
+  - first:
+      213: 1758304031705602906
+    second: hud_caosifera_116
+  - first:
+      213: 4698454508934654964
+    second: hud_caosifera_117
+  - first:
+      213: -6191280592373977891
+    second: hud_caosifera_118
+  - first:
+      213: 9111409231910581828
+    second: hud_caosifera_119
+  - first:
+      213: -348175811554245708
+    second: hud_caosifera_120
+  - first:
+      213: -244885195894807456
+    second: hud_caosifera_121
+  - first:
+      213: -3131397641181073770
+    second: hud_caosifera_122
+  - first:
+      213: 8547558178580188840
+    second: hud_caosifera_123
+  - first:
+      213: -8814791305311439124
+    second: hud_caosifera_124
+  - first:
+      213: -1982853271449025949
+    second: hud_caosifera_125
+  - first:
+      213: 7354972857290421076
+    second: hud_caosifera_126
+  - first:
+      213: 3507781624128612147
+    second: hud_caosifera_127
+  - first:
+      213: 8806886571361815469
+    second: hud_caosifera_128
+  - first:
+      213: 7972382909308573859
+    second: hud_caosifera_129
+  - first:
+      213: 3119844463252703413
+    second: hud_caosifera_130
+  - first:
+      213: -5276794760089783103
+    second: hud_caosifera_131
+  - first:
+      213: 4613747561589670970
+    second: hud_caosifera_132
+  - first:
+      213: 4765699242058884307
+    second: hud_caosifera_133
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hud_caosifera_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 102
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b08c9a56c5610a0800000000000000
+      internalID: -6911234986443535609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_1
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 0
+        width: 1429
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c45e45b812512cc0800000000000000
+      internalID: -3737615949666298680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_2
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 1019
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 484c208eadf3af540800000000000000
+      internalID: 5042412942222607492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_3
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 1015
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe17c90ee1d2006a0800000000000000
+      internalID: -6485133852772896273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_4
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1015
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70ffcaa815fafd690800000000000000
+      internalID: -7575143283460079865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_5
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1007
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dadb4bccddb09260800000000000000
+      internalID: 7102385368364473041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_6
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 1002
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06193f48f36ba8660800000000000000
+      internalID: 7388918522584469856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_7
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 991
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de5a30c6576d3eef0800000000000000
+      internalID: -79984568550840851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_8
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 975
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba8d29567a74d1260800000000000000
+      internalID: 7069885774330779819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_9
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 966
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce6939df84d058b30800000000000000
+      internalID: 4288848827283379948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_10
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 947
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a565699deecd5af70800000000000000
+      internalID: 9198000732384941658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_11
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 910
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 841d6af8e10ec6420800000000000000
+      internalID: 2624719104713871688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_12
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 902
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7108e4cdf0caa840800000000000000
+      internalID: 5236209712934420858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_13
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 886
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec55c5e89dd310840800000000000000
+      internalID: 5188496250313135566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_14
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 878
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e4e90b3b028af0e0800000000000000
+      internalID: -2235331280289274655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_15
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 870
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffa5009915fcb4e50800000000000000
+      internalID: 6794752412184763135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_16
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 852
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48fb885729791b720800000000000000
+      internalID: 2860233893649891204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_17
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 861
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10d1cfae1ea706280800000000000000
+      internalID: -9052100140286075647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_18
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 843
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff8f33a54ffd61b0800000000000000
+      internalID: -5661588481978167301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_19
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 839
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c7c0696c5cad4700800000000000000
+      internalID: 526266244377135042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_20
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 830
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4528cfeacbeeac3c0800000000000000
+      internalID: -4338392796861005228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_21
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 821
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c4db5855d342920800000000000000
+      internalID: 2964561892241919099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_22
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 815
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06e2c9488c4a25900800000000000000
+      internalID: 671780475556867680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_23
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 807
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 731b862694f7b3c40800000000000000
+      internalID: 5493124123668820279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_24
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 797
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5be6615b902593640800000000000000
+      internalID: 5060165857973792437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_25
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 791
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1bcc2899bc52c5a0800000000000000
+      internalID: -6502532959777797348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_26
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 782
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5dc7624654b9ae50800000000000000
+      internalID: 6821181393203613020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_27
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 775
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49fb9d353e5f96cb0800000000000000
+      internalID: -4870091165311320172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_28
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 777
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9720a2163e99a430800000000000000
+      internalID: 3794738116114261915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_29
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 748
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56fa7824861ccf730800000000000000
+      internalID: 4034312019754069861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_30
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 742
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42207766439e63e20800000000000000
+      internalID: 3330105385753707044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_31
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 735
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c9bb5ce9dc140230800000000000000
+      internalID: 3604037324102154691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_32
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 725
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43060df14204e6950800000000000000
+      internalID: 6444158640710508596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_33
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 719
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3417a925b2a44c030800000000000000
+      internalID: 3514015159185731907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_34
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 710
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb95a19f1831e3540800000000000000
+      internalID: 4989446886124050878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_35
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 702
+        width: 27
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32727eac39739c200800000000000000
+      internalID: 200752766298564387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_36
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 701
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 002ba9706becff330800000000000000
+      internalID: 3746940696202490368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_37
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 694
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f63043d6581bfb0800000000000000
+      internalID: -4633775837516959858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_38
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 679
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ac18a191d582fc90800000000000000
+      internalID: -7137495324290442076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_39
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 685
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2678194d458760c0800000000000000
+      internalID: -4582547528840874452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_40
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 667
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f37efad6fe37125a0800000000000000
+      internalID: -6547824911045368001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_41
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 659
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1041085531d85cc50800000000000000
+      internalID: 6684904336079721473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_42
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 645
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92d5babb55b6af580800000000000000
+      internalID: -8792597306522510039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_43
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 653
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dad9621cd09625140800000000000000
+      internalID: 4706940068351614381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_44
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 639
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a49c84410e244de40800000000000000
+      internalID: 5680238560201460042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_45
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 629
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 358e4597b8a5befa0800000000000000
+      internalID: -5770418942462597037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_46
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 591
+        width: 111
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bcd4103110b22990800000000000000
+      internalID: -7412168448830808904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_47
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 621
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3280e82020efe9e0800000000000000
+      internalID: -1589805714709118401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_48
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 613
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b568d8984e5872990800000000000000
+      internalID: -7410807445208070565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_49
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 606
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6fcd7f9bf71c75a0800000000000000
+      internalID: -6522311790859268241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_50
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 611
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef78452e276bae90800000000000000
+      internalID: -7013398546807750687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_51
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 592
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d163a32d0b7ca2ae0800000000000000
+      internalID: -1573225557557365219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_52
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 603
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba8c2ec9b22bb9e00800000000000000
+      internalID: 1052630838306588843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_53
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 582
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bbd5d8576a425fb0800000000000000
+      internalID: -4660580856642544714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_54
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 574
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55baa3c34705d04e0800000000000000
+      internalID: -2013864998207837355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_55
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 557
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ad6fcfa476fd16f0800000000000000
+      internalID: -712142185028424281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_56
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 567
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b342c78082321340800000000000000
+      internalID: 4832980877736821682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_57
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 550
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 204b12d8d494bf0d0800000000000000
+      internalID: -3388033697237060606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_58
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 541
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35d9941092799d440800000000000000
+      internalID: 4961162666896366931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_59
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 540
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65a88f138ad86b1e0800000000000000
+      internalID: -2182401215882032554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_60
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 533
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a70b6bdc15c82c80800000000000000
+      internalID: -8347205181600233561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_61
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 539
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 905324b71830d7730800000000000000
+      internalID: 3998355898828469513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_62
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 526
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5d9926d462ec2530800000000000000
+      internalID: 3831686305703107934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_63
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 519
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a7124756dc3b9780800000000000000
+      internalID: -8675273365914511449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_64
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 511
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9702bcfb574ac8c50800000000000000
+      internalID: 6668885973864751225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_65
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 493
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97e3555c60c270e40800000000000000
+      internalID: 5622511067387477625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_66
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 487
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70ebdefb0439b7460800000000000000
+      internalID: 7240542732235423239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_67
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 463
+        width: 63
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7a450bb94871c410800000000000000
+      internalID: 1495608809329347194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_68
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 469
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7227e72c0857ddf0800000000000000
+      internalID: -155558852888681858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_69
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 477
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87a127a79fba68bd0800000000000000
+      internalID: -2628224244534601096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_70
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 462
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d4a295fead1d98e0800000000000000
+      internalID: -1685158048285154093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_71
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 453
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e070b4ef07ae3ff30800000000000000
+      internalID: 4608284614753715982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_72
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 437
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b87c93fc16889ec0800000000000000
+      internalID: -3559948046532052815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_73
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 445
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94f031b69f4585040800000000000000
+      internalID: 4636549246597926729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_74
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 429
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e6f2a259221105b0800000000000000
+      internalID: -5404018109178513693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_75
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 423
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c8d37a893c5fdda0800000000000000
+      internalID: -5917909983135803195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_76
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 405
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45f543d3a95c21ef0800000000000000
+      internalID: -138831372252586156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_77
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 413
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8244764b5c92d4e0800000000000000
+      internalID: -1958330972114763122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_78
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 411
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df6fd827cdc2367f0800000000000000
+      internalID: -620602998320662787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_79
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 390
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f6b28b8c72d0b400800000000000000
+      internalID: 338001404411164403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_80
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 397
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dba121e62a37798f0800000000000000
+      internalID: -533830889351537987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_81
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 367
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 584b9515e9e0ac560800000000000000
+      internalID: 7334691016258729093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_82
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 374
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fd2747ede05f8ac0800000000000000
+      internalID: -3850770173660811786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_83
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 357
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81f9d942a937876f0800000000000000
+      internalID: -686671837297533160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_84
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 350
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8171e97e1f2c8b520800000000000000
+      internalID: 2718136719346898712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_85
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 341
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29be6a1062510baa0800000000000000
+      internalID: -6147390238380069998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_86
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 333
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed79c3586810ed250800000000000000
+      internalID: 5971211833212442590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_87
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 323
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f299682c4ab82fbc0800000000000000
+      internalID: -3750781999891703505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_88
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 317
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 001569d1145f6e980800000000000000
+      internalID: -8509844785851903744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_89
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 309
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ee3242ad7379a870800000000000000
+      internalID: 8694607539045809888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_90
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 302
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01599a1a5bc7632b0800000000000000
+      internalID: -5605155566672833264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_91
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 285
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ded589eaad7130610800000000000000
+      internalID: 1586137721764077037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_92
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 293
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e04f605dc88ebabd0800000000000000
+      internalID: -2617743066818743282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_93
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 278
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41a965684d871a80800000000000000
+      internalID: -8496166829932568246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_94
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 270
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba1d73592c7d4f610800000000000000
+      internalID: 1654184193878905259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_95
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 263
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae30b6db4f6409560800000000000000
+      internalID: 7318427411440927722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_96
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 254
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fa838083e3d24c90800000000000000
+      internalID: -7186949081262748939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_97
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 245
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80ad7738b96174800800000000000000
+      internalID: 596470332831291912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_98
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 239
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a291cc7f6f53280800000000000000
+      internalID: -9064067130871698882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_99
+      rect:
+        serializedVersion: 2
+        x: 1282
+        y: 245
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e0de514400777e0800000000000000
+      internalID: -1767944036293997055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_100
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 229
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 547ffe04772775040800000000000000
+      internalID: 4636300197917357893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_101
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 215
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5215af2f5ddf66520800000000000000
+      internalID: 2695120522374172965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_102
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 207
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 088d43cacfa451dd0800000000000000
+      internalID: -2516022367735195520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_103
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 198
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 544062dfcd16ecf40800000000000000
+      internalID: 5750641375966528581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_104
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 190
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f400d0571ef713980800000000000000
+      internalID: -8560920810346446769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_105
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 183
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fa511a61d5c4e080800000000000000
+      internalID: -9158978238946387212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_106
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 175
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8843598ffba9a6d20800000000000000
+      internalID: 3272598228538045576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_107
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 167
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b164ec3e3f43f49b0800000000000000
+      internalID: -5093794431429097957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_108
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 139
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97bd09fe6aa2d6140800000000000000
+      internalID: 4714471281398963065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_109
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 133
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5816b45ad72d0c920800000000000000
+      internalID: 3008635988169417093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_110
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 137
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e10e59ec54967da0800000000000000
+      internalID: -5947403131123007001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_111
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 125
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b7ba60c87f4dff10800000000000000
+      internalID: 2305085964326451124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_112
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 119
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd2ec89f7c42da1c0800000000000000
+      internalID: -4490892812114664741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_113
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 101
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a2229b8aa00da5b0800000000000000
+      internalID: -5355623649387601240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_114
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 110
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b1d83c8b3ff346e0800000000000000
+      internalID: -1854357990325825096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_115
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 94
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f563c54e040eca0c0800000000000000
+      internalID: -4563025753119377825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_116
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 85
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5b13f07330c66810800000000000000
+      internalID: 1758304031705602906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_117
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 79
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fbe16e7b73443140800000000000000
+      internalID: 4698454508934654964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_118
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 69
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddc67c2aa17241aa0800000000000000
+      internalID: -6191280592373977891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_119
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 63
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 446be3f0c6a327e70800000000000000
+      internalID: 9111409231910581828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_120
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 46
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b30de0b1f70b2bf0800000000000000
+      internalID: -348175811554245708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_121
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 55
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06420f7363ef99cf0800000000000000
+      internalID: -244885195894807456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_122
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 39
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69ee7eaaf6a0b84d0800000000000000
+      internalID: -3131397641181073770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_123
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 31
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aec14360e60f9670800000000000000
+      internalID: 8547558178580188840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_124
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 31
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce6b5b5b2029ba580800000000000000
+      internalID: -8814791305311439124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_125
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 32
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3624f89847d7b74e0800000000000000
+      internalID: -1982853271449025949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_126
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 23
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4537f6b68dc121660800000000000000
+      internalID: 7354972857290421076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_127
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 24
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33724d75dc42ea030800000000000000
+      internalID: 3507781624128612147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_128
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 23
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dabcd2ffca8583a70800000000000000
+      internalID: 8806886571361815469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_129
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a89bba340893ae60800000000000000
+      internalID: 7972382909308573859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_130
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 19
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b885aa720aeb4b20800000000000000
+      internalID: 3119844463252703413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_131
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 10
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c4b4349f1f05c6b0800000000000000
+      internalID: -5276794760089783103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_132
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 0
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3480eb66f2570040800000000000000
+      internalID: 4613747561589670970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud_caosifera_133
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 0
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d4a44df53a232240800000000000000
+      internalID: 4765699242058884307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      hud_caosifera_0: -6911234986443535609
+      hud_caosifera_1: -3737615949666298680
+      hud_caosifera_10: 9198000732384941658
+      hud_caosifera_100: 4636300197917357893
+      hud_caosifera_101: 2695120522374172965
+      hud_caosifera_102: -2516022367735195520
+      hud_caosifera_103: 5750641375966528581
+      hud_caosifera_104: -8560920810346446769
+      hud_caosifera_105: -9158978238946387212
+      hud_caosifera_106: 3272598228538045576
+      hud_caosifera_107: -5093794431429097957
+      hud_caosifera_108: 4714471281398963065
+      hud_caosifera_109: 3008635988169417093
+      hud_caosifera_11: 2624719104713871688
+      hud_caosifera_110: -5947403131123007001
+      hud_caosifera_111: 2305085964326451124
+      hud_caosifera_112: -4490892812114664741
+      hud_caosifera_113: -5355623649387601240
+      hud_caosifera_114: -1854357990325825096
+      hud_caosifera_115: -4563025753119377825
+      hud_caosifera_116: 1758304031705602906
+      hud_caosifera_117: 4698454508934654964
+      hud_caosifera_118: -6191280592373977891
+      hud_caosifera_119: 9111409231910581828
+      hud_caosifera_12: 5236209712934420858
+      hud_caosifera_120: -348175811554245708
+      hud_caosifera_121: -244885195894807456
+      hud_caosifera_122: -3131397641181073770
+      hud_caosifera_123: 8547558178580188840
+      hud_caosifera_124: -8814791305311439124
+      hud_caosifera_125: -1982853271449025949
+      hud_caosifera_126: 7354972857290421076
+      hud_caosifera_127: 3507781624128612147
+      hud_caosifera_128: 8806886571361815469
+      hud_caosifera_129: 7972382909308573859
+      hud_caosifera_13: 5188496250313135566
+      hud_caosifera_130: 3119844463252703413
+      hud_caosifera_131: -5276794760089783103
+      hud_caosifera_132: 4613747561589670970
+      hud_caosifera_133: 4765699242058884307
+      hud_caosifera_14: -2235331280289274655
+      hud_caosifera_15: 6794752412184763135
+      hud_caosifera_16: 2860233893649891204
+      hud_caosifera_17: -9052100140286075647
+      hud_caosifera_18: -5661588481978167301
+      hud_caosifera_19: 526266244377135042
+      hud_caosifera_2: 5042412942222607492
+      hud_caosifera_20: -4338392796861005228
+      hud_caosifera_21: 2964561892241919099
+      hud_caosifera_22: 671780475556867680
+      hud_caosifera_23: 5493124123668820279
+      hud_caosifera_24: 5060165857973792437
+      hud_caosifera_25: -6502532959777797348
+      hud_caosifera_26: 6821181393203613020
+      hud_caosifera_27: -4870091165311320172
+      hud_caosifera_28: 3794738116114261915
+      hud_caosifera_29: 4034312019754069861
+      hud_caosifera_3: -6485133852772896273
+      hud_caosifera_30: 3330105385753707044
+      hud_caosifera_31: 3604037324102154691
+      hud_caosifera_32: 6444158640710508596
+      hud_caosifera_33: 3514015159185731907
+      hud_caosifera_34: 4989446886124050878
+      hud_caosifera_35: 200752766298564387
+      hud_caosifera_36: 3746940696202490368
+      hud_caosifera_37: -4633775837516959858
+      hud_caosifera_38: -7137495324290442076
+      hud_caosifera_39: -4582547528840874452
+      hud_caosifera_4: -7575143283460079865
+      hud_caosifera_40: -6547824911045368001
+      hud_caosifera_41: 6684904336079721473
+      hud_caosifera_42: -8792597306522510039
+      hud_caosifera_43: 4706940068351614381
+      hud_caosifera_44: 5680238560201460042
+      hud_caosifera_45: -5770418942462597037
+      hud_caosifera_46: -7412168448830808904
+      hud_caosifera_47: -1589805714709118401
+      hud_caosifera_48: -7410807445208070565
+      hud_caosifera_49: -6522311790859268241
+      hud_caosifera_5: 7102385368364473041
+      hud_caosifera_50: -7013398546807750687
+      hud_caosifera_51: -1573225557557365219
+      hud_caosifera_52: 1052630838306588843
+      hud_caosifera_53: -4660580856642544714
+      hud_caosifera_54: -2013864998207837355
+      hud_caosifera_55: -712142185028424281
+      hud_caosifera_56: 4832980877736821682
+      hud_caosifera_57: -3388033697237060606
+      hud_caosifera_58: 4961162666896366931
+      hud_caosifera_59: -2182401215882032554
+      hud_caosifera_6: 7388918522584469856
+      hud_caosifera_60: -8347205181600233561
+      hud_caosifera_61: 3998355898828469513
+      hud_caosifera_62: 3831686305703107934
+      hud_caosifera_63: -8675273365914511449
+      hud_caosifera_64: 6668885973864751225
+      hud_caosifera_65: 5622511067387477625
+      hud_caosifera_66: 7240542732235423239
+      hud_caosifera_67: 1495608809329347194
+      hud_caosifera_68: -155558852888681858
+      hud_caosifera_69: -2628224244534601096
+      hud_caosifera_7: -79984568550840851
+      hud_caosifera_70: -1685158048285154093
+      hud_caosifera_71: 4608284614753715982
+      hud_caosifera_72: -3559948046532052815
+      hud_caosifera_73: 4636549246597926729
+      hud_caosifera_74: -5404018109178513693
+      hud_caosifera_75: -5917909983135803195
+      hud_caosifera_76: -138831372252586156
+      hud_caosifera_77: -1958330972114763122
+      hud_caosifera_78: -620602998320662787
+      hud_caosifera_79: 338001404411164403
+      hud_caosifera_8: 7069885774330779819
+      hud_caosifera_80: -533830889351537987
+      hud_caosifera_81: 7334691016258729093
+      hud_caosifera_82: -3850770173660811786
+      hud_caosifera_83: -686671837297533160
+      hud_caosifera_84: 2718136719346898712
+      hud_caosifera_85: -6147390238380069998
+      hud_caosifera_86: 5971211833212442590
+      hud_caosifera_87: -3750781999891703505
+      hud_caosifera_88: -8509844785851903744
+      hud_caosifera_89: 8694607539045809888
+      hud_caosifera_9: 4288848827283379948
+      hud_caosifera_90: -5605155566672833264
+      hud_caosifera_91: 1586137721764077037
+      hud_caosifera_92: -2617743066818743282
+      hud_caosifera_93: -8496166829932568246
+      hud_caosifera_94: 1654184193878905259
+      hud_caosifera_95: 7318427411440927722
+      hud_caosifera_96: -7186949081262748939
+      hud_caosifera_97: 596470332831291912
+      hud_caosifera_98: -9064067130871698882
+      hud_caosifera_99: -1767944036293997055
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

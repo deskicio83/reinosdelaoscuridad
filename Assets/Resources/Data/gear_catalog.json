@@ -1,0 +1,7678 @@
+{
+  "sets": [
+    {
+      "setId": "trapo_divino",
+      "setName": "Trapo Divino",
+      "bonus2": "+10% Defensa Luz",
+      "bonus4": "Cura 5% Vitalidad Podrida por turno"
+    },
+    {
+      "setId": "dolor_comico",
+      "setName": "Dolor Comico",
+      "bonus2": "+15% ATK",
+      "bonus4": "Hemorragia en criticos"
+    },
+    {
+      "setId": "juicio_brillante",
+      "setName": "Juicio Brillante",
+      "bonus2": "+12% CRIT",
+      "bonus4": "+25% daño de Herejia tras critico"
+    },
+    {
+      "setId": "rencor_bebe",
+      "setName": "Rencor Bebe",
+      "bonus2": "+10% Velocidad Maldad",
+      "bonus4": "Turno extra al derrotar (1x por combate)"
+    },
+    {
+      "setId": "santo_rancio",
+      "setName": "Santo Rancio",
+      "bonus2": "+15% HP",
+      "bonus4": "25% sobrevivir con 1HP"
+    },
+    {
+      "setId": "mente_peligrosa",
+      "setName": "Mente Peligrosa",
+      "bonus2": "+20 Precision",
+      "bonus4": "Confusion al primer enemigo"
+    },
+    {
+      "setId": "olvido_molesto",
+      "setName": "Olvido Molesto",
+      "bonus2": "+15% Herejia",
+      "bonus4": "Cura 10% del daño infligido"
+    }
+  ],
+  "gear": [
+    {
+      "gearId": "trapo_divino_casco_001",
+      "setId": "trapo_divino",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Casco.png",
+      "description": "Casco del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "trapo_divino_botas_001",
+      "setId": "trapo_divino",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Botas.png",
+      "description": "Botas del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "trapo_divino_espada_001",
+      "setId": "trapo_divino",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Espada.png",
+      "description": "Espada del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "trapo_divino_escudo_001",
+      "setId": "trapo_divino",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Escudo.png",
+      "description": "Escudo del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "trapo_divino_guantes_001",
+      "setId": "trapo_divino",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Guante.png",
+      "description": "Guantes del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "trapo_divino_pechera_001",
+      "setId": "trapo_divino",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/TrapoDivino/Pechera.png",
+      "description": "Pechera del set Trapo Divino, huele a gloria y detergente."
+    },
+    {
+      "gearId": "dolor_comico_casco_001",
+      "setId": "dolor_comico",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Casco.png",
+      "description": "Casco del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "dolor_comico_botas_001",
+      "setId": "dolor_comico",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Botas.png",
+      "description": "Botas del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "dolor_comico_espada_001",
+      "setId": "dolor_comico",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Espada.png",
+      "description": "Espada del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "dolor_comico_escudo_001",
+      "setId": "dolor_comico",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Escudo.png",
+      "description": "Escudo del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "dolor_comico_guantes_001",
+      "setId": "dolor_comico",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Guante.png",
+      "description": "Guantes del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "dolor_comico_pechera_001",
+      "setId": "dolor_comico",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/DolorComico/Pechera.png",
+      "description": "Pechera del set Dolor Comico, te hace reir... o llorar."
+    },
+    {
+      "gearId": "juicio_briliante_casco_001",
+      "setId": "juicio_brillante",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Casco.png",
+      "description": "Casco del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "juicio_briliante_botas_001",
+      "setId": "juicio_brillante",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Botas.png",
+      "description": "Botas del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "juicio_briliante_espada_001",
+      "setId": "juicio_brillante",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Espada.png",
+      "description": "Espada del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "juicio_briliante_escudo_001",
+      "setId": "juicio_brillante",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Escudo.png",
+      "description": "Escudo del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "juicio_briliante_guantes_001",
+      "setId": "juicio_brillante",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Guante.png",
+      "description": "Guantes del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "juicio_briliante_pechera_001",
+      "setId": "juicio_brillante",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/JuicioBrillante/Pechera.png",
+      "description": "Pechera del set Juicio Brillante, brilla hasta de noche."
+    },
+    {
+      "gearId": "rencor_bebe_casco_001",
+      "setId": "rencor_bebe",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Casco.png",
+      "description": "Casco del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "rencor_bebe_botas_001",
+      "setId": "rencor_bebe",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Botas.png",
+      "description": "Botas del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "rencor_bebe_espada_001",
+      "setId": "rencor_bebe",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Espada.png",
+      "description": "Espada del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "rencor_bebe_escudo_001",
+      "setId": "rencor_bebe",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Escudo.png",
+      "description": "Escudo del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "rencor_bebe_guantes_001",
+      "setId": "rencor_bebe",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Guante.png",
+      "description": "Guantes del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "rencor_bebe_pechera_001",
+      "setId": "rencor_bebe",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/RencorBebe/Pechera.png",
+      "description": "Pechera del set Rencor Bebe, perfecta para rabietas epicas."
+    },
+    {
+      "gearId": "santo_rancio_casco_001",
+      "setId": "santo_rancio",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Casco.png",
+      "description": "Casco del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "santo_rancio_botas_001",
+      "setId": "santo_rancio",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Botas.png",
+      "description": "Botas del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "santo_rancio_espada_001",
+      "setId": "santo_rancio",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Espada.png",
+      "description": "Espada del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "santo_rancio_escudo_001",
+      "setId": "santo_rancio",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Escudo.png",
+      "description": "Escudo del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "santo_rancio_guantes_001",
+      "setId": "santo_rancio",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Guante.png",
+      "description": "Guantes del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "santo_rancio_pechera_001",
+      "setId": "santo_rancio",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/SantoRancio/Pechera.png",
+      "description": "Pechera del set Santo Rancio, la fe mueve montañas (y enemigos)."
+    },
+    {
+      "gearId": "mente_peligrosa_casco_001",
+      "setId": "mente_peligrosa",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Casco.png",
+      "description": "Casco del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "mente_peligrosa_botas_001",
+      "setId": "mente_peligrosa",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Botas.png",
+      "description": "Botas del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "mente_peligrosa_espada_001",
+      "setId": "mente_peligrosa",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Espada.png",
+      "description": "Espada del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "mente_peligrosa_escudo_001",
+      "setId": "mente_peligrosa",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Escudo.png",
+      "description": "Escudo del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "mente_peligrosa_guantes_001",
+      "setId": "mente_peligrosa",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Guante.png",
+      "description": "Guantes del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "mente_peligrosa_pechera_001",
+      "setId": "mente_peligrosa",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/MentePeligrosa/Pechera.png",
+      "description": "Pechera del set Mente Peligrosa, ideas peligrosas incluidas."
+    },
+    {
+      "gearId": "olvido_molesto_casco_001",
+      "setId": "olvido_molesto",
+      "type": "casco",
+      "allowedMainStats": [
+        "hp"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "hp": [
+            100,
+            200
+          ]
+        },
+        "extranito": {
+          "hp": [
+            200,
+            350
+          ]
+        },
+        "absurdamente_escaso": {
+          "hp": [
+            350,
+            500
+          ]
+        },
+        "divinamente_ridiculo": {
+          "hp": [
+            500,
+            650
+          ]
+        },
+        "memeticamente_unico": {
+          "hp": [
+            650,
+            800
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Casco.png",
+      "description": "Casco del set Olvido Molesto, imposible de ignorar."
+    },
+    {
+      "gearId": "olvido_molesto_botas_001",
+      "setId": "olvido_molesto",
+      "type": "botas",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Botas.png",
+      "description": "Botas del set Olvido Molesto, imposible de ignorar."
+    },
+    {
+      "gearId": "olvido_molesto_espada_001",
+      "setId": "olvido_molesto",
+      "type": "espada",
+      "allowedMainStats": [
+        "spd",
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "acc"
+      ],
+      "allowedSubStats": [
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "spd": [
+            2,
+            6
+          ],
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            60,
+            120
+          ],
+          "def": [
+            7,
+            15
+          ],
+          "atk%": [
+            2,
+            5
+          ],
+          "hp%": [
+            2,
+            5
+          ],
+          "def%": [
+            2,
+            5
+          ],
+          "tcri%": [
+            1,
+            3
+          ],
+          "dcri%": [
+            1,
+            3
+          ],
+          "acc": [
+            2,
+            5
+          ]
+        },
+        "extranito": {
+          "spd": [
+            6,
+            10
+          ],
+          "atk": [
+            12,
+            20
+          ],
+          "hp": [
+            120,
+            180
+          ],
+          "def": [
+            15,
+            30
+          ],
+          "atk%": [
+            5,
+            10
+          ],
+          "hp%": [
+            5,
+            10
+          ],
+          "def%": [
+            5,
+            10
+          ],
+          "tcri%": [
+            3,
+            7
+          ],
+          "dcri%": [
+            3,
+            7
+          ],
+          "acc": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "spd": [
+            10,
+            14
+          ],
+          "atk": [
+            20,
+            30
+          ],
+          "hp": [
+            180,
+            260
+          ],
+          "def": [
+            30,
+            50
+          ],
+          "atk%": [
+            10,
+            15
+          ],
+          "hp%": [
+            10,
+            15
+          ],
+          "def%": [
+            10,
+            15
+          ],
+          "tcri%": [
+            7,
+            10
+          ],
+          "dcri%": [
+            7,
+            10
+          ],
+          "acc": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "spd": [
+            14,
+            17
+          ],
+          "atk": [
+            30,
+            45
+          ],
+          "hp": [
+            260,
+            330
+          ],
+          "def": [
+            50,
+            70
+          ],
+          "atk%": [
+            15,
+            18
+          ],
+          "hp%": [
+            15,
+            18
+          ],
+          "def%": [
+            15,
+            18
+          ],
+          "tcri%": [
+            10,
+            14
+          ],
+          "dcri%": [
+            10,
+            14
+          ],
+          "acc": [
+            13,
+            17
+          ]
+        },
+        "memeticamente_unico": {
+          "spd": [
+            17,
+            20
+          ],
+          "atk": [
+            45,
+            60
+          ],
+          "hp": [
+            330,
+            400
+          ],
+          "def": [
+            70,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "tcri%": [
+            14,
+            18
+          ],
+          "dcri%": [
+            14,
+            18
+          ],
+          "acc": [
+            17,
+            22
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Espada.png",
+      "description": "Espada del set Olvido Molesto, imposible de ignorar."
+    },
+    {
+      "gearId": "olvido_molesto_escudo_001",
+      "setId": "olvido_molesto",
+      "type": "escudo",
+      "allowedMainStats": [
+        "def"
+      ],
+      "allowedSubStats": [
+        "atk",
+        "hp",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "def": [
+            10,
+            30
+          ]
+        },
+        "extranito": {
+          "def": [
+            30,
+            60
+          ]
+        },
+        "absurdamente_escaso": {
+          "def": [
+            60,
+            100
+          ]
+        },
+        "divinamente_ridiculo": {
+          "def": [
+            100,
+            140
+          ]
+        },
+        "memeticamente_unico": {
+          "def": [
+            140,
+            200
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Escudo.png",
+      "description": "Escudo del set Olvido Molesto, imposible de ignorar."
+    },
+    {
+      "gearId": "olvido_molesto_guantes_001",
+      "setId": "olvido_molesto",
+      "type": "guantes",
+      "allowedMainStats": [
+        "atk"
+      ],
+      "allowedSubStats": [
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "tcri%",
+        "dcri%",
+        "spd",
+        "acc",
+        "res",
+        "luk%"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Guante.png",
+      "description": "Guantes del set Olvido Molesto, imposible de ignorar."
+    },
+    {
+      "gearId": "olvido_molesto_pechera_001",
+      "setId": "olvido_molesto",
+      "type": "pechera",
+      "allowedMainStats": [
+        "atk",
+        "hp",
+        "def",
+        "atk%",
+        "hp%",
+        "def%",
+        "res",
+        "acc",
+        "luk%"
+      ],
+      "allowedSubStats": [
+        "tcri%",
+        "dcri%",
+        "spd"
+      ],
+      "mainStatRanges": {
+        "mugroso": {
+          "atk": [
+            5,
+            12
+          ],
+          "hp": [
+            80,
+            160
+          ],
+          "def": [
+            8,
+            20
+          ],
+          "atk%": [
+            2,
+            6
+          ],
+          "hp%": [
+            2,
+            6
+          ],
+          "def%": [
+            2,
+            6
+          ],
+          "res": [
+            1,
+            5
+          ],
+          "acc": [
+            2,
+            8
+          ],
+          "luk%": [
+            1,
+            5
+          ]
+        },
+        "extranito": {
+          "atk": [
+            12,
+            22
+          ],
+          "hp": [
+            160,
+            240
+          ],
+          "def": [
+            20,
+            35
+          ],
+          "atk%": [
+            6,
+            10
+          ],
+          "hp%": [
+            6,
+            10
+          ],
+          "def%": [
+            6,
+            10
+          ],
+          "res": [
+            5,
+            9
+          ],
+          "acc": [
+            8,
+            14
+          ],
+          "luk%": [
+            5,
+            9
+          ]
+        },
+        "absurdamente_escaso": {
+          "atk": [
+            22,
+            36
+          ],
+          "hp": [
+            240,
+            320
+          ],
+          "def": [
+            35,
+            55
+          ],
+          "atk%": [
+            10,
+            14
+          ],
+          "hp%": [
+            10,
+            14
+          ],
+          "def%": [
+            10,
+            14
+          ],
+          "res": [
+            9,
+            13
+          ],
+          "acc": [
+            14,
+            20
+          ],
+          "luk%": [
+            9,
+            13
+          ]
+        },
+        "divinamente_ridiculo": {
+          "atk": [
+            36,
+            55
+          ],
+          "hp": [
+            320,
+            400
+          ],
+          "def": [
+            55,
+            80
+          ],
+          "atk%": [
+            14,
+            18
+          ],
+          "hp%": [
+            14,
+            18
+          ],
+          "def%": [
+            14,
+            18
+          ],
+          "res": [
+            13,
+            16
+          ],
+          "acc": [
+            20,
+            24
+          ],
+          "luk%": [
+            13,
+            16
+          ]
+        },
+        "memeticamente_unico": {
+          "atk": [
+            55,
+            75
+          ],
+          "hp": [
+            400,
+            500
+          ],
+          "def": [
+            80,
+            100
+          ],
+          "atk%": [
+            18,
+            22
+          ],
+          "hp%": [
+            18,
+            22
+          ],
+          "def%": [
+            18,
+            22
+          ],
+          "res": [
+            16,
+            20
+          ],
+          "acc": [
+            24,
+            30
+          ],
+          "luk%": [
+            16,
+            20
+          ]
+        }
+      },
+      "subStatRanges": {
+        "atk": [
+          2,
+          10
+        ],
+        "hp": [
+          20,
+          80
+        ],
+        "def": [
+          2,
+          10
+        ],
+        "atk%": [
+          1,
+          7
+        ],
+        "hp%": [
+          1,
+          7
+        ],
+        "def%": [
+          1,
+          7
+        ],
+        "tcri%": [
+          1,
+          5
+        ],
+        "dcri%": [
+          1,
+          5
+        ],
+        "spd": [
+          1,
+          3
+        ],
+        "acc": [
+          1,
+          6
+        ],
+        "res": [
+          1,
+          6
+        ],
+        "luk%": [
+          1,
+          5
+        ]
+      },
+      "spriteAddressable": "Assets/Addressables/Heroes/Gear/OlvidoMolesto/Pechera.png",
+      "description": "Pechera del set Olvido Molesto, imposible de ignorar."
+    }
+  ]
+}
