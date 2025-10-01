@@ -46,8 +46,8 @@ public class LegionDetailPanelUI : MonoBehaviour
     [SerializeField] private RectTransform skillTooltip;       // Content/Right/SectionSkills/SkillTooltip (opcional, si no existe lo creo por cÃ³digo)
     [SerializeField] private TMP_Text skillTooltipName;   // hijo "Name"
     [SerializeField] private TMP_Text skillTooltipDesc;   // hijo "ShortDesc"
-    [SerializeField] private Vector2 skillTooltipOffset = new Vector2(12f, -12f);
-
+    [SerializeField] private Vector2 skillTooltipOffset = new Vector2(24f, -28f);
+    
 
     [Header("Lore")]
     [SerializeField] private TMP_Text txtLore;                    // SectionLore/TxtLore
@@ -622,12 +622,12 @@ public class LegionDetailPanelUI : MonoBehaviour
     // === Reemplaza TODO el método por esta versión ===
     private void EnsureSkillTooltipBuilt()
     {
-        // 1) Contenedor SkillTooltip (bajo la columna derecha)
+        // 1) Contenedor (SkillTooltip) dentro de Content/Right
         if (!skillTooltip)
         {
-            var container = transform.Find("Content/Right/SectionSkills") as RectTransform
-                            ?? (rootPanel ? rootPanel.transform.Find("Content/Right/SectionSkills") as RectTransform : null)
-                            ?? (rootPanel ? rootPanel.transform as RectTransform : transform as RectTransform);
+            var right = transform.Find("Content/Right") as RectTransform
+                        ?? (rootPanel ? rootPanel.transform.Find("Content/Right") as RectTransform : null)
+                        ?? (rootPanel ? rootPanel.transform as RectTransform : transform as RectTransform);
 
             var go = new GameObject("SkillTooltip",
                 typeof(RectTransform),
@@ -636,55 +636,68 @@ public class LegionDetailPanelUI : MonoBehaviour
                 typeof(ContentSizeFitter),
                 typeof(LayoutElement));
 
-            go.transform.SetParent(container, false);
+            go.transform.SetParent(right, false);
             skillTooltip = go.GetComponent<RectTransform>();
         }
 
-        // Fondo y grupo
+        // Fondo y CanvasGroup
         var bg = skillTooltip.GetComponent<Image>();
         bg.raycastTarget = false;
-        bg.color = new Color(0f, 0f, 0f, 0.88f);
+        bg.color = new Color(0f, 0f, 0f, 0.88f); // fondo más oscuro para contrastar
 
         var cg = skillTooltip.GetComponent<CanvasGroup>();
         cg.interactable   = false;
         cg.blocksRaycasts = false;
 
-        // Auto-size
+        // Auto-size del propio tooltip
         var fitter = skillTooltip.GetComponent<ContentSizeFitter>();
         fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         fitter.verticalFit   = ContentSizeFitter.FitMode.PreferredSize;
 
-        // Anclado fijo ARRIBA-DERECHA de la columna derecha
-        skillTooltip.anchorMin = new Vector2(1f, 1f);
-        skillTooltip.anchorMax = new Vector2(1f, 1f);
-        skillTooltip.pivot     = new Vector2(1f, 1f);
+        // Anclaje/pivote del tooltip (esquina sup-izq del contenedor Right)
+        skillTooltip.anchorMin = new Vector2(0f, 1f);
+        skillTooltip.anchorMax = new Vector2(0f, 1f);
+        skillTooltip.pivot     = new Vector2(0f, 1f);
 
-        // Tamaño preferido (más grande)
+        // Tamaño preferido del tooltip
         var le = skillTooltip.GetComponent<LayoutElement>();
-        le.minWidth       = 480f;
-        le.preferredWidth = 560f;
-        le.flexibleWidth  = 0f;
+        le.minWidth        = 700f;
+        le.preferredWidth  = 860f;
+        le.minHeight       = 220f;
+        le.flexibleWidth   = 0f;
+        le.flexibleHeight  = 0f;
 
-        // 2) Contenido con VerticalLayoutGroup
+        // 2) Contenido vertical (Content)
         RectTransform contentRT;
         var content = skillTooltip.Find("Content");
         if (!content)
         {
-            var go = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup));
+            var go = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(LayoutElement));
             go.transform.SetParent(skillTooltip, false);
             contentRT = go.GetComponent<RectTransform>();
         }
         else contentRT = content as RectTransform;
 
-        var vlg = contentRT.GetComponent<VerticalLayoutGroup>() ?? contentRT.gameObject.AddComponent<VerticalLayoutGroup>();
+        // Anclas/pivote y tamaño del CONTENT para que no vuelva a 100x100
+        contentRT.anchorMin = new Vector2(0f, 1f);
+        contentRT.anchorMax = new Vector2(0f, 1f);
+        contentRT.pivot     = new Vector2(0f, 1f);
+        contentRT.sizeDelta = new Vector2(le.preferredWidth, le.minHeight);
+
+        var cle = contentRT.GetComponent<LayoutElement>();
+        cle.minWidth       = le.preferredWidth;
+        cle.preferredWidth = le.preferredWidth;
+        cle.minHeight      = le.minHeight;
+        cle.preferredHeight= le.minHeight;
+
+        var vlg = contentRT.GetComponent<VerticalLayoutGroup>();
         vlg.childForceExpandHeight = false;
         vlg.childForceExpandWidth  = false;
         vlg.childAlignment         = TextAnchor.UpperLeft;
         vlg.spacing                = 6;
         vlg.padding                = new RectOffset(14, 14, 12, 12);
 
-        // 3) Textos (si no existen, se crean). COLOR BLANCO.
-        // Name
+        // 3) Textos (crear si faltan)
         var nameRT = contentRT.Find("Name") as RectTransform;
         if (!nameRT)
         {
@@ -695,12 +708,11 @@ public class LegionDetailPanelUI : MonoBehaviour
         skillTooltipName = nameRT.GetComponent<TMP_Text>() ?? nameRT.gameObject.AddComponent<TextMeshProUGUI>();
         skillTooltipName.color            = Color.white;
         skillTooltipName.enableAutoSizing = true;
-        skillTooltipName.fontSizeMin      = 18; 
-        skillTooltipName.fontSizeMax      = 32;
+        skillTooltipName.fontSizeMin      = 18;
+        skillTooltipName.fontSizeMax      = 34;
         skillTooltipName.fontStyle        = FontStyles.Bold;
-        skillTooltipName.alignment        = TextAlignmentOptions.TopLeft;//test
+        skillTooltipName.alignment        = TextAlignmentOptions.TopLeft;
 
-        // ShortDesc
         var descRT = contentRT.Find("ShortDesc") as RectTransform;
         if (!descRT)
         {
@@ -709,44 +721,81 @@ public class LegionDetailPanelUI : MonoBehaviour
             descRT = go.GetComponent<RectTransform>();
         }
         skillTooltipDesc = descRT.GetComponent<TMP_Text>() ?? descRT.gameObject.AddComponent<TextMeshProUGUI>();
-        skillTooltipDesc.color            = Color.white;
-        skillTooltipDesc.enableAutoSizing = true;
-        skillTooltipDesc.fontSizeMin      = 14; 
-        skillTooltipDesc.fontSizeMax      = 26;
-        skillTooltipDesc.alignment        = TextAlignmentOptions.TopLeft;
-        skillTooltipDesc.enableWordWrapping= true;
+        skillTooltipDesc.color              = Color.white;
+        skillTooltipDesc.enableAutoSizing   = true;
+        skillTooltipDesc.fontSizeMin        = 14;
+        skillTooltipDesc.fontSizeMax        = 26;
+        skillTooltipDesc.alignment          = TextAlignmentOptions.TopLeft;
+        skillTooltipDesc.enableWordWrapping = true;
 
-        // Oculto por defecto
+        // Empieza oculto
         skillTooltip.gameObject.SetActive(false);
     }
-
 
     // === Reemplaza TODO el método por esta versión ===
     internal void ShowSkillTooltip(string name, string desc, RectTransform fromIcon)
     {
-        // Asegura construcción
+        if (!fromIcon) return;
+
+        // Asegura construcción y textos
         if (!skillTooltip) EnsureSkillTooltipBuilt();
         if (!skillTooltip) return;
 
-        if (skillTooltipName)  skillTooltipName.text  = name  ?? string.Empty;
-        if (skillTooltipDesc)  skillTooltipDesc.text  = desc  ?? string.Empty;
+        if (skillTooltipName) skillTooltipName.text = name ?? string.Empty;
+        if (skillTooltipDesc) skillTooltipDesc.text = desc ?? string.Empty;
 
-        // Recalcula tamaños
+        // Recalcular tamaño preferido antes de posicionar
         LayoutRebuilder.ForceRebuildLayoutImmediate(skillTooltip);
         if (skillTooltip.childCount > 0)
             LayoutRebuilder.ForceRebuildLayoutImmediate(skillTooltip.GetChild(0) as RectTransform);
 
-        // Posición fija: arriba-derecha del padre (con pequeño margen).
-        // Reutilizamos skillTooltipOffset como margen (x a la izquierda, y hacia abajo).
         var parent = skillTooltip.parent as RectTransform;
-        var px = -Mathf.Abs(skillTooltipOffset.x <= 0f ? 16f : skillTooltipOffset.x);
-        var py = -Mathf.Abs(skillTooltipOffset.y <= 0f ? 16f : skillTooltipOffset.y);
-        skillTooltip.anchoredPosition = new Vector2(px, py);
+        if (!parent) parent = transform as RectTransform;
 
-        // Al frente y visible
+        // ---------- POSICIONAMIENTO EN EL CUADRANTE SUPERIOR-DERECHO ----------
+        // El tooltip tiene ancla/pivote (0,1) (esquina sup-izq del parent).
+        // Tomamos la esquina superior-derecha del icono en espacio local del parent:
+        var corners = new Vector3[4];
+        fromIcon.GetWorldCorners(corners); // 0=BL, 1=TL, 2=TR, 3=BR
+        Vector2 localTR = parent.InverseTransformPoint(corners[2]);
+
+        // Distancias desde la esquina sup-izq del parent
+        float leftFromParent = localTR.x - parent.rect.xMin;      // a la derecha del icono
+        float topFromParent = parent.rect.yMax - localTR.y;      // un poco por debajo
+
+        float mx = (Mathf.Abs(skillTooltipOffset.x) < 1f) ? 20f : skillTooltipOffset.x; // margen X
+        float my = (Mathf.Abs(skillTooltipOffset.y) < 1f) ? 16f : skillTooltipOffset.y; // margen Y
+
+        // Con ancla/pivote (0,1): anchoredPosition = (left, -top)
+        Vector2 pos = new Vector2(leftFromParent + mx, -(topFromParent + my));
+
+        // ---------- CLAMPS PARA QUE NUNCA SE SALGA DE LA VISTA ----------
+        float w = skillTooltip.rect.width;
+        float h = skillTooltip.rect.height;
+
+        // límites interiores (un pequeño margen)
+        const float margin = 8f;
+
+        // derecha / abajo
+        float maxLeft = parent.rect.width - w - margin;
+        float maxTop = parent.rect.height - margin;
+
+        if (pos.x > maxLeft) pos.x = maxLeft;          // derecha
+        if (-pos.y > maxTop) pos.y = -maxTop;          // abajo (y es negativo)
+
+        // izquierda / arriba
+        if (pos.x < margin) pos.x = margin;
+        if (pos.y > -margin) pos.y = -margin;
+
+        // Aplicar
+        skillTooltip.anchoredPosition = pos;
         skillTooltip.SetAsLastSibling();
         skillTooltip.gameObject.SetActive(true);
     }
+
+
+
+
 
     internal void HideSkillTooltip()
     {
