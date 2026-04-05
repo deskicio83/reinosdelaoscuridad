@@ -65,6 +65,8 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj",
+        "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Reinos de la Oscuridad.sln"
+    "dotnet.defaultSolution": "reinosdelaoscuridad_tmp.slnx",
+    "dotnet.enableWorkspaceBasedDevelopment": false
 }

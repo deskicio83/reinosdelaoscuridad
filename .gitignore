@@ -5,27 +5,40 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-UserSettings/
+[Uu]ser[Ss]ettings/
 MemoryCaptures/
-.crash/
-SysInfo.txt
+[Rr]ecordings/
+[Cc]rashlytics/
+crashlytics-build.properties
 
-# Paquetes y caches
-Packages/com.unity.package-manager/.*
-ProjectSettings/ProjectVersion.txt ! (se incluye)
-# (ProjectSettings y Packages se INCLUYEN)
-
-# VS / IDE
+# Visual Studio
 .vs/
 *.csproj
 *.sln
+*.slnx
 *.user
-*.pidb
 *.suo
-*.svd
-*.pdb
 
-# Otros
-*.apk
-*.aab
-*.unitypackage
+# JetBrains
+.idea/
+*.user.xml
+
+# macOS
+.DS_Store
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+Assets/StreamingAssets/google-services.json
+Assets/StreamingAssets/GoogleService-Info.plist
+
+# RevenueCat (no secrets en repo)
+Assets/Resources/RevenueCatConfig.asset
+
+# Addressables builds
+Assets/AddressableAssetsData/*/buildtarget
+[Bb]uildtarget
+
+# Meta files obligatorios (NO ignorar — Unity los necesita)
+# *.meta  ← NO añadir esto nunca
+.utmp/
