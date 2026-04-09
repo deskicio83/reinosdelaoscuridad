@@ -1,0 +1,279 @@
+{
+  "reset_maestrias": {
+    "moneda": "caosifera",
+    "coste": 100
+  },
+  "awaken_percent": {
+    "per_stat": {
+      "HP": 1.15,
+      "ATK": 1.15,
+      "DEF": 1.15,
+      "SPD": 1.05,
+      "TCRI": 1.05,
+      "DCRI": 1.1,
+      "ACC": 1.05,
+      "RES": 1.05,
+      "LUK": 1.05,
+      "AGI": 1.05
+    }
+  },
+  "login_diario": {
+    "caosifera_por_dia": 15,
+    "descripcion": "Recompensa diaria garantizada por entrar al juego. Se entrega al primer login del dia independientemente de la actividad del jugador."
+  },
+  "generador_caosifera": {
+    "desbloqueo_nivel_jugador": 20,
+    "niveles": {
+      "1": {
+        "caosifera_por_dia": 24,
+        "coste_subida_oro": 10000
+      },
+      "2": {
+        "caosifera_por_dia": 35,
+        "coste_subida_oro": 25000
+      },
+      "3": {
+        "caosifera_por_dia": 48,
+        "coste_subida_oro": 50000
+      },
+      "4": {
+        "caosifera_por_dia": 63,
+        "coste_subida_oro": 90000
+      },
+      "5": {
+        "caosifera_por_dia": 80,
+        "coste_subida_oro": 140000
+      },
+      "6": {
+        "caosifera_por_dia": 96,
+        "coste_subida_oro": 200000
+      },
+      "7": {
+        "caosifera_por_dia": 110,
+        "coste_subida_oro": 280000
+      },
+      "8": {
+        "caosifera_por_dia": 120,
+        "coste_subida_oro": 400000
+      }
+    },
+    "descripcion": "Edificio del Bastion. Genera Caosifera pasivamente offline. Nivel 1 disponible al desbloquear. Nivel maximo 8."
+  },
+  "economia_caosifera": {
+    "fuentes_recurrentes": {
+      "login_diario": {
+        "cantidad": 15,
+        "frecuencia": "diaria",
+        "notas": "Garantizado por entrar al juego"
+      },
+      "mision_diaria": {
+        "cantidad": 50,
+        "frecuencia": "diaria",
+        "notas": "Al completar todas las misiones diarias"
+      },
+      "mision_semanal": {
+        "cantidad": 150,
+        "frecuencia": "semanal",
+        "notas": "Al completar todas las misiones semanales"
+      },
+      "generador_nv1": {
+        "cantidad": 24,
+        "frecuencia": "diaria",
+        "notas": "Pasivo offline, nivel minimo"
+      },
+      "generador_nv8": {
+        "cantidad": 120,
+        "frecuencia": "diaria",
+        "notas": "Pasivo offline, nivel maximo"
+      },
+      "arena_oro_cofre": {
+        "cantidad": 200,
+        "frecuencia": "semanal",
+        "notas": "Cofre semanal Liga Oro"
+      },
+      "arena_platino_cofre": {
+        "cantidad": 400,
+        "frecuencia": "semanal",
+        "notas": "Cofre semanal Liga Platino"
+      },
+      "arena_diamante_cofre": {
+        "cantidad": 800,
+        "frecuencia": "semanal",
+        "notas": "Cofre semanal Liga Diamante"
+      },
+      "arena_maldito_cofre": {
+        "cantidad": 1600,
+        "frecuencia": "semanal",
+        "notas": "Cofre semanal Liga Maldito"
+      },
+      "pase_oscuro_diario": {
+        "cantidad": 100,
+        "frecuencia": "diaria",
+        "notas": "Solo con Pase Oscuro activo (9.99 EUR/mes)"
+      }
+    },
+    "analisis_mensual": {
+      "f2p_poco_activo": {
+        "total_mes": 2543,
+        "invocaciones": 16,
+        "coste_eur": 0
+      },
+      "f2p_medio_activo": {
+        "total_mes": 4282,
+        "invocaciones": 28,
+        "coste_eur": 0
+      },
+      "f2p_alto_activo": {
+        "total_mes": 10119,
+        "invocaciones": 67,
+        "coste_eur": 0
+      },
+      "p2w_pase_oscuro": {
+        "total_mes": 19303,
+        "invocaciones": 128,
+        "coste_eur": 9.99
+      }
+    }
+  },
+  "presencia_maldita": {
+    "descripcion": "Sistema de poder de cuenta del jugador. No es moneda — no se gasta.",
+    "campo_firestore": "player.presenciaMaldita",
+    "visibilidad": "Perfil público del jugador + sistema de clanes + rankings",
+    "formula_total": "PM_total = Σ Peso_esbirros + Σ Peso_conjuros + Σ Peso_maestrias + Σ Peso_gear",
+    "peso_esbirros": {
+      "formula": "Peso_base + (nivel × 2) + (estrellas × 30) + (awaken × 50)",
+      "peso_base_por_rareza": {
+        "3★": 50,
+        "4★": 150,
+        "5★": 400
+      },
+      "bonus_nivel": "2 PM por nivel · máximo +120 PM en nivel 60",
+      "bonus_estrellas": "30 PM por estrella · máximo +180 PM en 6★",
+      "bonus_awaken": "50 PM por nivel de awaken · acumulativo"
+    },
+    "peso_conjuros": {
+      "por_rareza": {
+        "basico": 10,
+        "retorcido": 30,
+        "grotesco": 70,
+        "caotico_supremo": 150
+      }
+    },
+    "peso_maestrias": {
+      "por_nodo": 2,
+      "max_nodos": 66,
+      "max_pm_maestrias": 132
+    },
+    "peso_gear": {
+      "formula": "Σ (valor_actual_substat / valor_max_teorico) × peso_tipo_substat",
+      "valor_max_teorico": "rango_max × 5  (valor inicial máximo + 4 rolls al máximo)",
+      "pesos_por_tipo": {
+        "atk%": 10,
+        "spd": 10,
+        "tcri%": 8,
+        "dcri%": 8,
+        "hp%": 7,
+        "def%": 7,
+        "acc": 6,
+        "res": 6,
+        "agi": 6,
+        "luk%": 6,
+        "atk": 4,
+        "hp": 4,
+        "def": 4
+      },
+      "pm_max_por_pieza": 36,
+      "pm_max_conjunto_6_piezas": 216,
+      "fuente": "gear_catalog.json → substat_system.substat_weights_pm"
+    },
+    "recalculo": {
+      "en_cliente": "PresenciaMalditaSystem recalcula en memoria en tiempo real para la UI. Sin reads de Firestore.",
+      "en_servidor": "El valor oficial de Firestore se actualiza en los checkpoints definidos.",
+      "checkpoints": [
+        {
+          "evento": "Mejorar gear (+N)",
+          "coste_extra": "0 writes — incluido en write de GearUpgrade"
+        },
+        {
+          "evento": "Obtener gear (drop)",
+          "coste_extra": "0 writes — incluido en PostCombatResult"
+        },
+        {
+          "evento": "Vender/destruir gear",
+          "coste_extra": "0 writes — incluido en write de inventario"
+        },
+        {
+          "evento": "Mejorar/obtener esbirro",
+          "coste_extra": "0 writes — incluido en PostCombatResult"
+        },
+        {
+          "evento": "Mejorar conjuro",
+          "coste_extra": "0 writes — incluido en ProcessConjuroUpgrade"
+        },
+        {
+          "evento": "Desbloquear maestría",
+          "coste_extra": "0 writes — incluido en write de maestrías"
+        },
+        {
+          "evento": "Cierre de sesión",
+          "coste_extra": "0 writes — incluido en write final de sesión"
+        }
+      ],
+      "nota": "RecalcPresenciaMaldita NO es una Cloud Function separada. El recálculo viaja siempre dentro del write de la acción que lo disparó."
+    },
+    "rangos_referencia": {
+      "f2p_1_mes": {
+        "pm_total": 890,
+        "desglose": "esbirros~800 + conjuros~40 + maestrias~30 + gear~20"
+      },
+      "f2p_6_meses": {
+        "pm_total": 3860,
+        "desglose": "esbirros~3500 + conjuros~200 + maestrias~80 + gear~80"
+      },
+      "f2p_1_anyo": {
+        "pm_total": 8782,
+        "desglose": "esbirros~8000 + conjuros~500 + maestrias~132 + gear~150"
+      },
+      "p2w_moderado": {
+        "pm_total": 13132,
+        "desglose": "esbirros~12000 + conjuros~800 + maestrias~132 + gear~200"
+      },
+      "p2w_intensivo": {
+        "pm_total": 27348,
+        "desglose": "esbirros~25000 + conjuros~2000 + maestrias~132 + gear~216"
+      }
+    },
+    "rangos_pm": [
+      {
+        "rango": "Sombra Reciente",
+        "min": 0,
+        "max": 999
+      },
+      {
+        "rango": "Discípulo del Caos",
+        "min": 1000,
+        "max": 4999
+      },
+      {
+        "rango": "Heraldo de la Oscuridad",
+        "min": 5000,
+        "max": 14999
+      },
+      {
+        "rango": "Señor del Abismo",
+        "min": 15000,
+        "max": 29999
+      },
+      {
+        "rango": "Arconte Maldito",
+        "min": 30000,
+        "max": 99999
+      },
+      {
+        "rango": "Emanación de Necrostofeles",
+        "min": 100000,
+        "max": null
+      }
+    ]
+  }
+}

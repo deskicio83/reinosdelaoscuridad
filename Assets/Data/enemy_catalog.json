@@ -1,0 +1,1251 @@
+{
+  "_meta": {
+    "description": "Catálogo de enemigos de campaña de Reino de la Oscuridad. Todos los enemigos son esbirros reales del catálogo principal. Los niveles indicados son los máximos en los que aparece cada enemigo.",
+    "source": "Campana_Los7Mundos_Completa.docx",
+    "version": "1.0",
+    "total_unique_enemies": 72,
+    "total_bosses": 7
+  },
+  "balanceo_global": {
+    "description": "Todos los enemigos son esbirros reales del catalogo. Los niveles se ajustan por dificultad.",
+    "difficulty_multipliers": {
+      "normal": {
+        "hp": 1.0,
+        "atk": 1.0
+      },
+      "dificil": {
+        "hp": 1.5,
+        "atk": 1.5
+      },
+      "heroica": {
+        "hp": 2.5,
+        "atk": 2.5
+      }
+    },
+    "phase_level_multipliers": {
+      "f1": 0.6,
+      "f2": 0.75,
+      "f3": 0.9,
+      "f4": 1.0,
+      "f5": 1.1,
+      "f6": 1.2,
+      "boss": 1.38
+    },
+    "world_reference_levels": {
+      "mundo_1": {
+        "f4_normal": 12,
+        "f4_dificil": 18,
+        "f4_heroica": 30,
+        "boss_normal": 17
+      },
+      "mundo_2": {
+        "f4_normal": 22,
+        "f4_dificil": 33,
+        "f4_heroica": 55,
+        "boss_normal": 30
+      },
+      "mundo_3": {
+        "f4_normal": 32,
+        "f4_dificil": 48,
+        "f4_heroica": 80,
+        "boss_normal": 44
+      },
+      "mundo_4": {
+        "f4_normal": 42,
+        "f4_dificil": 63,
+        "f4_heroica": 105,
+        "boss_normal": 58
+      },
+      "mundo_5": {
+        "f4_normal": 50,
+        "f4_dificil": 75,
+        "f4_heroica": 125,
+        "boss_normal": 69
+      },
+      "mundo_6": {
+        "f4_normal": 56,
+        "f4_dificil": 84,
+        "f4_heroica": 140,
+        "boss_normal": 77
+      },
+      "mundo_7": {
+        "f4_normal": 60,
+        "f4_dificil": 90,
+        "f4_heroica": 150,
+        "boss_normal": 83
+      }
+    },
+    "extended_level_note": "Niveles >60 usan multiplicador directo de stats en el servidor. La UI muestra 'Nivel MAX+' con el multiplicador."
+  },
+  "enemies": [
+    {
+      "enemyId": "comandante_celestial",
+      "name_es": "Comandante Celestial",
+      "classStandard": "Atacante",
+      "element": "Luz",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 7,
+        "dificil": 11,
+        "heroica": 18
+      }
+    },
+    {
+      "enemyId": "paladin_aereo",
+      "name_es": "Paladin Aereo",
+      "classStandard": "Atacante",
+      "element": "Agua",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 9,
+        "dificil": 14,
+        "heroica": 23
+      }
+    },
+    {
+      "enemyId": "fantasma_sagrado",
+      "name_es": "Fantasma Sagrado",
+      "classStandard": "Sanador",
+      "element": "Luz",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 9,
+        "dificil": 14,
+        "heroica": 23
+      }
+    },
+    {
+      "enemyId": "engranaje_sombrio",
+      "name_es": "Engranaje Sombrio",
+      "classStandard": "Especialista",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 11,
+        "dificil": 17,
+        "heroica": 28
+      }
+    },
+    {
+      "enemyId": "mago_carmesi",
+      "name_es": "Mago Carmesi",
+      "classStandard": "Sanador",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 114,
+      "levels": {
+        "normal": 11,
+        "dificil": 17,
+        "heroica": 28
+      }
+    },
+    {
+      "enemyId": "gremista_del_vapor",
+      "name_es": "Gremista del Vapor",
+      "classStandard": "Especialista",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 12,
+        "dificil": 18,
+        "heroica": 30
+      }
+    },
+    {
+      "enemyId": "asesino_carmesi",
+      "name_es": "Asesino Carmesi",
+      "classStandard": "Atacante",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 12,
+        "dificil": 18,
+        "heroica": 30
+      }
+    },
+    {
+      "enemyId": "mecanico_forestal",
+      "name_es": "Mecanico Forestal",
+      "classStandard": "Tanque",
+      "element": "Naturaleza",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 12,
+        "dificil": 18,
+        "heroica": 30
+      }
+    },
+    {
+      "enemyId": "angel_reparador",
+      "name_es": "Angel Reparador",
+      "classStandard": "Sanador",
+      "element": "Agua",
+      "baseStars": 5,
+      "spd": 118,
+      "levels": {
+        "normal": 13,
+        "dificil": 20,
+        "heroica": 33
+      }
+    },
+    {
+      "enemyId": "pies_ligeros",
+      "name_es": "Pies Ligeros",
+      "classStandard": "Especialista",
+      "element": "Naturaleza",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 13,
+        "dificil": 20,
+        "heroica": 33
+      }
+    },
+    {
+      "enemyId": "angel_despojado",
+      "name_es": "Angel Despojado",
+      "classStandard": "Sanador",
+      "element": "Luz",
+      "baseStars": 5,
+      "spd": 118,
+      "levels": {
+        "normal": 14,
+        "dificil": 21,
+        "heroica": 35
+      }
+    },
+    {
+      "enemyId": "herrero_maldito",
+      "name_es": "Herrero Maldito",
+      "classStandard": "Tanque",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 99,
+      "levels": {
+        "normal": 14,
+        "dificil": 21,
+        "heroica": 35
+      }
+    },
+    {
+      "enemyId": "ilusionista_tragico",
+      "name_es": "Ilusionista Tragico",
+      "classStandard": "Sanador",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 13,
+        "dificil": 20,
+        "heroica": 33
+      }
+    },
+    {
+      "enemyId": "bufon_deprimido",
+      "name_es": "Bufon deprimido",
+      "classStandard": "Atacante",
+      "element": "Oscuridad",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 17,
+        "dificil": 26,
+        "heroica": 43
+      }
+    },
+    {
+      "enemyId": "payasa_enfermera",
+      "name_es": "Payasa Enfermera",
+      "classStandard": "Sanador",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 17,
+        "dificil": 26,
+        "heroica": 43
+      }
+    },
+    {
+      "enemyId": "titiritero",
+      "name_es": "Titiritero",
+      "classStandard": "Especialista",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 20,
+        "dificil": 30,
+        "heroica": 50
+      }
+    },
+    {
+      "enemyId": "cuchillera_habilidosa",
+      "name_es": "Cuchillera habilidosa",
+      "classStandard": "Atacante",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 20,
+        "dificil": 30,
+        "heroica": 50
+      }
+    },
+    {
+      "enemyId": "maestro_de_marcas_del_circo",
+      "name_es": "Maestro de Marcas del Circo",
+      "classStandard": "Especialista",
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 22,
+        "dificil": 33,
+        "heroica": 55
+      }
+    },
+    {
+      "enemyId": "bufon_inquieto",
+      "name_es": "Bufon inquieto",
+      "classStandard": "Atacante",
+      "element": "Agua",
+      "baseStars": 5,
+      "spd": 119,
+      "levels": {
+        "normal": 22,
+        "dificil": 33,
+        "heroica": 55
+      }
+    },
+    {
+      "enemyId": "caballero_calabazon",
+      "name_es": "Caballero Calabazon",
+      "classStandard": "Tanque",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 22,
+        "dificil": 33,
+        "heroica": 55
+      }
+    },
+    {
+      "enemyId": "dramaturgo",
+      "name_es": "Dramaturgo",
+      "classStandard": "Atacante",
+      "element": "Luz",
+      "baseStars": 5,
+      "spd": 119,
+      "levels": {
+        "normal": 24,
+        "dificil": 36,
+        "heroica": 60
+      }
+    },
+    {
+      "enemyId": "cocineroigneo",
+      "name_es": "CocineroIgneo",
+      "classStandard": "Atacante",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 19,
+        "dificil": 29,
+        "heroica": 48
+      }
+    },
+    {
+      "enemyId": "aterrador_aficionado",
+      "name_es": "Aterrador Aficionado",
+      "classStandard": "Sanador",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 24,
+        "dificil": 36,
+        "heroica": 60
+      }
+    },
+    {
+      "enemyId": "fugitivo_de_espinas",
+      "name_es": "Fugitivo de Espinas",
+      "classStandard": "Atacante",
+      "element": "Naturaleza",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 24,
+        "dificil": 36,
+        "heroica": 60
+      }
+    },
+    {
+      "enemyId": "centinela_del_saber",
+      "name_es": "Centinela del Saber",
+      "classStandard": "Especialista",
+      "element": "Luz",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 29,
+        "dificil": 44,
+        "heroica": 73
+      }
+    },
+    {
+      "enemyId": "novicia_verde",
+      "name_es": "Novicia Verde",
+      "classStandard": "Sanador",
+      "element": "Naturaleza",
+      "baseStars": 4,
+      "spd": 114,
+      "levels": {
+        "normal": 29,
+        "dificil": 44,
+        "heroica": 73
+      }
+    },
+    {
+      "enemyId": "hereje",
+      "name_es": "Hereje",
+      "classStandard": "Atacante",
+      "element": "Oscuridad",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 32,
+        "dificil": 48,
+        "heroica": 80
+      }
+    },
+    {
+      "enemyId": "acolito_de_escudo",
+      "name_es": "Acolito de Escudo",
+      "classStandard": "Tanque",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 99,
+      "levels": {
+        "normal": 32,
+        "dificil": 48,
+        "heroica": 80
+      }
+    },
+    {
+      "enemyId": "guardia_de_hierro",
+      "name_es": "Guardia de Hierro",
+      "classStandard": "Tanque",
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "spd": 111,
+      "levels": {
+        "normal": 35,
+        "dificil": 53,
+        "heroica": 88
+      }
+    },
+    {
+      "enemyId": "encendedor_angelical",
+      "name_es": "Encendedor Angelical",
+      "classStandard": "Atacante",
+      "element": "Luz",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 35,
+        "dificil": 53,
+        "heroica": 88
+      }
+    },
+    {
+      "enemyId": "purificador_traicionado",
+      "name_es": "Purificador Traicionado",
+      "classStandard": "Sanador",
+      "element": "Agua",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 35,
+        "dificil": 53,
+        "heroica": 88
+      }
+    },
+    {
+      "enemyId": "baluarte_de_luz",
+      "name_es": "Baluarte de Luz",
+      "classStandard": "Especialista",
+      "element": "Agua",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 38,
+        "dificil": 57,
+        "heroica": 95
+      }
+    },
+    {
+      "enemyId": "contorsionista",
+      "name_es": "Contorsionista",
+      "classStandard": "Sanador",
+      "element": "Naturaleza",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 25,
+        "dificil": 38,
+        "heroica": 63
+      }
+    },
+    {
+      "enemyId": "mimo_lloroso",
+      "name_es": "Mimo Lloroso",
+      "classStandard": "Sanador",
+      "element": "Naturaleza",
+      "baseStars": 4,
+      "spd": 114,
+      "levels": {
+        "normal": 32,
+        "dificil": 48,
+        "heroica": 80
+      }
+    },
+    {
+      "enemyId": "sombra_de_paja",
+      "name_es": "Sombra de Paja",
+      "classStandard": "Especialista",
+      "element": "Naturaleza",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 32,
+        "dificil": 48,
+        "heroica": 80
+      }
+    },
+    {
+      "enemyId": "iniciada_lapislazuli",
+      "name_es": "Iniciada Lapislazuli",
+      "classStandard": "Especialista",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 38,
+        "dificil": 57,
+        "heroica": 95
+      }
+    },
+    {
+      "enemyId": "espiritu_travieso",
+      "name_es": "Espiritu Travieso",
+      "classStandard": "Especialista",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 38,
+        "dificil": 57,
+        "heroica": 95
+      }
+    },
+    {
+      "enemyId": "flagelante_apestosa",
+      "name_es": "Flagelante Apestosa",
+      "classStandard": "Sanador",
+      "element": "Fuego",
+      "baseStars": 5,
+      "spd": 118,
+      "levels": {
+        "normal": 42,
+        "dificil": 63,
+        "heroica": 105
+      }
+    },
+    {
+      "enemyId": "diablillo_destructor",
+      "name_es": "Diablillo Destructor",
+      "classStandard": "Atacante",
+      "element": "Oscuridad",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 42,
+        "dificil": 63,
+        "heroica": 105
+      }
+    },
+    {
+      "enemyId": "caballero",
+      "name_es": "Caballero",
+      "classStandard": "Sanador",
+      "element": "Luz",
+      "baseStars": 4,
+      "spd": 114,
+      "levels": {
+        "normal": 46,
+        "dificil": 69,
+        "heroica": 115
+      }
+    },
+    {
+      "enemyId": "sonajero_maldito",
+      "name_es": "Sonajero Maldito",
+      "classStandard": "Atacante",
+      "element": "Oscuridad",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "manguera_del_caos",
+      "name_es": "Manguera del Caos",
+      "classStandard": "Tanque",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "invocador_funebre",
+      "name_es": "Invocador Funebre",
+      "classStandard": "Atacante",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 30,
+        "dificil": 45,
+        "heroica": 75
+      }
+    },
+    {
+      "enemyId": "clerigo_del_frio",
+      "name_es": "Clerigo del Frio",
+      "classStandard": "Sanador",
+      "element": "Agua",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 38,
+        "dificil": 57,
+        "heroica": 95
+      }
+    },
+    {
+      "enemyId": "centinela_de_cripta",
+      "name_es": "Centinela de Cripta",
+      "classStandard": "Especialista",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 45,
+        "dificil": 68,
+        "heroica": 113
+      }
+    },
+    {
+      "enemyId": "linteo_luminiscente",
+      "name_es": "Linteo Luminiscente",
+      "classStandard": "Especialista",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 45,
+        "dificil": 68,
+        "heroica": 113
+      }
+    },
+    {
+      "enemyId": "brisa_del_frio",
+      "name_es": "Brisa del Frio",
+      "classStandard": "Sanador",
+      "element": "Agua",
+      "baseStars": 5,
+      "spd": 118,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "paladin_caido",
+      "name_es": "Paladin Caido",
+      "classStandard": "Tanque",
+      "element": "Luz",
+      "baseStars": 3,
+      "spd": 99,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "profanador_verde",
+      "name_es": "Profanador Verde",
+      "classStandard": "Atacante",
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "spd": 119,
+      "levels": {
+        "normal": 55,
+        "dificil": 83,
+        "heroica": 138
+      }
+    },
+    {
+      "enemyId": "cuidahoja_amable",
+      "name_es": "Cuidahoja Amable",
+      "classStandard": "Especialista",
+      "element": "Luz",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 55,
+        "dificil": 83,
+        "heroica": 138
+      }
+    },
+    {
+      "enemyId": "no-muerto_infecto",
+      "name_es": "No-muerto Infecto",
+      "classStandard": "Sanador",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 55,
+        "dificil": 83,
+        "heroica": 138
+      }
+    },
+    {
+      "enemyId": "custodio_igneo",
+      "name_es": "Custodio Igneo",
+      "classStandard": "Tanque",
+      "element": "Fuego",
+      "baseStars": 5,
+      "spd": 111,
+      "levels": {
+        "normal": 60,
+        "dificil": 90,
+        "heroica": 150
+      }
+    },
+    {
+      "enemyId": "hombre_lobo",
+      "name_es": "Hombre Lobo",
+      "classStandard": "Atacante",
+      "element": "Naturaleza",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 34,
+        "dificil": 51,
+        "heroica": 85
+      }
+    },
+    {
+      "enemyId": "lecturista",
+      "name_es": "Lecturista",
+      "classStandard": "Especialista",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 111,
+      "levels": {
+        "normal": 42,
+        "dificil": 63,
+        "heroica": 105
+      }
+    },
+    {
+      "enemyId": "saqueadora_del_alba",
+      "name_es": "Saqueadora del Alba",
+      "classStandard": "Atacante",
+      "element": "Agua",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 42,
+        "dificil": 63,
+        "heroica": 105
+      }
+    },
+    {
+      "enemyId": "enciclopedista",
+      "name_es": "Enciclopedista",
+      "classStandard": "Especialista",
+      "element": "Luz",
+      "baseStars": 4,
+      "spd": 117,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "botanica_prohibida",
+      "name_es": "Botanica Prohibida",
+      "classStandard": "Sanador",
+      "element": "Naturaleza",
+      "baseStars": 4,
+      "spd": 114,
+      "levels": {
+        "normal": 50,
+        "dificil": 75,
+        "heroica": 125
+      }
+    },
+    {
+      "enemyId": "hechicera_del_sello",
+      "name_es": "Hechicera del Sello",
+      "classStandard": "Especialista",
+      "element": "Oscuridad",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 56,
+        "dificil": 84,
+        "heroica": 140
+      }
+    },
+    {
+      "enemyId": "flagelante_carmesi",
+      "name_es": "Flagelante Carmesi",
+      "classStandard": "Tanque",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 56,
+        "dificil": 84,
+        "heroica": 140
+      }
+    },
+    {
+      "enemyId": "escriba_obligado",
+      "name_es": "Escriba Obligado",
+      "classStandard": "Especialista",
+      "element": "Oscuridad",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 62,
+        "dificil": 93,
+        "heroica": 155
+      }
+    },
+    {
+      "enemyId": "guarda_del_indice",
+      "name_es": "Guarda del Indice",
+      "classStandard": "Tanque",
+      "element": "Oscuridad",
+      "baseStars": 5,
+      "spd": 111,
+      "levels": {
+        "normal": 67,
+        "dificil": 101,
+        "heroica": 168
+      }
+    },
+    {
+      "enemyId": "eco_del_pasado",
+      "name_es": "Eco del Pasado",
+      "classStandard": "Sanador",
+      "element": "Agua",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 36,
+        "dificil": 54,
+        "heroica": 90
+      }
+    },
+    {
+      "enemyId": "encantador_sombrio",
+      "name_es": "Encantador Sombrio",
+      "classStandard": "Sanador",
+      "element": "Oscuridad",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 45,
+        "dificil": 68,
+        "heroica": 113
+      }
+    },
+    {
+      "enemyId": "guardian",
+      "name_es": "Guardian",
+      "classStandard": "Atacante",
+      "element": "Fuego",
+      "baseStars": 3,
+      "spd": 108,
+      "levels": {
+        "normal": 45,
+        "dificil": 68,
+        "heroica": 113
+      }
+    },
+    {
+      "enemyId": "despertador",
+      "name_es": "Despertador",
+      "classStandard": "Especialista",
+      "element": "Fuego",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 54,
+        "dificil": 81,
+        "heroica": 135
+      }
+    },
+    {
+      "enemyId": "luminaria",
+      "name_es": "Luminaria",
+      "classStandard": "Sanador",
+      "element": "Naturaleza",
+      "baseStars": 3,
+      "spd": 110,
+      "levels": {
+        "normal": 54,
+        "dificil": 81,
+        "heroica": 135
+      }
+    },
+    {
+      "enemyId": "guardabosques_interno",
+      "name_es": "Guardabosques Interno",
+      "classStandard": "Especialista",
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 60,
+        "dificil": 90,
+        "heroica": 150
+      }
+    },
+    {
+      "enemyId": "remolino_mental",
+      "name_es": "Remolino Mental",
+      "classStandard": "Atacante",
+      "element": "Luz",
+      "baseStars": 5,
+      "spd": 119,
+      "levels": {
+        "normal": 60,
+        "dificil": 90,
+        "heroica": 150
+      }
+    },
+    {
+      "enemyId": "redentor",
+      "name_es": "Redentor",
+      "classStandard": "Tanque",
+      "element": "Agua",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 60,
+        "dificil": 90,
+        "heroica": 150
+      }
+    },
+    {
+      "enemyId": "infante_pintor",
+      "name_es": "Infante Pintor",
+      "classStandard": "Especialista",
+      "element": "Agua",
+      "baseStars": 5,
+      "spd": 122,
+      "levels": {
+        "normal": 66,
+        "dificil": 99,
+        "heroica": 165
+      }
+    },
+    {
+      "enemyId": "castigadora_interior",
+      "name_es": "Castigadora Interior",
+      "classStandard": "Atacante",
+      "element": "Luz",
+      "baseStars": 4,
+      "spd": 113,
+      "levels": {
+        "normal": 66,
+        "dificil": 99,
+        "heroica": 165
+      }
+    },
+    {
+      "enemyId": "guardian_del_recuerdo",
+      "name_es": "Guardian del Recuerdo",
+      "classStandard": "Tanque",
+      "element": "Fuego",
+      "baseStars": 4,
+      "spd": 105,
+      "levels": {
+        "normal": 72,
+        "dificil": 108,
+        "heroica": 180
+      }
+    }
+  ],
+  "bosses": [
+    {
+      "enemyId": "arconte_dorado_del_retiro",
+      "name_es": "Arconte Dorado del Retiro",
+      "isBoss": true,
+      "element": "Luz",
+      "baseStars": 5,
+      "levels": {
+        "normal": 17,
+        "dificil": 26,
+        "heroica": 43
+      },
+      "phase2_trigger_hp_pct": 50,
+      "skills": [
+        {
+          "name_es": "Silencio Zen",
+          "description_es": "Silencia la habilidad fuerte del objetivo 2 turnos."
+        },
+        {
+          "name_es": "Escudo Dorado",
+          "description_es": "Absorbe 1 golpe fuerte (pasiva, se activa una vez por combate)."
+        },
+        {
+          "name_es": "Restauracion",
+          "description_es": "Cura 30% HP propio. CD 4 turnos."
+        },
+        {
+          "name_es": "Tormenta Motivacional",
+          "description_es": "FASE 2: AoE a todo el equipo jugador."
+        }
+      ],
+      "strategy_es": "Romper el Escudo en T1-T2. Interrumpir Restauración matando rápido. En F2 aguantar el AoE y rematar.",
+      "lore_es": "Ex-comandante supremo del bastión, ahora director del spa. Lleva toga blanca y tablet con su agenda. Combate a regañadientes porque 'el conflicto no encaja con la filosofía del resort'."
+    },
+    {
+      "enemyId": "el_gran_maestro_del_sufrimiento_alegre",
+      "name_es": "El Gran Maestro del Sufrimiento Alegre",
+      "isBoss": true,
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "levels": {
+        "normal": 30,
+        "dificil": 45,
+        "heroica": 75
+      },
+      "phase2_trigger_hp_pct": 40,
+      "skills": [
+        {
+          "name_es": "Espectaculo Final",
+          "description_es": "AoE + silencio 1 turno a todo el equipo."
+        },
+        {
+          "name_es": "Bis Maldito",
+          "description_es": "Segundo ataque al mismo objetivo. CD 3 turnos."
+        },
+        {
+          "name_es": "Curacion del Aplauso",
+          "description_es": "PASIVA: Cura 20% HP propio al matar un aliado."
+        },
+        {
+          "name_es": "Invoca payasos",
+          "description_es": "FASE 2: Invoca 2 payasos auxiliares (SPD 110, HP bajo, Atacantes)."
+        }
+      ],
+      "strategy_es": "En F2 matar los payasos invocados rápido para negar la curación pasiva. Llevar esbirros de Fuego (ventaja vs Naturaleza).",
+      "lore_es": "Director artístico del festival. Ex-torturador de alto rango reconvertido en animador de eventos. Sonríe mientras combate. No ha perdido el instinto."
+    },
+    {
+      "enemyId": "gran_inquisidor_de_la_bondad_absoluta",
+      "name_es": "Gran Inquisidor de la Bondad Absoluta",
+      "isBoss": true,
+      "element": "Luz",
+      "baseStars": 5,
+      "levels": {
+        "normal": 44,
+        "dificil": 66,
+        "heroica": 110
+      },
+      "phase2_trigger_hp_pct": 45,
+      "skills": [
+        {
+          "name_es": "Juicio Hipster",
+          "description_es": "Ataque + debuff de DEF al objetivo. CD 3 turnos."
+        },
+        {
+          "name_es": "Fe Inquebrantable",
+          "description_es": "Escudo 30% HP máximo. CD 5 turnos."
+        },
+        {
+          "name_es": "Herejia Revertida",
+          "description_es": "FASE 2 PASIVA: Contraataca el 50% del daño recibido."
+        },
+        {
+          "name_es": "Sermon Definitivo",
+          "description_es": "FASE 2: AoE debuff ATK -20% a todo el equipo jugador durante 3 turnos."
+        }
+      ],
+      "strategy_es": "Romper el escudo antes de usar habilidades fuertes. En F2 la Herejía Revertida hace que los críticos duelan al jugador — usar daño sostenido.",
+      "lore_es": "Ex-torturador del conocimiento herético, ahora jefe espiritual hipster. Escribe libros de autoayuda. Tiene barba de diseñador. Sigue siendo implacable."
+    },
+    {
+      "enemyId": "la_directora_del_trauma_emocional",
+      "name_es": "La Directora del Trauma Emocional",
+      "isBoss": true,
+      "element": "Naturaleza",
+      "baseStars": 5,
+      "levels": {
+        "normal": 58,
+        "dificil": 87,
+        "heroica": 145
+      },
+      "phase2_trigger_hp_pct": 40,
+      "skills": [
+        {
+          "name_es": "Abrazo Aplastante",
+          "description_es": "Daño + inmoviliza al objetivo 1 turno."
+        },
+        {
+          "name_es": "Protocolo Pedagogico",
+          "description_es": "Buff grupal +ATK a todos los aliados. CD 3 turnos."
+        },
+        {
+          "name_es": "Resistencia Emocional",
+          "description_es": "PASIVA: Inmune a debuffs 2 turnos. CD 5 turnos."
+        },
+        {
+          "name_es": "Invocacion y AoE",
+          "description_es": "FASE 2: Invoca 1 Tanque abominación (SPD 99) + AoE al equipo jugador."
+        }
+      ],
+      "strategy_es": "Silenciar el Protocolo Pedagógico que buffea a los aliados. En F2 matar el invocado inmediatamente.",
+      "lore_es": "Ex-comandante de las abominaciones, ahora directora pedagógica. Sonríe siempre. Tiene un expediente de incidentes de 400 páginas que llama 'progreso'."
+    },
+    {
+      "enemyId": "guardian_eterno_de_la_fe_reconstructuida",
+      "name_es": "Guardian Eterno de la Fe Reconstructuida",
+      "isBoss": true,
+      "element": "Agua",
+      "baseStars": 5,
+      "levels": {
+        "normal": 69,
+        "dificil": 104,
+        "heroica": 173
+      },
+      "phase2_trigger_hp_pct": 35,
+      "skills": [
+        {
+          "name_es": "Lagrima del Frio",
+          "description_es": "Daño + ralentiza al objetivo. CD 3 turnos."
+        },
+        {
+          "name_es": "Barrera de Hueso",
+          "description_es": "PASIVA: Escudo 25% HP. CD 4 turnos."
+        },
+        {
+          "name_es": "Invocacion Eterea",
+          "description_es": "Convoca 1 espectro Sanador. CD 5 turnos."
+        },
+        {
+          "name_es": "Furia Ancestral",
+          "description_es": "FASE 2: AoE + robo de buff a todo el equipo jugador."
+        }
+      ],
+      "strategy_es": "Destruir el escudo antes de hacer daño real. Matar el espectro invocado inmediatamente. Usar esbirros de Fuego (ventaja vs Agua).",
+      "lore_es": "El guardián original de la necrópolis. Ahora vende tickets y recomienda el tour nocturno. Ha ganado el premio al mejor guía turístico tres años consecutivos."
+    },
+    {
+      "enemyId": "la_archivista_del_conocimiento_absoluto",
+      "name_es": "La Archivista del Conocimiento Absoluto",
+      "isBoss": true,
+      "element": "Oscuridad",
+      "baseStars": 5,
+      "levels": {
+        "normal": 77,
+        "dificil": 116,
+        "heroica": 193
+      },
+      "phase2_trigger_hp_pct": 30,
+      "skills": [
+        {
+          "name_es": "Sello de Silencio",
+          "description_es": "Sella la habilidad fuerte del objetivo. CD 3 turnos."
+        },
+        {
+          "name_es": "Conocimiento Prohibido",
+          "description_es": "Aplica todos los debuffs posibles a 1 esbirro. CD 4 turnos."
+        },
+        {
+          "name_es": "Barrera Arcana",
+          "description_es": "PASIVA: Refleja 30% del daño recibido."
+        },
+        {
+          "name_es": "Conocimiento Total",
+          "description_es": "FASE 2: +50% precisión + inmune a esquiva durante 3 turnos."
+        }
+      ],
+      "strategy_es": "La Barrera Arcana hace que el burst sea contraproducente. Usar daño sostenido en F1. En F2 priorizar DEF en vez de esquiva.",
+      "lore_es": "Custodió los textos prohibidos durante siglos. Ahora organiza clubs de lectura y tiene un boletín mensual. Sabe exactamente qué vas a hacer antes de que lo hagas."
+    },
+    {
+      "enemyId": "el_custodio_del_olvido_eterno",
+      "name_es": "El Custodio del Olvido Eterno",
+      "isBoss": true,
+      "element": "Oscuridad",
+      "baseStars": 5,
+      "levels": {
+        "normal": 83,
+        "dificil": 125,
+        "heroica": 208
+      },
+      "phase2_trigger_hp_pct": 25,
+      "skills": [
+        {
+          "name_es": "Recuerdo Doloroso",
+          "description_es": "AoE daño + aplica Tristeza (-20% ATK) 3 turnos a todo el equipo."
+        },
+        {
+          "name_es": "Barrera del Olvido",
+          "description_es": "Escudo 40% HP máximo. CD 5 turnos."
+        },
+        {
+          "name_es": "Eco Dimensional",
+          "description_es": "PASIVA: Copia la última habilidad fuerte usada por el jugador y la aplica al equipo jugador. CD 4 turnos."
+        },
+        {
+          "name_es": "Olvido Total",
+          "description_es": "FASE 2: Resetea los CDs de todas sus habilidades y recupera 20% HP."
+        }
+      ],
+      "strategy_es": "Eco Dimensional es lo más peligroso — no usar habilidades fuertes que curen o que hagan AoE. Usar golpes básicos en F1. Destruir el escudo antes del burst. En F2 aguantar un turno con todos sus CDs reseteados.",
+      "lore_es": "El ser que custodia todos los recuerdos reprimidos del mundo oscuro. Ahora modera el podcast y da terapia de grupo. Conoce todos tus secretos."
+    }
+  ]
+}

@@ -1,0 +1,4762 @@
+{
+  "_meta": {
+    "description": "Catálogo completo de encuentros de combate de Reino de la Oscuridad.",
+    "version": "1.0",
+    "totals": {
+      "campaign": 147,
+      "tower": 33,
+      "arena": 1,
+      "world_boss": 5,
+      "dungeons": 100,
+      "clan_boss": 20,
+      "clan_raid": 3,
+      "total": 309
+    },
+    "encounter_id_patterns": {
+      "campaign": "campaign_{worldId}_{phase}_{difficulty}",
+      "tower": "tower_{difficulty}_floor_{N}",
+      "arena": "arena_pvp",
+      "world_boss": "wb_{manifestacion}",
+      "dungeon_elemental": "dungeon_el_{element}_lvl_{N}",
+      "dungeon_maestrias": "dungeon_mae_lvl_{N}",
+      "dungeon_gear": "dungeon_gear_{dungeonId}_lvl_{N}",
+      "clan_boss": "clan_boss_nivel_{N}",
+      "clan_raid": "clan_raid_fase_{N}"
+    }
+  },
+  "encounters": [
+    {
+      "encounterId": "campaign_mundo_1_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "Recepcion del Spa",
+      "enemies": [
+        "comandante_celestial"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante. Sin mecánica especial. El jugador aprende el flujo básico.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "Las Hamacas Celestiales",
+      "enemies": [
+        "paladin_aereo",
+        "fantasma_sagrado"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) ataca primero — puede curar. Matar Sanador antes que Atacante.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "El Taller de Cristales",
+      "enemies": [
+        "engranaje_sombrio",
+        "mago_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) primero → cura. Especialista (111) → debuff. Eliminar Sanador primero.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "El Jardin de los Mantras",
+      "enemies": [
+        "gremista_del_vapor",
+        "asesino_carmesi",
+        "mecanico_forestal"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) → debuff. Atacante (113) → daño. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "Las Terrazas Flotantes",
+      "enemies": [
+        "angel_reparador",
+        "pies_ligeros",
+        "asesino_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (118) cura inmediata. Especialista (117) buff/debuff. Atacante (113) daño. Matar S→E→A.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "La Suite Presidencial",
+      "enemies": [
+        "angel_despojado",
+        "pies_ligeros",
+        "asesino_carmesi",
+        "herrero_maldito"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanador (118) cura c/2T. Orden: S→E→A→T.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_1_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 1",
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_1_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "Recepcion del Spa",
+      "enemies": [
+        "comandante_celestial"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante. Sin mecánica especial. El jugador aprende el flujo básico.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Hamacas Celestiales",
+      "enemies": [
+        "paladin_aereo",
+        "fantasma_sagrado"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) ataca primero — puede curar. Matar Sanador antes que Atacante.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "El Taller de Cristales",
+      "enemies": [
+        "engranaje_sombrio",
+        "mago_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) primero → cura. Especialista (111) → debuff. Eliminar Sanador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "El Jardin de los Mantras",
+      "enemies": [
+        "gremista_del_vapor",
+        "asesino_carmesi",
+        "mecanico_forestal"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) → debuff. Atacante (113) → daño. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Terrazas Flotantes",
+      "enemies": [
+        "angel_reparador",
+        "pies_ligeros",
+        "asesino_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (118) cura inmediata. Especialista (117) buff/debuff. Atacante (113) daño. Matar S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "La Suite Presidencial",
+      "enemies": [
+        "angel_despojado",
+        "pies_ligeros",
+        "asesino_carmesi",
+        "herrero_maldito"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanador (118) cura c/2T. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 1",
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "Recepcion del Spa",
+      "enemies": [
+        "comandante_celestial"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante. Sin mecánica especial. El jugador aprende el flujo básico.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Hamacas Celestiales",
+      "enemies": [
+        "paladin_aereo",
+        "fantasma_sagrado"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) ataca primero — puede curar. Matar Sanador antes que Atacante.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "El Taller de Cristales",
+      "enemies": [
+        "engranaje_sombrio",
+        "mago_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) primero → cura. Especialista (111) → debuff. Eliminar Sanador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "El Jardin de los Mantras",
+      "enemies": [
+        "gremista_del_vapor",
+        "asesino_carmesi",
+        "mecanico_forestal"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) → debuff. Atacante (113) → daño. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Terrazas Flotantes",
+      "enemies": [
+        "angel_reparador",
+        "pies_ligeros",
+        "asesino_carmesi"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (118) cura inmediata. Especialista (117) buff/debuff. Atacante (113) daño. Matar S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "La Suite Presidencial",
+      "enemies": [
+        "angel_despojado",
+        "pies_ligeros",
+        "asesino_carmesi",
+        "herrero_maldito"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanador (118) cura c/2T. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_1_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_1",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 1",
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_cielos_oxidados",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "La Carpa de Bienvenida",
+      "enemies": [
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Solo sanador. Se curará. Daño rápido antes de habilidad.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "La Pista de los Payasos",
+      "enemies": [
+        "bufon_deprimido",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) golpea primero. Sanadora (110) cura. Matar Payasa primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "El Numero de los Cuchillos",
+      "enemies": [
+        "titiritero",
+        "cuchillera_habilidosa"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) debuff. Atacante (113) aprovecha. Matar Titiritero para cortar combo.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "Los Malabaristas Infernales",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "bufon_inquieto",
+        "caballero_calabazon"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) aplica marca. Atacante (119) explota marca. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "El Gran Numero Estelar",
+      "enemies": [
+        "dramaturgo",
+        "titiritero",
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (119) daño fuerte. Especialista (117) debuffs. Sanador (110) cura. Orden: S→E→A.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "Backstage del Terror",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "dramaturgo",
+        "titiritero",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas rápidos aplican stacks de debuffs. Daño fuerte + curación. Orden: S→MdM→D→T.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_2_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 2",
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_2_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "La Carpa de Bienvenida",
+      "enemies": [
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Solo sanador. Se curará. Daño rápido antes de habilidad.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "La Pista de los Payasos",
+      "enemies": [
+        "bufon_deprimido",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) golpea primero. Sanadora (110) cura. Matar Payasa primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "El Numero de los Cuchillos",
+      "enemies": [
+        "titiritero",
+        "cuchillera_habilidosa"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) debuff. Atacante (113) aprovecha. Matar Titiritero para cortar combo.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "Los Malabaristas Infernales",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "bufon_inquieto",
+        "caballero_calabazon"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) aplica marca. Atacante (119) explota marca. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "El Gran Numero Estelar",
+      "enemies": [
+        "dramaturgo",
+        "titiritero",
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (119) daño fuerte. Especialista (117) debuffs. Sanador (110) cura. Orden: S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "Backstage del Terror",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "dramaturgo",
+        "titiritero",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas rápidos aplican stacks de debuffs. Daño fuerte + curación. Orden: S→MdM→D→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 2",
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "La Carpa de Bienvenida",
+      "enemies": [
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Solo sanador. Se curará. Daño rápido antes de habilidad.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "La Pista de los Payasos",
+      "enemies": [
+        "bufon_deprimido",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) golpea primero. Sanadora (110) cura. Matar Payasa primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "El Numero de los Cuchillos",
+      "enemies": [
+        "titiritero",
+        "cuchillera_habilidosa"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) debuff. Atacante (113) aprovecha. Matar Titiritero para cortar combo.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "Los Malabaristas Infernales",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "bufon_inquieto",
+        "caballero_calabazon"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) aplica marca. Atacante (119) explota marca. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "El Gran Numero Estelar",
+      "enemies": [
+        "dramaturgo",
+        "titiritero",
+        "ilusionista_tragico"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (119) daño fuerte. Especialista (117) debuffs. Sanador (110) cura. Orden: S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "Backstage del Terror",
+      "enemies": [
+        "maestro_de_marcas_del_circo",
+        "dramaturgo",
+        "titiritero",
+        "payasa_enfermera"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas rápidos aplican stacks de debuffs. Daño fuerte + curación. Orden: S→MdM→D→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_2_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_2",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 2",
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_circo_agonizante",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "La Nave Central",
+      "enemies": [
+        "cocineroigneo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante de Fuego. Sin mecánica especial.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "Los Confesionarios Hipsters",
+      "enemies": [
+        "aterrador_aficionado",
+        "fugitivo_de_espinas"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) primero → buff. Atacante (108) aprovecha. Matar Sanador primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "El Altar del Saber Prohibido",
+      "enemies": [
+        "centinela_del_saber",
+        "novicia_verde"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura primero. Especialista (111) debuff precisión. Anular sanadora primero.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "Las Catacumbas de la Fe",
+      "enemies": [
+        "novicia_verde",
+        "hereje",
+        "acolito_de_escudo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura. Hereje (113) daño extra con debuffs. Tanque (99). Orden: S→A→T.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "El Scriptorium Ardiente",
+      "enemies": [
+        "guardia_de_hierro",
+        "encendedor_angelical",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) primero. Tanque (111) provoca. Sanador (110) cura al Tanque. Orden: S→A→T.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "El Pulpito del Caos",
+      "enemies": [
+        "baluarte_de_luz",
+        "encendedor_angelical",
+        "guardia_de_hierro",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) abre con debuff masivo. Combo defensivo. Orden: S→E→A→T.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_3_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 3",
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_3_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "La Nave Central",
+      "enemies": [
+        "cocineroigneo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante de Fuego. Sin mecánica especial.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "Los Confesionarios Hipsters",
+      "enemies": [
+        "aterrador_aficionado",
+        "fugitivo_de_espinas"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) primero → buff. Atacante (108) aprovecha. Matar Sanador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "El Altar del Saber Prohibido",
+      "enemies": [
+        "centinela_del_saber",
+        "novicia_verde"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura primero. Especialista (111) debuff precisión. Anular sanadora primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Catacumbas de la Fe",
+      "enemies": [
+        "novicia_verde",
+        "hereje",
+        "acolito_de_escudo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura. Hereje (113) daño extra con debuffs. Tanque (99). Orden: S→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "El Scriptorium Ardiente",
+      "enemies": [
+        "guardia_de_hierro",
+        "encendedor_angelical",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) primero. Tanque (111) provoca. Sanador (110) cura al Tanque. Orden: S→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "El Pulpito del Caos",
+      "enemies": [
+        "baluarte_de_luz",
+        "encendedor_angelical",
+        "guardia_de_hierro",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) abre con debuff masivo. Combo defensivo. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 3",
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "La Nave Central",
+      "enemies": [
+        "cocineroigneo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Solo atacante de Fuego. Sin mecánica especial.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "Los Confesionarios Hipsters",
+      "enemies": [
+        "aterrador_aficionado",
+        "fugitivo_de_espinas"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) primero → buff. Atacante (108) aprovecha. Matar Sanador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "El Altar del Saber Prohibido",
+      "enemies": [
+        "centinela_del_saber",
+        "novicia_verde"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura primero. Especialista (111) debuff precisión. Anular sanadora primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Catacumbas de la Fe",
+      "enemies": [
+        "novicia_verde",
+        "hereje",
+        "acolito_de_escudo"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora (114) cura. Hereje (113) daño extra con debuffs. Tanque (99). Orden: S→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "El Scriptorium Ardiente",
+      "enemies": [
+        "guardia_de_hierro",
+        "encendedor_angelical",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante (113) primero. Tanque (111) provoca. Sanador (110) cura al Tanque. Orden: S→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "El Pulpito del Caos",
+      "enemies": [
+        "baluarte_de_luz",
+        "encendedor_angelical",
+        "guardia_de_hierro",
+        "purificador_traicionado"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) abre con debuff masivo. Combo defensivo. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_3_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_3",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 3",
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_catedral_en_llamas",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "El Rincon de los Abrazos",
+      "enemies": [
+        "contorsionista"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño constante.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "La Mesa de Manualidades del Horror",
+      "enemies": [
+        "mimo_lloroso",
+        "sombra_de_paja"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) cura primero. Especialista (111) efecto negativo. Matar Mimo primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "El Patio de Recreo Maldito",
+      "enemies": [
+        "iniciada_lapislazuli",
+        "espiritu_travieso"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas. Iniciada (117) debuff precisión/control. Espíritu (111) debuff velocidad. Matar Iniciada primero.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "La Siesta de las Abominaciones",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffs. Atacante (113). Eliminar Flagelante es crítico.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "El Cuarto de los Juguetes Prohibidos",
+      "enemies": [
+        "flagelante_apestosa",
+        "caballero",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos sanadores. Flagelante (118) principal. Caballero (114) respaldo. Matar ambos sanadores primero.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "La Direccion de la Guarderia",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "sonajero_maldito",
+        "manguera_del_caos"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanadora muy rápida. Especialista debuffea antes de que el jugador actúe. Orden: S→E→A→T.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_4_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 4",
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_4_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "El Rincon de los Abrazos",
+      "enemies": [
+        "contorsionista"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño constante.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "La Mesa de Manualidades del Horror",
+      "enemies": [
+        "mimo_lloroso",
+        "sombra_de_paja"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) cura primero. Especialista (111) efecto negativo. Matar Mimo primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "El Patio de Recreo Maldito",
+      "enemies": [
+        "iniciada_lapislazuli",
+        "espiritu_travieso"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas. Iniciada (117) debuff precisión/control. Espíritu (111) debuff velocidad. Matar Iniciada primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "La Siesta de las Abominaciones",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffs. Atacante (113). Eliminar Flagelante es crítico.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "El Cuarto de los Juguetes Prohibidos",
+      "enemies": [
+        "flagelante_apestosa",
+        "caballero",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos sanadores. Flagelante (118) principal. Caballero (114) respaldo. Matar ambos sanadores primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "La Direccion de la Guarderia",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "sonajero_maldito",
+        "manguera_del_caos"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanadora muy rápida. Especialista debuffea antes de que el jugador actúe. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 4",
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "El Rincon de los Abrazos",
+      "enemies": [
+        "contorsionista"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño constante.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "La Mesa de Manualidades del Horror",
+      "enemies": [
+        "mimo_lloroso",
+        "sombra_de_paja"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (114) cura primero. Especialista (111) efecto negativo. Matar Mimo primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "El Patio de Recreo Maldito",
+      "enemies": [
+        "iniciada_lapislazuli",
+        "espiritu_travieso"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas. Iniciada (117) debuff precisión/control. Espíritu (111) debuff velocidad. Matar Iniciada primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "La Siesta de las Abominaciones",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffs. Atacante (113). Eliminar Flagelante es crítico.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "El Cuarto de los Juguetes Prohibidos",
+      "enemies": [
+        "flagelante_apestosa",
+        "caballero",
+        "diablillo_destructor"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Dos sanadores. Flagelante (118) principal. Caballero (114) respaldo. Matar ambos sanadores primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "La Direccion de la Guarderia",
+      "enemies": [
+        "flagelante_apestosa",
+        "iniciada_lapislazuli",
+        "sonajero_maldito",
+        "manguera_del_caos"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 3,
+      "synergy_note_es": "Composición completa. Sanadora muy rápida. Especialista debuffea antes de que el jugador actúe. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_4_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_4",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 4",
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_guarderia_apocaliptica",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "La Entrada al Parque",
+      "enemies": [
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin complicaciones.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "Tour de los Esqueletos Amables",
+      "enemies": [
+        "clerigo_del_frio",
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura primero. Atacante (108) sigue. Eliminar Clérigo primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "La Tienda de Souvenirs Malditos",
+      "enemies": [
+        "centinela_de_cripta",
+        "linteo_luminiscente"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas de Fuego. Centinela (117) efecto fuerte. Linteo (111) amplifica. Matar Centinela.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "La Cripta VIP",
+      "enemies": [
+        "brisa_del_frio",
+        "centinela_de_cripta",
+        "paladin_caido"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffea. Tanque (99). Matar Brisa primero.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "Las Catacumbas Profundas",
+      "enemies": [
+        "profanador_verde",
+        "cuidahoja_amable",
+        "no-muerto_infecto"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante 5★ (119) daño alto. Especialista (117) marca. Sanador (110) mantiene vivo al atacante. Orden: S→E→A.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "El Mausoleo del Gran Maestro",
+      "enemies": [
+        "brisa_del_frio",
+        "cuidahoja_amable",
+        "profanador_verde",
+        "custodio_igneo"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Tres 5★. Profanador (119) ataca primero. Brisa (118) cura. Cuidahoja (117) marca. Custodio (111) provoca. Orden: S→E→A→T.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_5_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 5",
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_5_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "La Entrada al Parque",
+      "enemies": [
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin complicaciones.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "Tour de los Esqueletos Amables",
+      "enemies": [
+        "clerigo_del_frio",
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura primero. Atacante (108) sigue. Eliminar Clérigo primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "La Tienda de Souvenirs Malditos",
+      "enemies": [
+        "centinela_de_cripta",
+        "linteo_luminiscente"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas de Fuego. Centinela (117) efecto fuerte. Linteo (111) amplifica. Matar Centinela.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "La Cripta VIP",
+      "enemies": [
+        "brisa_del_frio",
+        "centinela_de_cripta",
+        "paladin_caido"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffea. Tanque (99). Matar Brisa primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Catacumbas Profundas",
+      "enemies": [
+        "profanador_verde",
+        "cuidahoja_amable",
+        "no-muerto_infecto"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante 5★ (119) daño alto. Especialista (117) marca. Sanador (110) mantiene vivo al atacante. Orden: S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "El Mausoleo del Gran Maestro",
+      "enemies": [
+        "brisa_del_frio",
+        "cuidahoja_amable",
+        "profanador_verde",
+        "custodio_igneo"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Tres 5★. Profanador (119) ataca primero. Brisa (118) cura. Cuidahoja (117) marca. Custodio (111) provoca. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 5",
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "La Entrada al Parque",
+      "enemies": [
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin complicaciones.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "Tour de los Esqueletos Amables",
+      "enemies": [
+        "clerigo_del_frio",
+        "invocador_funebre"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura primero. Atacante (108) sigue. Eliminar Clérigo primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "La Tienda de Souvenirs Malditos",
+      "enemies": [
+        "centinela_de_cripta",
+        "linteo_luminiscente"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas de Fuego. Centinela (117) efecto fuerte. Linteo (111) amplifica. Matar Centinela.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "La Cripta VIP",
+      "enemies": [
+        "brisa_del_frio",
+        "centinela_de_cripta",
+        "paladin_caido"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Sanadora 5★ (118) muy rápida. Especialista (117) debuffea. Tanque (99). Matar Brisa primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Catacumbas Profundas",
+      "enemies": [
+        "profanador_verde",
+        "cuidahoja_amable",
+        "no-muerto_infecto"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante 5★ (119) daño alto. Especialista (117) marca. Sanador (110) mantiene vivo al atacante. Orden: S→E→A.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "El Mausoleo del Gran Maestro",
+      "enemies": [
+        "brisa_del_frio",
+        "cuidahoja_amable",
+        "profanador_verde",
+        "custodio_igneo"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 3,
+      "synergy_note_es": "Tres 5★. Profanador (119) ataca primero. Brisa (118) cura. Cuidahoja (117) marca. Custodio (111) provoca. Orden: S→E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_5_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_5",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 5",
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_cripta_de_fe_vencida",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "La Sala de Lectura Abierta",
+      "enemies": [
+        "hombre_lobo"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin mecánica especial.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "El Club de Debate Prohibido",
+      "enemies": [
+        "lecturista",
+        "saqueadora_del_alba"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (111) debuff. Atacante (108) vulnerable. Matar Lecturista primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "Las Estanterias Vivientes",
+      "enemies": [
+        "enciclopedista",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) efecto de estado inmediato. Sanadora (114) cura. Matar Botánica primero.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "El Archivo Secreto",
+      "enemies": [
+        "hechicera_del_sello",
+        "enciclopedista",
+        "flagelante_carmesi"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Hechicera (122) sella habilidades fuertes. Enciclopedista (117) debuffea. Tanque (105) provoca. Matar Hechicera primero.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "La Sala de los Tomos Malditos",
+      "enemies": [
+        "escriba_obligado",
+        "hechicera_del_sello",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 antes del jugador. Doble control en T1. Sanadora los mantiene vivos. Llevar Luz.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "La Direccion de la Biblioteca",
+      "enemies": [
+        "hechicera_del_sello",
+        "escriba_obligado",
+        "guarda_del_indice",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más complicada del mundo. Tres 5★ de Oscuridad. Doble control en T1. Llevar Luz. Orden: H→E→B→G.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_6_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 6",
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_6_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "La Sala de Lectura Abierta",
+      "enemies": [
+        "hombre_lobo"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin mecánica especial.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "El Club de Debate Prohibido",
+      "enemies": [
+        "lecturista",
+        "saqueadora_del_alba"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (111) debuff. Atacante (108) vulnerable. Matar Lecturista primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Estanterias Vivientes",
+      "enemies": [
+        "enciclopedista",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) efecto de estado inmediato. Sanadora (114) cura. Matar Botánica primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "El Archivo Secreto",
+      "enemies": [
+        "hechicera_del_sello",
+        "enciclopedista",
+        "flagelante_carmesi"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Hechicera (122) sella habilidades fuertes. Enciclopedista (117) debuffea. Tanque (105) provoca. Matar Hechicera primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "La Sala de los Tomos Malditos",
+      "enemies": [
+        "escriba_obligado",
+        "hechicera_del_sello",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 antes del jugador. Doble control en T1. Sanadora los mantiene vivos. Llevar Luz.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "La Direccion de la Biblioteca",
+      "enemies": [
+        "hechicera_del_sello",
+        "escriba_obligado",
+        "guarda_del_indice",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más complicada del mundo. Tres 5★ de Oscuridad. Doble control en T1. Llevar Luz. Orden: H→E→B→G.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 6",
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "La Sala de Lectura Abierta",
+      "enemies": [
+        "hombre_lobo"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Atacante básico. Sin mecánica especial.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "El Club de Debate Prohibido",
+      "enemies": [
+        "lecturista",
+        "saqueadora_del_alba"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (111) debuff. Atacante (108) vulnerable. Matar Lecturista primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Estanterias Vivientes",
+      "enemies": [
+        "enciclopedista",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (117) efecto de estado inmediato. Sanadora (114) cura. Matar Botánica primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "El Archivo Secreto",
+      "enemies": [
+        "hechicera_del_sello",
+        "enciclopedista",
+        "flagelante_carmesi"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Hechicera (122) sella habilidades fuertes. Enciclopedista (117) debuffea. Tanque (105) provoca. Matar Hechicera primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "La Sala de los Tomos Malditos",
+      "enemies": [
+        "escriba_obligado",
+        "hechicera_del_sello",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 antes del jugador. Doble control en T1. Sanadora los mantiene vivos. Llevar Luz.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "La Direccion de la Biblioteca",
+      "enemies": [
+        "hechicera_del_sello",
+        "escriba_obligado",
+        "guarda_del_indice",
+        "botanica_prohibida"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más complicada del mundo. Tres 5★ de Oscuridad. Doble control en T1. Llevar Luz. Orden: H→E→B→G.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_6_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_6",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 6",
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_biblioteca_gritona",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f1_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f1",
+      "difficulty": "normal",
+      "phase_name_es": "La Sala de Espera Interior",
+      "enemies": [
+        "eco_del_pasado"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño sostenido.",
+      "drop_gear_slot": "casco"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f2_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f2",
+      "difficulty": "normal",
+      "phase_name_es": "El Taller de la Sombra Amable",
+      "enemies": [
+        "encantador_sombrio",
+        "guardian"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura/debuffea. Atacante (108) golpea. Matar Encantador primero.",
+      "drop_gear_slot": "pechera"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f3_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f3",
+      "difficulty": "normal",
+      "phase_name_es": "La Sesion de Regresion",
+      "enemies": [
+        "despertador",
+        "luminaria"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Despertador 5★ (122) actúa primero con control fuerte. Luminaria (110) cura. Matar Despertador primero.",
+      "drop_gear_slot": "botas"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f4_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f4",
+      "difficulty": "normal",
+      "phase_name_es": "Las Profundidades del Yo",
+      "enemies": [
+        "guardabosques_interno",
+        "remolino_mental",
+        "redentor"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) debuffea en T1. Atacante 5★ (119) daño masivo. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": "guantes"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f5_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f5",
+      "difficulty": "normal",
+      "phase_name_es": "El Archivo del Subconsciente",
+      "enemies": [
+        "infante_pintor",
+        "despertador",
+        "castigadora_interior"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 aplican doble debuff en T1 antes del jugador. Requiere alta RES o cleanse.",
+      "drop_gear_slot": "escudo"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f6_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f6",
+      "difficulty": "normal",
+      "phase_name_es": "El Epicentro del Olvido",
+      "enemies": [
+        "infante_pintor",
+        "guardabosques_interno",
+        "remolino_mental",
+        "guardian_del_recuerdo"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más dura de la campaña antes del jefe. Tres 5★. Doble control en T1. Orden: IP→GI→RM→GdR.",
+      "drop_gear_slot": "espada"
+    },
+    {
+      "encounterId": "campaign_mundo_7_boss_normal",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "boss",
+      "difficulty": "normal",
+      "phase_name_es": "Jefe del Mundo 7",
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": "random_set_piece"
+    },
+    {
+      "encounterId": "campaign_mundo_7_f1_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f1",
+      "difficulty": "dificil",
+      "phase_name_es": "La Sala de Espera Interior",
+      "enemies": [
+        "eco_del_pasado"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño sostenido.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f2_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f2",
+      "difficulty": "dificil",
+      "phase_name_es": "El Taller de la Sombra Amable",
+      "enemies": [
+        "encantador_sombrio",
+        "guardian"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura/debuffea. Atacante (108) golpea. Matar Encantador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f3_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f3",
+      "difficulty": "dificil",
+      "phase_name_es": "La Sesion de Regresion",
+      "enemies": [
+        "despertador",
+        "luminaria"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Despertador 5★ (122) actúa primero con control fuerte. Luminaria (110) cura. Matar Despertador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f4_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f4",
+      "difficulty": "dificil",
+      "phase_name_es": "Las Profundidades del Yo",
+      "enemies": [
+        "guardabosques_interno",
+        "remolino_mental",
+        "redentor"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) debuffea en T1. Atacante 5★ (119) daño masivo. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f5_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f5",
+      "difficulty": "dificil",
+      "phase_name_es": "El Archivo del Subconsciente",
+      "enemies": [
+        "infante_pintor",
+        "despertador",
+        "castigadora_interior"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 aplican doble debuff en T1 antes del jugador. Requiere alta RES o cleanse.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f6_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f6",
+      "difficulty": "dificil",
+      "phase_name_es": "El Epicentro del Olvido",
+      "enemies": [
+        "infante_pintor",
+        "guardabosques_interno",
+        "remolino_mental",
+        "guardian_del_recuerdo"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más dura de la campaña antes del jefe. Tres 5★. Doble control en T1. Orden: IP→GI→RM→GdR.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_boss_dificil",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "boss",
+      "difficulty": "dificil",
+      "phase_name_es": "Jefe del Mundo 7",
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f1_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f1",
+      "difficulty": "heroica",
+      "phase_name_es": "La Sala de Espera Interior",
+      "enemies": [
+        "eco_del_pasado"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador solo. Se cura. Daño sostenido.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f2_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f2",
+      "difficulty": "heroica",
+      "phase_name_es": "El Taller de la Sombra Amable",
+      "enemies": [
+        "encantador_sombrio",
+        "guardian"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Sanador (110) cura/debuffea. Atacante (108) golpea. Matar Encantador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f3_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f3",
+      "difficulty": "heroica",
+      "phase_name_es": "La Sesion de Regresion",
+      "enemies": [
+        "despertador",
+        "luminaria"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Despertador 5★ (122) actúa primero con control fuerte. Luminaria (110) cura. Matar Despertador primero.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f4_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f4",
+      "difficulty": "heroica",
+      "phase_name_es": "Las Profundidades del Yo",
+      "enemies": [
+        "guardabosques_interno",
+        "remolino_mental",
+        "redentor"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Especialista (122) debuffea en T1. Atacante 5★ (119) daño masivo. Tanque (105) aguanta. Orden: E→A→T.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f5_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f5",
+      "difficulty": "heroica",
+      "phase_name_es": "El Archivo del Subconsciente",
+      "enemies": [
+        "infante_pintor",
+        "despertador",
+        "castigadora_interior"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "Dos especialistas 5★ SPD 122 aplican doble debuff en T1 antes del jugador. Requiere alta RES o cleanse.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_f6_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "f6",
+      "difficulty": "heroica",
+      "phase_name_es": "El Epicentro del Olvido",
+      "enemies": [
+        "infante_pintor",
+        "guardabosques_interno",
+        "remolino_mental",
+        "guardian_del_recuerdo"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 3,
+      "synergy_note_es": "La fase más dura de la campaña antes del jefe. Tres 5★. Doble control en T1. Orden: IP→GI→RM→GdR.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "campaign_mundo_7_boss_heroica",
+      "mode": "campaign",
+      "world": "mundo_7",
+      "phase": "boss",
+      "difficulty": "heroica",
+      "phase_name_es": "Jefe del Mundo 7",
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_abismo_del_recuerdo",
+      "energyCost": 5,
+      "synergy_note_es": "Boss de 2 fases. Ver boss_id en enemy_catalog.json para mecánicas completas.",
+      "drop_gear_slot": null
+    },
+    {
+      "encounterId": "tower_normal_floor_10",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 10,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_20",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 20,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_30",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 30,
+      "isBossFloor": true,
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_40",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 40,
+      "isBossFloor": true,
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_50",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 50,
+      "isBossFloor": true,
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_60",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 60,
+      "isBossFloor": true,
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_70",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 70,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_80",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 80,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_90",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 90,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_100",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": 100,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower normal. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_normal_floor_procedural",
+      "mode": "tower",
+      "difficulty": "normal",
+      "floor": "1-99_non_boss",
+      "isBossFloor": false,
+      "enemies": "procedural_from_campaign_pool",
+      "environmentId": "env_tower_by_biome",
+      "energyCost": 4,
+      "note": "Equipos generados proceduralmente en runtime según el piso y la dificultad. Pool de enemigos de campaign_pool filtrado por elemento del bioma activo."
+    },
+    {
+      "encounterId": "tower_dificil_floor_10",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 10,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_20",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 20,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_30",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 30,
+      "isBossFloor": true,
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_40",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 40,
+      "isBossFloor": true,
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_50",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 50,
+      "isBossFloor": true,
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_60",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 60,
+      "isBossFloor": true,
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_70",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 70,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_80",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 80,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_90",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 90,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_100",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": 100,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower dificil. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_dificil_floor_procedural",
+      "mode": "tower",
+      "difficulty": "dificil",
+      "floor": "1-99_non_boss",
+      "isBossFloor": false,
+      "enemies": "procedural_from_campaign_pool",
+      "environmentId": "env_tower_by_biome",
+      "energyCost": 4,
+      "note": "Equipos generados proceduralmente en runtime según el piso y la dificultad. Pool de enemigos de campaign_pool filtrado por elemento del bioma activo."
+    },
+    {
+      "encounterId": "tower_heroica_floor_10",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 10,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_20",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 20,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_1",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_30",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 30,
+      "isBossFloor": true,
+      "enemies": [
+        "gran_inquisidor_de_la_bondad_absoluta"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_40",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 40,
+      "isBossFloor": true,
+      "enemies": [
+        "la_directora_del_trauma_emocional"
+      ],
+      "environmentId": "env_tower_bioma_2",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_50",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 50,
+      "isBossFloor": true,
+      "enemies": [
+        "guardian_eterno_de_la_fe_reconstructuida"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_60",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 60,
+      "isBossFloor": true,
+      "enemies": [
+        "la_archivista_del_conocimiento_absoluto"
+      ],
+      "environmentId": "env_tower_bioma_3",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_70",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 70,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_80",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 80,
+      "isBossFloor": true,
+      "enemies": [
+        "arconte_dorado_del_retiro"
+      ],
+      "environmentId": "env_tower_bioma_4",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_90",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 90,
+      "isBossFloor": true,
+      "enemies": [
+        "el_gran_maestro_del_sufrimiento_alegre"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_100",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": 100,
+      "isBossFloor": true,
+      "enemies": [
+        "el_custodio_del_olvido_eterno"
+      ],
+      "environmentId": "env_tower_bioma_5",
+      "energyCost": 6,
+      "note": "Piso boss del Tower heroica. Escala de stats basada en piso y dificultad."
+    },
+    {
+      "encounterId": "tower_heroica_floor_procedural",
+      "mode": "tower",
+      "difficulty": "heroica",
+      "floor": "1-99_non_boss",
+      "isBossFloor": false,
+      "enemies": "procedural_from_campaign_pool",
+      "environmentId": "env_tower_by_biome",
+      "energyCost": 4,
+      "note": "Equipos generados proceduralmente en runtime según el piso y la dificultad. Pool de enemigos de campaign_pool filtrado por elemento del bioma activo."
+    },
+    {
+      "encounterId": "arena_pvp",
+      "mode": "arena",
+      "difficulty": "pvp",
+      "enemies": "rival_defense_team",
+      "environmentId": "env_arena_coliseo",
+      "energyCost": 0,
+      "note": "El equipo enemigo es el equipo de defensa del rival. Se inyecta en el CombatContext en runtime. No tiene encuentro fijo en el catálogo."
+    },
+    {
+      "encounterId": "wb_abrazo_infinito",
+      "mode": "world_boss",
+      "name_es": "El Abrazo Infinito",
+      "element": "Luz",
+      "enemies": [
+        "wb_abrazo_infinito"
+      ],
+      "environmentId": "env_wb_abrazo",
+      "energyCost": 0,
+      "hp_formula": "MediaDañoServidor × JugadoresActivosSemana × 0.80 × 15",
+      "duration_hours": 120,
+      "max_attacks_per_player": 3,
+      "note": "HP dinámica calculada por InitWorldBossCycle CF. El equipo jugador son 20 esbirros."
+    },
+    {
+      "encounterId": "wb_sonrisa_sin_rostro",
+      "mode": "world_boss",
+      "name_es": "La Sonrisa Sin Rostro",
+      "element": "Psiquico",
+      "enemies": [
+        "wb_sonrisa_sin_rostro"
+      ],
+      "environmentId": "env_wb_sonrisa",
+      "energyCost": 0,
+      "hp_formula": "MediaDañoServidor × JugadoresActivosSemana × 0.80 × 15",
+      "duration_hours": 120,
+      "max_attacks_per_player": 3,
+      "note": "HP dinámica calculada por InitWorldBossCycle CF. El equipo jugador son 20 esbirros."
+    },
+    {
+      "encounterId": "wb_motivador_eterno",
+      "mode": "world_boss",
+      "name_es": "El Motivador Eterno",
+      "element": "Aire",
+      "enemies": [
+        "wb_motivador_eterno"
+      ],
+      "environmentId": "env_wb_motivador",
+      "energyCost": 0,
+      "hp_formula": "MediaDañoServidor × JugadoresActivosSemana × 0.80 × 15",
+      "duration_hours": 120,
+      "max_attacks_per_player": 3,
+      "note": "HP dinámica calculada por InitWorldBossCycle CF. El equipo jugador son 20 esbirros."
+    },
+    {
+      "encounterId": "wb_fiesta_interminable",
+      "mode": "world_boss",
+      "name_es": "La Fiesta Interminable",
+      "element": "Fuego",
+      "enemies": [
+        "wb_fiesta_interminable"
+      ],
+      "environmentId": "env_wb_fiesta",
+      "energyCost": 0,
+      "hp_formula": "MediaDañoServidor × JugadoresActivosSemana × 0.80 × 15",
+      "duration_hours": 120,
+      "max_attacks_per_player": 3,
+      "note": "HP dinámica calculada por InitWorldBossCycle CF. El equipo jugador son 20 esbirros."
+    },
+    {
+      "encounterId": "wb_optimista_primordial",
+      "mode": "world_boss",
+      "name_es": "El Optimista Primordial",
+      "element": "Naturaleza",
+      "enemies": [
+        "wb_optimista_primordial"
+      ],
+      "environmentId": "env_wb_optimista",
+      "energyCost": 0,
+      "hp_formula": "MediaDañoServidor × JugadoresActivosSemana × 0.80 × 15",
+      "duration_hours": 120,
+      "max_attacks_per_player": 3,
+      "note": "HP dinámica calculada por InitWorldBossCycle CF. El equipo jugador son 20 esbirros."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 1,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 2,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 3,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 4,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 5,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 6,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 7,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 8,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 9,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_agua_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "agua",
+      "level": 10,
+      "enemies": [
+        "el_ahogador_contento"
+      ],
+      "environmentId": "env_dungeon_agua",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Agua. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 1,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 2,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 3,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 4,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 5,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 6,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 7,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 8,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 9,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_fuego_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "fuego",
+      "level": 10,
+      "enemies": [
+        "el_incendiario_positivo"
+      ],
+      "environmentId": "env_dungeon_fuego",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Fuego. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 1,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 2,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 3,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 4,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 5,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 6,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 7,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 8,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 9,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_luz_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "luz",
+      "level": 10,
+      "enemies": [
+        "el_radiante_forzoso"
+      ],
+      "environmentId": "env_dungeon_luz",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Luz. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 1,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 2,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 3,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 4,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 5,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 6,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 7,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 8,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 9,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_naturaleza_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "naturaleza",
+      "level": 10,
+      "enemies": [
+        "el_jardinero_implacable"
+      ],
+      "environmentId": "env_dungeon_naturaleza",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Naturaleza. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 1,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 2,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 3,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 4,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 5,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 6,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 7,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 8,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 9,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_oscuridad_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "oscuridad",
+      "level": 10,
+      "enemies": [
+        "la_sombra_risuena"
+      ],
+      "environmentId": "env_dungeon_oscuridad",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Oscuridad. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_1",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 1,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 1 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_2",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 2,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 2 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_3",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 3,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 3 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_4",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 4,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 4 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_5",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 5,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 5 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_6",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 6,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": false,
+      "note": "Nivel 6 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_7",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 7,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 7 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_8",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 8,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 8 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_9",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 9,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 9 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_el_magica_lvl_10",
+      "mode": "dungeon_elemental",
+      "element": "magica",
+      "level": 10,
+      "enemies": [
+        "el_grimorio_bailarin"
+      ],
+      "environmentId": "env_dungeon_magica",
+      "energyCost": 3,
+      "drop_potenciado": true,
+      "note": "Nivel 10 de la Cripta de Magica. Boss escala según nivel."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_1",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 1,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_basicas",
+      "drop_potenciado": false,
+      "note": "Nivel 1 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_2",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 2,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_basicas",
+      "drop_potenciado": false,
+      "note": "Nivel 2 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_3",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 3,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_basicas",
+      "drop_potenciado": false,
+      "note": "Nivel 3 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_4",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 4,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_avanzadas",
+      "drop_potenciado": false,
+      "note": "Nivel 4 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_5",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 5,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_avanzadas",
+      "drop_potenciado": false,
+      "note": "Nivel 5 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_6",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 6,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_avanzadas",
+      "drop_potenciado": false,
+      "note": "Nivel 6 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_7",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 7,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_avanzadas",
+      "drop_potenciado": false,
+      "note": "Nivel 7 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_8",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 8,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_divinas",
+      "drop_potenciado": true,
+      "note": "Nivel 8 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_9",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 9,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_divinas",
+      "drop_potenciado": true,
+      "note": "Nivel 9 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_mae_lvl_10",
+      "mode": "dungeon_maestrias",
+      "element": "neutro",
+      "level": 10,
+      "enemies": [
+        "el_guardian_de_las_runas"
+      ],
+      "environmentId": "env_dungeon_sotano_runas",
+      "energyCost": 3,
+      "drop_tipo": "piedras_divinas",
+      "drop_potenciado": true,
+      "note": "Nivel 10 del Sótano de las Runas."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_1",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 1,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 1 de carniceria_festiva. Boss variante visual 1."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_2",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 2,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 2 de carniceria_festiva. Boss variante visual 2."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_3",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 3,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 3 de carniceria_festiva. Boss variante visual 3."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_4",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 4,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 4 de carniceria_festiva. Boss variante visual 4."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_5",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 5,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 5 de carniceria_festiva. Boss variante visual 5."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_6",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 6,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 6 de carniceria_festiva. Boss variante visual 6."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_7",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 7,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico",
+        "juicio_brillante",
+        "olvido_molesto"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 7 de carniceria_festiva. Boss variante visual 7."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_8",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 8,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico",
+        "juicio_brillante",
+        "olvido_molesto"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 8 de carniceria_festiva. Boss variante visual 8."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_9",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 9,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico",
+        "juicio_brillante",
+        "olvido_molesto"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 9 de carniceria_festiva. Boss variante visual 9."
+    },
+    {
+      "encounterId": "dungeon_gear_carniceria_festiva_lvl_10",
+      "mode": "dungeon_gear",
+      "dungeon": "carniceria_festiva",
+      "level": 10,
+      "enemies": [
+        "el_festejador_inquebrantable"
+      ],
+      "environmentId": "env_dungeon_carniceria",
+      "energyCost": 3,
+      "sets_available": [
+        "dolor_comico",
+        "juicio_brillante",
+        "olvido_molesto"
+      ],
+      "gear_rarity_range": [
+        "divinamente_ridiculo",
+        "memeticamente_unico"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 10 de carniceria_festiva. Boss variante visual 10."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_1",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 1,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 1 de convento_escudo. Boss variante visual 1."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_2",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 2,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 2 de convento_escudo. Boss variante visual 2."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_3",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 3,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 3 de convento_escudo. Boss variante visual 3."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_4",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 4,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 4 de convento_escudo. Boss variante visual 4."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_5",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 5,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 5 de convento_escudo. Boss variante visual 5."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_6",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 6,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 6 de convento_escudo. Boss variante visual 6."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_7",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 7,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino",
+        "santo_rancio"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 7 de convento_escudo. Boss variante visual 7."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_8",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 8,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino",
+        "santo_rancio"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 8 de convento_escudo. Boss variante visual 8."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_9",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 9,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino",
+        "santo_rancio"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 9 de convento_escudo. Boss variante visual 9."
+    },
+    {
+      "encounterId": "dungeon_gear_convento_escudo_lvl_10",
+      "mode": "dungeon_gear",
+      "dungeon": "convento_escudo",
+      "level": 10,
+      "enemies": [
+        "la_madre_superiora_blindada"
+      ],
+      "environmentId": "env_dungeon_convento",
+      "energyCost": 3,
+      "sets_available": [
+        "trapo_divino",
+        "santo_rancio"
+      ],
+      "gear_rarity_range": [
+        "divinamente_ridiculo",
+        "memeticamente_unico"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 10 de convento_escudo. Boss variante visual 10."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_1",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 1,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 1 de laberinto_pensamiento. Boss variante visual 1."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_2",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 2,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 2 de laberinto_pensamiento. Boss variante visual 2."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_3",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 3,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "mugroso",
+        "extranito"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 3 de laberinto_pensamiento. Boss variante visual 3."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_4",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 4,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 4 de laberinto_pensamiento. Boss variante visual 4."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_5",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 5,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 5 de laberinto_pensamiento. Boss variante visual 5."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_6",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 6,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe"
+      ],
+      "gear_rarity_range": [
+        "extranito",
+        "absurdamente_escaso"
+      ],
+      "drop_potenciado": false,
+      "note": "Nivel 6 de laberinto_pensamiento. Boss variante visual 6."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_7",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 7,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe",
+        "mente_peligrosa"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 7 de laberinto_pensamiento. Boss variante visual 7."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_8",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 8,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe",
+        "mente_peligrosa"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 8 de laberinto_pensamiento. Boss variante visual 8."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_9",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 9,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe",
+        "mente_peligrosa"
+      ],
+      "gear_rarity_range": [
+        "absurdamente_escaso",
+        "divinamente_ridiculo"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 9 de laberinto_pensamiento. Boss variante visual 9."
+    },
+    {
+      "encounterId": "dungeon_gear_laberinto_pensamiento_lvl_10",
+      "mode": "dungeon_gear",
+      "dungeon": "laberinto_pensamiento",
+      "level": 10,
+      "enemies": [
+        "el_pensamiento_fugitivo"
+      ],
+      "environmentId": "env_dungeon_laberinto",
+      "energyCost": 3,
+      "sets_available": [
+        "rencor_bebe",
+        "mente_peligrosa"
+      ],
+      "gear_rarity_range": [
+        "divinamente_ridiculo",
+        "memeticamente_unico"
+      ],
+      "drop_potenciado": true,
+      "note": "Nivel 10 de laberinto_pensamiento. Boss variante visual 10."
+    },
+    {
+      "encounterId": "clan_boss_nivel_1",
+      "mode": "clan_boss",
+      "clan_level": 1,
+      "enemies": [
+        "boss_clan_nivel_1"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 60000000,
+      "note": "Boss de Clan nivel 1. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_2",
+      "mode": "clan_boss",
+      "clan_level": 2,
+      "enemies": [
+        "boss_clan_nivel_2"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 120000000,
+      "note": "Boss de Clan nivel 2. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_3",
+      "mode": "clan_boss",
+      "clan_level": 3,
+      "enemies": [
+        "boss_clan_nivel_3"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 240000000,
+      "note": "Boss de Clan nivel 3. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_4",
+      "mode": "clan_boss",
+      "clan_level": 4,
+      "enemies": [
+        "boss_clan_nivel_4"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 480000000,
+      "note": "Boss de Clan nivel 4. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_5",
+      "mode": "clan_boss",
+      "clan_level": 5,
+      "enemies": [
+        "boss_clan_nivel_5"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 960000000,
+      "note": "Boss de Clan nivel 5. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_6",
+      "mode": "clan_boss",
+      "clan_level": 6,
+      "enemies": [
+        "boss_clan_nivel_6"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 1920000000,
+      "note": "Boss de Clan nivel 6. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_7",
+      "mode": "clan_boss",
+      "clan_level": 7,
+      "enemies": [
+        "boss_clan_nivel_7"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 3840000000,
+      "note": "Boss de Clan nivel 7. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_8",
+      "mode": "clan_boss",
+      "clan_level": 8,
+      "enemies": [
+        "boss_clan_nivel_8"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 7680000000,
+      "note": "Boss de Clan nivel 8. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_9",
+      "mode": "clan_boss",
+      "clan_level": 9,
+      "enemies": [
+        "boss_clan_nivel_9"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 15360000000,
+      "note": "Boss de Clan nivel 9. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_10",
+      "mode": "clan_boss",
+      "clan_level": 10,
+      "enemies": [
+        "boss_clan_nivel_10"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 30720000000,
+      "note": "Boss de Clan nivel 10. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_11",
+      "mode": "clan_boss",
+      "clan_level": 11,
+      "enemies": [
+        "boss_clan_nivel_11"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 61440000000,
+      "note": "Boss de Clan nivel 11. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_12",
+      "mode": "clan_boss",
+      "clan_level": 12,
+      "enemies": [
+        "boss_clan_nivel_12"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 122880000000,
+      "note": "Boss de Clan nivel 12. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_13",
+      "mode": "clan_boss",
+      "clan_level": 13,
+      "enemies": [
+        "boss_clan_nivel_13"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 245760000000,
+      "note": "Boss de Clan nivel 13. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_14",
+      "mode": "clan_boss",
+      "clan_level": 14,
+      "enemies": [
+        "boss_clan_nivel_14"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 491520000000,
+      "note": "Boss de Clan nivel 14. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_15",
+      "mode": "clan_boss",
+      "clan_level": 15,
+      "enemies": [
+        "boss_clan_nivel_15"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 983040000000,
+      "note": "Boss de Clan nivel 15. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_16",
+      "mode": "clan_boss",
+      "clan_level": 16,
+      "enemies": [
+        "boss_clan_nivel_16"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 1966080000000,
+      "note": "Boss de Clan nivel 16. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_17",
+      "mode": "clan_boss",
+      "clan_level": 17,
+      "enemies": [
+        "boss_clan_nivel_17"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 3932160000000,
+      "note": "Boss de Clan nivel 17. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_18",
+      "mode": "clan_boss",
+      "clan_level": 18,
+      "enemies": [
+        "boss_clan_nivel_18"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 7864320000000,
+      "note": "Boss de Clan nivel 18. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_19",
+      "mode": "clan_boss",
+      "clan_level": 19,
+      "enemies": [
+        "boss_clan_nivel_19"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 15728640000000,
+      "note": "Boss de Clan nivel 19. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_boss_nivel_20",
+      "mode": "clan_boss",
+      "clan_level": 20,
+      "enemies": [
+        "boss_clan_nivel_20"
+      ],
+      "environmentId": "env_clan_boss",
+      "energyCost": 0,
+      "attacks_per_day": 2,
+      "hp_base": 31457280000000,
+      "note": "Boss de Clan nivel 20. HP compartida entre todos los miembros. 2 ataques/día por miembro."
+    },
+    {
+      "encounterId": "clan_raid_fase_1",
+      "mode": "clan_raid",
+      "phase": 1,
+      "enemies": [
+        "raid_boss_fase_1"
+      ],
+      "environmentId": "env_clan_raid",
+      "energyCost": 0,
+      "attacks_per_phase": 2,
+      "note": "Fase 1 de la Raid de Clan. Se abre secuencialmente. 48h por fase."
+    },
+    {
+      "encounterId": "clan_raid_fase_2",
+      "mode": "clan_raid",
+      "phase": 2,
+      "enemies": [
+        "raid_boss_fase_2"
+      ],
+      "environmentId": "env_clan_raid",
+      "energyCost": 0,
+      "attacks_per_phase": 2,
+      "note": "Fase 2 de la Raid de Clan. Se abre secuencialmente. 48h por fase."
+    },
+    {
+      "encounterId": "clan_raid_fase_3",
+      "mode": "clan_raid",
+      "phase": 3,
+      "enemies": [
+        "raid_boss_fase_3"
+      ],
+      "environmentId": "env_clan_raid",
+      "energyCost": 0,
+      "attacks_per_phase": 2,
+      "note": "Fase 3 de la Raid de Clan. Se abre secuencialmente. 48h por fase."
+    }
+  ]
+}
