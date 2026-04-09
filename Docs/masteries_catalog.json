@@ -1,0 +1,1579 @@
+{
+  "_meta": {
+    "comments": [
+      "tierMaxPicks: máximo de nodos elegibles por nivel (N1–N5: 2; N6: 1).",
+      "maxBranchesAtTier6: solo 1 rama puede alcanzar nivel 6 por héroe.",
+      "costsPerTier: coste por nodo; escala por tier (Básico→Avanzado→Divino).",
+      "minStarsPerTier: estrellas mínimas para habilitar el tier (6★ + Awaken para N6).",
+      "Patrón de dependencias (IDs 1..22) por rama: 1→3,4; 2→5,6; 3→7,8; 4→7,8,9; 5→8,9,10; 6→9,10; 7→11,12; 8→11,12,13; 9→12,13,14; 10→13,14; 11→15,16; 12→15,16,17; 13→16,17,18; 14→17,18; 15→19,20; 16→19,20,21; 17→20,21,22; 18→21,22.",
+      "Cada rama tiene 22 nodos (N1: 2; N2–N6: 4).",
+      "El array effects[] es un placeholder; se interpreta en runtime."
+    ]
+  },
+  "rules": {
+    "maxBranchesAtTier6": 1,
+    "tierMaxPicks": {
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 1
+    },
+    "costsPerTier": {
+      "1": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "2": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "3": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "4": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "5": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "6": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      }
+    },
+    "minStarsPerTier": {
+      "1": 3,
+      "2": 3,
+      "3": 4,
+      "4": 5,
+      "5": 6,
+      "6": 6
+    },
+    "requiresAwakenAtTier": 6
+  },
+  "branches": [
+    {
+      "id": "O1",
+      "branch": "ofensa",
+      "tier": 1,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Golpes Viles",
+      "name_en": "Vile Strikes",
+      "description_es": "+5% daño básico.",
+      "description_en": "+5% basic attack damage.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O2",
+      "branch": "ofensa",
+      "tier": 1,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Instinto Sanguinario",
+      "name_en": "Bloodthirsty Instinct",
+      "description_es": "+5% daño crítico.",
+      "description_en": "+5% critical damage.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O3",
+      "branch": "ofensa",
+      "tier": 2,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "O1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Explotar Heridas",
+      "name_en": "Exploit Wounds",
+      "description_es": "+10% daño contra enemigos con DEF Down o Weak.",
+      "description_en": "+10% damage against enemies with DEF Down or Weak.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O4",
+      "branch": "ofensa",
+      "tier": 2,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "O1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Sed de Sangre",
+      "name_en": "Blood Thirst",
+      "description_es": "Te curas un 5% de HP al matar un enemigo.",
+      "description_en": "Heal 5% HP upon killing an enemy.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O5",
+      "branch": "ofensa",
+      "tier": 2,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "O2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Crueldad Tenebrosa",
+      "name_en": "Dark Cruelty",
+      "description_es": "+10% probabilidad de aplicar Bleed o Poison.",
+      "description_en": "+10% chance to apply Bleed or Poison.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O6",
+      "branch": "ofensa",
+      "tier": 2,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "O2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Furia Impía",
+      "name_en": "Impious Fury",
+      "description_es": "+10% daño si tu HP < 50%.",
+      "description_en": "+10% damage when your HP is below 50%.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O7",
+      "branch": "ofensa",
+      "tier": 3,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "O3",
+        "O4"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Ritmo del Caos",
+      "name_en": "Precise Strike",
+      "description_es": "+3% barra de turno al matar un enemigo.",
+      "description_en": "+8% damage against slowed or stunned enemies.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O8",
+      "branch": "ofensa",
+      "tier": 3,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "O3",
+        "O4",
+        "O5"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Acribillador",
+      "name_en": "Hemorrhage",
+      "description_es": "+15% daño en habilidades de múltiples golpes.",
+      "description_en": "Criticals apply Bleed (1 turn, 15% chance).",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O9",
+      "branch": "ofensa",
+      "tier": 3,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "O4",
+        "O5",
+        "O6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Saqueo Brutal",
+      "name_en": "Mark of Doom",
+      "description_es": "30% prob. de reducir en 1 turno un cooldown al matar.",
+      "description_en": "+15% damage against marked enemies.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O10",
+      "branch": "ofensa",
+      "tier": 3,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "O5",
+        "O6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Vorágine Mortal",
+      "name_en": "Shadow Execution",
+      "description_es": "+5% daño por cada enemigo vivo (máx. +20%).",
+      "description_en": "+20% critical damage when landing a killing blow.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O11",
+      "branch": "ofensa",
+      "tier": 4,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "O7",
+        "O8"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Implacable",
+      "name_en": "Stacking Venom",
+      "description_es": "30% prob. de turno extra al matar.",
+      "description_en": "Each Poison stack deals +10% more damage.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O12",
+      "branch": "ofensa",
+      "tier": 4,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "O7",
+        "O8",
+        "O9"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Castigo Oscuro",
+      "name_en": "Final Blow",
+      "description_es": "+20% daño a enemigos con Shield.",
+      "description_en": "+30% damage on the last hit before killing an enemy.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O13",
+      "branch": "ofensa",
+      "tier": 4,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "O8",
+        "O9",
+        "O10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Ejecución de Caos",
+      "name_en": "Frenzy",
+      "description_es": "+15% daño a enemigos con >75% HP.",
+      "description_en": "Each kill grants +5% ATK (max 3 stacks).",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O14",
+      "branch": "ofensa",
+      "tier": 4,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "O9",
+        "O10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Frenesí Abismal",
+      "name_en": "Deadly Aura",
+      "description_es": "+15% daño si el objetivo tiene 3+ debuffs.",
+      "description_en": "Attacks reduce all enemy turn bars by 3%.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O15",
+      "branch": "ofensa",
+      "tier": 5,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "O11",
+        "O12"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Cazador de Jefes",
+      "name_en": "Predator",
+      "description_es": "+10% daño contra Jefes.",
+      "description_en": "+25% damage against enemies below 30% HP.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O16",
+      "branch": "ofensa",
+      "tier": 5,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "O11",
+        "O12",
+        "O13"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Desgarrador",
+      "name_en": "Unstoppable Force",
+      "description_es": "+15% daño crítico adicional.",
+      "description_en": "Criticals extend 1 DoT effect on the target by 1 turn.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O17",
+      "branch": "ofensa",
+      "tier": 5,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "O12",
+        "O13",
+        "O14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Oportunista",
+      "name_en": "Pure Destruction",
+      "description_es": "+20% daño a enemigos bajo control (Stun/Sleep/Freeze).",
+      "description_en": "+15% damage on ultimate skills.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O18",
+      "branch": "ofensa",
+      "tier": 5,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "O13",
+        "O14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Aniquilador",
+      "name_en": "True Annihilation",
+      "description_es": "30% prob. de infligir daño extra = 3% del HP Máx. del objetivo.",
+      "description_en": "Reduce target DEF by 10% for 2 turns when dealing a critical hit.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O19",
+      "branch": "ofensa",
+      "tier": 6,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "O15",
+        "O16"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Ejecutar del Infierno",
+      "name_en": "Malefic Surge",
+      "description_es": "+25% daño si el enemigo < 40% HP.",
+      "description_en": "+20% ATK for 2 turns when using an ultimate.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O20",
+      "branch": "ofensa",
+      "tier": 6,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "O15",
+        "O16",
+        "O17"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Crisol del Caos",
+      "name_en": "Cursed Strike",
+      "description_es": "Golpes críticos aplican -10% DEF adicional (acumula hasta -30%).",
+      "description_en": "Strong and ultimate skills have +15% critical rate.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O21",
+      "branch": "ofensa",
+      "tier": 6,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "O16",
+        "O17",
+        "O18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Devastación Eterna",
+      "name_en": "Lord of Darkness",
+      "description_es": "+5% daño acumulativo cada turno (máx. +25%).",
+      "description_en": "+10% damage per debuff active on the target (max 3).",
+      "branch_en": "offense"
+    },
+    {
+      "id": "O22",
+      "branch": "ofensa",
+      "tier": 6,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "O17",
+        "O18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Espada del Abismo",
+      "name_en": "Void Ruler",
+      "description_es": "Un golpe por turno ignora 30% de la DEF del enemigo.",
+      "description_en": "Upon killing an enemy, the ultimate cooldown is reduced by 1 turn.",
+      "branch_en": "offense"
+    },
+    {
+      "id": "D1",
+      "branch": "defensa",
+      "tier": 1,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Carne de Hierro",
+      "name_en": "Dark Skin",
+      "description_es": "-5% daño recibido.",
+      "description_en": "+5% max HP.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D2",
+      "branch": "defensa",
+      "tier": 1,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Casco Oxidado",
+      "name_en": "Stone Shell",
+      "description_es": "+10% DEF base.",
+      "description_en": "+5% DEF.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D3",
+      "branch": "defensa",
+      "tier": 2,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "D1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Muralla del Infierno",
+      "name_en": "Torment Resistance",
+      "description_es": "Al recibir un crítico: 30% prob. de Shield (10% HP) propio.",
+      "description_en": "+10% resistance to stuns and sleeps.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D4",
+      "branch": "defensa",
+      "tier": 2,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "D1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Guardián Férreo",
+      "name_en": "Pain Harvest",
+      "description_es": "+15% eficacia de Shields aplicados/recibidos.",
+      "description_en": "Recover 3% HP when receiving a critical hit.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D5",
+      "branch": "defensa",
+      "tier": 2,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "D2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Bastión Apocalíptico",
+      "name_en": "Shadow Barrier",
+      "description_es": "-5% daño recibido de ataques en área (AoE).",
+      "description_en": "Reduce damage from area attacks by 10%.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D6",
+      "branch": "defensa",
+      "tier": 2,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "D2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Piel Corrosiva",
+      "name_en": "Vile Stubbornness",
+      "description_es": "10% prob. de devolver Bleed al atacante.",
+      "description_en": "+8% RES when below 50% HP.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D7",
+      "branch": "defensa",
+      "tier": 3,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "D3",
+        "D4"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Tenacidad del Caos",
+      "name_en": "Iron Scales",
+      "description_es": "+10% RES cuando tu HP < 50%.",
+      "description_en": "Reduce damage from DoT effects by 15%.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D8",
+      "branch": "defensa",
+      "tier": 3,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "D3",
+        "D4",
+        "D5"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Espinas Abismales",
+      "name_en": "Absorb Pain",
+      "description_es": "Reflejas un 10% del daño recibido.",
+      "description_en": "Receive up to 5% HP as shield when hit (1 turn, 1x per turn).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D9",
+      "branch": "defensa",
+      "tier": 3,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "D4",
+        "D5",
+        "D6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Voluntad Endurecida",
+      "name_en": "Cursed Resilience",
+      "description_es": "+15% curas recibidas.",
+      "description_en": "+10% DEF when affected by 2 or more debuffs.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D10",
+      "branch": "defensa",
+      "tier": 3,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "D5",
+        "D6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Guardián Oscuro",
+      "name_en": "Echo Barrier",
+      "description_es": "Aliados bajo Shield reciben -5% daño.",
+      "description_en": "After receiving 3 hits in one turn, reduce incoming damage by 20%.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D11",
+      "branch": "defensa",
+      "tier": 4,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "D7",
+        "D8"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Provocador Caótico",
+      "name_en": "Deathless Body",
+      "description_es": "20% probabilidad de Provoke al contraatacar.",
+      "description_en": "Cannot be reduced below 10% HP in a single hit.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D12",
+      "branch": "defensa",
+      "tier": 4,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Gigante Blindado",
+      "name_en": "Shield of Contempt",
+      "description_es": "+15% DEF cuando tu HP > 70%.",
+      "description_en": "Dodge attacks with 5% chance (scales with AGI).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D13",
+      "branch": "defensa",
+      "tier": 4,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "D8",
+        "D9",
+        "D10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Alma Rocosa",
+      "name_en": "Thick Armor",
+      "description_es": "20% probabilidad de convertir un crítico recibido en golpe normal.",
+      "description_en": "+20% resistance to debuffs when at full HP.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D14",
+      "branch": "defensa",
+      "tier": 4,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "D9",
+        "D10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Escudo del Purgatorio",
+      "name_en": "Grim Vitality",
+      "description_es": "Si HP < 20% aplicas Block Damage 1 turno (1 vez por combate).",
+      "description_en": "+8% max HP; effect doubled when below 30% HP.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D15",
+      "branch": "defensa",
+      "tier": 5,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "D11",
+        "D12"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Coloso Oxidado",
+      "name_en": "Tainted Blood",
+      "description_es": "50% prob. de reducir en 50% el daño de un golpe (1 vez por turno).",
+      "description_en": "Attackers receive 5% of your max HP as damage when hitting you.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D16",
+      "branch": "defensa",
+      "tier": 5,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "D11",
+        "D12",
+        "D13"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Venganza del Tanque",
+      "name_en": "Eternal Fortress",
+      "description_es": "30% prob. de contraataque al recibir golpe fuerte.",
+      "description_en": "At the start of combat, gain a shield for 8% of your max HP.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D17",
+      "branch": "defensa",
+      "tier": 5,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "D12",
+        "D13",
+        "D14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Coraza de Cenizas",
+      "name_en": "Unbreakable",
+      "description_es": "-15% daño recibido de DoT (Poison/Bleed/Burn).",
+      "description_en": "When HP drops below 20%, gain immunity to debuffs for 1 turn (1x per combat).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D18",
+      "branch": "defensa",
+      "tier": 5,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "D13",
+        "D14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Muralla de la Desesperación",
+      "name_en": "Last Breath",
+      "description_es": "Cuando muere un aliado: +20% DEF.",
+      "description_en": "Survive a lethal blow with 1 HP once per combat (+30% max HP if unused).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D19",
+      "branch": "defensa",
+      "tier": 6,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "D15",
+        "D16"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Guardián del Caos",
+      "name_en": "Cursed Immortality",
+      "description_es": "Sobrevives con 1 HP al recibir golpe mortal (1 vez por combate).",
+      "description_en": "Reduce lethal damage by 50% (1x per combat).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D20",
+      "branch": "defensa",
+      "tier": 6,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "D15",
+        "D16",
+        "D17"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Vínculo de Hierro",
+      "name_en": "Reborn in Darkness",
+      "description_es": "Al inicio de tu turno, absorbes 10% del daño de los aliados (redirigido a ti).",
+      "description_en": "On reviving, recover 30% HP and apply Immunity for 1 turn.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D21",
+      "branch": "defensa",
+      "tier": 6,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "D16",
+        "D17",
+        "D18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Bastión Eterno",
+      "name_en": "Unshakeable Will",
+      "description_es": "+25% HP Máx.",
+      "description_en": "Each time a debuff is resisted, gain +3% DEF for 2 turns (max 3 stacks).",
+      "branch_en": "defense"
+    },
+    {
+      "id": "D22",
+      "branch": "defensa",
+      "tier": 6,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "D17",
+        "D18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Círculo de Espinas",
+      "name_en": "Wall of Evil",
+      "description_es": "Devuelves 15% del daño recibido como reflejo.",
+      "description_en": "Reduce all damage received by 12% while no ally has fallen.",
+      "branch_en": "defense"
+    },
+    {
+      "id": "S1",
+      "branch": "apoyo",
+      "tier": 1,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Bendición Oscura",
+      "name_en": "Bendición Oscura",
+      "description_es": "+5% a todas tus curas.",
+      "description_en": "+5% a todas tus curas.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S2",
+      "branch": "apoyo",
+      "tier": 1,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 12,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Inspiración del Caos",
+      "name_en": "Inspiración del Caos",
+      "description_es": "+5% duración de los buffs que aplicas.",
+      "description_en": "+5% duración de los buffs que aplicas.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S3",
+      "branch": "apoyo",
+      "tier": 2,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "S1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Manantial Putrefacto",
+      "name_en": "Manantial Putrefacto",
+      "description_es": "+10% curas si el aliado tiene < 40% HP.",
+      "description_en": "+10% curas si el aliado tiene < 40% HP.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S4",
+      "branch": "apoyo",
+      "tier": 2,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "S1"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Eco Luminoso",
+      "name_en": "Eco Luminoso",
+      "description_es": "30% prob. de extender 1 turno los buffs aplicados.",
+      "description_en": "30% prob. de extender 1 turno los buffs aplicados.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S5",
+      "branch": "apoyo",
+      "tier": 2,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "S2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Don Impío",
+      "name_en": "Don Impío",
+      "description_es": "Al curar, +3% de barra de turno al aliado objetivo.",
+      "description_en": "Al curar, +3% de barra de turno al aliado objetivo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S6",
+      "branch": "apoyo",
+      "tier": 2,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "S2"
+      ],
+      "minStars": 3,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 24,
+        "avanzado": 0,
+        "divino": 0
+      },
+      "name_es": "Protección Espiritual",
+      "name_en": "Protección Espiritual",
+      "description_es": "+10% fuerza de tus Shields aplicados.",
+      "description_en": "+10% fuerza de tus Shields aplicados.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S7",
+      "branch": "apoyo",
+      "tier": 3,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "S3",
+        "S4"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Cronista del Infierno",
+      "name_en": "Cronista del Infierno",
+      "description_es": "Al aplicar un buff, +5% de barra de turno a todo el equipo.",
+      "description_en": "Al aplicar un buff, +5% de barra de turno a todo el equipo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S8",
+      "branch": "apoyo",
+      "tier": 3,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Mente de Hierro",
+      "name_en": "Mente de Hierro",
+      "description_es": "+10% ACC para debuffs de control.",
+      "description_en": "+10% ACC para debuffs de control.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S9",
+      "branch": "apoyo",
+      "tier": 3,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Canalización Oscura",
+      "name_en": "Canalización Oscura",
+      "description_es": "+10% prob. de eliminar 1 debuff al curar.",
+      "description_en": "+10% prob. de eliminar 1 debuff al curar.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S10",
+      "branch": "apoyo",
+      "tier": 3,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "S5",
+        "S6"
+      ],
+      "minStars": 4,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 15,
+        "avanzado": 20,
+        "divino": 0
+      },
+      "name_es": "Fuente de Agonía",
+      "name_en": "Fuente de Agonía",
+      "description_es": "Al curar, infliges daño leve (5% ATK) al enemigo más débil.",
+      "description_en": "Al curar, infliges daño leve (5% ATK) al enemigo más débil.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S11",
+      "branch": "apoyo",
+      "tier": 4,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "S7",
+        "S8"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Tiempo Corrompido",
+      "name_en": "Tiempo Corrompido",
+      "description_es": "10% prob. de reducir 1 turno los cooldowns del aliado objetivo.",
+      "description_en": "10% prob. de reducir 1 turno los cooldowns del aliado objetivo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S12",
+      "branch": "apoyo",
+      "tier": 4,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "S7",
+        "S8",
+        "S9"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Aura Retorcida",
+      "name_en": "Aura Retorcida",
+      "description_es": "+15% eficacia de buffs de reducción de daño.",
+      "description_en": "+15% eficacia de buffs de reducción de daño.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S13",
+      "branch": "apoyo",
+      "tier": 4,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Manantial Abisal",
+      "name_en": "Manantial Abisal",
+      "description_es": "+5% curas acumulativas por turno (máx. +25%).",
+      "description_en": "+5% curas acumulativas por turno (máx. +25%).",
+      "branch_en": "support"
+    },
+    {
+      "id": "S14",
+      "branch": "apoyo",
+      "tier": 4,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "S9",
+        "S10"
+      ],
+      "minStars": 5,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 40,
+        "divino": 0
+      },
+      "name_es": "Luz Impura",
+      "name_en": "Luz Impura",
+      "description_es": "+15% curas si el aliado tiene un debuff activo.",
+      "description_en": "+15% curas si el aliado tiene un debuff activo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S15",
+      "branch": "apoyo",
+      "tier": 5,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "S11",
+        "S12"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Señor del Tiempo",
+      "name_en": "Señor del Tiempo",
+      "description_es": "Al inicio de cada ronda: +10% barra de turno a todos los aliados.",
+      "description_en": "Al inicio de cada ronda: +10% barra de turno a todos los aliados.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S16",
+      "branch": "apoyo",
+      "tier": 5,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Ángel Caído",
+      "name_en": "Ángel Caído",
+      "description_es": "Las curas eliminan 1 debuff aleatorio del objetivo.",
+      "description_en": "Las curas eliminan 1 debuff aleatorio del objetivo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S17",
+      "branch": "apoyo",
+      "tier": 5,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Eco del Purgatorio",
+      "name_en": "Eco del Purgatorio",
+      "description_es": "Los buffs aplicados tienen +15% de duración inicial.",
+      "description_en": "Los buffs aplicados tienen +15% de duración inicial.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S18",
+      "branch": "apoyo",
+      "tier": 5,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "S13",
+        "S14"
+      ],
+      "minStars": 6,
+      "requiresAwaken": false,
+      "cost": {
+        "basico": 0,
+        "avanzado": 30,
+        "divino": 12
+      },
+      "name_es": "Voz del Infierno",
+      "name_en": "Voz del Infierno",
+      "description_es": "Cuando un aliado muere, curas 20% HP al resto.",
+      "description_en": "Cuando un aliado muere, curas 20% HP al resto.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S19",
+      "branch": "apoyo",
+      "tier": 6,
+      "slot": 3,
+      "effects": [],
+      "requiresAnyOf": [
+        "S15",
+        "S16"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Alma del Caos",
+      "name_en": "Alma del Caos",
+      "description_es": "Las curas que exceden el máximo se convierten en Shield (10% HP).",
+      "description_en": "Las curas que exceden el máximo se convierten en Shield (10% HP).",
+      "branch_en": "support"
+    },
+    {
+      "id": "S20",
+      "branch": "apoyo",
+      "tier": 6,
+      "slot": 4,
+      "effects": [],
+      "requiresAnyOf": [
+        "S15",
+        "S16",
+        "S17"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Cronista Eterno",
+      "name_en": "Cronista Eterno",
+      "description_es": "Inicio de ronda: reduces 1 turno de cooldown a todo el equipo.",
+      "description_en": "Inicio de ronda: reduces 1 turno de cooldown a todo el equipo.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S21",
+      "branch": "apoyo",
+      "tier": 6,
+      "slot": 1,
+      "effects": [],
+      "requiresAnyOf": [
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Redención Oscura",
+      "name_en": "Redención Oscura",
+      "description_es": "Te resucitas automáticamente 1 vez con 30% HP.",
+      "description_en": "Te resucitas automáticamente 1 vez con 30% HP.",
+      "branch_en": "support"
+    },
+    {
+      "id": "S22",
+      "branch": "apoyo",
+      "tier": 6,
+      "slot": 2,
+      "effects": [],
+      "requiresAnyOf": [
+        "S17",
+        "S18"
+      ],
+      "minStars": 6,
+      "requiresAwaken": true,
+      "cost": {
+        "basico": 0,
+        "avanzado": 0,
+        "divino": 24
+      },
+      "name_es": "Corrupción Benevolente",
+      "name_en": "Corrupción Benevolente",
+      "description_es": "Cada buff aplicado tiene 20% prob. de duplicarse en otro aliado.",
+      "description_en": "Cada buff aplicado tiene 20% prob. de duplicarse en otro aliado.",
+      "branch_en": "support"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "_meta": {
+    "desc_es": "Las stats de los héroes en versión Awaken se calculan dinámicamente.",
+    "formula_es": "stat_awaken = stat_base × (1 + awaken_percent.per_stat / 100)",
+    "awaken_percent_ref": "Ver variables_globales.awaken_percent",
+    "note_es": "No se almacenan en el hero_catalog como valores fijos — se calculan en runtime para facilitar el rebalanceo."
+  }
+}

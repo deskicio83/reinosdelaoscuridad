@@ -1,0 +1,614 @@
+{
+  "_meta": {
+    "description_es": "Los 7 mundos de la campaña principal de Reino de la Oscuridad.",
+    "description_en": "The 7 worlds of the Kingdom of Darkness main campaign.",
+    "total_worlds": 7,
+    "phases_per_world": 7,
+    "boss_phase": "Siempre la fase 7 de cada mundo."
+  },
+  "worlds": [
+    {
+      "worldId": "mundo_1",
+      "order": 1,
+      "name_es": "Cielos Oxidados",
+      "name_en": "Rusted Heavens",
+      "unlock_player_level": 1,
+      "gear_set_reward": "trapo_divino",
+      "element_advantage_es": "Los enemigos son mayoritariamente de elemento Luz. Los esbirros de Oscuridad tienen ventaja elemental.",
+      "element_advantage_en": "Enemies are mostly Light element. Darkness minions have elemental advantage.",
+      "lore_es": "Lo que antaño fue una imponente fortaleza celestial de tormentas y guerra santa ha sido reconvertida en el spa celestial más exclusivo de los planos superiores. Los ángeles ya no lanzan rayos. Los lanzan en la sauna. Lord Necrostofeles consideró que esto era una ofensa personal a la dignidad del caos y decidió invadir, aunque tuvo que admitir que la aromaterapia olía bastante bien.",
+      "lore_en": "Once a formidable celestial storm fortress of holy war, it has been converted into the most exclusive celestial spa in the upper planes. Angels no longer hurl lightning. They hurl it in the sauna. Lord Necrostofeles considered this a personal affront to the dignity of chaos and decided to invade, though he had to admit the aromatherapy smelled quite nice.",
+      "enemies": [
+        {
+          "name_es": "Querubín de Guardia",
+          "type": "common",
+          "desc_es": "Bloquea el paso con una toalla enrollada y cara de pocos amigos espirituales."
+        },
+        {
+          "name_es": "Ángel Relajado",
+          "type": "common",
+          "desc_es": "Está en modo 'zen total'. Aplica Calma Profunda (= Confusión) al acercarse."
+        },
+        {
+          "name_es": "Arcángel en Bata",
+          "type": "elite",
+          "desc_es": "Alto mando celestial que trabaja desde casa. Cura a sus compañeros y aplica escudos entre sorbos de infusión."
+        },
+        {
+          "name_es": "Monje del Aceite Esencial",
+          "type": "support",
+          "desc_es": "Aplica buffs olorosos a todos los aliados y bloquea debuffs con incienso."
+        }
+      ],
+      "boss": {
+        "name_es": "Serafín Terapeuta",
+        "name_en": "Therapist Seraph",
+        "mechanic_es": "Fase 1 (100–60% HP): Cura a todos sus aliados al inicio de cada turno. No puede ser silenciado — está 'en consulta'. Fase 2 (60–30% HP): Aplica Calma Profunda (Confusión) a todo el equipo rival al comenzar su turno. Fase 3 (<30% HP): Se vuelve Inmortal 1 turno y aplica Immunity a sus aliados supervivientes. Counter: Equipos con Block Buffs o Heal Reduction desactivan su mecánica de curación.",
+        "recommended_team_es": "Veneno/DoT para superar la regeneración. Heal Reduction esencial en fases 1–2.",
+        "drop_es": "Set Trapo Divino garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m1_f1",
+          "name_es": "Sala de Espera Celestial",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m1_f2",
+          "name_es": "El Vestuario de las Nubes",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m1_f3",
+          "name_es": "Jacuzzi del Juicio Final",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m1_f4",
+          "name_es": "Sauna de la Purificación",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m1_f5",
+          "name_es": "El Buffet de la Santidad",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m1_f6",
+          "name_es": "Recepción Principal",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m1_f7",
+          "name_es": "Consulta del Serafín",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "serafin_terapeuta"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_2",
+      "order": 2,
+      "name_es": "Circo Agonizante",
+      "name_en": "Agonizing Circus",
+      "unlock_player_level": 5,
+      "gear_set_reward": "dolor_comico",
+      "element_advantage_es": "Mezcla de elementos. El equipo Crítico tiene ventaja por la baja DEF de los artistas.",
+      "element_advantage_en": "Mixed elements. Crit teams have advantage due to low DEF of performers.",
+      "lore_es": "El Circo Agonizante fue en sus mejores tiempos un circo de tortura psicológica sutil: números de magia que salían mal, payasos existenciales, trapecistas que caían con dignidad. Ahora es un festival de payasos inspiracionales con diplomas universitarios y charlas TED. El cambio fue tan agonizante que le pusieron el mismo nombre. Lord Necrostofeles vino a restaurar el caos artístico y se encontró con que los enemigos le aplaudían.",
+      "lore_en": "The Agonizing Circus was in its heyday a circus of subtle psychological torture: magic tricks that went wrong, existential clowns, trapeze artists who fell with dignity. Now it is a festival of inspirational clowns with university degrees and TED talks. The change was so agonizing they kept the name. Lord Necrostofeles came to restore artistic chaos and found the enemies were applauding him.",
+      "enemies": [
+        {
+          "name_es": "Malabarista Sonriente",
+          "type": "common",
+          "desc_es": "Lanza motivación en forma de golpes. Aplica ATK Up a sus aliados al derrotar a un rival."
+        },
+        {
+          "name_es": "Trapecista Motivacional",
+          "type": "common",
+          "desc_es": "Esquiva el primer ataque que recibe por sesión citando a Paulo Coelho."
+        },
+        {
+          "name_es": "Payaso con Diploma",
+          "type": "elite",
+          "desc_es": "Aplica Inmunidad a sus aliados al inicio del combate y se cura cuando recibe un crítico."
+        },
+        {
+          "name_es": "Coach de Batalla",
+          "type": "support",
+          "desc_es": "Extiende la duración de todos los buffs aliados. Tiene la mayor RES del mundo."
+        }
+      ],
+      "boss": {
+        "name_es": "El Gran Positivo™",
+        "name_en": "The Grand Positive™",
+        "mechanic_es": "El Gran Positivo™ es Invulnerable mientras tenga al menos 1 aliado con buffs activos. Invoca 2 aliados al inicio del combate. Los aliados se curan entre sí. Al perder un aliado, aplica ATK Up y SPD Up a todos los supervivientes. Counter: Block Buffs es esencial. Sin Block Buffs, el boss no puede recibir daño. El Equipo Espejo (robar buffs) es el counter más elegante del juego contra este boss.",
+        "recommended_team_es": "Block Buffs + Decrease Buff Duration obligatorios. Equipo Control o Espejo.",
+        "drop_es": "Set Dolor Cómico garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m2_f1",
+          "name_es": "Entrada del Público",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m2_f2",
+          "name_es": "Camerinos del Éxito Personal",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m2_f3",
+          "name_es": "Pista Central",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m2_f4",
+          "name_es": "El Número Estrella",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m2_f5",
+          "name_es": "Bambalinas",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m2_f6",
+          "name_es": "El Aforo Completo",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m2_f7",
+          "name_es": "El Gran Finale",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "gran_positivo"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_3",
+      "order": 3,
+      "name_es": "Catedral en Llamas",
+      "name_en": "Cathedral in Flames",
+      "unlock_player_level": 10,
+      "gear_set_reward": "juicio_brillante",
+      "element_advantage_es": "Enemigos de Fuego/Luz. Los esbirros de Agua tienen ventaja.",
+      "element_advantage_en": "Fire/Light enemies. Water minions have advantage.",
+      "lore_es": "La Catedral en Llamas fue construida como templo del caos intelectual donde los dogmas se quemaban en piras filosóficas. Ahora es una iglesia hipster que sirve café de especialidad durante la misa y tiene bicicletas estáticas en el confesionario. Los sacerdotes llevan mandiles de cuero y llaman 'experiencia espiritual' a leer el menú. Lord Necrostofeles intentó quemar el lugar pero descubrió que ya estaba en llamas decorativamente.",
+      "lore_en": "The Cathedral in Flames was built as a temple of intellectual chaos where dogmas burned in philosophical pyres. Now it's a hipster church serving specialty coffee during mass with stationary bikes in the confessional. The priests wear leather aprons and call reading the menu a 'spiritual experience'. Lord Necrostofeles tried to burn the place but found it was already decoratively on fire.",
+      "enemies": [
+        {
+          "name_es": "Sacerdote Artesanal",
+          "type": "common",
+          "desc_es": "Aplica Burn al atacar. Tiene un blog sobre espiritualidad responsable."
+        },
+        {
+          "name_es": "Monja de Especialidad",
+          "type": "common",
+          "desc_es": "Cura a sus aliados con extractos de hierbas ecológicas. Aplica Poison Sensitivity."
+        },
+        {
+          "name_es": "Obispo Tech",
+          "type": "elite",
+          "desc_es": "Aumenta los cooldowns del rival mientras predica sobre 'disrupciones del paradigma'."
+        },
+        {
+          "name_es": "Arcángel Orgánico",
+          "type": "support",
+          "desc_es": "Escudo masivo al inicio. Aplica Inmunidad cuando su HP baja del 50%."
+        }
+      ],
+      "boss": {
+        "name_es": "El Reverendo Orgánico",
+        "name_en": "The Organic Reverend",
+        "mechanic_es": "Mecánica de Sermón: cada vez que el Reverendo usa su habilidad fuerte, genera 1 carga de Sermón (máx. 5). Con cada carga, su escudo se hace más grueso (+15% DEF por carga). Con 5 cargas activa 'Éxtasis Orgánico': AoE a todo el equipo y se cura al 70% HP. Counter: Silence o Increase Cooldowns para interrumpir el sermón. El Decrete de Caos Puro (Conjuro) bloquea el Éxtasis si se activa en el turno correcto.",
+        "recommended_team_es": "Control (Silence) obligatorio. Decrease Buff Duration para limpiar las cargas.",
+        "drop_es": "Set Juicio Brillante garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m3_f1",
+          "name_es": "Atrio de la Bienvenida Consciente",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m3_f2",
+          "name_es": "La Tienda de Souvenirs Sagrados",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m3_f3",
+          "name_es": "Nave Central (sin gluten)",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m3_f4",
+          "name_es": "El Confesionario Fit",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m3_f5",
+          "name_es": "Altar del Origen Responsable",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m3_f6",
+          "name_es": "La Sacristía de la Autenticidad",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m3_f7",
+          "name_es": "El Púlpito Final",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "reverendo_organico"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_4",
+      "order": 4,
+      "name_es": "Guardería Apocalíptica",
+      "name_en": "Apocalyptic Daycare",
+      "unlock_player_level": 15,
+      "gear_set_reward": "rencor_bebe",
+      "element_advantage_es": "Mezcla caótica de elementos. El Equipo Velocidad es el más eficiente aquí.",
+      "element_advantage_en": "Chaotic element mix. Speed teams are most efficient here.",
+      "lore_es": "Lo que en tiempos fue un criadero de abominaciones demoníacas de alta potencia ha sido reformado en un centro de educación emocional para bebés benditos. Las abominaciones siguen ahí, pero ahora tienen nombre en la percha y hacen talleres de mindfulness. Lord Necrostofeles fue invitado a dar una charla sobre 'gestión saludable del malvado interior' y se negó, lo cual le convirtió en el ser más peligroso del recinto.",
+      "lore_en": "Once a high-powered demonic abomination breeding ground, it has been reformed into an emotional education center for blessed babies. The abominations are still there, but now they have names on their coat pegs and attend mindfulness workshops. Lord Necrostofeles was invited to give a talk on 'healthy management of the inner evil' and refused, which made him the most dangerous being on the premises.",
+      "enemies": [
+        {
+          "name_es": "Bebé con Armadura",
+          "type": "common",
+          "desc_es": "Pequeño, resistente y capaz de hacer pucheros que aplican Aturdimiento."
+        },
+        {
+          "name_es": "Educadora con Espada",
+          "type": "common",
+          "desc_es": "Protege a sus 'niños'. Contraataca si atacas a un aliado adyacente."
+        },
+        {
+          "name_es": "Monstruo Rehabilitado",
+          "type": "elite",
+          "desc_es": "Era una abominación de clase S. Ahora aplica DEF Down y pide disculpas después."
+        },
+        {
+          "name_es": "Auxiliar del Caos",
+          "type": "support",
+          "desc_es": "Invoca bebés adicionales al inicio de cada oleada. Se retira si queda solo."
+        }
+      ],
+      "boss": {
+        "name_es": "La Maestra Infinita",
+        "name_en": "The Infinite Teacher",
+        "mechanic_es": "La Maestra Infinita nunca muere mientras su Nido esté intacto. El Nido es un objeto de combate con 50.000 HP que invoca 1 enemigo aleatorio cada 2 turnos. Mientras el Nido viva, La Maestra resucita con el 30% de HP tras ser derrotada. El Nido no puede ser atacado directamente hasta que mueren todos los aliados de La Maestra. Counter: matar rápido a todos los aliados → atacar el Nido → derrotar a La Maestra sin resurrección. Equipo de velocidad ideal para limpiar aliados antes de que el Nido invoque más.",
+        "recommended_team_es": "Velocidad + AoE para limpiar aliados rápido. Block Revive para el turno del remate.",
+        "drop_es": "Set Rencor Bebé garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m4_f1",
+          "name_es": "Sala de Adaptación",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m4_f2",
+          "name_es": "El Rincón de Pensar",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m4_f3",
+          "name_es": "Hora del Recreo Apocalíptico",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m4_f4",
+          "name_es": "El Comedor de los Terrores",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m4_f5",
+          "name_es": "La Siesta Obligatoria",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m4_f6",
+          "name_es": "Tutoría Individual",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m4_f7",
+          "name_es": "Clase Magistral de la Maestra",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "maestra_infinita"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_5",
+      "order": 5,
+      "name_es": "Cripta de Fe Vencida",
+      "name_en": "Crypt of Defeated Faith",
+      "unlock_player_level": 20,
+      "gear_set_reward": "santo_rancio",
+      "element_advantage_es": "Enemigos de Oscuridad/Agua. Los esbirros de Luz tienen ventaja.",
+      "element_advantage_en": "Darkness/Water enemies. Light minions have advantage.",
+      "lore_es": "La necrópolis de los héroes caídos en la oscuridad fue comprada por un consorcio espiritual que la convirtió en parque temático con tours guiados. Los no-muertos siguen ahí, pero llevan chalecos de guía turístico y explican la historia del lugar con micrófonos inalámbricos. Lord Necrostofeles visitó el parque de incógnito y se indignó tanto con la tienda de souvenirs que declaró la guerra en el acto.",
+      "lore_en": "The necropolis of heroes who fell to darkness was purchased by a spiritual consortium and converted into a theme park with guided tours. The undead are still there, but they wear tour guide vests and explain the history of the place with wireless microphones. Lord Necrostofeles visited the park incognito and was so outraged by the souvenir shop that he declared war on the spot.",
+      "enemies": [
+        {
+          "name_es": "Esqueleto Rehabilitado",
+          "type": "common",
+          "desc_es": "Antiguo guerrero oscuro reconvertido. Resucita una vez con el 20% HP."
+        },
+        {
+          "name_es": "Guardia No-muerto",
+          "type": "common",
+          "desc_es": "Lleva chaleco turístico. Aplica Taunt y tiene DEF alta."
+        },
+        {
+          "name_es": "Zombi Guía",
+          "type": "elite",
+          "desc_es": "Aplica Heal Reduction al atacar. Se cura del 15% HP al inicio de su turno."
+        },
+        {
+          "name_es": "Fanático Restaurado",
+          "type": "support",
+          "desc_es": "Aplica Block Revive a todos los aliados rivales al entrar en combate."
+        }
+      ],
+      "boss": {
+        "name_es": "El Guía Inmortal",
+        "name_en": "The Immortal Guide",
+        "mechanic_es": "El Guía Inmortal resucita automáticamente 2 veces al ser derrotado, con el 60% y 30% HP respectivamente. En cada resurrección gana un stack de 'Experiencia Traumática': +20% ATK y +20% SPD por stack. En la tercera vida aplica Block Revive a todo el equipo rival antes de actuar. Counter: Block Revive aplicado al Guía antes de matarle por primera vez evita las resurrecciones. Heal Reduction reduce significativamente su sustain entre fases.",
+        "recommended_team_es": "Guardabosques Interno / Nivaryen (Block Revive) esenciales. Heal Reduction en soporte.",
+        "drop_es": "Set Santo Rancio garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m5_f1",
+          "name_es": "Entrada al Parque",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m5_f2",
+          "name_es": "Tour por los Osarios",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m5_f3",
+          "name_es": "Área de Descanso Eterno",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m5_f4",
+          "name_es": "El Mausoleo de los Ilustres",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m5_f5",
+          "name_es": "Zona VIP (Difuntos Selectos)",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m5_f6",
+          "name_es": "Tienda de Souvenirs Malditos",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m5_f7",
+          "name_es": "La Cripta Principal",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "guia_inmortal"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_6",
+      "order": 6,
+      "name_es": "Biblioteca Gritona",
+      "name_en": "Screaming Library",
+      "unlock_player_level": 25,
+      "gear_set_reward": "mente_peligrosa",
+      "element_advantage_es": "Enemigos de Naturaleza/Luz. Inmunes a críticos en muchos encuentros — el Equipo Veneno/Control es preferible al Crítico.",
+      "element_advantage_en": "Nature/Light enemies. Many encounters are crit-immune — Poison/Control teams preferred over Crit.",
+      "lore_es": "El archivo del saber prohibido fue durante eones el lugar más peligroso de todos los planos porque cada libro contenía una verdad capaz de destruir civilizaciones. Ahora los libros tienen opiniones sobre gastronomía y no paran de gritar las suyas. El saber prohibido se convirtió en conocimiento de barra de bar: todo el mundo tiene uno y nadie lo pidió. Lord Necrostofeles llegó a buscar respuestas y salió con una resaca filosófica.",
+      "lore_en": "The archive of forbidden knowledge was for eons the most dangerous place in all the planes because each book contained a truth capable of destroying civilizations. Now the books have opinions on gastronomy and won't stop shouting them. Forbidden knowledge became bar knowledge: everyone has one and nobody asked for it. Lord Necrostofeles came looking for answers and left with a philosophical hangover.",
+      "enemies": [
+        {
+          "name_es": "Tomo Viviente",
+          "type": "common",
+          "desc_es": "Aplica Silence y Block Buffs. Le molesta que le interrumpas mientras lee."
+        },
+        {
+          "name_es": "Bibliotecario Gritón",
+          "type": "common",
+          "desc_es": "Aplica Increase Cooldowns y DEF Down mientras explica en voz alta por qué tienes razón."
+        },
+        {
+          "name_es": "Enciclopedia con Patas",
+          "type": "elite",
+          "desc_es": "Inmune a críticos. Muy alta DEF. Copia el buff más valioso del rival cada turno."
+        },
+        {
+          "name_es": "Índice Ambulante",
+          "type": "support",
+          "desc_es": "Extiende todos los buffs de sus aliados. Tiene Block Revive pasivo."
+        }
+      ],
+      "boss": {
+        "name_es": "El Volumen Primigenio",
+        "name_en": "The Primordial Volume",
+        "mechanic_es": "El Volumen Primigenio acumula 'Páginas' (1 por turno propio, hasta 10). Con cada Página: +5% ATK, +5% DEF, +5% SPD. Con 10 Páginas activa 'Edición Final': AoE devastador que hace el 200% de daño a todo el equipo rival + aplica Silence 2 turnos. Si se reduce el número de Páginas (Decrease Buff Duration) el boss regresa a un estado anterior. El Volumen es Inmune a críticos. No se puede silenciar. Counter: Decrease Buff Duration para limpiar Páginas. No usar Equipo Crítico aquí.",
+        "recommended_team_es": "Telaraña (Control) o Veneno. Decrease Buff Duration obligatorio. Sin ataques críticos.",
+        "drop_es": "Set Mente Peligrosa garantizado en Difícil primer completado."
+      },
+      "phases": [
+        {
+          "phaseId": "m6_f1",
+          "name_es": "Sala de Consulta",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m6_f2",
+          "name_es": "Sección de No-ficción Gritada",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m6_f3",
+          "name_es": "Los Archivos Prohibidos",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m6_f4",
+          "name_es": "Sala de Estudio Silenciosa",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m6_f5",
+          "name_es": "El Depósito de los Tomos",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m6_f6",
+          "name_es": "La Colección Especial",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m6_f7",
+          "name_es": "La Bóveda del Volumen",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "volumen_primigenio"
+        }
+      ]
+    },
+    {
+      "worldId": "mundo_7",
+      "order": 7,
+      "name_es": "Abismo del Recuerdo",
+      "name_en": "Abyss of Memory",
+      "unlock_player_level": 30,
+      "gear_set_reward": "olvido_molesto",
+      "element_advantage_es": "Todos los elementos representados. El boss final usa Luz — los esbirros de Oscuridad tienen ventaja en la fase final.",
+      "element_advantage_en": "All elements represented. Final boss uses Light — Darkness minions have advantage in the final phase.",
+      "lore_es": "La dimensión mental de los pensamientos reprimidos fue el lugar más oscuro y aterrador de la existencia — un laberinto de miedos materializados, vergüenzas con forma y traumas que te perseguían cobrando. Ahora es un centro de mindfulness patrocinado por una marca de aguas minerales. Los traumas llevan ropa de yoga. Los miedos hacen coaching. Lord Necrostofeles encontró aquí a su versión 'Sana', que es todo lo que él podría haber sido si hubiera tenido una infancia normal, y sintió algo que nunca había sentido: ganas de destruir algo dos veces.",
+      "lore_en": "The mental dimension of repressed thoughts was once the darkest and most terrifying place in existence — a labyrinth of materialized fears, embarrassments with faces, and traumas that chased you and charged by the hour. Now it's a mindfulness center sponsored by a mineral water brand. The traumas wear yoga clothes. The fears do coaching. Lord Necrostofeles found his 'Healthy' version here — everything he could have been with a normal childhood — and felt something he had never felt before: the urge to destroy something twice.",
+      "enemies": [
+        {
+          "name_es": "Trauma con Forma",
+          "type": "common",
+          "desc_es": "Aplica el debuff más doloroso según los buffs del rival. Mecánica adaptativa."
+        },
+        {
+          "name_es": "Recuerdo Vergonzoso",
+          "type": "common",
+          "desc_es": "Aplica Confusión y SPD Down. Tiene AGI muy alta (difícil de golpear)."
+        },
+        {
+          "name_es": "Miedo con Coaching",
+          "type": "elite",
+          "desc_es": "Aplica Silence y Heal Reduction. Se vuelve más fuerte cada vez que muere un aliado."
+        },
+        {
+          "name_es": "Versión Mejorada",
+          "type": "support",
+          "desc_es": "Copia exactamente los stats del esbirro rival con más ATK y actúa antes que él."
+        }
+      ],
+      "boss": {
+        "name_es": "Lord Necrostofeles — Versión Sana",
+        "name_en": "Lord Necrostofeles — Healthy Version",
+        "mechanic_es": "El boss final de la campaña. Lord Necrostofeles Sano tiene exactamente las mismas stats que el equipo del jugador (calculadas al inicio del combate) y los copia con un 20% de bonus. Fase 1 (100–70% HP): Usa versiones 'amables' de todos los efectos del jugador. Veneno → Regeneración para él. Stun → Confusión. Bleed → Curación. Fase 2 (70–40% HP): Descarta la amabilidad. Aplica todos los debuffs del glosario en 2 turnos. Fase 3 (<40% HP): 'Modo Colapso'. Activa el Espejo Invertido (copia todos los buffs del jugador) y aplica Block Revive a todo el equipo rival. Counter: No hay un equipo perfecto — el boss adapta su estrategia a la del jugador. El jugador que llegue con el equipo más variado (mezcla de roles) tendrá más opciones de respuesta.",
+        "recommended_team_es": "Equipo equilibrado obligatorio. Los equipos especializados (puro DoT, puro Crítico) tienen contramedida directa.",
+        "drop_es": "Set Olvido Molesto completo (6 piezas) + Conjuro Apocalíptico garantizado.",
+        "narrative_note_es": "Este es el cierre narrativo de la campaña principal. Después de derrotar a la Versión Sana, Lord Necrostofeles recupera su trono del Abismo y el jugador (el ex-agente del Bien) recibe el título de 'Consejero del Mal por Error'. La historia post-campaña continúa en los modos endgame (Torre, Jefe Global, eventos)."
+      },
+      "phases": [
+        {
+          "phaseId": "m7_f1",
+          "name_es": "El Lobby del Mindfulness",
+          "boss_phase": false,
+          "elite_wave_3": false
+        },
+        {
+          "phaseId": "m7_f2",
+          "name_es": "Sala de Meditación Guiada",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m7_f3",
+          "name_es": "El Jardín de los Pensamientos",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m7_f4",
+          "name_es": "El Archivo de los Traumas",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m7_f5",
+          "name_es": "La Cámara del Espejo",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m7_f6",
+          "name_es": "Antesala del Abismo",
+          "boss_phase": false,
+          "elite_wave_3": true
+        },
+        {
+          "phaseId": "m7_f7",
+          "name_es": "El Abismo del Recuerdo",
+          "boss_phase": true,
+          "elite_wave_3": false,
+          "boss_id": "necrostofeles_sano"
+        }
+      ]
+    }
+  ]
+}

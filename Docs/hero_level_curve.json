@@ -1,0 +1,13 @@
+{
+  "maxLevel": 60,
+  "baseExp": 90,
+  "growth": 1.1,
+  "maxLevelPerStars": {
+    "3": 30,
+    "4": 40,
+    "5": 50,
+    "6": 60
+  },
+  "maxLevelAwaken": 60,
+  "comment": "maxLevel es el máximo absoluto (6★ awakened). maxLevelPerStars define el cap por rareza. El héroe puede ascender de 3→4→5→6★ desbloqueando caps progresivamente."
+}

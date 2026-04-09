@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "desc_es": "Flujo de tutorial paso a paso. Cada paso tiene condición de avance y diálogo opcional."
+  },
+  "steps": [
+    {
+      "id": "t01",
+      "scene": "HubScene",
+      "action": "tap_campaign",
+      "highlight": "Portón del Dolor™",
+      "dialog_es": "Necrostofeles: 'Ah, un nuevo subordinado. Entra. El caos no se gestiona solo.'"
+    },
+    {
+      "id": "t02",
+      "scene": "CampaignScene",
+      "action": "start_phase",
+      "highlight": "Mundo 1 Fase 1",
+      "dialog_es": "Tutorial de combate por turnos. Mostrar selección de esbirro y objetivo."
+    },
+    {
+      "id": "t03",
+      "scene": "CombatScene",
+      "action": "use_basic",
+      "highlight": "Botón de habilidad básica",
+      "dialog_es": "Pulsa el ataque básico. Fácil. Hasta tú puedes."
+    },
+    {
+      "id": "t04",
+      "scene": "CombatScene",
+      "action": "use_strong",
+      "highlight": "Habilidad fuerte",
+      "dialog_es": "La habilidad fuerte tiene cooldown. Úsala con cabeza."
+    },
+    {
+      "id": "t05",
+      "scene": "CombatScene",
+      "action": "win_combat",
+      "highlight": null,
+      "dialog_es": "Victoria. Necrostofeles finge indiferencia."
+    },
+    {
+      "id": "t06",
+      "scene": "HubScene",
+      "action": "open_gacha",
+      "highlight": "Pozonegro™",
+      "dialog_es": "El Pozonegro™. La fuente de todo el dolor y la esperanza. Toca para invocar."
+    },
+    {
+      "id": "t07",
+      "scene": "GachaScene",
+      "action": "summon_x1",
+      "highlight": "Fragmento Oscuro",
+      "dialog_es": "Primera invocación gratuita. Solo esta vez."
+    },
+    {
+      "id": "t08",
+      "scene": "HubScene",
+      "action": "open_esbirratorio",
+      "highlight": "Esbirratorio",
+      "dialog_es": "Aquí están tus esbirros. Gestiona su equipo y progresión."
+    },
+    {
+      "id": "t09",
+      "scene": "HeroScene",
+      "action": "equip_gear",
+      "highlight": "Slot de equipamiento",
+      "dialog_es": "El gear mejora los stats. El buen gear hace que los enemigos se quejen."
+    },
+    {
+      "id": "t10",
+      "scene": "HubScene",
+      "action": "complete_tutorial",
+      "highlight": null,
+      "dialog_es": "Tutorial completado. Recompensa: Fragmento Oscuro ×5 + Oro Negro ×10.000"
+    }
+  ],
+  "completion_reward_es": "Fragmento Oscuro ×5 + Oro Negro ×10.000 + Poción EXP Mayor ×3",
+  "skippable": false,
+  "note_es": "El tutorial no es saltable en la primera sesión. En sesiones posteriores el jugador puede relanzarlo desde la Trastienda."
+}

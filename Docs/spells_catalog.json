@@ -1,0 +1,2191 @@
+{
+  "_meta": {
+    "description_es": "Catálogo de Conjuros del Caos. Sistema exclusivo de Reino de la Oscuridad. Cartas usables una vez por combate en cualquier turno. Cara Lúcida (PvE) / Cara Oscura (PvP) activada automáticamente.",
+    "description_en": "Chaos Spells catalog. Exclusive system of Kingdom of Darkness. Cards usable once per combat on any turn. Lucid Side (PvE) / Dark Side (PvP) activated automatically.",
+    "version": "1.0",
+    "total_spells": 10,
+    "rarity_distribution": {
+      "corriente": 3,
+      "infame": 3,
+      "apocaliptico": 4
+    },
+    "rarities": {
+      "corriente": {
+        "name_es": "Corriente",
+        "name_en": "Common",
+        "power_tier": 1
+      },
+      "infame": {
+        "name_es": "Infame",
+        "name_en": "Infamous",
+        "power_tier": 2
+      },
+      "apocaliptico": {
+        "name_es": "Apocalíptico",
+        "name_en": "Apocalyptic",
+        "power_tier": 3
+      }
+    },
+    "rarity_ceiling_note_es": "La rareza define el techo de poder. Un Apocalíptico nv1 siempre supera a un Corriente nv5.",
+    "rarity_ceiling_note_en": "Rarity defines the power ceiling. An Apocalyptic lv1 always surpasses a Common lv5.",
+    "balance_note_es": "Los conjuros son apoyo táctico, no determinantes de victoria. Valores calibrados un escalón por debajo de skills de esbirros.",
+    "balance_note_en": "Spells are tactical support, not match-deciding. Values calibrated one step below hero skills.",
+    "new_effect_types_note_es": "copy_enemy_buffs y swap_buffs_debuffs requieren implementación Unity específica. Añadir al glosario de hero_catalog.json.",
+    "new_effect_types_note_en": "copy_enemy_buffs and swap_buffs_debuffs require specific Unity implementation. Add to hero_catalog.json glossary."
+  },
+  "rules": {
+    "slots_per_combat": 3,
+    "uses_per_combat": 1,
+    "activation": "manual_any_turn",
+    "pve_side": "cara_lucida",
+    "pvp_side": "cara_oscura",
+    "upgrade_mechanic": {
+      "description_es": "Para subir de rareza se consumen 2 copias del conjuro en la rareza actual y se obtiene 1 copia en la rareza superior.",
+      "description_en": "To upgrade rarity, 2 copies of the spell at the current rarity are consumed and 1 copy at the next rarity is obtained.",
+      "copies_required_per_upgrade": 2,
+      "rarity_progression": [
+        "basico",
+        "retorcido",
+        "grotesco",
+        "caotico_supremo"
+      ],
+      "max_rarity": "caotico_supremo"
+    },
+    "pvp_balance": {
+      "forbidden_in_dark_side": [
+        "extra_turn",
+        "unkillable"
+      ],
+      "note_es": "La cara oscura nunca otorga extra_turn ni unkillable al equipo propio.",
+      "note_en": "The dark side never grants extra_turn or unkillable to your own team."
+    },
+    "acquisition_note_es": "Fuentes de obtención: pendiente de definir (Gacha, Eventos, Torre, PvP).",
+    "acquisition_note_en": "Acquisition sources: to be defined (Gacha, Events, Tower, PvP)."
+  },
+  "new_effect_types": [
+    {
+      "key": "copy_enemy_buffs",
+      "nombre_es": "Copiar Buffs Rivales",
+      "nombre_en": "Copy Enemy Buffs",
+      "descripcion_es": "Copia N buffs activos del equipo rival y los aplica al propio.",
+      "descripcion_en": "Copies N active buffs from the rival team and applies them to your own."
+    },
+    {
+      "key": "swap_buffs_debuffs",
+      "nombre_es": "Intercambio de Buffs/Debuffs",
+      "nombre_en": "Swap Buffs/Debuffs",
+      "descripcion_es": "Intercambia N buffs rivales por N debuffs propios.",
+      "descripcion_en": "Swaps N rival buffs for N own debuffs."
+    }
+  ],
+  "spells": [
+    {
+      "spellId": "sinfonia_carmesi",
+      "name_es": "Sinfonía Carmesí",
+      "name_en": "Crimson Symphony",
+      "rarity": "corriente",
+      "flavor_es": "El Bastión Maldito suena una canción rara. Los esbirros de Fuego se emocionan inapropiadamente.",
+      "flavor_en": "The Cursed Bastion plays a weird song. Fire minions get inappropriately emotional.",
+      "condition_es": "Requiere al menos 1 esbirro de Fuego en tu equipo.",
+      "condition_en": "Requires at least 1 Fire minion on your team.",
+      "portraitAddressable": "Assets/Addressables/Spells/sinfonia_carmesi.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Esbirros de Fuego aliados: ATK +10% durante 2 turnos.",
+            "description_en": "Allied Fire minions: ATK +10% for 2 turns.",
+            "effects": [
+              {
+                "type": "atk_up",
+                "target": "ally_fire",
+                "value": 0.1,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Esbirros de Fuego rivales: SPD −10% durante 2 turnos.",
+            "description_en": "Rival Fire minions: SPD −10% for 2 turns.",
+            "effects": [
+              {
+                "type": "spd_down",
+                "target": "enemy_fire",
+                "value": 0.1,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Esbirros de Fuego aliados: ATK +12% durante 2 turnos.",
+            "description_en": "Allied Fire minions: ATK +12% for 2 turns.",
+            "effects": [
+              {
+                "type": "atk_up",
+                "target": "ally_fire",
+                "value": 0.12,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Esbirros de Fuego rivales: SPD −12% durante 2 turnos.",
+            "description_en": "Rival Fire minions: SPD −12% for 2 turns.",
+            "effects": [
+              {
+                "type": "spd_down",
+                "target": "enemy_fire",
+                "value": 0.12,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Esbirros de Fuego aliados: ATK +14% durante 2 turnos.",
+            "description_en": "Allied Fire minions: ATK +14% for 2 turns.",
+            "effects": [
+              {
+                "type": "atk_up",
+                "target": "ally_fire",
+                "value": 0.14,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Esbirros de Fuego rivales: SPD −14% durante 2 turnos.",
+            "description_en": "Rival Fire minions: SPD −14% for 2 turns.",
+            "effects": [
+              {
+                "type": "spd_down",
+                "target": "enemy_fire",
+                "value": 0.14,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Esbirros de Fuego aliados: ATK +16% durante 2 turnos.",
+            "description_en": "Allied Fire minions: ATK +16% for 2 turns.",
+            "effects": [
+              {
+                "type": "atk_up",
+                "target": "ally_fire",
+                "value": 0.16,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Esbirros de Fuego rivales: SPD −16% durante 2 turnos.",
+            "description_en": "Rival Fire minions: SPD −16% for 2 turns.",
+            "effects": [
+              {
+                "type": "spd_down",
+                "target": "enemy_fire",
+                "value": 0.16,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "profanacion",
+      "emoji": "🔥",
+      "passive": {
+        "description_es": "Esbirros de Fuego aliados: +2% SPD permanente durante el combate.",
+        "description_en": "Allied Fire minions: +2% SPD permanently during combat.",
+        "effects": [
+          {
+            "type": "spd_up_passive",
+            "target": "ally_fire",
+            "value": 0.02
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Profanación equipados: +4% penetración de armadura.",
+        "description_en": "3 Profanation spells equipped: +4% armor penetration.",
+        "effect": {
+          "type": "armor_pen_combo",
+          "target": "ally_all",
+          "value": 0.04
+        }
+      }
+    },
+    {
+      "spellId": "veneno_burocratico",
+      "name_es": "Veneno Burocrático",
+      "name_en": "Bureaucratic Poison",
+      "rarity": "corriente",
+      "flavor_es": "El Ministerio del Bien envió un formulario de objeción. La tinta era venenosa. Error de imprenta.",
+      "flavor_en": "The Ministry of Good sent an objection form. The ink was poisonous. Printing error.",
+      "condition_es": "Sin condición. El veneno no necesita justificación.",
+      "condition_en": "No condition. Poison needs no justification.",
+      "portraitAddressable": "Assets/Addressables/Spells/veneno_burocratico.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Todos los enemigos: Veneno (3%/T) y Sensibilidad al Veneno (+10%) 2 turnos.",
+            "description_en": "All enemies: Poison (3%/T) and Poison Sensitivity (+10%) for 2 turns.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.03,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "poison_sensitivity",
+                "target": "all_enemy",
+                "value": 0.1,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Veneno (3%/T) 2 turnos. Duración de sus buffs −1 turno.",
+            "description_en": "All enemies: Poison (3%/T) for 2 turns. Their buff duration −1 turn.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.03,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "decrease_buff_duration",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Todos los enemigos: Veneno (3%/T) y Sensibilidad al Veneno (+12%) 2 turnos.",
+            "description_en": "All enemies: Poison (3%/T) and Poison Sensitivity (+12%) for 2 turns.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.035,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "poison_sensitivity",
+                "target": "all_enemy",
+                "value": 0.12,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Veneno (3%/T) 2 turnos. Duración de sus buffs −1 turno.",
+            "description_en": "All enemies: Poison (3%/T) for 2 turns. Their buff duration −1 turn.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.035,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "decrease_buff_duration",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Todos los enemigos: Veneno (4%/T) y Sensibilidad al Veneno (+14%) 2 turnos.",
+            "description_en": "All enemies: Poison (4%/T) and Poison Sensitivity (+14%) for 2 turns.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.04,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "poison_sensitivity",
+                "target": "all_enemy",
+                "value": 0.14,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Veneno (4%/T) 2 turnos. Duración de sus buffs −1 turno.",
+            "description_en": "All enemies: Poison (4%/T) for 2 turns. Their buff duration −1 turn.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.04,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "decrease_buff_duration",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Todos los enemigos: Veneno (4%/T) y Sensibilidad al Veneno (+16%) 2 turnos.",
+            "description_en": "All enemies: Poison (4%/T) and Poison Sensitivity (+16%) for 2 turns.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.045,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "poison_sensitivity",
+                "target": "all_enemy",
+                "value": 0.16,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Veneno (4%/T) 2 turnos. Duración de sus buffs −1 turno.",
+            "description_en": "All enemies: Poison (4%/T) for 2 turns. Their buff duration −1 turn.",
+            "effects": [
+              {
+                "type": "poison",
+                "target": "all_enemy",
+                "value": 0.045,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "decrease_buff_duration",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "peste",
+      "emoji": "🌿",
+      "passive": {
+        "description_es": "+3% probabilidad de aplicar Veneno en todos los ataques del equipo.",
+        "description_en": "+3% chance to apply Poison on all team attacks.",
+        "effects": [
+          {
+            "type": "poison_chance_up_passive",
+            "target": "ally_all",
+            "value": 0.03
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Peste equipados: +3% probabilidad de aplicar estados alterados.",
+        "description_en": "3 Plague spells equipped: +3% chance to apply status effects.",
+        "effect": {
+          "type": "status_apply_chance_combo",
+          "target": "ally_all",
+          "value": 0.03
+        }
+      }
+    },
+    {
+      "spellId": "protocolo_sombra",
+      "name_es": "Protocolo Sombra",
+      "name_en": "Shadow Protocol",
+      "rarity": "corriente",
+      "flavor_es": "Necrostofeles leyó un manual del año 800 d.C. y decidió aplicarlo literalmente.",
+      "flavor_en": "Necrostofeles read an 800 AD manual and decided to apply it literally.",
+      "condition_es": "Sin condición. El protocolo se ejecuta solo.",
+      "condition_en": "No condition. The protocol executes itself.",
+      "portraitAddressable": "Assets/Addressables/Spells/protocolo_sombra.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Invisible 1 turno y Barra de Turno +15%.",
+            "description_en": "Team: Invisible for 1 turn and Turn Bar +15%.",
+            "effects": [
+              {
+                "type": "invisible",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "turn_bar_up",
+                "target": "team",
+                "value": 0.15,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigos: Barra de Turno −15% y Ceguera (75% prob.) 1 turno.",
+            "description_en": "Enemies: Turn Bar −15% and Blind (75% chance) for 1 turn.",
+            "effects": [
+              {
+                "type": "turn_bar_down",
+                "target": "all_enemy",
+                "value": 0.15,
+                "chance": 1.0
+              },
+              {
+                "type": "blind",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.75
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Invisible 1 turno y Barra de Turno +17%.",
+            "description_en": "Team: Invisible for 1 turn and Turn Bar +17%.",
+            "effects": [
+              {
+                "type": "invisible",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "turn_bar_up",
+                "target": "team",
+                "value": 0.17,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigos: Barra de Turno −17% y Ceguera (75% prob.) 1 turno.",
+            "description_en": "Enemies: Turn Bar −17% and Blind (75% chance) for 1 turn.",
+            "effects": [
+              {
+                "type": "turn_bar_down",
+                "target": "all_enemy",
+                "value": 0.17,
+                "chance": 1.0
+              },
+              {
+                "type": "blind",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.75
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Invisible 1 turno y Barra de Turno +19%.",
+            "description_en": "Team: Invisible for 1 turn and Turn Bar +19%.",
+            "effects": [
+              {
+                "type": "invisible",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "turn_bar_up",
+                "target": "team",
+                "value": 0.19,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigos: Barra de Turno −19% y Ceguera (75% prob.) 1 turno.",
+            "description_en": "Enemies: Turn Bar −19% and Blind (75% chance) for 1 turn.",
+            "effects": [
+              {
+                "type": "turn_bar_down",
+                "target": "all_enemy",
+                "value": 0.19,
+                "chance": 1.0
+              },
+              {
+                "type": "blind",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.75
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Equipo: Invisible 1 turno y Barra de Turno +21%.",
+            "description_en": "Team: Invisible for 1 turn and Turn Bar +21%.",
+            "effects": [
+              {
+                "type": "invisible",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "turn_bar_up",
+                "target": "team",
+                "value": 0.21,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigos: Barra de Turno −21% y Ceguera (75% prob.) 1 turno.",
+            "description_en": "Enemies: Turn Bar −21% and Blind (75% chance) for 1 turn.",
+            "effects": [
+              {
+                "type": "turn_bar_down",
+                "target": "all_enemy",
+                "value": 0.21,
+                "chance": 1.0
+              },
+              {
+                "type": "blind",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.75
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "sombras",
+      "emoji": "🌑",
+      "passive": {
+        "description_es": "+2% iniciativa a todos los esbirros al inicio del combate.",
+        "description_en": "+2% initiative to all minions at combat start.",
+        "effects": [
+          {
+            "type": "initiative_up_passive",
+            "target": "ally_all",
+            "value": 0.02
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Sombras equipados: +5% esquiva a todos los esbirros del equipo.",
+        "description_en": "3 Shadows spells equipped: +5% evasion to all team minions.",
+        "effect": {
+          "type": "agi_up_combo",
+          "target": "ally_all",
+          "value": 0.05
+        }
+      }
+    },
+    {
+      "spellId": "amnesia_tactica",
+      "name_es": "Amnesia Táctica",
+      "name_en": "Tactical Amnesia",
+      "rarity": "infame",
+      "flavor_es": "Necrostofeles olvidó qué era un cooldown. Por un momento, todos lo olvidan.",
+      "flavor_en": "Necrostofeles forgot what a cooldown was. For a moment, everyone forgets.",
+      "condition_es": "Actívala cuando al menos una skill tuya tenga cooldown activo.",
+      "condition_en": "Activate when at least one of your skills has an active cooldown.",
+      "portraitAddressable": "Assets/Addressables/Spells/amnesia_tactica.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Skills de tu equipo: enfriamiento −1 turno.",
+            "description_en": "Your team's skills: cooldown −1 turn.",
+            "effects": [
+              {
+                "type": "decrease_cooldowns",
+                "target": "team",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Skills rivales: enfriamiento +1 turno.",
+            "description_en": "Rival skills: cooldown +1 turn.",
+            "effects": [
+              {
+                "type": "increase_cooldowns",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Skills de tu equipo: enfriamiento −1 turno.",
+            "description_en": "Your team's skills: cooldown −1 turn.",
+            "effects": [
+              {
+                "type": "decrease_cooldowns",
+                "target": "team",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Skills rivales: enfriamiento +1 turno.",
+            "description_en": "Rival skills: cooldown +1 turn.",
+            "effects": [
+              {
+                "type": "increase_cooldowns",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Skills de tu equipo: enfriamiento −1 turno.",
+            "description_en": "Your team's skills: cooldown −1 turn.",
+            "effects": [
+              {
+                "type": "decrease_cooldowns",
+                "target": "team",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Skills rivales: enfriamiento +1 turno.",
+            "description_en": "Rival skills: cooldown +1 turn.",
+            "effects": [
+              {
+                "type": "increase_cooldowns",
+                "target": "all_enemy",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Skills de tu equipo: enfriamiento −2 turnos.",
+            "description_en": "Your team's skills: cooldown −2 turns.",
+            "effects": [
+              {
+                "type": "decrease_cooldowns",
+                "target": "team",
+                "value": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Skills rivales: enfriamiento +2 turnos.",
+            "description_en": "Rival skills: cooldown +2 turns.",
+            "effects": [
+              {
+                "type": "increase_cooldowns",
+                "target": "all_enemy",
+                "value": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "locura",
+      "emoji": "🌀",
+      "passive": {
+        "description_es": "+2% probabilidad de activar efectos secundarios de habilidades del equipo.",
+        "description_en": "+2% chance to trigger secondary skill effects for the team.",
+        "effects": [
+          {
+            "type": "secondary_effect_chance_passive",
+            "target": "ally_all",
+            "value": 0.02
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Locura equipados: +2% probabilidad de activar efectos de conjuros duplicados.",
+        "description_en": "3 Madness spells equipped: +2% chance to trigger duplicate spell effects.",
+        "effect": {
+          "type": "spell_duplicate_chance_combo",
+          "target": "ally_all",
+          "value": 0.02
+        }
+      }
+    },
+    {
+      "spellId": "tregua_incomoda",
+      "name_es": "Tregua Incómoda",
+      "name_en": "Awkward Truce",
+      "rarity": "infame",
+      "flavor_es": "Nadie quería atacar. Era un momento muy raro. Tú lo aprovechaste antes que nadie.",
+      "flavor_en": "Nobody wanted to attack. It was a weird moment. You took advantage before anyone else.",
+      "condition_es": "Sin condición. La tregua no se negocia.",
+      "condition_en": "No condition. The truce is non-negotiable.",
+      "portraitAddressable": "Assets/Addressables/Spells/tregua_incomoda.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Daño Reducido 15% y Curación Continua 4%/T, 2 turnos.",
+            "description_en": "Team: Damage Reduction 15% and Continuous Heal 4%/T for 2 turns.",
+            "effects": [
+              {
+                "type": "strengthen",
+                "target": "team",
+                "value": 0.15,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "team",
+                "value": 0.04,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Silencio 1 turno. Todos: ATK −15% durante 2 turnos.",
+            "description_en": "Enemy with highest ATK: Silence for 1 turn. All: ATK −15% for 2 turns.",
+            "effects": [
+              {
+                "type": "silence",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "atk_down",
+                "target": "all_enemy",
+                "value": 0.15,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Daño Reducido 18% y Curación Continua 5%/T, 2 turnos.",
+            "description_en": "Team: Damage Reduction 18% and Continuous Heal 5%/T for 2 turns.",
+            "effects": [
+              {
+                "type": "strengthen",
+                "target": "team",
+                "value": 0.18,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "team",
+                "value": 0.05,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Silencio 1 turno. Todos: ATK −18% durante 2 turnos.",
+            "description_en": "Enemy with highest ATK: Silence for 1 turn. All: ATK −18% for 2 turns.",
+            "effects": [
+              {
+                "type": "silence",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "atk_down",
+                "target": "all_enemy",
+                "value": 0.18,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Daño Reducido 21% y Curación Continua 6%/T, 2 turnos.",
+            "description_en": "Team: Damage Reduction 21% and Continuous Heal 6%/T for 2 turns.",
+            "effects": [
+              {
+                "type": "strengthen",
+                "target": "team",
+                "value": 0.21,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "team",
+                "value": 0.06,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Silencio 1 turno. Todos: ATK −21% durante 2 turnos.",
+            "description_en": "Enemy with highest ATK: Silence for 1 turn. All: ATK −21% for 2 turns.",
+            "effects": [
+              {
+                "type": "silence",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "atk_down",
+                "target": "all_enemy",
+                "value": 0.21,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Equipo: Daño Reducido 24% y Curación Continua 7%/T, 2 turnos.",
+            "description_en": "Team: Damage Reduction 24% and Continuous Heal 7%/T for 2 turns.",
+            "effects": [
+              {
+                "type": "strengthen",
+                "target": "team",
+                "value": 0.24,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "team",
+                "value": 0.07,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Silencio 1 turno. Todos: ATK −24% durante 2 turnos.",
+            "description_en": "Enemy with highest ATK: Silence for 1 turn. All: ATK −24% for 2 turns.",
+            "effects": [
+              {
+                "type": "silence",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "atk_down",
+                "target": "all_enemy",
+                "value": 0.24,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "sombras",
+      "emoji": "🌑",
+      "passive": {
+        "description_es": "+2% resistencia a estados de control (Aturdido, Silenciado, Congelado).",
+        "description_en": "+2% resistance to control effects (Stunned, Silenced, Frozen).",
+        "effects": [
+          {
+            "type": "cc_resist_passive",
+            "target": "ally_all",
+            "value": 0.02
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Sombras equipados: +5% esquiva a todos los esbirros del equipo.",
+        "description_en": "3 Shadows spells equipped: +5% evasion to all team minions.",
+        "effect": {
+          "type": "agi_up_combo",
+          "target": "ally_all",
+          "value": 0.05
+        }
+      }
+    },
+    {
+      "spellId": "momento_de_lucidez",
+      "name_es": "Momento de Lucidez",
+      "name_en": "Moment of Lucidity",
+      "rarity": "infame",
+      "flavor_es": "El jugador tuvo un instante de cordura. Nadie sabe cómo. Los esbirros también se sorprenden.",
+      "flavor_en": "The player had a moment of sanity. Nobody knows how. The minions are also surprised.",
+      "condition_es": "Actívala cuando tu equipo tenga 2 o más debuffs activos.",
+      "condition_en": "Activate when your team has 2 or more active debuffs.",
+      "portraitAddressable": "Assets/Addressables/Spells/momento_de_lucidez.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Purificación y Inmunidad 1 turno.",
+            "description_en": "Team: Cleanse and Immunity for 1 turn.",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "immunity",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Equipo: Purificación. Enemigos: Bloqueo de Buffs 1 turno (55% prob.).",
+            "description_en": "Team: Cleanse. Enemies: Block Buffs for 1 turn (55% chance).",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "block_buffs",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.55
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Purificación y Inmunidad 1 turno.",
+            "description_en": "Team: Cleanse and Immunity for 1 turn.",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "immunity",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Equipo: Purificación. Enemigos: Bloqueo de Buffs 1 turno (63% prob.).",
+            "description_en": "Team: Cleanse. Enemies: Block Buffs for 1 turn (63% chance).",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "block_buffs",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.63
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: Purificación y Inmunidad 1 turno.",
+            "description_en": "Team: Cleanse and Immunity for 1 turn.",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "immunity",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Equipo: Purificación. Enemigos: Bloqueo de Buffs 1 turno (71% prob.).",
+            "description_en": "Team: Cleanse. Enemies: Block Buffs for 1 turn (71% chance).",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "block_buffs",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.71
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Equipo: Purificación y Inmunidad 1 turno.",
+            "description_en": "Team: Cleanse and Immunity for 1 turn.",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "immunity",
+                "target": "team",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Equipo: Purificación. Enemigos: Bloqueo de Buffs 1 turno (79% prob.).",
+            "description_en": "Team: Cleanse. Enemies: Block Buffs for 1 turn (79% chance).",
+            "effects": [
+              {
+                "type": "cleanse",
+                "target": "team",
+                "chance": 1.0
+              },
+              {
+                "type": "block_buffs",
+                "target": "all_enemy",
+                "duration": 1,
+                "chance": 0.79
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "peste",
+      "emoji": "🌿",
+      "passive": {
+        "description_es": "+3% resistencia a todos los estados alterados del equipo.",
+        "description_en": "+3% resistance to all status effects for the team.",
+        "effects": [
+          {
+            "type": "status_resist_passive",
+            "target": "ally_all",
+            "value": 0.03
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Peste equipados: +3% probabilidad de aplicar estados alterados.",
+        "description_en": "3 Plague spells equipped: +3% chance to apply status effects.",
+        "effect": {
+          "type": "status_apply_chance_combo",
+          "target": "ally_all",
+          "value": 0.03
+        }
+      }
+    },
+    {
+      "spellId": "bendicion_del_desproposito",
+      "name_es": "Bendición del Despropósito",
+      "name_en": "Blessing of Pointlessness",
+      "rarity": "apocaliptico",
+      "flavor_es": "Un esbirro intentó leer el grimorio al revés. Funcionó mejor que al derecho.",
+      "flavor_en": "A minion tried to read the grimoire backwards. It worked better than forwards.",
+      "condition_es": "Actívala cuando un aliado esté por debajo del 40% de HP.",
+      "condition_en": "Activate when an ally is below 40% HP.",
+      "portraitAddressable": "Assets/Addressables/Spells/bendicion_del_desproposito.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con menos HP: Inmortal 1T y Curación Continua 6%/T.",
+            "description_en": "Ally with least HP: Unkillable for 1T and Continuous Heal 6%/T.",
+            "effects": [
+              {
+                "type": "unkillable",
+                "target": "ally_lowest_hp",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "ally_lowest_hp",
+                "value": 0.06,
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Bloqueo de Revivir 2T. Enemigo con más HP: Marca 2T.",
+            "description_en": "All enemies: Block Revive for 2T. Enemy with most HP: Mark for 2T.",
+            "effects": [
+              {
+                "type": "block_revive",
+                "target": "all_enemy",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con menos HP: Inmortal 1T y Curación Continua 8%/T.",
+            "description_en": "Ally with least HP: Unkillable for 1T and Continuous Heal 8%/T.",
+            "effects": [
+              {
+                "type": "unkillable",
+                "target": "ally_lowest_hp",
+                "duration": 1,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "ally_lowest_hp",
+                "value": 0.08,
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Bloqueo de Revivir 2T. Enemigo con más HP: Marca 2T.",
+            "description_en": "All enemies: Block Revive for 2T. Enemy with most HP: Mark for 2T.",
+            "effects": [
+              {
+                "type": "block_revive",
+                "target": "all_enemy",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con menos HP: Inmortal 2T y Curación Continua 10%/T.",
+            "description_en": "Ally with least HP: Unkillable for 2T and Continuous Heal 10%/T.",
+            "effects": [
+              {
+                "type": "unkillable",
+                "target": "ally_lowest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "ally_lowest_hp",
+                "value": 0.1,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Bloqueo de Revivir 2T. Enemigo con más HP: Marca 2T.",
+            "description_en": "All enemies: Block Revive for 2T. Enemy with most HP: Mark for 2T.",
+            "effects": [
+              {
+                "type": "block_revive",
+                "target": "all_enemy",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Aliado con menos HP: Inmortal 2T y Curación Continua 12%/T.",
+            "description_en": "Ally with least HP: Unkillable for 2T and Continuous Heal 12%/T.",
+            "effects": [
+              {
+                "type": "unkillable",
+                "target": "ally_lowest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "continuous_heal",
+                "target": "ally_lowest_hp",
+                "value": 0.12,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Todos los enemigos: Bloqueo de Revivir 2T. Enemigo con más HP: Marca 2T.",
+            "description_en": "All enemies: Block Revive for 2T. Enemy with most HP: Mark for 2T.",
+            "effects": [
+              {
+                "type": "block_revive",
+                "target": "all_enemy",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "locura",
+      "emoji": "🌀",
+      "passive": {
+        "description_es": "El esbirro con menos HP recibe +3% curación de todas las fuentes.",
+        "description_en": "The minion with least HP receives +3% healing from all sources.",
+        "effects": [
+          {
+            "type": "heal_up_passive",
+            "target": "ally_lowest_hp",
+            "value": 0.03
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Locura equipados: +2% probabilidad de activar efectos de conjuros duplicados.",
+        "description_en": "3 Madness spells equipped: +2% chance to trigger duplicate spell effects.",
+        "effect": {
+          "type": "spell_duplicate_chance_combo",
+          "target": "ally_all",
+          "value": 0.02
+        }
+      }
+    },
+    {
+      "spellId": "colapso_de_dignidad",
+      "name_es": "Colapso de Dignidad",
+      "name_en": "Dignity Collapse",
+      "rarity": "apocaliptico",
+      "flavor_es": "Un esbirro perdió toda la compostura. El resto lo imitó por solidaridad. El resultado fue devastador.",
+      "flavor_en": "A minion lost all composure. The rest imitated it in solidarity. The result was devastating.",
+      "condition_es": "Sin condición. La dignidad siempre puede colapsar más.",
+      "condition_en": "No condition. Dignity can always collapse further.",
+      "portraitAddressable": "Assets/Addressables/Spells/colapso_de_dignidad.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: TCRI +10% y DCRI +15% durante 2 turnos.",
+            "description_en": "Team: CRIT Rate +10% and CRIT DMG +15% for 2 turns.",
+            "effects": [
+              {
+                "type": "tcri_up",
+                "target": "team",
+                "value": 0.1,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "dcri_up",
+                "target": "team",
+                "value": 0.15,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más HP: DEF −15%, Debilitado y Marca durante 2 turnos.",
+            "description_en": "Enemy with most HP: DEF −15%, Weakened and Mark for 2 turns.",
+            "effects": [
+              {
+                "type": "def_down",
+                "target": "enemy_highest_hp",
+                "value": 0.15,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "weak",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: TCRI +12% y DCRI +18% durante 2 turnos.",
+            "description_en": "Team: CRIT Rate +12% and CRIT DMG +18% for 2 turns.",
+            "effects": [
+              {
+                "type": "tcri_up",
+                "target": "team",
+                "value": 0.12,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "dcri_up",
+                "target": "team",
+                "value": 0.18,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más HP: DEF −18%, Debilitado y Marca durante 2 turnos.",
+            "description_en": "Enemy with most HP: DEF −18%, Weakened and Mark for 2 turns.",
+            "effects": [
+              {
+                "type": "def_down",
+                "target": "enemy_highest_hp",
+                "value": 0.18,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "weak",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Equipo: TCRI +14% y DCRI +21% durante 2 turnos.",
+            "description_en": "Team: CRIT Rate +14% and CRIT DMG +21% for 2 turns.",
+            "effects": [
+              {
+                "type": "tcri_up",
+                "target": "team",
+                "value": 0.14,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "dcri_up",
+                "target": "team",
+                "value": 0.21,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más HP: DEF −21%, Debilitado y Marca durante 2 turnos.",
+            "description_en": "Enemy with most HP: DEF −21%, Weakened and Mark for 2 turns.",
+            "effects": [
+              {
+                "type": "def_down",
+                "target": "enemy_highest_hp",
+                "value": 0.21,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "weak",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Equipo: TCRI +16% y DCRI +24% durante 2 turnos.",
+            "description_en": "Team: CRIT Rate +16% and CRIT DMG +24% for 2 turns.",
+            "effects": [
+              {
+                "type": "tcri_up",
+                "target": "team",
+                "value": 0.16,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "dcri_up",
+                "target": "team",
+                "value": 0.24,
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más HP: DEF −24%, Debilitado y Marca durante 2 turnos.",
+            "description_en": "Enemy with most HP: DEF −24%, Weakened and Mark for 2 turns.",
+            "effects": [
+              {
+                "type": "def_down",
+                "target": "enemy_highest_hp",
+                "value": 0.24,
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "weak",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              },
+              {
+                "type": "mark",
+                "target": "enemy_highest_hp",
+                "duration": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "profanacion",
+      "emoji": "🔥",
+      "passive": {
+        "description_es": "+3% daño de todos los esbirros del equipo contra enemigos con Marca activa.",
+        "description_en": "+3% damage from all team minions against enemies with Mark.",
+        "effects": [
+          {
+            "type": "marked_damage_up_passive",
+            "target": "ally_all",
+            "value": 0.03
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Profanación equipados: +4% penetración de armadura.",
+        "description_en": "3 Profanation spells equipped: +4% armor penetration.",
+        "effect": {
+          "type": "armor_pen_combo",
+          "target": "ally_all",
+          "value": 0.04
+        }
+      }
+    },
+    {
+      "spellId": "espejo_invertido",
+      "name_es": "Espejo Invertido",
+      "name_en": "Inverted Mirror",
+      "rarity": "apocaliptico",
+      "flavor_es": "El grimorio tiene páginas de espejo. Nadie las lee correctamente. Tú tampoco, pero funciona.",
+      "flavor_en": "The grimoire has mirror pages. Nobody reads them right. Neither do you, but it works.",
+      "condition_es": "Sin condición. El espejo no distingue quién es quién.",
+      "condition_en": "No condition. The mirror cannot tell who is who.",
+      "portraitAddressable": "Assets/Addressables/Spells/espejo_invertido.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Copia hasta 1 buff activo del equipo rival para tu equipo.",
+            "description_en": "Copies up to 1 active buff from the rival team to your team.",
+            "effects": [
+              {
+                "type": "copy_enemy_buffs",
+                "target": "team",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Intercambia hasta 1 buff rival con tus debuffs propios.",
+            "description_en": "Swaps up to 1 rival buff with your own debuffs.",
+            "effects": [
+              {
+                "type": "swap_buffs_debuffs",
+                "target": "all",
+                "value": 1,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Copia hasta 2 buffs activos del equipo rival para tu equipo.",
+            "description_en": "Copies up to 2 active buffs from the rival team to your team.",
+            "effects": [
+              {
+                "type": "copy_enemy_buffs",
+                "target": "team",
+                "value": 2,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Intercambia hasta 2 buffs rivales con tus debuffs propios.",
+            "description_en": "Swaps up to 2 rival buffs with your own debuffs.",
+            "effects": [
+              {
+                "type": "swap_buffs_debuffs",
+                "target": "all",
+                "value": 2,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Copia hasta 3 buffs activos del equipo rival para tu equipo.",
+            "description_en": "Copies up to 3 active buffs from the rival team to your team.",
+            "effects": [
+              {
+                "type": "copy_enemy_buffs",
+                "target": "team",
+                "value": 3,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Intercambia hasta 3 buffs rivales con tus debuffs propios.",
+            "description_en": "Swaps up to 3 rival buffs with your own debuffs.",
+            "effects": [
+              {
+                "type": "swap_buffs_debuffs",
+                "target": "all",
+                "value": 3,
+                "chance": 1.0
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Copia hasta 4 buffs activos del equipo rival para tu equipo.",
+            "description_en": "Copies up to 4 active buffs from the rival team to your team.",
+            "effects": [
+              {
+                "type": "copy_enemy_buffs",
+                "target": "team",
+                "value": 4,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Intercambia hasta 4 buffs rivales con tus debuffs propios.",
+            "description_en": "Swaps up to 4 rival buffs with your own debuffs.",
+            "effects": [
+              {
+                "type": "swap_buffs_debuffs",
+                "target": "all",
+                "value": 4,
+                "chance": 1.0
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "sombras",
+      "emoji": "🌑",
+      "passive": {
+        "description_es": "+2% esquiva a todos los esbirros del equipo.",
+        "description_en": "+2% evasion to all team minions.",
+        "effects": [
+          {
+            "type": "agi_up_passive",
+            "target": "ally_all",
+            "value": 0.02
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Sombras equipados: +5% esquiva a todos los esbirros del equipo.",
+        "description_en": "3 Shadows spells equipped: +5% evasion to all team minions.",
+        "effect": {
+          "type": "agi_up_combo",
+          "target": "ally_all",
+          "value": 0.05
+        }
+      }
+    },
+    {
+      "spellId": "decreto_de_caos_puro",
+      "name_es": "Decreto de Caos Puro",
+      "name_en": "Decree of Pure Chaos",
+      "rarity": "apocaliptico",
+      "flavor_es": "Necrostofeles firmó un decreto sin leerlo. Como siempre. Esta vez salió bien. Más o menos.",
+      "flavor_en": "Necrostofeles signed a decree without reading it. As always. This time it worked. More or less.",
+      "condition_es": "Sin condición. El caos no necesita excusas.",
+      "condition_en": "No condition. Chaos needs no excuses.",
+      "portraitAddressable": "Assets/Addressables/Spells/decreto_de_caos_puro.png",
+      "levels": [
+        {
+          "rarity": "basico",
+          "rarity_es": "Básico",
+          "rarity_en": "Basic",
+          "symbol": "◇",
+          "potency_multiplier": 1.0,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con más ATK: Turno Extra inmediato y Crítico Garantizado 1 turno.",
+            "description_en": "Ally with highest ATK: Immediate Extra Turn and Guaranteed Crit for 1 turn.",
+            "effects": [
+              {
+                "type": "extra_turn",
+                "target": "ally_highest_atk",
+                "chance": 1.0
+              },
+              {
+                "type": "guaranteed_crit",
+                "target": "ally_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Aturdido 1 turno (55% prob.).",
+            "description_en": "Enemy with highest ATK: Stunned for 1 turn (55% chance).",
+            "effects": [
+              {
+                "type": "stun",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 0.55
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "retorcido",
+          "rarity_es": "Retorcido",
+          "rarity_en": "Twisted",
+          "symbol": "★",
+          "potency_multiplier": 1.3,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con más ATK: Turno Extra inmediato y Crítico Garantizado 1 turno.",
+            "description_en": "Ally with highest ATK: Immediate Extra Turn and Guaranteed Crit for 1 turn.",
+            "effects": [
+              {
+                "type": "extra_turn",
+                "target": "ally_highest_atk",
+                "chance": 1.0
+              },
+              {
+                "type": "guaranteed_crit",
+                "target": "ally_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Aturdido 1 turno (65% prob.).",
+            "description_en": "Enemy with highest ATK: Stunned for 1 turn (65% chance).",
+            "effects": [
+              {
+                "type": "stun",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 0.65
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "grotesco",
+          "rarity_es": "Grotesco",
+          "rarity_en": "Grotesque",
+          "symbol": "✦",
+          "potency_multiplier": 1.7,
+          "copies_to_upgrade": 2,
+          "cara_lucida": {
+            "description_es": "Aliado con más ATK: Turno Extra inmediato y Crítico Garantizado 1 turno.",
+            "description_en": "Ally with highest ATK: Immediate Extra Turn and Guaranteed Crit for 1 turn.",
+            "effects": [
+              {
+                "type": "extra_turn",
+                "target": "ally_highest_atk",
+                "chance": 1.0
+              },
+              {
+                "type": "guaranteed_crit",
+                "target": "ally_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Aturdido 1 turno (75% prob.).",
+            "description_en": "Enemy with highest ATK: Stunned for 1 turn (75% chance).",
+            "effects": [
+              {
+                "type": "stun",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 0.75
+              }
+            ]
+          }
+        },
+        {
+          "rarity": "caotico_supremo",
+          "rarity_es": "Caótico Supremo",
+          "rarity_en": "Supreme Chaotic",
+          "symbol": "✦",
+          "potency_multiplier": 2.2,
+          "copies_to_upgrade": null,
+          "cara_lucida": {
+            "description_es": "Aliado con más ATK: Turno Extra inmediato y Crítico Garantizado 1 turno.",
+            "description_en": "Ally with highest ATK: Immediate Extra Turn and Guaranteed Crit for 1 turn.",
+            "effects": [
+              {
+                "type": "extra_turn",
+                "target": "ally_highest_atk",
+                "chance": 1.0
+              },
+              {
+                "type": "guaranteed_crit",
+                "target": "ally_highest_atk",
+                "duration": 1,
+                "chance": 1.0
+              }
+            ]
+          },
+          "cara_oscura": {
+            "description_es": "Enemigo con más ATK: Aturdido 1 turno (85% prob.).",
+            "description_en": "Enemy with highest ATK: Stunned for 1 turn (85% chance).",
+            "effects": [
+              {
+                "type": "stun",
+                "target": "enemy_highest_atk",
+                "duration": 1,
+                "chance": 0.85
+              }
+            ]
+          }
+        }
+      ],
+      "affinity": "profanacion",
+      "emoji": "🔥",
+      "passive": {
+        "description_es": "+3% probabilidad de crítico a todos los esbirros del equipo.",
+        "description_en": "+3% critical chance to all team minions.",
+        "effects": [
+          {
+            "type": "crit_chance_up_passive",
+            "target": "ally_all",
+            "value": 0.03
+          }
+        ]
+      },
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Profanación equipados: +4% penetración de armadura.",
+        "description_en": "3 Profanation spells equipped: +4% armor penetration.",
+        "effect": {
+          "type": "armor_pen_combo",
+          "target": "ally_all",
+          "value": 0.04
+        }
+      }
+    }
+  ],
+  "affinities": {
+    "sombras": {
+      "name_es": "Sombras",
+      "name_en": "Shadows",
+      "emoji": "🌑",
+      "color": "#60A5FA",
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Sombras equipados: +5% esquiva a todos los esbirros del equipo.",
+        "description_en": "3 Shadows spells equipped: +5% evasion to all team minions.",
+        "effect": {
+          "type": "agi_up_combo",
+          "target": "ally_all",
+          "value": 0.05
+        }
+      }
+    },
+    "peste": {
+      "name_es": "Peste",
+      "name_en": "Plague",
+      "emoji": "🌿",
+      "color": "#4ADE80",
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Peste equipados: +3% probabilidad de aplicar estados alterados.",
+        "description_en": "3 Plague spells equipped: +3% chance to apply status effects.",
+        "effect": {
+          "type": "status_apply_chance_combo",
+          "target": "ally_all",
+          "value": 0.03
+        }
+      }
+    },
+    "profanacion": {
+      "name_es": "Profanación",
+      "name_en": "Profanation",
+      "emoji": "🔥",
+      "color": "#F87171",
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Profanación equipados: +4% penetración de armadura.",
+        "description_en": "3 Profanation spells equipped: +4% armor penetration.",
+        "effect": {
+          "type": "armor_pen_combo",
+          "target": "ally_all",
+          "value": 0.04
+        }
+      }
+    },
+    "locura": {
+      "name_es": "Locura",
+      "name_en": "Madness",
+      "emoji": "🌀",
+      "color": "#C084FC",
+      "combo_bonus": {
+        "required": 3,
+        "description_es": "3 conjuros Locura equipados: +2% probabilidad de activar efectos de conjuros duplicados.",
+        "description_en": "3 Madness spells equipped: +2% chance to trigger duplicate spell effects.",
+        "effect": {
+          "type": "spell_duplicate_chance_combo",
+          "target": "ally_all",
+          "value": 0.02
+        }
+      }
+    }
+  },
+  "rarities": {
+    "basico": {
+      "name_es": "Básico",
+      "name_en": "Basic",
+      "symbol": "◇",
+      "color": "#374151",
+      "potency": 1.0
+    },
+    "retorcido": {
+      "name_es": "Retorcido",
+      "name_en": "Twisted",
+      "symbol": "★",
+      "color": "#1D4ED8",
+      "potency": 1.3
+    },
+    "grotesco": {
+      "name_es": "Grotesco",
+      "name_en": "Grotesque",
+      "symbol": "✦",
+      "color": "#6D28D9",
+      "potency": 1.7
+    },
+    "caotico_supremo": {
+      "name_es": "Caótico Supremo",
+      "name_en": "Supreme Chaotic",
+      "symbol": "✦",
+      "color": "#4C1D95",
+      "potency": 2.2
+    }
+  }
+}

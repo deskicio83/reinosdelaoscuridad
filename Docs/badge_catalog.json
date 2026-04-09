@@ -1,0 +1,1273 @@
+{
+  "categories": [
+    {
+      "id": "combat",
+      "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat.png",
+      "challenges": [
+        {
+          "id": "combat_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_1.png",
+          "reward": {
+            "oro_negro": 500,
+            "xp": 100
+          },
+          "name_es": "Guerrero Novato",
+          "name_en": "Novice Warrior",
+          "description_es": "Derrota a 50 enemigos en cualquier modo.",
+          "description_en": "Defeat 50 enemies in any mode."
+        },
+        {
+          "id": "combat_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_2.png",
+          "reward": {
+            "oro_negro": 1000,
+            "xp": 200
+          },
+          "name_es": "Espíritu de Acero",
+          "name_en": "Steel Spirit",
+          "description_es": "Gana 10 batallas seguidas sin perder un esbirro.",
+          "description_en": "Win 10 battles in a row without losing a unit."
+        },
+        {
+          "id": "combat_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_3.png",
+          "reward": {
+            "oro_negro": 1500,
+            "xp": 250
+          },
+          "name_es": "Destructor Casual",
+          "name_en": "Casual Destroyer",
+          "description_es": "Inflige 100.000 puntos de daño total.",
+          "description_en": "Deal 100,000 total damage points."
+        },
+        {
+          "id": "combat_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_4.png",
+          "reward": {
+            "oro_negro": 2000,
+            "xp": 300
+          },
+          "name_es": "Solitario Audaz",
+          "name_en": "Solo Daredevil",
+          "description_es": "Gana una batalla con un solo héroe activo.",
+          "description_en": "Win a battle with only one active unit."
+        },
+        {
+          "id": "combat_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_5.png",
+          "reward": {
+            "oro_negro": 2500,
+            "xp": 350
+          },
+          "name_es": "Caótico Mayor",
+          "name_en": "Greater Chaotic",
+          "description_es": "Derrota a 3 jefes de mazmorra sin curaciones.",
+          "description_en": "Defeat 3 dungeon bosses without healing."
+        },
+        {
+          "id": "combat_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_6.png",
+          "reward": {
+            "oro_negro": 3000,
+            "xp": 400
+          },
+          "name_es": "Crítico Supremo",
+          "name_en": "Supreme Critical",
+          "description_es": "Realiza 10 golpes críticos consecutivos.",
+          "description_en": "Land 10 consecutive critical hits."
+        },
+        {
+          "id": "combat_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_7.png",
+          "reward": {
+            "oro_negro": 4000,
+            "xp": 450
+          },
+          "name_es": "Coloso del Dolor",
+          "name_en": "Colossus of Pain",
+          "description_es": "Gana una batalla usando solo héroes de oscuridad.",
+          "description_en": "Win a battle using only Darkness units."
+        },
+        {
+          "id": "combat_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_8.png",
+          "reward": {
+            "oro_negro": 5000,
+            "xp": 500
+          },
+          "name_es": "Campeón del Abismo",
+          "name_en": "Abyss Champion",
+          "description_es": "Derrota a 500 enemigos con ataques de área.",
+          "description_en": "Defeat 500 enemies with area attacks."
+        },
+        {
+          "id": "combat_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_9.png",
+          "reward": {
+            "oro_negro": 6000,
+            "xp": 600
+          },
+          "name_es": "Heraldo del Caos",
+          "name_en": "Herald of Chaos",
+          "description_es": "Gana una batalla con 4 esbirros resucitados.",
+          "description_en": "Win a battle with 4 revived units."
+        },
+        {
+          "id": "combat_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Combat/icon_combat_10.png",
+          "reward": {
+            "oro_negro": 10000,
+            "xp": 1000,
+            "caosifera": 1
+          },
+          "name_es": "Destructor del Mundo",
+          "name_en": "World Destroyer",
+          "description_es": "Elimina 1000 enemigos en total.",
+          "description_en": "Eliminate 1,000 enemies in total."
+        }
+      ],
+      "name_es": "Combate y Caos",
+      "name_en": "Combat & Chaos",
+      "description_es": "Desafíos centrados en batallas, daño y victorias.",
+      "description_en": "Challenges focused on battles, damage, and victories."
+    },
+    {
+      "id": "summon",
+      "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon.png",
+      "challenges": [
+        {
+          "id": "summon_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Visión Inicial",
+          "name_en": "Initial Vision",
+          "description_es": "Usa 5 ojos azules en el Ópticario.",
+          "description_en": "Use 5 blue eyes at the Optician."
+        },
+        {
+          "id": "summon_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Mirada Dorada",
+          "name_en": "Golden Gaze",
+          "description_es": "Usa 1 ojo dorado.",
+          "description_en": "Use 1 golden eye."
+        },
+        {
+          "id": "summon_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Engendrador Casual",
+          "name_en": "Casual Spawner",
+          "description_es": "Invoca 10 héroes en total.",
+          "description_en": "Summon 10 heroes in total."
+        },
+        {
+          "id": "summon_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Óptico Devoto",
+          "name_en": "Devoted Optician",
+          "description_es": "Usa 25 ojos de cualquier tipo.",
+          "description_en": "Use 25 eyes of any type."
+        },
+        {
+          "id": "summon_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Invocador de Sombras",
+          "name_en": "Shadow Invoker",
+          "description_es": "Usa un ojo Yinjan.",
+          "description_en": "Use a Yinjan eye."
+        },
+        {
+          "id": "summon_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Ópticario Profesional",
+          "name_en": "Professional Optician",
+          "description_es": "Usa 50 ojos en total.",
+          "description_en": "Use 50 eyes in total."
+        },
+        {
+          "id": "summon_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Cazador de Duplicados",
+          "name_en": "Duplicate Hunter",
+          "description_es": "Obtén un héroe duplicado legendario.",
+          "description_en": "Obtain a legendary duplicate hero."
+        },
+        {
+          "id": "summon_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Mirada Triple",
+          "name_en": "Triple Gaze",
+          "description_es": "Invoca tres héroes de la misma facción en una sesión.",
+          "description_en": "Summon three heroes of the same faction in one session."
+        },
+        {
+          "id": "summon_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Devoto de los Ojos",
+          "name_en": "Eye Devotee",
+          "description_es": "Usa 100 ojos dorados.",
+          "description_en": "Use 100 golden eyes."
+        },
+        {
+          "id": "summon_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Summon/icon_summon_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Invocador Apoteósico",
+          "name_en": "Apotheosis Invoker",
+          "description_es": "Invoca un héroe mítico o exclusivo de evento.",
+          "description_en": "Summon a mythic or event-exclusive hero."
+        }
+      ],
+      "name_es": "Invocaciones y Engendros",
+      "name_en": "Summons & Spawns",
+      "description_es": "Desafíos del Ópticario relacionados con los ojos y las invocaciones.",
+      "description_en": "Optician challenges related to eyes and summons."
+    },
+    {
+      "id": "alchemy",
+      "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy.png",
+      "challenges": [
+        {
+          "id": "alchemy_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_1.png",
+          "reward": {
+            "oro_negro": 500,
+            "xp": 100
+          },
+          "name_es": "Aprendiz del Arsenal",
+          "name_en": "First Crafting",
+          "description_es": "Mejora una pieza de equipo al nivel +3.",
+          "description_en": "Enhance a piece of equipment for the first time."
+        },
+        {
+          "id": "alchemy_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_2.png",
+          "reward": {
+            "oro_negro": 1000,
+            "xp": 150
+          },
+          "name_es": "Herrero Ocasional",
+          "name_en": "Equipment Novice",
+          "description_es": "Equipa un héroe con un set completo.",
+          "description_en": "Equip all 6 gear slots on a hero."
+        },
+        {
+          "id": "alchemy_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_3.png",
+          "reward": {
+            "oro_negro": 1500,
+            "xp": 200
+          },
+          "name_es": "Refinador Menor",
+          "name_en": "Set Collector",
+          "description_es": "Refina un objeto en el Arsenal.",
+          "description_en": "Equip a complete 4-piece set."
+        },
+        {
+          "id": "alchemy_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_4.png",
+          "reward": {
+            "oro_negro": 2000,
+            "xp": 250
+          },
+          "name_es": "Maestro de Metal",
+          "name_en": "Upgrade Enthusiast",
+          "description_es": "Mejora 10 piezas de equipo al máximo.",
+          "description_en": "Enhance any gear piece to +5."
+        },
+        {
+          "id": "alchemy_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_5.png",
+          "reward": {
+            "oro_negro": 2500,
+            "xp": 300
+          },
+          "name_es": "Forjador Supremo",
+          "name_en": "Rare Finder",
+          "description_es": "Desbloquea tu primer set legendario.",
+          "description_en": "Obtain a piece of Rare or higher gear."
+        },
+        {
+          "id": "alchemy_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_6.png",
+          "reward": {
+            "oro_negro": 3000,
+            "xp": 350
+          },
+          "name_es": "Fundidor Dedicado",
+          "name_en": "Perfect Equipment",
+          "description_es": "Fusiona 3 objetos raros para crear uno épico.",
+          "description_en": "Reach +12 on any gear piece."
+        },
+        {
+          "id": "alchemy_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_7.png",
+          "reward": {
+            "oro_negro": 3500,
+            "xp": 400
+          },
+          "name_es": "Inventor Brillante",
+          "name_en": "Set Master",
+          "description_es": "Usa el caldero de mejora 25 veces.",
+          "description_en": "Activate the 4-piece bonus of 3 different sets."
+        },
+        {
+          "id": "alchemy_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_8.png",
+          "reward": {
+            "oro_negro": 4000,
+            "xp": 450
+          },
+          "name_es": "Artesano del Dolor",
+          "name_en": "Gear Fanatic",
+          "description_es": "Equipa 10 héroes distintos.",
+          "description_en": "Have 50 gear pieces in your inventory."
+        },
+        {
+          "id": "alchemy_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_9.png",
+          "reward": {
+            "oro_negro": 5000,
+            "xp": 500
+          },
+          "name_es": "Transmutador Oscuro",
+          "name_en": "Legendary Crafter",
+          "description_es": "Vende 50 piezas de equipo refinadas.",
+          "description_en": "Obtain a Legendary rarity gear piece."
+        },
+        {
+          "id": "alchemy_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Alchemy/icon_alchemy_10.png",
+          "reward": {
+            "oro_negro": 10000,
+            "xp": 1000,
+            "caosifera": 1
+          },
+          "name_es": "Alquimista Apoteósico",
+          "name_en": "Grand Artificer",
+          "description_es": "Crea un set de rareza legendaria completa.",
+          "description_en": "Enhance 10 pieces of Legendary gear to +10 or higher."
+        }
+      ],
+      "name_es": "Alquimia y Equipo",
+      "name_en": "Alchemy & Equipment",
+      "description_es": "Desafíos relacionados con el Arsenal, el equipo y la alquimia.",
+      "description_en": "Challenges related to item crafting and gear enhancement."
+    },
+    {
+      "id": "adventure",
+      "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure.png",
+      "challenges": [
+        {
+          "id": "adventure_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_1.png",
+          "reward": {
+            "oro_negro": 500,
+            "xp": 100
+          },
+          "name_es": "Primer Paso",
+          "name_en": "First Steps",
+          "description_es": "Completa el Capítulo 1 de la Campaña.",
+          "description_en": "Complete the first world of the campaign."
+        },
+        {
+          "id": "adventure_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_2.png",
+          "reward": {
+            "oro_negro": 1000,
+            "xp": 150
+          },
+          "name_es": "Héroe del Alba",
+          "name_en": "World Explorer",
+          "description_es": "Derrota al Jefe del Abismo del Recuerdo.",
+          "description_en": "Complete 3 campaign worlds."
+        },
+        {
+          "id": "adventure_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_3.png",
+          "reward": {
+            "oro_negro": 1500,
+            "xp": 200
+          },
+          "name_es": "Explorador Temerario",
+          "name_en": "Star Collector",
+          "description_es": "Completa 3 misiones diarias en un solo día.",
+          "description_en": "Obtain 3 stars on 10 campaign stages."
+        },
+        {
+          "id": "adventure_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_4.png",
+          "reward": {
+            "oro_negro": 2000,
+            "xp": 250
+          },
+          "name_es": "Valiente Sin Daño",
+          "name_en": "Tower Climber",
+          "description_es": "Termina una batalla sin recibir daño.",
+          "description_en": "Reach floor 20 of the Tower of the Fall."
+        },
+        {
+          "id": "adventure_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_5.png",
+          "reward": {
+            "oro_negro": 2500,
+            "xp": 300
+          },
+          "name_es": "Señor del Dolor",
+          "name_en": "Level 20 Achieved",
+          "description_es": "Derrota a todos los enemigos de una región sin revivir.",
+          "description_en": "Reach player level 20."
+        },
+        {
+          "id": "adventure_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_6.png",
+          "reward": {
+            "oro_negro": 3000,
+            "xp": 350
+          },
+          "name_es": "Leyenda Menor",
+          "name_en": "Tower Master",
+          "description_es": "Llega al nivel 20 del jugador.",
+          "description_en": "Reach floor 50 of the Tower of the Fall."
+        },
+        {
+          "id": "adventure_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_7.png",
+          "reward": {
+            "oro_negro": 3500,
+            "xp": 400
+          },
+          "name_es": "Señor del Abismo",
+          "name_en": "Campaign Conqueror",
+          "description_es": "Termina una campaña completa en modo normal.",
+          "description_en": "Complete all campaign worlds on Hard difficulty."
+        },
+        {
+          "id": "adventure_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_8.png",
+          "reward": {
+            "oro_negro": 4000,
+            "xp": 450
+          },
+          "name_es": "Campeón de las Catacumbas",
+          "name_en": "Max Level",
+          "description_es": "Derrota al Dios Menor de las Catacumbas.",
+          "description_en": "Reach player level 60."
+        },
+        {
+          "id": "adventure_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_9.png",
+          "reward": {
+            "oro_negro": 5000,
+            "xp": 500
+          },
+          "name_es": "Inquebrantable",
+          "name_en": "Perfect Campaign",
+          "description_es": "Completa la Torre del Dolor sin perder héroes.",
+          "description_en": "Obtain 3 stars on all campaign stages."
+        },
+        {
+          "id": "adventure_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Adventure/icon_adventure_10.png",
+          "reward": {
+            "oro_negro": 10000,
+            "xp": 1000,
+            "caosifera": 1
+          },
+          "name_es": "Conquistador del Mundo",
+          "name_en": "Legendary Conqueror",
+          "description_es": "Supera el modo difícil de todas las campañas.",
+          "description_en": "Complete the Tower of the Fall on Demonic difficulty."
+        }
+      ],
+      "name_es": "Progresión y Aventuras",
+      "name_en": "Progression & Adventure",
+      "description_es": "Desafíos de campaña, PvE y exploración de historia.",
+      "description_en": "Challenges tracking your journey through the realm."
+    },
+    {
+      "id": "clan",
+      "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan.png",
+      "challenges": [
+        {
+          "id": "clan_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Nuevo Miembro",
+          "name_en": "Recruit",
+          "description_es": "Únete a un Clan.",
+          "description_en": "Join a clan."
+        },
+        {
+          "id": "clan_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Donador",
+          "name_en": "Generous Member",
+          "description_es": "Contribuye recursos al Clan 10 veces.",
+          "description_en": "Donate to your clan for the first time."
+        },
+        {
+          "id": "clan_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Hermano de Guerra",
+          "name_en": "Active Contributor",
+          "description_es": "Participa en una batalla de Clan Boss.",
+          "description_en": "Participate in 5 clan boss attacks."
+        },
+        {
+          "id": "clan_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Diplomático",
+          "name_en": "Loyal Member",
+          "description_es": "Escribe un mensaje en el chat de clan.",
+          "description_en": "Donate to your clan 10 times."
+        },
+        {
+          "id": "clan_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Mecenas del Mal",
+          "name_en": "Boss Hunter",
+          "description_es": "Dona 500 de oro negro al Clan.",
+          "description_en": "Participate in defeating a clan boss."
+        },
+        {
+          "id": "clan_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Alma de Grupo",
+          "name_en": "Community Pillar",
+          "description_es": "Participa en un evento de Clan.",
+          "description_en": "Donate 50 times in total."
+        },
+        {
+          "id": "clan_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Consejero Sombrío",
+          "name_en": "Clan Veteran",
+          "description_es": "Ayuda a un compañero con un Consejo de Héroes.",
+          "description_en": "Reach rank 3 or higher in a clan."
+        },
+        {
+          "id": "clan_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Campeón del Clan",
+          "name_en": "Raid Leader",
+          "description_es": "Logra una racha de victorias del Clan.",
+          "description_en": "Participate in 25 clan boss attacks."
+        },
+        {
+          "id": "clan_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Sello Eterno",
+          "name_en": "Clan Legend",
+          "description_es": "Entra en el top 100 de clanes.",
+          "description_en": "Help defeat 10 clan bosses."
+        },
+        {
+          "id": "clan_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Clan/icon_clan_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Arquiclan",
+          "name_en": "Clan Hero",
+          "description_es": "Desbloquea un edificio de Clan exclusivo.",
+          "description_en": "Be in the top 3 damage dealers in a clan boss battle."
+        }
+      ],
+      "name_es": "Clan y Comunidad",
+      "name_en": "Clan & Community",
+      "description_es": "Desafíos colaborativos y sociales de los clanes.",
+      "description_en": "Challenges involving clan cooperation and social play."
+    },
+    {
+      "id": "events",
+      "icon": "Assets/Addressables/Art/Badges/Events/icon_events.png",
+      "challenges": [
+        {
+          "id": "events_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Curioso del Caos",
+          "name_en": "Event Participant",
+          "description_es": "Participa en un evento limitado.",
+          "description_en": "Complete an event mission for the first time."
+        },
+        {
+          "id": "events_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Cazador de Recompensas",
+          "name_en": "Seasonal Collector",
+          "description_es": "Reclama todas las recompensas de un evento.",
+          "description_en": "Obtain a reward from an event shop."
+        },
+        {
+          "id": "events_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Fiestero Casual",
+          "name_en": "Event Addict",
+          "description_es": "Gasta energía durante un evento activo.",
+          "description_en": "Complete 10 event missions."
+        },
+        {
+          "id": "events_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Coleccionista de Caos",
+          "name_en": "Trophy Hunter",
+          "description_es": "Consigue un héroe de evento.",
+          "description_en": "Obtain a rare reward from an event."
+        },
+        {
+          "id": "events_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Cazador de Fiestas",
+          "name_en": "Seasonal Veteran",
+          "description_es": "Participa en 3 eventos distintos.",
+          "description_en": "Participate in 3 different events."
+        },
+        {
+          "id": "events_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Velocista",
+          "name_en": "Event Master",
+          "description_es": "Completa una misión de evento en menos de 5 minutos.",
+          "description_en": "Complete all missions of a limited event."
+        },
+        {
+          "id": "events_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Devoto del Festival",
+          "name_en": "Exclusive Collector",
+          "description_es": "Termina 5 logros de evento consecutivos.",
+          "description_en": "Obtain an exclusive event hero."
+        },
+        {
+          "id": "events_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Maestro del Caos",
+          "name_en": "Event Legend",
+          "description_es": "Termina un evento de invocación de élite.",
+          "description_en": "Participate in 10 different events."
+        },
+        {
+          "id": "events_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Medallista",
+          "name_en": "Completionist",
+          "description_es": "Gana una medalla de evento especial.",
+          "description_en": "Complete all missions of 5 different events."
+        },
+        {
+          "id": "events_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Events/icon_events_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Anfitrión del Caos",
+          "name_en": "Grand Event Champion",
+          "description_es": "Consigue todas las recompensas de un evento legendario.",
+          "description_en": "Obtain all exclusive rewards from a featured event."
+        }
+      ],
+      "name_es": "Eventos y Locuras",
+      "name_en": "Events & Madness",
+      "description_es": "Desafíos de eventos y misiones especiales.",
+      "description_en": "Challenges tied to limited-time events and special modes."
+    },
+    {
+      "id": "mastery",
+      "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery.png",
+      "challenges": [
+        {
+          "id": "mastery_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Aprendiz del Dolor",
+          "name_en": "First Mastery",
+          "description_es": "Despierta un héroe al nivel 6 estrellas.",
+          "description_en": "Unlock your first mastery node."
+        },
+        {
+          "id": "mastery_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Runador Casual",
+          "name_en": "Talent Scout",
+          "description_es": "Desbloquea una nueva habilidad.",
+          "description_en": "Unlock 5 mastery nodes on a single hero."
+        },
+        {
+          "id": "mastery_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Maestro del Saber",
+          "name_en": "Specialist",
+          "description_es": "Completa el árbol de maestrías básico de un héroe.",
+          "description_en": "Complete an entire mastery branch for a hero."
+        },
+        {
+          "id": "mastery_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Set Supremo",
+          "name_en": "Collector",
+          "description_es": "Equipa un set de 4 piezas legendarias.",
+          "description_en": "Obtain 10 different heroes."
+        },
+        {
+          "id": "mastery_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Maestro de Luz y Sombra",
+          "name_en": "Diverse Arsenal",
+          "description_es": "Despierta 5 héroes distintos.",
+          "description_en": "Have heroes of all 5 elements."
+        },
+        {
+          "id": "mastery_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Erudito del Abismo",
+          "name_en": "Awaken Master",
+          "description_es": "Súbelo al nivel máximo de despertar.",
+          "description_en": "Awaken a hero to their ultimate form."
+        },
+        {
+          "id": "mastery_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Heraldo Multicolor",
+          "name_en": "Veteran Trainer",
+          "description_es": "Ten un héroe de cada elemento.",
+          "description_en": "Level up 5 heroes to their maximum level."
+        },
+        {
+          "id": "mastery_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Guía de Almas",
+          "name_en": "Mastery Expert",
+          "description_es": "Despierta un héroe del Abismo.",
+          "description_en": "Fully complete the mastery tree of 3 heroes."
+        },
+        {
+          "id": "mastery_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Creador del Vacío",
+          "name_en": "Legendary Collector",
+          "description_es": "Crea un héroe abismal.",
+          "description_en": "Obtain 5 legendary (5★) heroes."
+        },
+        {
+          "id": "mastery_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Mastery/icon_mastery_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Leyenda Viviente",
+          "name_en": "Grand Master",
+          "description_es": "Crea un héroe mitológico.",
+          "description_en": "Awaken 3 heroes and fully complete their mastery trees."
+        }
+      ],
+      "name_es": "Maestría y Héroes",
+      "name_en": "Mastery & Heroes",
+      "description_es": "Desafíos de crecimiento y desarrollo de héroes.",
+      "description_en": "Challenges focused on hero progression and masteries."
+    },
+    {
+      "id": "wealth",
+      "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth.png",
+      "challenges": [
+        {
+          "id": "wealth_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Carterista",
+          "name_en": "First Fortune",
+          "description_es": "Acumula 100.000 de oro negro.",
+          "description_en": "Accumulate 10,000 Black Gold for the first time."
+        },
+        {
+          "id": "wealth_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Inversor Menor",
+          "name_en": "Dark Merchant",
+          "description_es": "Gasta 10.000 de caosífera.",
+          "description_en": "Spend 50,000 Black Gold in the shop."
+        },
+        {
+          "id": "wealth_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Cazatesoros",
+          "name_en": "Resource Manager",
+          "description_es": "Abre 10 cofres de tesoro.",
+          "description_en": "Accumulate 100 Caosífera."
+        },
+        {
+          "id": "wealth_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Avaricioso",
+          "name_en": "Premium Investor",
+          "description_es": "Vende equipamiento por 50.000 de oro negro.",
+          "description_en": "Make your first purchase with real money."
+        },
+        {
+          "id": "wealth_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Banquero Oscuro",
+          "name_en": "Black Banker",
+          "description_es": "Abre un cofre legendario.",
+          "description_en": "Accumulate 500,000 Black Gold in total."
+        },
+        {
+          "id": "wealth_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Magnate del Dolor",
+          "name_en": "Chaotic Tycoon",
+          "description_es": "Acumula 1 millón de oro negro.",
+          "description_en": "Accumulate 1,000 Caosífera in total."
+        },
+        {
+          "id": "wealth_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Traficante de Almas",
+          "name_en": "Grand Merchant",
+          "description_es": "Completa un trueque con el demonio mercader.",
+          "description_en": "Spend 1,000,000 Black Gold in total."
+        },
+        {
+          "id": "wealth_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Tesorero Supremo",
+          "name_en": "Dark Patron",
+          "description_es": "Gana el doble de oro negro en un solo combate.",
+          "description_en": "Make 5 purchases with real money."
+        },
+        {
+          "id": "wealth_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Cofre Viviente",
+          "name_en": "Legendary Investor",
+          "description_es": "Consigue una recompensa secreta de oro negro.",
+          "description_en": "Accumulate 5,000 Caosífera in total."
+        },
+        {
+          "id": "wealth_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Wealth/icon_wealth_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Deidad del Dinero",
+          "name_en": "Supreme Tycoon",
+          "description_es": "Consigue 10 millones de oro negro en total.",
+          "description_en": "Accumulate 10,000,000 Black Gold in total."
+        }
+      ],
+      "name_es": "Riqueza y Fortuna",
+      "name_en": "Wealth & Fortune",
+      "description_es": "Desafíos relacionados con la economía y los recursos.",
+      "description_en": "Challenges related to accumulating resources and riches."
+    },
+    {
+      "id": "void",
+      "icon": "Assets/Addressables/Art/Badges/Void/icon_void.png",
+      "challenges": [
+        {
+          "id": "void_01",
+          "tier": 1,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_1.png",
+          "reward": {
+            "xp": 100,
+            "oro_negro": 500
+          },
+          "name_es": "Explorador Novato",
+          "name_en": "First Expedition",
+          "description_es": "Entra por primera vez en el Vacío.",
+          "description_en": "Complete a dungeon for the first time."
+        },
+        {
+          "id": "void_02",
+          "tier": 2,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_2.png",
+          "reward": {
+            "xp": 150,
+            "oro_negro": 750
+          },
+          "name_es": "Cazador de Sombras",
+          "name_en": "Dungeon Explorer",
+          "description_es": "Derrota a una Sombra del Pasado.",
+          "description_en": "Complete 5 different dungeons."
+        },
+        {
+          "id": "void_03",
+          "tier": 3,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_3.png",
+          "reward": {
+            "xp": 200,
+            "oro_negro": 1000
+          },
+          "name_es": "Viajero del Dolor",
+          "name_en": "Equipment Farmer",
+          "description_es": "Completa una misión del Inframundo.",
+          "description_en": "Complete an equipment dungeon 10 times."
+        },
+        {
+          "id": "void_04",
+          "tier": 4,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_4.png",
+          "reward": {
+            "xp": 250,
+            "oro_negro": 1500
+          },
+          "name_es": "Sobreviviente",
+          "name_en": "Void Diver",
+          "description_es": "Sobrevive 10 turnos contra un jefe.",
+          "description_en": "Reach difficulty B5 in a dungeon."
+        },
+        {
+          "id": "void_05",
+          "tier": 5,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_5.png",
+          "reward": {
+            "xp": 300,
+            "oro_negro": 2000
+          },
+          "name_es": "Matadioses",
+          "name_en": "Global Damage",
+          "description_es": "Derrota a una Entidad Primordial.",
+          "description_en": "Deal damage to the Global Boss for the first time."
+        },
+        {
+          "id": "void_06",
+          "tier": 6,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_6.png",
+          "reward": {
+            "xp": 400,
+            "oro_negro": 2500
+          },
+          "name_es": "Errante del Vacío",
+          "name_en": "Boss Destroyer",
+          "description_es": "Entra en el Vacío 10 veces.",
+          "description_en": "Deal over 1,000,000 damage to the Global Boss in a single week."
+        },
+        {
+          "id": "void_07",
+          "tier": 7,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_7.png",
+          "reward": {
+            "xp": 450,
+            "oro_negro": 3000
+          },
+          "name_es": "Conquistador Abismal",
+          "name_en": "Void Master",
+          "description_es": "Supera un nivel de Dificultad Extrema.",
+          "description_en": "Complete a dungeon at difficulty B10."
+        },
+        {
+          "id": "void_08",
+          "tier": 8,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_8.png",
+          "reward": {
+            "xp": 500,
+            "oro_negro": 3500
+          },
+          "name_es": "Purificador",
+          "name_en": "Top Raider",
+          "description_es": "Derrota a un jefe usando solo héroes de luz.",
+          "description_en": "Finish in the top 10 in Global Boss damage."
+        },
+        {
+          "id": "void_09",
+          "tier": 9,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_9.png",
+          "reward": {
+            "xp": 600,
+            "oro_negro": 4000
+          },
+          "name_es": "Silenciador",
+          "name_en": "Floor Conqueror",
+          "description_es": "Completa el Vacío sin curaciones.",
+          "description_en": "Reach floor 80 of the Tower of the Fall."
+        },
+        {
+          "id": "void_10",
+          "tier": 10,
+          "icon": "Assets/Addressables/Art/Badges/Void/icon_void_10.png",
+          "reward": {
+            "xp": 1000,
+            "oro_negro": 10000,
+            "caosifera": 1
+          },
+          "name_es": "Vencedor del Dios Final",
+          "name_en": "Void Sovereign",
+          "description_es": "Derrota al Dios Final del Vacío.",
+          "description_en": "Complete all dungeons at maximum difficulty."
+        }
+      ],
+      "name_es": "Exploración del Vacío",
+      "name_en": "Void Exploration",
+      "description_es": "Desafíos relacionados con el Vacío y los jefes finales.",
+      "description_en": "Challenges for exploring special dungeons and towers."
+    }
+  ]
+}

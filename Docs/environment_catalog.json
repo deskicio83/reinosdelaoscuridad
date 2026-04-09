@@ -1,0 +1,571 @@
+{
+  "_meta": {
+    "description": "Catálogo de fondos de combate de Reino de la Oscuridad. Cada environment define el fondo visual de CombatScene según el modo y contexto del encuentro.",
+    "version": "1.0",
+    "total": 31,
+    "global_rules": {
+      "bg_base": "Siempre oscuro (#04040A — #0A0808) para que las cartas de combate destaquen.",
+      "fog_separator": "Franja de niebla entre zona enemiga y jugador. Color definido por environment.",
+      "tint": "Color de tinte que da personalidad al fondo. Se aplica con opacidad 0.15-0.25 sobre el bg.",
+      "addressable": "Todos los assets son Addressables cargados en runtime. Se descargan al salir de CombatScene."
+    },
+    "by_mode": {
+      "campaign": 7,
+      "tower": 6,
+      "arena": 1,
+      "world_boss": 5,
+      "dungeon_elemental": 6,
+      "dungeon_maestrias": 1,
+      "dungeon_gear": 3,
+      "clan_boss": 1,
+      "clan_raid": 1
+    }
+  },
+  "environments": [
+    {
+      "environmentId": "env_cielos_oxidados",
+      "name_es": "Cielos Oxidados — Nube Serena & Spa",
+      "mode": "campaign",
+      "context": "mundo_1",
+      "bg_color": "#08060E",
+      "tint_color": "#E8D5A3",
+      "fog_color": "#C4B5FD",
+      "visual_elements": [
+        "Nubes de algodón blanquísimas con bordes dorados flotando a media altura",
+        "Rayos de luz suave en ángulo desde arriba — estilo spa de lujo",
+        "Difusores de aromaterapia con partículas de vapor malva",
+        "Fondo de cielo muy oscuro (#08060E) con tinte dorado tenue",
+        "Helechos decorativos en las esquinas inferiores",
+        "Texto flotante 'Nube Serena & Spa ★★★★★' en tipografía cursiva dorada, opacidad 0.12"
+      ],
+      "addressable": "Assets/Addressables/Environments/CielosOxidados.prefab",
+      "music_track": "music_cielos_oxidados"
+    },
+    {
+      "environmentId": "env_circo_agonizante",
+      "name_es": "Circo Agonizante — Gran Festival de la Alegría Perpetua™",
+      "mode": "campaign",
+      "context": "mundo_2",
+      "bg_color": "#08030A",
+      "tint_color": "#F97316",
+      "fog_color": "#FDE68A",
+      "visual_elements": [
+        "Lonas de carpa a rayas rojas y blancas formando el techo del escenario",
+        "Guirnaldas de luces de colores colgando de los postes laterales",
+        "Suelo de arena oscura con una elipse central de serrín más claro",
+        "Focos de colores girando desde arriba (efecto de rotación lenta en loop)",
+        "Carteles 'Gran Festival de la Alegría Perpetua™' en las paredes",
+        "Confeti permanente cayendo muy lentamente — partículas de colores"
+      ],
+      "addressable": "Assets/Addressables/Environments/CircoAgonizante.prefab",
+      "music_track": "music_circo_agonizante"
+    },
+    {
+      "environmentId": "env_catedral_en_llamas",
+      "name_es": "Catedral en Llamas — La Cafetería Hipster",
+      "mode": "campaign",
+      "context": "mundo_3",
+      "bg_color": "#0A0608",
+      "tint_color": "#EF4444",
+      "fog_color": "#FCA5A5",
+      "visual_elements": [
+        "Arcos góticos de piedra con vitrales rotos que filtran luz rojiza",
+        "Llamas animadas en los bordes superior e inferior del campo",
+        "Columnas de mármol oscuro con velas encendidas en la base",
+        "Pizarras con 'Frases Inspiracionales™' visibles pero casi ilegibles por el humo",
+        "Café de especialidad volcado en el suelo formando un reguero humeante",
+        "Cenizas flotando desde el techo — partículas negras lentas"
+      ],
+      "addressable": "Assets/Addressables/Environments/CatedralEnLlamas.prefab",
+      "music_track": "music_catedral_en_llamas"
+    },
+    {
+      "environmentId": "env_guarderia_apocaliptica",
+      "name_es": "Guardería Apocalíptica — Centro de Educación Emocional",
+      "mode": "campaign",
+      "context": "mundo_4",
+      "bg_color": "#080A08",
+      "tint_color": "#4ADE80",
+      "fog_color": "#86EFAC",
+      "visual_elements": [
+        "Taquillas de colores con nombres en plastilina grabados",
+        "Colchonetas de psicomotricidad de colores dispersas por el suelo",
+        "Dibujos de abominaciones hechos con ceras pegados en las paredes",
+        "Bloques de construcción gigantes y espadas de goma como decoración",
+        "Rincón de lectura con alfombra de estrellas y cojines enormes",
+        "Psicólogo angelical visible de fondo revisando un expediente interminable"
+      ],
+      "addressable": "Assets/Addressables/Environments/GuarderiaApocaliptica.prefab",
+      "music_track": "music_guarderia_apocaliptica"
+    },
+    {
+      "environmentId": "env_cripta_de_fe_vencida",
+      "name_es": "Cripta de Fe Vencida — Parque Espiritual Temático",
+      "mode": "campaign",
+      "context": "mundo_5",
+      "bg_color": "#08080A",
+      "tint_color": "#60A5FA",
+      "fog_color": "#BAE6FD",
+      "visual_elements": [
+        "Lápidas con epitafios humorísticos en tipografía gótica decorativa",
+        "Flecha de señalización turística '→ Tour de los Esqueletos Amables'",
+        "Tienda de souvenirs en el fondo con llaveros y chapas brillantes",
+        "Faroles azules con llamas frías iluminando los laterales",
+        "Photocall del Tótem del Santo Rancio visible pero vacío en el fondo",
+        "Niebla de suelo densa y azulada que cubre los pies de los combatientes"
+      ],
+      "addressable": "Assets/Addressables/Environments/CriptaDeFe.prefab",
+      "music_track": "music_cripta_de_fe"
+    },
+    {
+      "environmentId": "env_biblioteca_gritona",
+      "name_es": "Biblioteca Gritona — Archivo del Saber Prohibido",
+      "mode": "campaign",
+      "context": "mundo_6",
+      "bg_color": "#0A0808",
+      "tint_color": "#8B5CF6",
+      "fog_color": "#C4B5FD",
+      "visual_elements": [
+        "Estanterías infinitas de libros encadenados y sellados a ambos lados",
+        "Libros flotando solos con páginas abiertas moviéndose despacio",
+        "Plantas decorativas sobre los estantes con riego automático angelical",
+        "Candiles de luz suave en tonos morados cada 3 metros",
+        "Texto 'Silencio por favor 🤫' en señal grande pero siendo ignorado por los combatientes",
+        "Polvo de páginas antiguas flotando como partículas brillantes"
+      ],
+      "addressable": "Assets/Addressables/Environments/BibliotecaGritona.prefab",
+      "music_track": "music_biblioteca_gritona"
+    },
+    {
+      "environmentId": "env_abismo_del_recuerdo",
+      "name_es": "Abismo del Recuerdo — Centro de Mindfulness Dimensional",
+      "mode": "campaign",
+      "context": "mundo_7",
+      "bg_color": "#050508",
+      "tint_color": "#1D4ED8",
+      "fog_color": "#93C5FD",
+      "visual_elements": [
+        "Plano dimensional con suelo que refleja el cielo — espejo roto de estrellas",
+        "Fragmentos de recuerdos flotando como fotos polaroid en el fondo",
+        "Portales dimensionales a media altura emitiendo luz azul pulsante",
+        "Sillones de terapia y mesas con notas de sesión visible en el fondo",
+        "Micrófono de podcast en el fondo con ON AIR en rojo",
+        "Ecos del pasado — siluetas fantasmales translúcidas a los lados del campo"
+      ],
+      "addressable": "Assets/Addressables/Environments/AbismoDelRecuerdo.prefab",
+      "music_track": "music_abismo_del_recuerdo"
+    },
+    {
+      "environmentId": "env_tower_bioma_1",
+      "name_es": "Torre — Pisos 1-20: Las Ruinas Oxidadas",
+      "mode": "tower",
+      "context": "pisos_1_20",
+      "bg_color": "#0A0806",
+      "tint_color": "#D97706",
+      "fog_color": "#FDE68A",
+      "visual_elements": [
+        "Escalera de piedra erosionada visible en el fondo",
+        "Antorchas apagadas con brasas aún encendidas",
+        "Musgo luminiscente en las grietas de las paredes",
+        "Fragmentos de armaduras antiguas dispersos en el suelo"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Bioma1_Ruinas.prefab",
+      "music_track": "music_tower_bioma_1"
+    },
+    {
+      "environmentId": "env_tower_bioma_2",
+      "name_es": "Torre — Pisos 21-40: Las Catacumbas Heladas",
+      "mode": "tower",
+      "context": "pisos_21_40",
+      "bg_color": "#060808",
+      "tint_color": "#22D3EE",
+      "fog_color": "#BAE6FD",
+      "visual_elements": [
+        "Paredes cubiertas de estalactitas de hielo negro",
+        "Vapor frío desde el suelo — niebla densa azulada",
+        "Cristales de hielo púrpura incrustados en las paredes laterales",
+        "Cuerpos congelados visibles detrás del hielo transparente"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Bioma2_Catacumbas.prefab",
+      "music_track": "music_tower_bioma_2"
+    },
+    {
+      "environmentId": "env_tower_bioma_3",
+      "name_es": "Torre — Pisos 41-60: El Abismo Volcánico",
+      "mode": "tower",
+      "context": "pisos_41_60",
+      "bg_color": "#0A0500",
+      "tint_color": "#EF4444",
+      "fog_color": "#FCA5A5",
+      "visual_elements": [
+        "Fisuras en el suelo con lava visible y partículas de brasa",
+        "Columnas de roca volcánica ennegrecida a los lados",
+        "Goteo de lava desde las paredes superiores",
+        "Humo negro espeso en la parte alta del campo"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Bioma3_Volcanico.prefab",
+      "music_track": "music_tower_bioma_3"
+    },
+    {
+      "environmentId": "env_tower_bioma_4",
+      "name_es": "Torre — Pisos 61-80: La Dimensión Fracturada",
+      "mode": "tower",
+      "context": "pisos_61_80",
+      "bg_color": "#060508",
+      "tint_color": "#A855F7",
+      "fog_color": "#E9D5FF",
+      "visual_elements": [
+        "Suelo fragmentado con piezas flotando a distintas alturas",
+        "Portales rotos emitiendo energía descontrolada",
+        "Gravedad invertida visible — fragmentos cayendo hacia arriba",
+        "Cielo completamente negro con estrellas moradas pulsantes"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Bioma4_Dimensional.prefab",
+      "music_track": "music_tower_bioma_4"
+    },
+    {
+      "environmentId": "env_tower_bioma_5",
+      "name_es": "Torre — Pisos 81-100: La Cúspide del Caos",
+      "mode": "tower",
+      "context": "pisos_81_100",
+      "bg_color": "#040408",
+      "tint_color": "#FACC15",
+      "fog_color": "#FDE68A",
+      "visual_elements": [
+        "Vista desde la cima — nubes negras bajo los pies del combate",
+        "Rayos de energía dorada cruzando el campo en diagonal",
+        "Runas flotantes de poder máximo pulsando en círculos",
+        "Viento visible — partículas doradas barridas horizontalmente"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Bioma5_Cuspide.prefab",
+      "music_track": "music_tower_bioma_5"
+    },
+    {
+      "environmentId": "env_tower_by_biome",
+      "name_es": "Torre — Fondo procedural (referencia a bioma por piso)",
+      "mode": "tower",
+      "context": "procedural",
+      "bg_color": "#060608",
+      "tint_color": "dynamic",
+      "fog_color": "dynamic",
+      "visual_elements": [
+        "Cargado dinámicamente en runtime según el piso activo"
+      ],
+      "addressable": "Assets/Addressables/Environments/Tower/Procedural.prefab",
+      "music_track": "dynamic"
+    },
+    {
+      "environmentId": "env_arena_coliseo",
+      "name_es": "Coliseo de las Cachetadas",
+      "mode": "arena",
+      "context": "arena_pvp",
+      "bg_color": "#0A0608",
+      "tint_color": "#9D174D",
+      "fog_color": "#F9A8D4",
+      "visual_elements": [
+        "Gradas llenas de espectadores demónicos animados en loop",
+        "Pancarta '¡Insúltalos mejor!' colgando del arco de entrada",
+        "Cinco emojis 💀 en posiciones de gradas como árbitros",
+        "Suelo de tierra compactada con marcas de combates anteriores",
+        "Focos de arena dirigidos al centro del campo",
+        "Pizarra de puntuación en el fondo con números aleatorios"
+      ],
+      "addressable": "Assets/Addressables/Environments/Arena/Coliseo.prefab",
+      "music_track": "music_arena_pvp"
+    },
+    {
+      "environmentId": "env_wb_abrazo",
+      "name_es": "El Abrazo Infinito — Campo de Luz Cegadora",
+      "mode": "world_boss",
+      "context": "wb_abrazo_infinito",
+      "bg_color": "#080808",
+      "tint_color": "#FDE68A",
+      "fog_color": "#FFFBEB",
+      "visual_elements": [
+        "Luz blanca cegadora emanando del centro del campo",
+        "Brazos etéreos de luz intentando abrazar todo el escenario",
+        "Nubes de algodón de calidad divina en el fondo",
+        "Temperatura visual cálida — todo tintado en ámbar suave",
+        "Pétalos de flores infinitos cayendo desde arriba"
+      ],
+      "addressable": "Assets/Addressables/Environments/WorldBoss/AbrazoInfinito.prefab",
+      "music_track": "music_wb_luz"
+    },
+    {
+      "environmentId": "env_wb_sonrisa",
+      "name_es": "La Sonrisa Sin Rostro — Vacío Psíquico",
+      "mode": "world_boss",
+      "context": "wb_sonrisa_sin_rostro",
+      "bg_color": "#030308",
+      "tint_color": "#C084FC",
+      "fog_color": "#E9D5FF",
+      "visual_elements": [
+        "Vacío absoluto con sonrisas dibujadas flotando sin cara",
+        "Ondas psíquicas concéntricas desde el centro del campo",
+        "Ilusiones ópticas en las esquinas — el fondo parece moverse",
+        "Colores que se invierten brevemente cada pocos segundos (efecto estroboscópico suave)",
+        "Susurros visibles como texto flotante que desaparece al leerlo"
+      ],
+      "addressable": "Assets/Addressables/Environments/WorldBoss/SonrisaSinRostro.prefab",
+      "music_track": "music_wb_psiquico"
+    },
+    {
+      "environmentId": "env_wb_motivador",
+      "name_es": "El Motivador Eterno — Cielo de Aire Infinito",
+      "mode": "world_boss",
+      "context": "wb_motivador_eterno",
+      "bg_color": "#060810",
+      "tint_color": "#7DD3FC",
+      "fog_color": "#E0F2FE",
+      "visual_elements": [
+        "Campo abierto en el cielo — nubes de tormenta moviéndose rápido",
+        "Viento huracanado visible en partículas horizontales",
+        "Carteles motivacionales volando en el viento ('¡TÚ PUEDES!' '¡ESFUÉRZATE!')",
+        "Relámpagos de entusiasmo azul impactando lejos",
+        "El suelo es invisible — combate sobre el aire"
+      ],
+      "addressable": "Assets/Addressables/Environments/WorldBoss/MotivadorEterno.prefab",
+      "music_track": "music_wb_aire"
+    },
+    {
+      "environmentId": "env_wb_fiesta",
+      "name_es": "La Fiesta Interminable — Infierno Festivo",
+      "mode": "world_boss",
+      "context": "wb_fiesta_interminable",
+      "bg_color": "#0A0400",
+      "tint_color": "#F97316",
+      "fog_color": "#FED7AA",
+      "visual_elements": [
+        "Llamas de fiesta de colores (naranja, rosa, morado) en los bordes",
+        "Confeti en llamas cayendo desde arriba",
+        "Bola de discoteca ardiente girando en el centro del techo",
+        "Mesa de comida y bebidas festivas en el fondo completamente en llamas",
+        "Globos explotando en partículas de fuego periódicamente"
+      ],
+      "addressable": "Assets/Addressables/Environments/WorldBoss/FiestaInterminable.prefab",
+      "music_track": "music_wb_fuego"
+    },
+    {
+      "environmentId": "env_wb_optimista",
+      "name_es": "El Optimista Primordial — Jardín del Bien Eterno",
+      "mode": "world_boss",
+      "context": "wb_optimista_primordial",
+      "bg_color": "#060A06",
+      "tint_color": "#4ADE80",
+      "fog_color": "#DCFCE7",
+      "visual_elements": [
+        "Jardín exuberante con flores sonrientes en el fondo",
+        "Árboles con fruta que se regenera sola en loop",
+        "Mariposas de luz verde revoloteando por el campo",
+        "Sol pixelado sonriente visible en el fondo izquierdo",
+        "Todo demasiado perfecto — inquietante en su perfección"
+      ],
+      "addressable": "Assets/Addressables/Environments/WorldBoss/OptimistaPromordial.prefab",
+      "music_track": "music_wb_naturaleza"
+    },
+    {
+      "environmentId": "env_dungeon_agua",
+      "name_es": "Cripta del Agua — Cámara Inundada",
+      "mode": "dungeon_elemental",
+      "context": "elemento_agua",
+      "bg_color": "#040810",
+      "tint_color": "#3B82F6",
+      "fog_color": "#BAE6FD",
+      "visual_elements": [
+        "Cámara subterránea con agua hasta los tobillos reflejando luz azul",
+        "Estalactitas de hielo y roca goteando lentamente",
+        "Peces bioluminiscentes naranjas pasando de fondo ocasionalmente",
+        "Corriente de agua suave visible en el suelo"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaAgua.prefab",
+      "music_track": "music_dungeon_agua"
+    },
+    {
+      "environmentId": "env_dungeon_fuego",
+      "name_es": "Cripta del Fuego — Cámara de la Fragua",
+      "mode": "dungeon_elemental",
+      "context": "elemento_fuego",
+      "bg_color": "#0A0400",
+      "tint_color": "#EF4444",
+      "fog_color": "#FCA5A5",
+      "visual_elements": [
+        "Paredes de roca volcánica con grietas de lava visible",
+        "Fragua enorme en el fondo con fuego blanco central",
+        "Brasas volando en el aire como partículas lentas",
+        "Calor visible — efecto de distorsión en el aire sobre la lava"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaFuego.prefab",
+      "music_track": "music_dungeon_fuego"
+    },
+    {
+      "environmentId": "env_dungeon_luz",
+      "name_es": "Cripta de Luz — Sala del Juicio",
+      "mode": "dungeon_elemental",
+      "context": "elemento_luz",
+      "bg_color": "#08080C",
+      "tint_color": "#EAB308",
+      "fog_color": "#FDE047",
+      "visual_elements": [
+        "Sala de mármol blanco con columnas doradas deterioradas",
+        "Rayos de luz divina cayendo desde aberturas en el techo",
+        "Escudos y estandartes de orden sagrada en las paredes laterales",
+        "Altar en el fondo con velas doradas encendidas"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaLuz.prefab",
+      "music_track": "music_dungeon_luz"
+    },
+    {
+      "environmentId": "env_dungeon_naturaleza",
+      "name_es": "Cripta de Naturaleza — Raíces del Calabozo",
+      "mode": "dungeon_elemental",
+      "context": "elemento_naturaleza",
+      "bg_color": "#040A04",
+      "tint_color": "#22C55E",
+      "fog_color": "#86EFAC",
+      "visual_elements": [
+        "Raíces enormes atravesando el techo y las paredes de piedra",
+        "Musgo bioluminiscente verde cubriendo el suelo",
+        "Enredaderas moviéndose muy despacio como si respiraran",
+        "Hongos gigantes emitiendo esporas verdes suaves"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaNaturaleza.prefab",
+      "music_track": "music_dungeon_naturaleza"
+    },
+    {
+      "environmentId": "env_dungeon_oscuridad",
+      "name_es": "Cripta de Oscuridad — La Sala sin Nombre",
+      "mode": "dungeon_elemental",
+      "context": "elemento_oscuridad",
+      "bg_color": "#020208",
+      "tint_color": "#8B5CF6",
+      "fog_color": "#C4B5FD",
+      "visual_elements": [
+        "Sala casi completamente a oscuras — solo siluetas visibles",
+        "Sombras que se mueven solas en las paredes",
+        "Velas negras encendidas con llama de color morado",
+        "El suelo refleja estrellas oscuras — como mirar al vacío"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaOscuridad.prefab",
+      "music_track": "music_dungeon_oscuridad"
+    },
+    {
+      "environmentId": "env_dungeon_magica",
+      "name_es": "Cripta Mágica — El Nexo Arcano",
+      "mode": "dungeon_elemental",
+      "context": "elemento_magica",
+      "bg_color": "#060408",
+      "tint_color": "#A855F7",
+      "fog_color": "#E9D5FF",
+      "visual_elements": [
+        "Sala con suelo de cristal arcano con runas grabadas que brillan",
+        "Libros de hechizos flotando en círculos lentos",
+        "Portales miniatura de colores distintos en las paredes",
+        "Energía mágica visible como electricidad estática en el ambiente"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CriptaMagica.prefab",
+      "music_track": "music_dungeon_magica"
+    },
+    {
+      "environmentId": "env_dungeon_sotano_runas",
+      "name_es": "Sótano de las Runas — El Altar del Saber",
+      "mode": "dungeon_maestrias",
+      "context": "maestrias",
+      "bg_color": "#060408",
+      "tint_color": "#7C3AED",
+      "fog_color": "#DDD6FE",
+      "visual_elements": [
+        "Altar circular de piedra antigua en el centro del fondo",
+        "Anillos de runas concéntricas rotando a distintas velocidades",
+        "Libros encadenados al altar con cadenas de energía",
+        "Piedras de maestría brillando en nichos en las paredes"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/SotanoRunas.prefab",
+      "music_track": "music_dungeon_maestrias"
+    },
+    {
+      "environmentId": "env_dungeon_carniceria",
+      "name_es": "La Carnicería Festiva — Matadero de Gala",
+      "mode": "dungeon_gear",
+      "context": "forja_carniceria",
+      "bg_color": "#0A0404",
+      "tint_color": "#EF4444",
+      "fog_color": "#FCA5A5",
+      "visual_elements": [
+        "Ganchos de carnicería con guirnaldas y globos de cumpleaños",
+        "Serrucho decorativo con lacito rosa en la pared",
+        "Mesa de celebración con gear encima como tarta",
+        "Confeti cayendo sobre sangre seca — la combinación perfecta"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/CarniceriaFestiva.prefab",
+      "music_track": "music_dungeon_carniceria"
+    },
+    {
+      "environmentId": "env_dungeon_convento",
+      "name_es": "El Convento del Escudo Eterno — Claustro Blindado",
+      "mode": "dungeon_gear",
+      "context": "forja_convento",
+      "bg_color": "#040608",
+      "tint_color": "#3B82F6",
+      "fog_color": "#BFDBFE",
+      "visual_elements": [
+        "Claustro de piedra con arcos de herradura y escudos en cada columna",
+        "Monjas con armadura completa rezando en el fondo",
+        "14 capas de hábito colgadas en el tendedero lateral",
+        "Escudos de todas las formas y tamaños apilados en las esquinas"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/ConventoEscudo.prefab",
+      "music_track": "music_dungeon_convento"
+    },
+    {
+      "environmentId": "env_dungeon_laberinto",
+      "name_es": "El Laberinto del Pensamiento Veloz — La Sala de las Ideas",
+      "mode": "dungeon_gear",
+      "context": "forja_laberinto",
+      "bg_color": "#040A06",
+      "tint_color": "#22C55E",
+      "fog_color": "#BBF7D0",
+      "visual_elements": [
+        "Paredes del laberinto visibles a izquierda y derecha — caminos que se cruzan",
+        "Ideas volando como destello de luz — demasiado rápidas para verlas bien",
+        "Flechas de dirección por el suelo apuntando en todas las direcciones",
+        "Pensamiento fugitivo — silueta verde escapando por el fondo"
+      ],
+      "addressable": "Assets/Addressables/Environments/Dungeons/LaberintoPensamiento.prefab",
+      "music_track": "music_dungeon_laberinto"
+    },
+    {
+      "environmentId": "env_clan_boss",
+      "name_es": "Guarida del Boss de Clan",
+      "mode": "clan_boss",
+      "context": "clan",
+      "bg_color": "#080608",
+      "tint_color": "#15803D",
+      "fog_color": "#86EFAC",
+      "visual_elements": [
+        "Sala de guerra con banderas del clan en las paredes",
+        "Trono del boss en el fondo sobre una plataforma elevada",
+        "Antorchas verdes oscuras en los laterales",
+        "Marcas de combates anteriores en el suelo de piedra"
+      ],
+      "addressable": "Assets/Addressables/Environments/Clan/BossClan.prefab",
+      "music_track": "music_clan_boss"
+    },
+    {
+      "environmentId": "env_clan_raid",
+      "name_es": "Sala de la Raid de Clan",
+      "mode": "clan_raid",
+      "context": "clan",
+      "bg_color": "#080608",
+      "tint_color": "#15803D",
+      "fog_color": "#4ADE80",
+      "visual_elements": [
+        "Misma sala que el Boss de Clan pero con iluminación de emergencia roja",
+        "Indicadores de fase activa en las paredes (I, II, III)",
+        "Daño acumulado visible como fracturas en el suelo",
+        "Miembros del clan visibles como siluetas de apoyo en las gradas"
+      ],
+      "addressable": "Assets/Addressables/Environments/Clan/RaidClan.prefab",
+      "music_track": "music_clan_raid"
+    }
+  ]
+}

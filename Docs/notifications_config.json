@@ -1,0 +1,67 @@
+{
+  "_meta": {
+    "desc_es": "Tipos de notificación push. Todos configurables en Trastienda > Notificaciones."
+  },
+  "types": [
+    {
+      "id": "energy_full",
+      "trigger_es": "Energía al 100%",
+      "msg_es": "Tu Rayo Místico está al máximo. ¡A destruir cosas!",
+      "default_on": true
+    },
+    {
+      "id": "building_done",
+      "trigger_es": "Edificio terminado de construir/mejorar",
+      "msg_es": "La {edificio} ha terminado de mejorarse.",
+      "default_on": true
+    },
+    {
+      "id": "event_ending",
+      "trigger_es": "24h antes de que termine un evento",
+      "msg_es": "El evento {evento} termina en 24 horas. ¡Tus Fichas del Caos expiran!",
+      "default_on": true
+    },
+    {
+      "id": "arena_attacked",
+      "trigger_es": "Tu defensa de Arena recibe un ataque",
+      "msg_es": "{jugador} ha atacado tu defensa. Resultado: {resultado}.",
+      "default_on": false
+    },
+    {
+      "id": "horda_spawned",
+      "trigger_es": "La Horda Maldita aparece en tu clan",
+      "msg_es": "¡La Horda Maldita ha aparecido! 24h para derrotarla.",
+      "default_on": true
+    },
+    {
+      "id": "clan_war_start",
+      "trigger_es": "Inicio de Guerra de Clanes",
+      "msg_es": "¡La guerra comienza! Tu clan enfrenta a {rival}.",
+      "default_on": true
+    },
+    {
+      "id": "world_boss_spawn",
+      "trigger_es": "Aparece el Señor de la Semana",
+      "msg_es": "¡El Señor de la Semana ha aparecido! Envía tus 15 esbirros.",
+      "default_on": true
+    },
+    {
+      "id": "daily_reset",
+      "trigger_es": "Reset diario completado",
+      "msg_es": "Nuevo día, nuevas misiones. El caos no descansa.",
+      "default_on": false
+    },
+    {
+      "id": "bp_expiring",
+      "trigger_es": "Battle Pass termina en 3 días",
+      "msg_es": "Tu Battle Pass termina en 3 días. ¿Has llegado al nivel 50?",
+      "default_on": true
+    },
+    {
+      "id": "mail_received",
+      "trigger_es": "Correo con adjunto sin recoger >7 días",
+      "msg_es": "Tienes recompensas en el correo que caducan pronto.",
+      "default_on": true
+    }
+  ]
+}

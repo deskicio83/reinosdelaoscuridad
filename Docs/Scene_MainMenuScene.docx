@@ -1,0 +1,326 @@
+**REINO DE LA OSCURIDAD**
+
+MainMenuScene — Bastión Maldito
+
+*Documentación completa · Mockup visual · Especificación Figma · Contenido formal*
+
+Versión 1.0 — Cerrada y aprobada
+
+# **Índice de secciones**
+
+- Sección 0 — Mockup visual de referencia (página landscape)
+
+- Sección 1 — Ficha técnica de la Scene
+
+- Sección 2 — Especificación Figma (descripción exacta del mockup)
+
+- Sección 3 — Contenido formal completo
+
+*Nota sobre nomenclatura: esta Scene se llamaba **'**HubScene**'** en documentación anterior. El nombre correcto en Unity y en el GDD es MainMenuScene. El término Hub hacía referencia a la barra de recursos, no a la Scene.*
+
+# **1. Ficha técnica de la Scene**
+
+| **Propiedad** | **Valor** |
+| --- | --- |
+| Nombre de Scene en Unity | MainMenuScene |
+| Nombre en el juego | Bastión Maldito |
+| Tipo | Scene central del juego (nodo de navegación principal) |
+| Acceso desde | BootScene (tras login) · TutorialScene (primer inicio) · Botón back de cualquier Scene de gestión o gameplay |
+| Vuelve a | No vuelve a ningún sitio — es el punto de partida. Botón back en móvil muestra diálogo de salir del juego. |
+| Formato de pantalla | Landscape 16:9 |
+| Scroll | 2D libre: horizontal y vertical. El mapa del Bastión es más grande que la pantalla. |
+| HUD común visible | Sí — avatar (tap abre perfil), nivel, monedas (+), chat, correo, ajustes, eventos |
+| Chat flotante | Sí — icono 💬 en HUD, panel slide-in desde la derecha |
+| Assets únicos que carga | Fondo isométrico del Bastión Maldito, sprites de 9 edificios con animaciones, sprites de iconos flotantes, partículas del Pozonegro, efectos de rayo místico |
+| Firestore — lecturas al entrar | 1 read: PlayerData completo (ya cargado en BootScene, se reutiliza). Sin lecturas adicionales. |
+| Firestore — escritura | Ninguna directamente. Las escrituras ocurren en las Scenes de destino. |
+| Estilo artístico | 2D isométrico 45°. Cómico gótico absurdo. Influencias: Day of the Tentacle, Don't Starve, Guacamelee, Plants vs Zombies. |
+
+# **2. Especificación Figma — Descripción exacta del mockup**
+
+*El mockup muestra el estado con el panel de chat abierto (slide-in desde la derecha al 40% del ancho). El estado sin chat es idéntico pero sin el panel ni el overlay oscuro.*
+
+## **2.1 Estructura global de la pantalla**
+
+Resolución de referencia: 1280×720px (landscape 16:9).
+
+| **Zona** | **Posición / Tamaño** | **Fondo hex** | **Descripción** |
+| --- | --- | --- | --- |
+| HUD top bar | y=10, h=64px, w=100% | #14101E | Barra global. rx=12 superiores. |
+| Área del Bastión | y=74, h=596px, w=100% | #080810 | Escenario isométrico scrollable con edificios y cielo. |
+| Iconos flotantes inf | y=648, h=52px, w=410px | #0D0D18 (panel semi) | Fila horizontal de 6 iconos pegada al borde inferior izquierdo. |
+| Panel chat (abierto) | x=762, w=508px, h=596px | #0F0F1A | Slide-in desde la derecha. 40% del ancho de la pantalla útil. |
+| Overlay chat | x=10, w=750px, h=596px | #000000 op=30% | Oscurece el área izquierda cuando el chat está abierto. |
+
+## **2.2 HUD top bar (h=64px, fondo #14101E)**
+
+### **Zona izquierda — Identidad del jugador**
+
+- Avatar: círculo 44px, borde 2px #7C3AED, fondo #2D1A3D. Tap abre PlayerInfoPanel (perfil).
+
+- Etiqueta '↑ Perfil': 7px #7C3AED, centrada bajo el avatar a 71px desde top. Indicador de tap.
+
+- Nombre: 12px monospace #A855F7 bold. Badge nivel: 68×13px rx=3 fondo #4C1D95, texto 8px #E9D5FF.
+
+### **Zona central — Monedas con botón +**
+
+- Energía: píldora 108×22px rx=11, fondo #1A1020, borde 1px #FACC15. Icono ⚡ 13px + valor 10px monospace #FDE68A. Botón +: 22×22px rx=11, fondo #78350F, borde #D97706, texto 13px #FCD34D.
+
+- Oro Negro: píldora 94×22px rx=11, fondo #1A1020, borde 1px #D97706. Mismo patrón de botón +.
+
+- Caosifera: píldora 94×22px rx=11, fondo #1A1020, borde 1px #22D3EE. Botón +: fondo #0C4A6E, borde #22D3EE, texto #22D3EE.
+
+### **Zona derecha — Iconos de acción global**
+
+Orden de izquierda a derecha: 💬 Chat (más grande) → ✉ Correo → ⚙ Ajustes → 🧭 Eventos. Todos alineados a la derecha del HUD.
+
+| **Icono** | **Tamaño círculo** | **Fondo** | **Borde** | **Badge** | **Notas** |
+| --- | --- | --- | --- | --- | --- |
+| 💬 Chat | 44px (r=22) | #4C1D95 activo / #1A1020 inactivo | 2.5px #A855F7 activo / 1px #374151 | Rojo 20px con número | Más grande que los demás. Se resalta cuando el panel está abierto. |
+| ✉ Correo | 36px (r=18) | #1A1020 | 1px #374151 | Rojo 18px con número | Tamaño estándar. |
+| ⚙ Ajustes | 36px (r=18) | #1A1020 | 1px #374151 | Sin badge | Abre SettingsPanel overlay. |
+| 🧭 Eventos | 36px (r=18) | #1C1408 | 1.2px #D97706 | Badge naranja 'EVENTO' | Badge rectangular 32×12px rx=6 fondo #D97706, texto 7px #1A0800 bold. Solo visible cuando hay evento activo. |
+
+## **2.3 Área del Bastión — Fondo isométrico**
+
+### **Cielo nocturno (h≈240px desde y=74)**
+
+- Fondo #080810. Estrellas: círculos de 1–2px #E9D5FF con opacidad 0.4–0.7, distribuidas aleatoriamente.
+
+- Luna: círculo 70px, fondo #1A1828, borde 1.5px #4C1D95, opacidad 0.8. Emoji 🌙 38px centrado en #4C1D95 opacidad 0.5.
+
+- Nubes: elipses con rx 80–100px, ry 22–30px, fondo #14102A, opacidad 0.75–0.85. Agrupadas en 2–3 zonas del cielo.
+
+- Rayo místico: línea de 3px #FACC15 opacidad 0.14 desde el cielo hasta el suelo. Triángulo en la punta superior (22px, #FACC15 opacidad 0.28).
+
+### **Suelo isométrico**
+
+- Path romboidal que define el plano del Bastión: M10,370 L640,220 L1270,370 L640,520 Z. Fondo #10101A, borde #1A1828 0.5px.
+
+- Líneas de perspectiva horizontales: y=400 (0.7px) y y=440 (0.5px), color #1A1828.
+
+- Camino principal: path SVG curvado de 20px de grosor, color #181828. Sobre él, línea de 12px con stroke-dasharray 16/6, color #201E30 opacidad 0.6, simulando adoquines.
+
+## **2.4 Edificios físicos — Especificación individual**
+
+Todos los edificios siguen el mismo patrón isométrico: cara frontal (rectángulo), cara lateral izquierda (polígono oscuro), tejado (polígono con perspectiva), cartel con el nombre del edificio, decoración característica y botón TAP.
+
+| **Edificio** | **Posición aprox.** | **Color borde** | **Decoración única** | **Navegación** |
+| --- | --- | --- | --- | --- |
+| Esbirratorio | x=108, y=268, w=132, h=138 | #7C3AED 2px | 3 emojis 💀 de distinto tamaño en la fachada | → HeroScene |
+| Calderón Rúnico | x=268, y=305, w=122, h=132 | #6D28D9 1.8px | Caldera elíptica con 3 burbujas mágicas flotando (círculos #4C1D95) | → ConjuroScene |
+| Portón del Dolor™ | x=492, y=195, w=236, h=196 | #581C87 2.5px | El más grande. 2 torres laterales con tejado triangular. Puerta con 2 ojos amarillos animados (#FACC15). Cartel neón '🦴 Portón del Dolor™ 🦴' | → CampaignScene |
+| Pozonegro™ | Elipse cx=395, cy=450 | #4C1D95 2.5px | Estructura de pozo. 5 tentáculos SVG path. 5 partículas #A855F7. Cartel sobre el pozo. | → GachaScene |
+| Arena de Cachetadas | x=752, y=276, w=158, h=144 | #9D174D 2px | 5 emojis 💀 en posiciones de gradas. Pancarta #4A0520 '¡Insúltalos mejor!' | → ArenaScene |
+| Triloguzano del Vacío | x=928, y=256, w=166, h=146 | #15803D 2px | 3 portales elípticos con emojis 😤 😠 🤬. Labels Torre/Boss Global/Mazmorra bajo cada portal. | → Selector (3 modos) |
+| Tienda Endiablada | x=1058, y=352, w=134, h=120 | #B45309 1.8px | Emoji 🏪 42px. Cartel '¡50% más maldad!' | → ShopScene |
+| Guarida Clanosa | x=10, y=370 (parcial) | #15803D 1.5px | Solo visible parcialmente. Indica scroll izquierda. | → ClanScene |
+| Sala del Mándalo | x=1212, y=380 (parcial) | #D97706 1.5px | Solo visible parcialmente. Indica scroll derecha. | → MissionScene |
+
+### **Botón TAP en cada edificio**
+
+- Círculo de 24px diámetro, fondo del color temático del edificio, opacidad 0.9. Texto 'TAP' 9px blanco bold centrado.
+
+- Posicionado en la base del edificio, sobre el suelo, centrado horizontalmente respecto al cuerpo principal.
+
+### **Edificios parciales + indicadores de scroll**
+
+- Guarida Clanosa (izquierda) y Sala del Mándalo (derecha) se muestran parcialmente en los bordes de la pantalla con opacidad 0.65 para indicar que hay más contenido.
+
+- Flechas de scroll: círculos de 36px con fondo #1A1020 opacidad 0.8, borde #2D1A3D. Flechas ◄ ► ▼ de 16px #6B7280. Posiciones: x=28 y=440 (izq), x=1252 y=440 (der), x=640 y=612 (abajo).
+
+## **2.5 Iconos flotantes — Fila horizontal inferior izquierda**
+
+Panel semitransparente: x=10, y=648, w=410px, h=52px, rx=10, fondo #0D0D18 opacidad 0.90, borde #1E1C2E 1px.
+
+6 iconos circulares en fila horizontal. Los 5 primeros de radio 20px, el Triloguzano de radio 22px (ligeramente más grande). Centros en cy=672, separados 70px entre sí (cx: 43, 113, 183, 253, 323, 393).
+
+| **Posición** | **Icono** | **Fondo círculo** | **Borde** | **Label (7px bold)** | **Badge** |
+| --- | --- | --- | --- | --- | --- |
+| cx=43 | 🧙 Esbirros | #1E1535 | 1.8px #7C3AED | #C084FC | Sin badge |
+| cx=113 | ⚗️ Conjuros | #1A0D35 | 1.8px #6D28D9 | #A855F7 | Sin badge |
+| cx=183 | ⚔️ Arena | #1A0D1A | 1.8px #9D174D | #F472B6 | Sin badge |
+| cx=253 | 👥 Clan | #0D1A0D | 1.8px #15803D | #4ADE80 | Sin badge |
+| cx=323 | 📋 Misiones | #1A1408 | 1.8px #D97706 | #FBBF24 | Círculo rojo 20px en esquina sup-der con número de misiones pendientes |
+| cx=393 | 🗼 Triloguzano | #0D1A0D | 2.5px #15803D (más grueso) | #4ADE80 | Flecha ▲ 10px #4ADE80 en esquina sup-der indicando submenú |
+
+- Labels: texto centrado bajo cada círculo a cy+26px desde el centro. Fondo pequeño #14101E rx=7 de 48px de ancho para legibilidad.
+
+### **Abanico Triloguzano — desplegado al pulsar**
+
+Al pulsar el icono Triloguzano, 3 sub-iconos se despliegan en semicírculo hacia arriba-derecha desde cx=393, cy=672. Sin desplazar ningún elemento existente.
+
+| **Sub-icono** | **Posición desplegada** | **Icono** | **Label** |
+| --- | --- | --- | --- |
+| Torre | cx=360, cy=610 (arriba-izq) | 🗼 | Torre — 7px #4ADE80 |
+| Boss Global | cx=393, cy=600 (arriba) | 👑 | Boss Global — 7px #4ADE80 |
+| Mazmorra | cx=426, cy=610 (arriba-der) | ⚔️ | Mazmorra — 7px #4ADE80 |
+
+- Líneas guía: stroke-dasharray 4/3, color #15803D, opacidad 0.5, desde el centro del Triloguzano hasta cada sub-icono.
+
+- Sub-iconos: círculo 44px, fondo #052E16, borde 2px #16A34A. Label en rectángulo 48–56px rx=6 fondo #0A120A borde #16A34A.
+
+## **2.6 Panel de Chat — Especificación**
+
+Dimensiones: x=762, y=74, w=508px (40% de 1270px), h=596px. Rx=8. Fondo #0F0F1A, borde 1.5px #2D1A3D.
+
+Overlay oscuro sobre el área izquierda cuando el chat está abierto: x=10, y=74, w=750px, h=596px, fill #000000 opacidad 0.30.
+
+### **Header del chat (h=52px, fondo #14101E)**
+
+- Título '💬 Chat' — 14px #A855F7 bold, posición x=792.
+
+- Botón cerrar ✕: círculo 28px, fondo #1F2937, borde #374151, texto 14px #9CA3AF, posición derecha (cx=1252).
+
+- 3 tabs: Global (activo 156×24px fondo #4C1D95) · Clan (inactivo, con badge rojo si mensajes nuevos) · Privado (inactivo). Rx=5 todos.
+
+### **Área de mensajes**
+
+- Fondo #0D0D1A. Scroll vertical. Mensajes de otros: burbuja a la izquierda, fondo #1A1020 borde #374151. Avatar circular 26px a la izquierda de la burbuja.
+
+- Mensajes propios: burbuja a la derecha, fondo #2D1A3D borde #7C3AED. Avatar 26px a la derecha.
+
+- Mensajes del sistema: rectángulo centrado, fondo #14101E borde #374151, texto #6B7280. Para eventos como subidas de nivel.
+
+### **Campo de escritura (h=36px)**
+
+- Rectángulo 430×36px rx=8, fondo #1A1020, borde #374151. Placeholder 'Escribe un mensaje...' en 9px #4B5563.
+
+- Botón enviar ➤: 56×36px rx=8, fondo #4C1D95, icono 14px #E9D5FF centrado.
+
+# **3. Contenido formal — Definición completa de MainMenuScene**
+
+## **3.1 Propósito**
+
+MainMenuScene es el nodo central del juego — el punto de partida desde el que el jugador accede a todo el contenido. Representa el interior del Bastión Maldito, la base de operaciones de Necrostofeles. Su diseño combina la exploración visual del escenario (inspirada en Summoners War y Watcher of Realms) con accesos rápidos fijos para los modos más frecuentes.
+
+## **3.2 Navegación desde MainMenuScene**
+
+| **Destino** | **Cómo se accede** | **Tipo de acceso** |
+| --- | --- | --- |
+| HeroScene — Esbirratorio | Tap edificio Esbirratorio · Icono flotante 🧙 Esbirros | Edificio físico + icono flotante |
+| ConjuroScene — Calderón | Tap edificio Calderón Rúnico · Icono flotante ⚗️ Conjuros | Edificio físico + icono flotante |
+| CampaignScene — Portón | Tap edificio Portón del Dolor™ | Solo edificio físico |
+| GachaScene — Pozonegro | Tap estructura Pozonegro™ | Solo edificio físico (estructura especial) |
+| ArenaScene — Arena | Tap edificio Arena de Cachetadas · Icono flotante ⚔️ Arena | Edificio físico + icono flotante |
+| TowerScene | Tap Triloguzano → selector → Torre | Edificio físico + abanico icono flotante |
+| WorldBossScene | Tap Triloguzano → selector → Boss Global | Edificio físico + abanico icono flotante |
+| MazmorraScene | Tap Triloguzano → selector → Mazmorra | Edificio físico + abanico icono flotante |
+| ShopScene — Tienda | Tap edificio Tienda Endiablada | Solo edificio físico |
+| ClanScene — Guarida | Tap edificio Guarida Clanosa (scroll izq) · Icono 👥 Clan | Edificio físico + icono flotante |
+| MissionScene — Mándalo | Tap edificio Sala del Mándalo (scroll der) · Icono 📋 Misiones | Edificio físico + icono flotante |
+| PlayerInfoPanel | Tap en el avatar del HUD | Panel overlay (sin cambio de Scene) |
+| SettingsPanel | Tap icono ⚙ en HUD | Panel overlay |
+| EventPanel | Tap icono 🧭 en HUD | Panel overlay |
+| MailPanel | Tap icono ✉ en HUD | Panel overlay |
+| ChatPanel | Tap icono 💬 en HUD | Panel slide-in derecha (no cambia de Scene) |
+
+## **3.3 Paneles overlay accesibles solo desde MainMenuScene**
+
+Estos paneles se abren sobre MainMenuScene sin cargar una nueva Scene. Son Canvas de Unity que se activan/desactivan.
+
+| **Panel** | **Trigger** | **Contenido** |
+| --- | --- | --- |
+| PlayerInfoPanel | Tap en avatar del HUD | Perfil público del jugador: avatar, nombre, nivel, poder, medallas destacadas (hasta 5), historial de logros, estadísticas de combate. |
+| SettingsPanel | Tap icono ⚙ | Idioma, volumen música, volumen efectos, notificaciones push, modo ahorro de datos, cerrar sesión, borrar caché. |
+| EventPanel | Tap icono 🧭 | Eventos activos con banners, tiempo restante y acceso directo al modo de evento. Badge naranja 'EVENTO' visible en el HUD cuando hay eventos. |
+| MailPanel | Tap icono ✉ | Bandeja de recompensas del sistema: gifts, compensaciones, recompensas de logros pendientes, mensajes del equipo. Badge rojo con número de no leídos. |
+
+## **3.4 Panel de Chat — Comportamiento**
+
+El panel de chat es un elemento transversal visible en MainMenuScene, todas las Scenes de gestión, CampaignScene y TowerScene. Se implementa como un Canvas de Unity que persiste entre Scenes (DontDestroyOnLoad).
+
+| **Propiedad** | **Valor** |
+| --- | --- |
+| Trigger apertura | Tap icono 💬 en HUD. El icono se resalta (fondo #4C1D95) cuando el panel está abierto. |
+| Animación | Slide-in desde el borde derecho de la pantalla. Duración ~200ms, easing ease-out. |
+| Dimensiones | 40% del ancho de pantalla × 90% del alto (desde bajo el HUD hasta el borde inferior). |
+| Overlay | El 60% izquierdo se oscurece con fill #000000 opacidad 30% cuando el chat está abierto. |
+| Cierre | Tap en botón ✕ del panel, tap en el overlay oscuro, o segundo tap en el icono 💬 del HUD. |
+| Tab Global | Chat público del servidor. Todos los jugadores. Moderación automática de palabras prohibidas. |
+| Tab Clan | Solo visible para jugadores con clan activo. Si no hay clan, muestra mensaje de acceso. |
+| Tab Privado | Lista de conversaciones directas. Tap en un usuario del chat global abre conversación privada. |
+| Badge no leídos | Círculo rojo sobre el icono 💬 con número de mensajes no leídos. Se actualiza en tiempo real. |
+
+## **3.5 Iconos flotantes — Comportamiento**
+
+### **Fila horizontal inferior izquierda (fijos en pantalla, no se mueven con el scroll del escenario)**
+
+Los 6 iconos están anclados a la pantalla (Screen Space - Overlay en Unity), no al mundo isométrico. Siempre visibles independientemente de la posición del scroll del Bastión.
+
+| **Icono** | **Scene destino** | **Badge** | **Diferencia con el edificio físico** |
+| --- | --- | --- | --- |
+| 🧙 Esbirros | HeroScene | Sin badge | El edificio Esbirratorio está en el escenario. El icono es acceso directo inmediato sin buscar el edificio. |
+| ⚗️ Conjuros | ConjuroScene | Sin badge | Ídem para el Calderón Rúnico, que puede estar fuera de la vista inicial. |
+| ⚔️ Arena | ArenaScene | Sin badge | Ídem para el edificio Arena de Cachetadas. |
+| 👥 Clan | ClanScene | Sin badge | El edificio Guarida Clanosa está fuera de la vista inicial (requiere scroll izquierda). |
+| 📋 Misiones | MissionScene | Rojo: misiones pendientes o cofres disponibles | El edificio Sala del Mándalo está fuera de la vista inicial (requiere scroll derecha). |
+| 🗼 Triloguzano | Selector | Flecha ▲ indicando submenú | Abre un abanico con 3 sub-iconos: Torre, Boss Global, Mazmorra. El edificio Triloguzano está siempre visible pero el abanico del icono es más cómodo. |
+
+### **Abanico del Triloguzano**
+
+Al pulsar el icono Triloguzano, se despliegan 3 sub-iconos en semicírculo hacia arriba. La animación dura ~150ms con easing ease-out. Pulsar fuera del abanico lo cierra. Pulsar uno de los sub-iconos navega a la Scene correspondiente.
+
+| **Sub-icono** | **Ángulo de despliegue** | **Scene destino** |
+| --- | --- | --- |
+| 🗼 Torre | Arriba-izquierda (~130°) | TowerScene |
+| 👑 Boss Global | Arriba (~90°) | WorldBossScene |
+| ⚔️ Mazmorra | Arriba-derecha (~50°) | MazmorraScene |
+
+## **3.6 Scroll del Bastión**
+
+El escenario del Bastión es más grande que la pantalla. El jugador puede hacer scroll arrastrando con el dedo en cualquier dirección.
+
+| **Propiedad** | **Valor** |
+| --- | --- |
+| Tipo de scroll | Drag libre en 2D. Sin snap a posición fija. |
+| Edificios siempre visibles sin scroll | Esbirratorio, Calderón Rúnico, Portón del Dolor™, Pozonegro™, Arena de Cachetadas, Triloguzano del Vacío, Tienda Endiablada (7 de 9) |
+| Requieren scroll izquierda | Guarida Clanosa |
+| Requieren scroll derecha | Sala del Mándalo |
+| Indicadores visuales | Edificios parciales en los bordes + flechas ◄ ► ▼ circulares semitransparentes |
+| Límites del scroll | El mapa tiene límites fijos. El jugador no puede scrollear más allá del Bastión. |
+| HUD e iconos flotantes | Permanecen fijos en pantalla (Screen Space - Overlay). No se mueven con el scroll. |
+
+## **3.7 Datos en PlayerData usados en MainMenuScene**
+
+| **Campo** | **Uso en la Scene** |
+| --- | --- |
+| player.name, player.level, player.avatar | Mostrar en HUD y PlayerInfoPanel |
+| currencies.energia, currencies.oroNegro, currencies.caosifera | Mostrar en el HUD con los botones + |
+| notifications.mail | Badge del icono ✉ |
+| notifications.chat | Badge del icono 💬 |
+| events.active[] | Badge y contenido del icono 🧭 |
+| dailyMissions (pendientes) | Badge del icono 📋 Misiones |
+| player.medals[].featured[] | Mostrar en PlayerInfoPanel (hasta 5 destacadas) |
+
+*COSTE FIRESTORE: MainMenuScene no realiza ninguna lectura adicional. Todo viene del PlayerData cargado en BootScene. Las notificaciones de chat y eventos usan listeners de Firestore ya suscritos en BootScene.*
+
+*— El mockup visual se muestra en la siguiente página —*
+
+# **0. Mockup visual de referencia**
+
+El mockup muestra MainMenuScene con el panel de chat abierto (estado 'chat activo'). El escenario del Bastión Maldito ocupa el 60% izquierdo (levemente oscurecido por el overlay del chat). El panel de chat ocupa el 40% derecho deslizando desde la derecha. En la esquina inferior izquierda se ven los 6 iconos flotantes en fila horizontal, con el abanico del Triloguzano desplegado hacia arriba.
+
+*Fig. 1 — MainMenuScene · Bastión Maldito · Chat abierto · 1280×720px · Landscape 16:9*
+
+| **Elemento visual** | **Posición en el mockup** | **Estado representado** |
+| --- | --- | --- |
+| HUD top bar | Franja superior 64px | Avatar 💀 · Nivel 15 · Monedas con botón + · Chat 💬 activo (fondo #4C1D95) · ✉⚙🧭 alineados a la derecha |
+| Cielo nocturno | Zona superior del escenario | Estrellas, luna torcida, nubes oscuras, rayo místico descendiendo |
+| Suelo isométrico | Plano central del Bastión | Path romboidal con líneas de perspectiva. Camino de adoquines curvo. |
+| Esbirratorio | Izquierda del escenario | Edificio morado con 3 cráneos 💀 en la fachada. Botón TAP en la base. |
+| Calderón Rúnico | Centro-izquierda | Edificio morado oscuro con caldera elíptica y burbujas mágicas. |
+| Portón del Dolor™ | Centro, el más grande | Edificio central de máxima altura. Cartel neón. Puerta con ojos amarillos 👀 |
+| Pozonegro™ | Centro, estructura de pozo | Elipses concéntricas. 5 tentáculos con partículas #A855F7 flotando. |
+| Arena de Cachetadas | Derecha-centro | Edificio rosa oscuro con gradas de esqueletos 💀 y pancarta. |
+| Triloguzano del Vacío | Derecha | Edificio verde con 3 portales 😤 😠 🤬. Labels Torre/Boss Global/Mazmorra. |
+| Tienda Endiablada | Derecha | Edificio naranja-marrón con 🏪 y letrero de oferta. |
+| Guarida Clanosa | Borde izquierdo (parcial) | Visible al 65% de opacidad. Indica que hay contenido al hacer scroll izquierda. |
+| Sala del Mándalo | Borde derecho (parcial) | Visible al 65% de opacidad. Indica scroll derecha disponible. |
+| Flechas de scroll | Bordes izq, der e inferior | Círculos semitransparentes con ◄ ► ▼. Indican direcciones de scroll disponibles. |
+| Iconos flotantes (fila) | Borde inferior izquierdo, h=52px | 6 iconos circulares en horizontal: Esbirros·Conjuros·Arena·Clan·Misiones·Triloguzano. Panel #0D0D18 semitransparente. |
+| Abanico Triloguzano | Sobre el icono Triloguzano | 3 sub-iconos desplegados: 🗼 Torre (arriba-izq) · 👑 Boss Global (arriba) · ⚔️ Mazmorra (arriba-der). Líneas guía punteadas. |
+| Overlay chat | 60% izquierdo de la pantalla | Oscurecimiento #000000 30% sobre el escenario cuando el chat está abierto. |
+| Panel chat | 40% derecho (508px) | Header con tabs Global(activo)·Clan·Privado. Burbujas de mensajes. Campo de escritura + botón ➤. |
+
+*— MainMenuScene cerrada y aprobada —*
