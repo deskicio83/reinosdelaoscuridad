@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 
@@ -105,7 +106,7 @@ namespace ReinoOscuridad.Systems
             }
 
             string json = File.ReadAllText(path);
-            _playerData = JsonUtility.FromJson<PlayerData>(json);
+            _playerData = JsonConvert.DeserializeObject<PlayerData>(json);
 
             if (_playerData == null)
             {
