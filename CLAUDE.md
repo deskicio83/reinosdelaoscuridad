@@ -26,11 +26,12 @@ Lee solo lo que necesites para la tarea actual:
 | Catálogo de JSONs | `Docs/Catalogo_JSONs_Tecnicos.docx` |
 | Estado actual del proyecto | `Docs/ESTADO_PROYECTO.md` ← actualizar después de cada sesión |
 
-**JSONs del catálogo:**  
+**JSONs del catálogo — fuente de verdad: `Assets/Data/`**  
 `hero_catalog.json` · `gear_catalog.json` · `spells_catalog.json`  
 `encounter_catalog.json` · `enemy_catalog.json` · `drop_table.json`  
 `environment_catalog.json` · `tower_catalog.json` · `variables_globales.json`  
-→ Cuando estén en `Assets/Data/` cárgalos desde ahí. Mientras estén en `Docs/` léelos desde ahí.
+→ A partir de S01 todos los JSONs están en `Assets/Data/`. Cárgalos siempre desde ahí.  
+→ Solo leerlos desde `Docs/` si por algún motivo no están aún en `Assets/Data/`.
 
 ---
 
@@ -64,6 +65,7 @@ IMPORTANTE: Energía regenera a 4 minutos por unidad (no 5).
 IMPORTANTE: Bleed NO puede ser removido por Cleanse.
 IMPORTANTE: Duplicados de gacha van al inventario — el jugador decide, no se auto-convierten.
 IMPORTANTE: Subastas y sistemas de alta frecuencia de escritura son incompatibles con Firestore.
+IMPORTANTE: No hacer commit si Unity tiene errores de compilación rojos. Resolver primero.
 ```
 
 ---
@@ -99,7 +101,7 @@ IMPORTANTE: Subastas y sistemas de alta frecuencia de escritura son incompatible
 ```
 Assets/
 ├── Addressables/        ← Heroes/ · Environments/ · Gear/ · UI/ · Effects/
-├── Data/                ← JSONs estáticos del catálogo
+├── Data/                ← JSONs estáticos del catálogo (fuente definitiva)
 ├── Localization/        ← assets ES/EN
 ├── Prefabs/             ← UI/ · Combat/ · System/
 ├── Scenes/              ← una .unity por Scene
@@ -140,8 +142,41 @@ Assets/
 
 ---
 
+## Trabajo manual en Unity Editor
+
+Algunas tareas no pueden hacerse desde código. Cuando una sesión las requiera,
+Claude Code debe listar al final de su respuesta los pasos exactos bajo el título
+**"Pasos manuales en Unity Editor"**, con este formato:
+
+```
+PASOS MANUALES EN UNITY EDITOR:
+1. File > New Scene > Basic 2D → guardar como Assets/Scenes/NombreScene.unity
+2. Arrastrar el prefab Assets/Prefabs/System/GameManager.prefab a la jerarquía
+3. Seleccionar el GameObject X → Inspector → campo Y → arrastrar el script Z
+```
+
+Si la sesión no requiere pasos manuales, escribir: "Sin pasos manuales en Unity Editor."
+
+---
+
+## Flujo de sesiones
+
+Este proyecto se implementa en sesiones únicas y acotadas. Cada sesión:
+
+1. Tiene **un solo objetivo** definido antes de empezar
+2. Termina con Unity compilando **sin errores rojos**
+3. Termina con un **commit** siguiendo el formato establecido
+4. Termina actualizando **`Docs/ESTADO_PROYECTO.md`** con lo que se hizo y qué sigue
+
+Si durante la sesión aparece un error de compilación: **resuélvelo antes de continuar**.
+No dejes errores pendientes para la siguiente sesión.
+
+---
+
 ## Después de cada tarea
 
 1. Confirma que Unity compila sin errores rojos
-2. Haz commit: `feat/fix/refactor/config: descripción breve`
-3. Dime qué archivos creaste o modificaste
+2. Lista los pasos manuales en Unity Editor si los hay (ver sección anterior)
+3. Actualiza `Docs/ESTADO_PROYECTO.md` — marca lo completado y escribe qué sigue
+4. Haz commit: `feat/fix/refactor/config: descripción breve`
+5. Dime qué archivos creaste o modificaste

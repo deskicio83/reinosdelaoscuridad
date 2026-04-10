@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "769090242582",
+    "project_id": "reinosdelaoscuridad",
+    "storage_bucket": "reinosdelaoscuridad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769090242582:android:a8a90fdfa40ecbc989cd37",
+        "android_client_info": {
+          "package_name": "com.DesdeMiPC.ReinosdelaOscuridad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX8XrNg2ftVGiB-7ZNSiAg7476RVZZYFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
