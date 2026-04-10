@@ -16,22 +16,29 @@ _Actualizar al final de cada sesión de Claude Code_
   - Validado en Unity: 3/3 checks PASS
 - [x] S04 — PlayerDataSystem
   - `PlayerDataSystem.cs` — singleton DontDestroyOnLoad, fuente de verdad en memoria
-  - GetPlayerData() · UpdatePlayerData() · MarkDirty() · ClearDirty() · HasPendingChanges
-  - SetUID() · GetUID() — añadidos en S06
+  - GetPlayerData() · UpdatePlayerData() · MarkDirty() · ClearDirty() · HasPendingChanges · SetUID/GetUID
   - Validado en Unity: 4/4 checks PASS
 - [x] S04b — Migración a Newtonsoft.Json
   - `JsonConvert.DeserializeObject` reemplaza `JsonUtility.FromJson`
   - Validado: `awakenInventory.items` = 18 entradas correctas
 - [x] S05 — EconomySystem
   - `EconomySystem.cs` — energía, oro negro y caosifera en memoria
-  - Regeneración offline: 4 min/unidad (240 s), calculada en Initialize()
+  - Regeneración offline: 4 min/unidad (240 s)
   - Validado en Unity: 6/6 checks PASS
 - [x] S06 — AuthSystem
-  - `AuthSystem.cs` — Firebase Auth con Google / Apple / Facebook / Guest (anónimo)
-  - `AuthStateChangedData` añadido a EventData.cs · `OnAuthStateChanged` añadido a EventBus
-  - `uid` añadido a PlayerData · `SetUID/GetUID` añadidos a PlayerDataSystem
-  - Validado: checks estructurales 1/2/5 PASS · checks 3/4 NO APLICA (sin google-services.json)
-  - Error corregido: SDK 13.9.0 — `SignInAnonymouslyAsync()` → `AuthResult.User`, `SignInWithCredentialAsync()` → `FirebaseUser` directo
+  - `AuthSystem.cs` — Firebase Auth con Google / Apple / Facebook / Guest
+  - `AuthStateChangedData` · `OnAuthStateChanged` en EventBus
+  - `uid` en PlayerData · `SetUID/GetUID` en PlayerDataSystem
+  - Validado: checks estructurales PASS · Firebase Auth funciona (uid real obtenido)
+- [x] S07 — DataStorageSystem
+  - `DataStorageSystem.cs` — único punto de acceso a Firestore
+  - `LoadPlayerDataFromFirestore(uid)` — 1 read por sesión, modo offline si falla
+  - `SavePlayerDataToFirestore()` — solo si HasPendingChanges, skip si no hay cambios
+  - `OnSessionEnd()` — guarda automáticamente si hay pendientes
+  - Validado: 4/4 checks PASS
+    - Firebase Auth real: uid=jgdMjlq3sdRmFKCRcXz8b7WPDz43 ✓
+    - Firestore "Missing or insufficient permissions" → capturado como modo offline ✓
+    - Skip correcto cuando HasPendingChanges=false ✓
 
 ## Scenes implementadas
 _(vacío)_
@@ -39,14 +46,17 @@ _(vacío)_
 ## Notas técnicas
 - Modelos en namespace `ReinoOscuridad.Data`, solo `[Serializable]`, sin MonoBehaviours
 - `RangoPM.max` es `int?` — Newtonsoft lo maneja nativamente
-- Orden de ejecución garantizado por `DefaultExecutionOrder`:
-  - GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20
+- Orden de ejecución (`DefaultExecutionOrder`):
+  GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
-- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` retorna `Task<AuthResult>`, `SignInWithCredentialAsync` retorna `Task<FirebaseUser>`
+- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
+- `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`,
+  cada desarrollador los coloca en local. El SDK los busca también en Assets/StreamingAssets/.
+- Firestore security rules: actualmente deniegan acceso a cuentas anónimas.
+  Configurar reglas para permitir `request.auth.uid == resource.data.uid` antes de S08.
 
 ## ⚠️ PENDIENTE ANTES DE S08 (BootScene)
-- Añadir `google-services.json` (Android) y `GoogleService-Info.plist` (iOS) a `Assets/StreamingAssets/`
-  para que Firebase inicialice correctamente. Sin estos archivos, Auth y Firestore no funcionan.
-  El SDK los busca en `Assets/StreamingAssets/google-services-desktop.json` en el Editor.
-
-- Siguiente paso: BootScene — `FirebaseApp.CheckAndFixDependenciesAsync()` + CatalogLoader + flujo de carga
+- Configurar reglas de seguridad de Firestore para permitir lectura/escritura
+  al usuario autenticado sobre su propio documento:
+  `allow read, write: if request.auth != null && request.auth.uid == userId;`
+- Siguiente paso: BootScene — `FirebaseApp.CheckAndFixDependenciesAsync()` + CatalogLoader + pantalla de loading
