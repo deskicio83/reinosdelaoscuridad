@@ -9,6 +9,8 @@ namespace ReinoOscuridad.Data
     [Serializable]
     public class PlayerData
     {
+        /// Firebase Auth UID — identifica el documento en Firestore
+        public string uid;
         public string playerName;
         public int playerLevel;
         public int energia;

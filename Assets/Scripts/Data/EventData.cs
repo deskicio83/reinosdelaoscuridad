@@ -55,4 +55,11 @@ namespace ReinoOscuridad.Data
         /// Unix timestamp UTC del momento del reset detectado
         public long resetTimestamp;
     }
+
+    public struct AuthStateChangedData
+    {
+        public string uid;
+        /// true si la cuenta es anónima (invitado)
+        public bool isGuest;
+    }
 }

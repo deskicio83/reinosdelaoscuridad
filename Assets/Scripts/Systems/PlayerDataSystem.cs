@@ -84,6 +84,17 @@ namespace ReinoOscuridad.Systems
             _hasPendingChanges = true;
         }
 
+        /// Establece el Firebase UID activo. Llamado por AuthSystem tras login exitoso.
+        public void SetUID(string uid)
+        {
+            if (_playerData == null) return;
+            _playerData.uid = uid;
+            MarkDirty();
+        }
+
+        /// Devuelve el UID activo, o string.Empty si no hay sesión.
+        public string GetUID() => _playerData?.uid ?? string.Empty;
+
         /// Confirma que los datos han sido persistidos. Llamado por DataStorageSystem
         /// tras completar una escritura exitosa a Firestore.
         public void ClearDirty()

@@ -17,19 +17,21 @@ _Actualizar al final de cada sesión de Claude Code_
 - [x] S04 — PlayerDataSystem
   - `PlayerDataSystem.cs` — singleton DontDestroyOnLoad, fuente de verdad en memoria
   - GetPlayerData() · UpdatePlayerData() · MarkDirty() · ClearDirty() · HasPendingChanges
+  - SetUID() · GetUID() — añadidos en S06
   - Validado en Unity: 4/4 checks PASS
 - [x] S04b — Migración a Newtonsoft.Json
-  - `JsonConvert.DeserializeObject` reemplaza `JsonUtility.FromJson` en PlayerDataSystem
+  - `JsonConvert.DeserializeObject` reemplaza `JsonUtility.FromJson`
   - Validado: `awakenInventory.items` = 18 entradas correctas
-  - Deuda técnica de Dictionary<string,T> resuelta
 - [x] S05 — EconomySystem
   - `EconomySystem.cs` — energía, oro negro y caosifera en memoria
-  - ConsumeEnergy/AddEnergy · ConsumeGold/AddGold · ConsumeCaosifera/AddCaosifera
   - Regeneración offline: 4 min/unidad (240 s), calculada en Initialize()
-  - Publica EventBus.OnCurrencyChanged en cada operación
   - Validado en Unity: 6/6 checks PASS
-    - Offline 20 min → +5 unidades exactas ✓
-    - JSON de muestra: 258 días offline → cap correcto a 120/120 ✓
+- [x] S06 — AuthSystem
+  - `AuthSystem.cs` — Firebase Auth con Google / Apple / Facebook / Guest (anónimo)
+  - `AuthStateChangedData` añadido a EventData.cs · `OnAuthStateChanged` añadido a EventBus
+  - `uid` añadido a PlayerData · `SetUID/GetUID` añadidos a PlayerDataSystem
+  - Validado: checks estructurales 1/2/5 PASS · checks 3/4 NO APLICA (sin google-services.json)
+  - Error corregido: SDK 13.9.0 — `SignInAnonymouslyAsync()` → `AuthResult.User`, `SignInWithCredentialAsync()` → `FirebaseUser` directo
 
 ## Scenes implementadas
 _(vacío)_
@@ -38,8 +40,13 @@ _(vacío)_
 - Modelos en namespace `ReinoOscuridad.Data`, solo `[Serializable]`, sin MonoBehaviours
 - `RangoPM.max` es `int?` — Newtonsoft lo maneja nativamente
 - Orden de ejecución garantizado por `DefaultExecutionOrder`:
-  - GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25
-- `GameManager.NotifySessionStart(lastLoginTimestamp)` lo llama PlayerDataSystem tras cargar Firestore
-- `TryFireDailyReset` compara contra medianoche UTC — no accede a Firestore
+  - GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
-- Siguiente paso: BootScene — CatalogLoader + flujo de carga inicial + pantalla de loading
+- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` retorna `Task<AuthResult>`, `SignInWithCredentialAsync` retorna `Task<FirebaseUser>`
+
+## ⚠️ PENDIENTE ANTES DE S08 (BootScene)
+- Añadir `google-services.json` (Android) y `GoogleService-Info.plist` (iOS) a `Assets/StreamingAssets/`
+  para que Firebase inicialice correctamente. Sin estos archivos, Auth y Firestore no funcionan.
+  El SDK los busca en `Assets/StreamingAssets/google-services-desktop.json` en el Editor.
+
+- Siguiente paso: BootScene — `FirebaseApp.CheckAndFixDependenciesAsync()` + CatalogLoader + flujo de carga
