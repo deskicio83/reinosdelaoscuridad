@@ -7,6 +7,7 @@ namespace ReinoOscuridad.Core
 {
     /// Singleton DontDestroyOnLoad. Orquesta el ciclo de vida de todos los sistemas.
     /// NO accede a Firestore. NO contiene lógica de negocio.
+    [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
         // ── Singleton ──────────────────────────────────────────────────────────
