@@ -23,20 +23,25 @@ _Actualizar al final de cada sesión de Claude Code_
   - Guard defensivo: verifica GameManager e ISystem antes de continuar el flujo
   - Paneles UI via SerializeField: loading · login · error · retry
   - `tutorialCompleted` en PlayerData — navega a TutorialScene o MainMenuScene
-  - TODO S09: reemplazar SceneManager.LoadScene por UIManager.LoadScene
-  - Flujo validado en BootScene.unity con todos los sistemas:
-    - Firebase DependencyStatus.Available ✓
-    - AuthSystem.IsLoggedIn=True (sesión persistente) → saltó login panel ✓
-    - Firestore load → parse error gracefully handled → fallback a datos locales ✓
-    - EconomySystem.Initialize() re-ejecutado ✓
-    - Navegación a TutorialScene intentada ✓
+  - Flujo validado en BootScene.unity con todos los sistemas ✓
+- [x] S09 — UIManager
+  - `UIManager.cs` — Singleton DontDestroyOnLoad, implementa ISystem
+  - `NavigateTo(string)`: async Task, fade 200ms entrada+salida, historial máx 5 Scenes
+  - `NavigateBack()`: extrae última Scene del historial
+  - `ShowOverlay(GameObject)`: instancia prefab, máx 2 activos (auto-cierra el más antiguo)
+  - `HideOverlay(GameObject)`: Destroy + elimina del stack
+  - `ActiveOverlayCount`: propiedad pública
+  - FadeCanvas: Canvas sortingOrder=999, Image full-screen negro, DontDestroyOnLoad
+  - Back button Android: `Keyboard.current.escapeKey.wasPressedThisFrame` (New Input System)
+  - `BootSceneController.cs` actualizado — usa `UIManager.Instance.NavigateTo()` en lugar de SceneManager
+  - Validado con S09_Test: 5/5 checks PASS ✓
 
 ## Scenes implementadas
 - [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
-  GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
+  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
 - Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`,
@@ -54,4 +59,4 @@ _Actualizar al final de cada sesión de Claude Code_
 - **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree en S09+
 
 ## Siguiente paso
-S09 — UIManager: gestión de Scenes y stack de overlays (paneles). Reemplazará SceneManager.LoadScene en BootSceneController.
+S10 — MainMenuScene: layout base, navegación a las Scenes principales del juego (HeroScene, GachaScene, CampaignScene, ShopScene, ArenaScene).

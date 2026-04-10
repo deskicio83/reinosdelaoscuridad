@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 using Firebase;
 using ReinoOscuridad.Core;
@@ -109,17 +108,17 @@ namespace ReinoOscuridad.UI.Boot
             ShowLoading("Entrando…");
 
             bool tutorialDone = pds.GetPlayerData().tutorialCompleted;
+            var ui = GameManager.Instance.GetSystem<UIManager>();
 
-            // TODO S09: reemplazar SceneManager.LoadScene por UIManager.LoadScene
             if (tutorialDone)
             {
                 Debug.Log("[BootSceneController] → MainMenuScene");
-                SceneManager.LoadScene("MainMenuScene");
+                await ui.NavigateTo("MainMenuScene");
             }
             else
             {
                 Debug.Log("[BootSceneController] → TutorialScene (primera vez)");
-                SceneManager.LoadScene("TutorialScene");
+                await ui.NavigateTo("TutorialScene");
             }
         }
 
