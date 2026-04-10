@@ -9,6 +9,7 @@ namespace ReinoOscuridad.Systems
     /// Singleton DontDestroyOnLoad. Fuente de verdad del jugador en memoria.
     /// Ningún sistema lee o escribe Firestore directamente — todo pasa por aquí.
     /// Carga desde JSON local en Initialize(). Firestore se integra en S07.
+    [DefaultExecutionOrder(-50)]
     public class PlayerDataSystem : MonoBehaviour, ISystem
     {
         // ── Singleton ──────────────────────────────────────────────────────────
