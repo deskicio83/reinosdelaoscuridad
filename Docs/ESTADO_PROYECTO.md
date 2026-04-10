@@ -13,24 +13,26 @@ _Actualizar al final de cada sesión de Claude Code_
   - `GlobalVariables.cs` · `HeroCatalog.cs` · `PlayerData.cs`
 - [x] S03 — Núcleo de arquitectura
   - `ISystem.cs` · `EventBus.cs` · `EventData.cs` · `GameManager.cs`
-- [x] S04 — PlayerDataSystem
-  - `PlayerDataSystem.cs` — GetPlayerData · UpdatePlayerData · MarkDirty · ClearDirty · SetUID/GetUID
+- [x] S04 — PlayerDataSystem (GetPlayerData · UpdatePlayerData · Dirty · SetUID/GetUID)
 - [x] S04b — Migración a Newtonsoft.Json (Dictionary<string,T> funciona)
 - [x] S05 — EconomySystem (energía 4 min/unidad · oro · caosifera · offline regen)
 - [x] S06 — AuthSystem (Google · Apple · Facebook · Guest · OnAuthStateChanged)
 - [x] S07 — DataStorageSystem (1 read/sesión · writes en checkpoints · modo offline)
 - [x] S08 — BootSceneController
-  - `BootSceneController.cs` — flujo completo: Firebase init → Auth → Firestore → Energía offline → Navegación
+  - `BootSceneController.cs` — Firebase init → Auth → Firestore → Energía offline → Navegación
+  - Guard defensivo: verifica GameManager e ISystem antes de continuar el flujo
   - Paneles UI via SerializeField: loading · login · error · retry
-  - `tutorialCompleted` añadido a PlayerData — navega a TutorialScene o MainMenuScene
+  - `tutorialCompleted` en PlayerData — navega a TutorialScene o MainMenuScene
   - TODO S09: reemplazar SceneManager.LoadScene por UIManager.LoadScene
-  - Validado: 4/4 checks PASS
+  - Flujo validado en BootScene.unity con todos los sistemas:
     - Firebase DependencyStatus.Available ✓
-    - AuthSystem.IsLoggedIn=True (sesión persistente del S07) ✓
-    - LoadPlayerDataFromFirestore: "Documento no encontrado" → uid en memoria correcto ✓
+    - AuthSystem.IsLoggedIn=True (sesión persistente) → saltó login panel ✓
+    - Firestore load → parse error gracefully handled → fallback a datos locales ✓
+    - EconomySystem.Initialize() re-ejecutado ✓
+    - Navegación a TutorialScene intentada ✓
 
 ## Scenes implementadas
-- [ ] BootScene — script listo, pendiente crear .unity y asignar referencias en Inspector
+- [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
@@ -39,16 +41,17 @@ _Actualizar al final de cada sesión de Claude Code_
 - Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`,
   cada desarrollador los coloca en local
-- Firestore security rules: configurar antes de producción:
-  `allow read, write: if request.auth != null && request.auth.uid == userId;`
-- Google Sign-In SDK pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
+- BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
 
-## Pasos manuales pendientes (BootScene)
-1. File > New Scene > Save As > Assets/Scenes/BootScene.unity
-2. Crear GameObject "BootController" → asignar BootSceneController.cs
-3. Crear GameObjects para paneles UI (LoadingPanel · LoginPanel · ErrorPanel) y asignarlos en Inspector
-4. Asignar botones Google, Guest y Retry en Inspector
-5. Project Settings > Build Settings → BootScene como Scene 0
+## ⚠️ Bugs conocidos / Pendientes
+- **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
+  en Firestore tiene `artifactInventory[0].artifactId` = array en lugar de string.
+  Datos malformados en consola Firebase. Solución: borrar el documento desde Firebase Console.
+  El fallback a datos locales funciona correctamente.
+- **Firestore security rules**: configurar para permitir acceso autenticado antes de producción:
+  `allow read, write: if request.auth != null && request.auth.uid == userId;`
+- **Google Sign-In SDK**: pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
+- **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree en S09+
 
 ## Siguiente paso
-S09 — UIManager: gestión de Scenes y stack de overlays · reemplazar SceneManager.LoadScene en BootSceneController
+S09 — UIManager: gestión de Scenes y stack de overlays (paneles). Reemplazará SceneManager.LoadScene en BootSceneController.

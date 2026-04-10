@@ -65,9 +65,27 @@ namespace ReinoOscuridad.UI.Boot
 
             Debug.Log("[BootSceneController] Firebase OK.");
 
-            // ── 2. Flujo de login ─────────────────────────────────────────────
-            var auth = GameManager.Instance.GetSystem<AuthSystem>();
+            // ── Guard: verificar que los sistemas existen en la Scene ─────────
+            if (GameManager.Instance == null)
+            {
+                ShowError("Error interno: GameManager no encontrado.\nAñade GameManager, PlayerDataSystem, EconomySystem, AuthSystem y DataStorageSystem a BootScene.");
+                Debug.LogError("[BootSceneController] GameManager.Instance es null. Estos GameObjects deben estar en BootScene.");
+                return;
+            }
 
+            var auth = GameManager.Instance.GetSystem<AuthSystem>();
+            var dss  = GameManager.Instance.GetSystem<DataStorageSystem>();
+            var pds  = GameManager.Instance.GetSystem<PlayerDataSystem>();
+            var eco  = GameManager.Instance.GetSystem<EconomySystem>();
+
+            if (auth == null || dss == null || pds == null || eco == null)
+            {
+                ShowError("Error interno: sistemas no encontrados.\nAñade AuthSystem, DataStorageSystem, PlayerDataSystem y EconomySystem a BootScene.");
+                Debug.LogError($"[BootSceneController] Sistemas faltantes — auth:{auth != null} dss:{dss != null} pds:{pds != null} eco:{eco != null}");
+                return;
+            }
+
+            // ── 2. Flujo de login ─────────────────────────────────────────────
             if (!auth.IsLoggedIn)
             {
                 bool loginOk = await RunLoginFlowAsync(auth);
@@ -77,17 +95,14 @@ namespace ReinoOscuridad.UI.Boot
             // ── 3. Carga de datos desde Firestore ─────────────────────────────
             ShowLoading("Cargando datos…");
 
-            var dss = GameManager.Instance.GetSystem<DataStorageSystem>();
             await dss.LoadPlayerDataFromFirestore(auth.CurrentUID);
 
             // ── 4. Energía offline ────────────────────────────────────────────
             // Re-inicializar EconomySystem con los datos recién cargados de Firestore
             // para que calcule correctamente la energía acumulada offline.
-            var economy = GameManager.Instance.GetSystem<EconomySystem>();
-            economy.Initialize();
+            eco.Initialize();
 
             // Notificar a todos los sistemas que la sesión ha comenzado
-            var pds = GameManager.Instance.GetSystem<PlayerDataSystem>();
             GameManager.Instance.NotifySessionStart(pds.GetPlayerData().lastLoginTimestamp);
 
             // ── 5. Navegación ─────────────────────────────────────────────────
