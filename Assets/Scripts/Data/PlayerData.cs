@@ -36,6 +36,8 @@ namespace ReinoOscuridad.Data
         public List<PlayerGearInstance> equipment;
 
         public bool heroSceneCompactView;
+        /// true si el jugador ha completado el tutorial inicial
+        public bool tutorialCompleted;
 
         /// Poder de cuenta total (no es moneda, no se gasta)
         public int presenciaMaldita;

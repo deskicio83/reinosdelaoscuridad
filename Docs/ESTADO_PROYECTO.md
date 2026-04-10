@@ -13,50 +13,42 @@ _Actualizar al final de cada sesión de Claude Code_
   - `GlobalVariables.cs` · `HeroCatalog.cs` · `PlayerData.cs`
 - [x] S03 — Núcleo de arquitectura
   - `ISystem.cs` · `EventBus.cs` · `EventData.cs` · `GameManager.cs`
-  - Validado en Unity: 3/3 checks PASS
 - [x] S04 — PlayerDataSystem
-  - `PlayerDataSystem.cs` — singleton DontDestroyOnLoad, fuente de verdad en memoria
-  - GetPlayerData() · UpdatePlayerData() · MarkDirty() · ClearDirty() · HasPendingChanges · SetUID/GetUID
-  - Validado en Unity: 4/4 checks PASS
-- [x] S04b — Migración a Newtonsoft.Json
-  - `JsonConvert.DeserializeObject` reemplaza `JsonUtility.FromJson`
-  - Validado: `awakenInventory.items` = 18 entradas correctas
-- [x] S05 — EconomySystem
-  - `EconomySystem.cs` — energía, oro negro y caosifera en memoria
-  - Regeneración offline: 4 min/unidad (240 s)
-  - Validado en Unity: 6/6 checks PASS
-- [x] S06 — AuthSystem
-  - `AuthSystem.cs` — Firebase Auth con Google / Apple / Facebook / Guest
-  - `AuthStateChangedData` · `OnAuthStateChanged` en EventBus
-  - `uid` en PlayerData · `SetUID/GetUID` en PlayerDataSystem
-  - Validado: checks estructurales PASS · Firebase Auth funciona (uid real obtenido)
-- [x] S07 — DataStorageSystem
-  - `DataStorageSystem.cs` — único punto de acceso a Firestore
-  - `LoadPlayerDataFromFirestore(uid)` — 1 read por sesión, modo offline si falla
-  - `SavePlayerDataToFirestore()` — solo si HasPendingChanges, skip si no hay cambios
-  - `OnSessionEnd()` — guarda automáticamente si hay pendientes
+  - `PlayerDataSystem.cs` — GetPlayerData · UpdatePlayerData · MarkDirty · ClearDirty · SetUID/GetUID
+- [x] S04b — Migración a Newtonsoft.Json (Dictionary<string,T> funciona)
+- [x] S05 — EconomySystem (energía 4 min/unidad · oro · caosifera · offline regen)
+- [x] S06 — AuthSystem (Google · Apple · Facebook · Guest · OnAuthStateChanged)
+- [x] S07 — DataStorageSystem (1 read/sesión · writes en checkpoints · modo offline)
+- [x] S08 — BootSceneController
+  - `BootSceneController.cs` — flujo completo: Firebase init → Auth → Firestore → Energía offline → Navegación
+  - Paneles UI via SerializeField: loading · login · error · retry
+  - `tutorialCompleted` añadido a PlayerData — navega a TutorialScene o MainMenuScene
+  - TODO S09: reemplazar SceneManager.LoadScene por UIManager.LoadScene
   - Validado: 4/4 checks PASS
-    - Firebase Auth real: uid=jgdMjlq3sdRmFKCRcXz8b7WPDz43 ✓
-    - Firestore "Missing or insufficient permissions" → capturado como modo offline ✓
-    - Skip correcto cuando HasPendingChanges=false ✓
+    - Firebase DependencyStatus.Available ✓
+    - AuthSystem.IsLoggedIn=True (sesión persistente del S07) ✓
+    - LoadPlayerDataFromFirestore: "Documento no encontrado" → uid en memoria correcto ✓
 
 ## Scenes implementadas
-_(vacío)_
+- [ ] BootScene — script listo, pendiente crear .unity y asignar referencias en Inspector
 
 ## Notas técnicas
-- Modelos en namespace `ReinoOscuridad.Data`, solo `[Serializable]`, sin MonoBehaviours
-- `RangoPM.max` es `int?` — Newtonsoft lo maneja nativamente
 - Orden de ejecución (`DefaultExecutionOrder`):
   GameManager: -100 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
-- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
+- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`,
-  cada desarrollador los coloca en local. El SDK los busca también en Assets/StreamingAssets/.
-- Firestore security rules: actualmente deniegan acceso a cuentas anónimas.
-  Configurar reglas para permitir `request.auth.uid == resource.data.uid` antes de S08.
-
-## ⚠️ PENDIENTE ANTES DE S08 (BootScene)
-- Configurar reglas de seguridad de Firestore para permitir lectura/escritura
-  al usuario autenticado sobre su propio documento:
+  cada desarrollador los coloca en local
+- Firestore security rules: configurar antes de producción:
   `allow read, write: if request.auth != null && request.auth.uid == userId;`
-- Siguiente paso: BootScene — `FirebaseApp.CheckAndFixDependenciesAsync()` + CatalogLoader + pantalla de loading
+- Google Sign-In SDK pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
+
+## Pasos manuales pendientes (BootScene)
+1. File > New Scene > Save As > Assets/Scenes/BootScene.unity
+2. Crear GameObject "BootController" → asignar BootSceneController.cs
+3. Crear GameObjects para paneles UI (LoadingPanel · LoginPanel · ErrorPanel) y asignarlos en Inspector
+4. Asignar botones Google, Guest y Retry en Inspector
+5. Project Settings > Build Settings → BootScene como Scene 0
+
+## Siguiente paso
+S09 — UIManager: gestión de Scenes y stack de overlays · reemplazar SceneManager.LoadScene en BootSceneController
