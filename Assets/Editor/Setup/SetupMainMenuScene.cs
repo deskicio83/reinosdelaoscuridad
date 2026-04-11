@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.MainMenu;
@@ -59,7 +60,7 @@ namespace ReinoOscuridad.Editor.Setup
             // EventSystem (necesario para interacción UI)
             var evSys = new GameObject("EventSystem");
             evSys.AddComponent<EventSystem>();
-            evSys.AddComponent<StandaloneInputModule>();
+            evSys.AddComponent<InputSystemUIInputModule>(); // New Input System
 
             // ── PASO 3: MainMenuController ────────────────────────────────────
             var ctrlGO = new GameObject("MainMenuController");
@@ -87,23 +88,24 @@ namespace ReinoOscuridad.Editor.Setup
             Anch(gridGO, 0.05f, 0.05f, 0.95f, 0.88f);
 
             // (nombre, label, método, c0, c1, r0, r1)
+            // Texto ASCII — los emojis requieren una fuente TMP con soporte completo Unicode
             var defs = new (string n, string lbl, UnityAction act, float c0, float c1, float r0, float r1)[]
             {
                 // Fila 3
-                ("Btn_Campaign",  "⚔ Campaña",    ctrl.GoToCampaign,  0.00f, 0.31f, 0.75f, 1.00f),
-                ("Btn_Heroes",    "🧟 Esbirros",   ctrl.GoToHeroes,    0.34f, 0.65f, 0.75f, 1.00f),
-                ("Btn_Gacha",     "🌀 Invocar",    ctrl.GoToGacha,     0.68f, 0.99f, 0.75f, 1.00f),
+                ("Btn_Campaign",  "Campaña",    ctrl.GoToCampaign,  0.00f, 0.31f, 0.75f, 1.00f),
+                ("Btn_Heroes",    "Esbirros",   ctrl.GoToHeroes,    0.34f, 0.65f, 0.75f, 1.00f),
+                ("Btn_Gacha",     "Invocar",    ctrl.GoToGacha,     0.68f, 0.99f, 0.75f, 1.00f),
                 // Fila 2
-                ("Btn_Arena",     "🏆 Arena",      ctrl.GoToArena,     0.00f, 0.31f, 0.50f, 0.73f),
-                ("Btn_Tower",     "🗼 Torre",      ctrl.GoToTower,     0.34f, 0.65f, 0.50f, 0.73f),
-                ("Btn_WorldBoss", "💀 Boss Global",ctrl.GoToWorldBoss, 0.68f, 0.99f, 0.50f, 0.73f),
+                ("Btn_Arena",     "Arena",      ctrl.GoToArena,     0.00f, 0.31f, 0.50f, 0.73f),
+                ("Btn_Tower",     "Torre",      ctrl.GoToTower,     0.34f, 0.65f, 0.50f, 0.73f),
+                ("Btn_WorldBoss", "Boss Global",ctrl.GoToWorldBoss, 0.68f, 0.99f, 0.50f, 0.73f),
                 // Fila 1
-                ("Btn_Clan",      "☠ Clan",       ctrl.GoToClan,      0.00f, 0.31f, 0.25f, 0.48f),
-                ("Btn_Shop",      "🛒 Tienda",     ctrl.GoToShop,      0.34f, 0.65f, 0.25f, 0.48f),
-                ("Btn_Dungeon",   "🕳 Mazmorras",  ctrl.GoToDungeon,   0.68f, 0.99f, 0.25f, 0.48f),
+                ("Btn_Clan",      "Clan",       ctrl.GoToClan,      0.00f, 0.31f, 0.25f, 0.48f),
+                ("Btn_Shop",      "Tienda",     ctrl.GoToShop,      0.34f, 0.65f, 0.25f, 0.48f),
+                ("Btn_Dungeon",   "Mazmorras",  ctrl.GoToDungeon,   0.68f, 0.99f, 0.25f, 0.48f),
                 // Fila 0
-                ("Btn_Missions",  "📋 Misiones",   ctrl.GoToMissions,  0.17f, 0.48f, 0.00f, 0.23f),
-                ("Btn_Conjuros",  "✨ Conjuros",   ctrl.GoToConjuros,  0.51f, 0.82f, 0.00f, 0.23f),
+                ("Btn_Missions",  "Misiones",   ctrl.GoToMissions,  0.17f, 0.48f, 0.00f, 0.23f),
+                ("Btn_Conjuros",  "Conjuros",   ctrl.GoToConjuros,  0.51f, 0.82f, 0.00f, 0.23f),
             };
 
             var buttons = new Button[defs.Length];

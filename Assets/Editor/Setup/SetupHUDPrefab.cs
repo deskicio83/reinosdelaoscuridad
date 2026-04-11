@@ -53,7 +53,7 @@ namespace ReinoOscuridad.Editor.Setup
             nombreTMP.fontSize      = 18;
             nombreTMP.fontStyle     = FontStyles.Bold;
             nombreTMP.color         = Color.white;
-            nombreTMP.overflowMode  = TextOverflowModes.Ellipsis;
+            nombreTMP.overflowMode  = TextOverflowModes.Truncate;
             nombreTMP.alignment     = TextAlignmentOptions.Left;
             Anch(nombreGO, 0.20f, 0.50f, 0.98f, 0.95f);
 
@@ -77,9 +77,10 @@ namespace ReinoOscuridad.Editor.Setup
             var zonaI = Child(root, "ZonaIconos");
             Anch(zonaI, 0.80f, 0.90f, 1f, 1f);
 
-            var btnChatGO     = MakeIconBtn(zonaI, "Btn_Chat",     "💬", 0.02f, 0.34f);
-            var btnMailGO     = MakeIconBtn(zonaI, "Btn_Mail",     "✉",  0.35f, 0.67f);
-            var btnSettingsGO = MakeIconBtn(zonaI, "Btn_Settings", "⚙",  0.68f, 0.99f);
+            // Texto ASCII — los iconos gráficos se añadirán con Sprites en S32
+            var btnChatGO     = MakeIconBtn(zonaI, "Btn_Chat",     "Chat", 0.02f, 0.34f);
+            var btnMailGO     = MakeIconBtn(zonaI, "Btn_Mail",     "Mail", 0.35f, 0.67f);
+            var btnSettingsGO = MakeIconBtn(zonaI, "Btn_Settings", "Set.", 0.68f, 0.99f);
 
             // MailBadge
             var badgeGO  = Child(btnMailGO, "MailBadge");
