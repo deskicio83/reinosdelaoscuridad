@@ -42,6 +42,13 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/UI/HUD/HUDIcons.cs` — botones chat/mail/settings, badge de mail, prefabs de overlay asignados en S32
   - Validado con S10_Test: 5/5 checks PASS ✓
 
+- [x] S10b — Editor Scripts HUD + MainMenuScene
+  - `Assets/Scripts/Utils/UIConstants.cs` — constantes globales de layout (HUD_HEIGHT_PERCENT=0.10, CONTENT_START_PERCENT=0.90)
+  - `Assets/Editor/Setup/SetupHUDPrefab.cs` — menú Tools → Reino Oscuridad → 1. Setup HUD Prefab
+    Genera HUD.prefab con 4 zonas (Background · ZonaJugador · ZonaMonedas · ZonaIconos), anclas relativas, referencias asignadas via SerializedObject
+  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — menú Tools → Reino Oscuridad → 2. Setup MainMenuScene
+    Abre/crea MainMenuScene.unity, configura cámara, crea Canvas con 11 botones en grid 3×4, instancia HUD, añade a Build Settings
+  - Todo posicionamiento via anchorMin/anchorMax — cero píxeles absolutos
 - [x] S11 — MainMenuController
   - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — hub de navegación central
   - Awake: guard defensivo si UIManager.Instance es null
@@ -65,6 +72,7 @@ _Actualizar al final de cada sesión de Claude Code_
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
 - BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
 - **New Input System**: nunca usar `Input.GetKeyDown`. Usar `Keyboard.current`, `Touchscreen.current` o ActionAsset
+- **UI**: posicionamiento siempre por anclas relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales. Editor Scripts en `Assets/Editor/Setup/` configuran cada Scene automáticamente.
 
 ## ⚠️ Bugs conocidos / Pendientes
 - **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
@@ -77,4 +85,4 @@ _Actualizar al final de cada sesión de Claude Code_
 - **MainMenuScene**: script creado (S11), Unity Scene pendiente de crear manualmente
 
 ## Siguiente paso
-S12 — CampaignScene: layout base, mapa de niveles, selección de stage y arranque de CombatScene.
+S12 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
