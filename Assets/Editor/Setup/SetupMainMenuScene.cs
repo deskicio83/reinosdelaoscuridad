@@ -101,12 +101,10 @@ namespace ReinoOscuridad.Editor.Setup
             scroll.decelerationRate  = 0.15f;
             scroll.scrollSensitivity = 1f;
 
-            // Viewport — hijo de ZonaEdificios, tiene la Mask
+            // Viewport — hijo de ZonaEdificios, RectMask2D (recorta por rect sin stencil)
             var viewportGO = Child(zonaEdifGO, "Viewport");
             Anch(viewportGO, 0f, 0f, 1f, 1f);
-            var viewImg = viewportGO.AddComponent<Image>();
-            viewImg.color = Color.clear;
-            viewportGO.AddComponent<Mask>().showMaskGraphic = false;
+            viewportGO.AddComponent<RectMask2D>();
             scroll.viewport = viewportGO.GetComponent<RectTransform>();
 
             // Content — hijo de Viewport, mas grande que la pantalla para paneo libre

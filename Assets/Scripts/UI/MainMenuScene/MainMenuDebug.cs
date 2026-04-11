@@ -42,10 +42,11 @@ namespace ReinoOscuridad.UI.MainMenu
             float w = Vector3.Distance(corners[0], corners[3]);
             float h = Vector3.Distance(corners[0], corners[1]);
 
-            var img = go.GetComponent<Image>();
+            var img      = go.GetComponent<Image>();
+            var rectMask = go.GetComponent<RectMask2D>();
             string imgInfo = img != null
                 ? $"Image color={img.color}  sprite={(img.sprite != null ? img.sprite.name : "null")}  enabled={img.enabled}"
-                : "no Image";
+                : rectMask != null ? "RectMask2D (sin Image)" : "no Image";
 
             Debug.Log($"[Debug] {label}: rect={rt.rect}  " +
                       $"anchorMin={rt.anchorMin}  anchorMax={rt.anchorMax}  " +
