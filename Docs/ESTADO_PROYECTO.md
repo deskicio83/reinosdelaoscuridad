@@ -35,28 +35,36 @@ _Actualizar al final de cada sesión de Claude Code_
   - Back button Android: `Keyboard.current.escapeKey.wasPressedThisFrame` (New Input System)
   - `BootSceneController.cs` actualizado — usa `UIManager.Instance.NavigateTo()` en lugar de SceneManager
   - Validado con S09_Test: 5/5 checks PASS ✓
+- [x] S10 — HUD global (CurrencyPill + HUDIcons)
+  - `Assets/Scripts/Data/EnumData.cs` — enum `CurrencyType` (Energy · Gold · Caosifera); fichero central de enums
+  - `Assets/Scripts/UI/HUD/CurrencyPill.cs` — pill reutilizable: `UpdateValue(current, max)`, plusButton → ShopScene
+  - `Assets/Scripts/UI/HUD/HUDController.cs` — suscripción a `EventBus.OnCurrencyChanged`, `SetVisible(bool)`, `RefreshAll()`
+  - `Assets/Scripts/UI/HUD/HUDIcons.cs` — botones chat/mail/settings, badge de mail, prefabs de overlay asignados en S32
+  - Validado con S10_Test: 5/5 checks PASS ✓
 
 ## Scenes implementadas
 - [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
+
+## Prefabs pendientes de crear en Unity Editor
+- `Assets/Prefabs/UI/HUD.prefab` — Canvas con HUDController + HUDIcons + 3× CurrencyPill (Energy/Gold/Caosifera)
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
   GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
 - Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
-- `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`,
-  cada desarrollador los coloca en local
+- `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
 - BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
+- **New Input System**: nunca usar `Input.GetKeyDown`. Usar `Keyboard.current`, `Touchscreen.current` o ActionAsset
 
 ## ⚠️ Bugs conocidos / Pendientes
 - **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
   en Firestore tiene `artifactInventory[0].artifactId` = array en lugar de string.
-  Datos malformados en consola Firebase. Solución: borrar el documento desde Firebase Console.
-  El fallback a datos locales funciona correctamente.
-- **Firestore security rules**: configurar para permitir acceso autenticado antes de producción:
+  Solución: borrar el documento desde Firebase Console. El fallback a datos locales funciona correctamente.
+- **Firestore security rules**: configurar antes de producción:
   `allow read, write: if request.auth != null && request.auth.uid == userId;`
 - **Google Sign-In SDK**: pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
-- **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree en S09+
+- **TutorialScene / MainMenuScene**: no existen aún — añadir a Build Settings cuando se creen
 
 ## Siguiente paso
-S10 — MainMenuScene: layout base, navegación a las Scenes principales del juego (HeroScene, GachaScene, CampaignScene, ShopScene, ArenaScene).
+S11 — MainMenuScene: layout base con Canvas principal, botones de navegación a HeroScene/GachaScene/CampaignScene/ShopScene/ArenaScene, y primera instanciación del prefab HUD.
