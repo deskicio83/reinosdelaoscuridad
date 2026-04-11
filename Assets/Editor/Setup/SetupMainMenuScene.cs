@@ -117,7 +117,13 @@ namespace ReinoOscuridad.Editor.Setup
             cRT.anchoredPosition = Vector2.zero;
             scroll.content       = cRT;
 
-            // ── 9 edificios dentro del Content ────────────────────────────────
+            // Image transparente en Content para que el ScrollRect reciba drags
+            // incluso cuando el puntero cae en espacio vacio entre edificios.
+            var contentBg = contentGO.AddComponent<Image>();
+            contentBg.color         = Color.clear;
+            contentBg.raycastTarget = true;
+
+            // ── Edificios dentro del Content ──────────────────────────────────
             // Posiciones relativas al centro del Content (pivot 0.5,0.5)
             // x negativo = izquierda, y positivo = arriba
             var edificios = new (string name, string label, float x, float y, float w, float h)[]
@@ -185,14 +191,15 @@ namespace ReinoOscuridad.Editor.Setup
             zonaAccGO.AddComponent<Image>().color = new Color(0.039f, 0.039f, 0.059f, 0.85f);
             Anch(zonaAccGO, 0f, 0f, 0.52f, 0.14f);
 
+            // Triloguzano va al final (derecha) — [5]
             var accesos = new (string name, string label, float x0, float x1)[]
             {
-                ("Btn_Triloguzano", "Trio",   0.01f, 0.17f),
-                ("Btn_Tower",       "Torre",  0.18f, 0.34f),
-                ("Btn_WorldBoss",   "Boss",   0.35f, 0.51f),
-                ("Btn_Mazmorra",    "Mazm.",  0.52f, 0.68f),
-                ("Btn_Event",       "Evento", 0.69f, 0.85f),
-                ("Btn_Profile",     "Perfil", 0.86f, 1.00f),
+                ("Btn_Tower",       "Torre",  0.01f, 0.17f),  // [0]
+                ("Btn_WorldBoss",   "Boss",   0.18f, 0.34f),  // [1]
+                ("Btn_Mazmorra",    "Mazm.",  0.35f, 0.51f),  // [2]
+                ("Btn_Event",       "Evento", 0.52f, 0.68f),  // [3]
+                ("Btn_Profile",     "Perfil", 0.69f, 0.84f),  // [4]
+                ("Btn_Triloguzano", "Trio",   0.85f, 1.00f),  // [5] derecha
             };
 
             var accesoBtns = new Button[accesos.Length];
@@ -217,17 +224,39 @@ namespace ReinoOscuridad.Editor.Setup
                 accesoBtns[i] = acBtn;
             }
 
-            // SubIconosAbanico — aparece encima de la barra al pulsar Triloguzano
-            var abanicoGO = Child(zonaAccGO, "SubIconosAbanico");
-            abanicoGO.AddComponent<Image>().color = new Color(0.10f, 0.10f, 0.20f, 0.95f);
-            // Posicion: encima de los primeros 3 iconos, sube hacia arriba
-            Anch(abanicoGO, 0f, 1f, 0.52f, 4f);
+            // =================================================================
+            // SubIconosAbanico — grid 2x2 como hijo del Canvas
+            // Triloguzano ocupa la posicion inferior-derecha del grid:
+            //
+            //   [SubTorre ][SubBoss  ]   <- fila superior (encima de la barra)
+            //   [          ][SubMazm ]   <- fila inferior (encima de Triloguzano)
+            //   [-----barra----------]   Triloguzano esta en la barra, fila inferior derecha
+            //
+            // Triloguzano: x=[0.52*0.85, 0.52] = [0.442, 0.52] en screen space
+            // Ancho de un boton en screen space: 0.52 - 0.442 = 0.078
+            // Alto de un boton = altura de la barra = 0.14
+            // Abanico cubre: x=[0.442, 0.598], y=[0.14, 0.28] (las dos celdas superiores)
+            // =================================================================
+            float trioXMin = 0.52f * 0.85f;          // 0.442
+            float trioXMax = 0.52f;
+            float btnW     = trioXMax - trioXMin;     // 0.078
+            float barH     = 0.14f;
 
-            var subDefs = new (string name, string label, float y0, float y1)[]
+            var abanicoGO = Child(canvasGO, "SubIconosAbanico");
+            // El abanico cubre las 3 celdas del 2x2 que no son Triloguzano:
+            //   x: desde Triloguzano hasta +1 boton a la derecha
+            //   y: desde encima de la barra hasta +2 alturas de barra
+            Anch(abanicoGO, trioXMin, barH, trioXMax + btnW, barH * 3f);
+
+            // Layout interno del abanico (anclas relativas al abanico):
+            //   [SubTorre 0,0.5..1,1 ][SubBoss  0.5,0.5..1,1]
+            //   [SubMazm  0.5,0..1,0.5]  (celda inferior derecha del abanico)
+            // Celda inferior izquierda del abanico = espacio vacio (encima de Triloguzano)
+            var subDefs = new (string name, string label, float x0, float x1, float y0, float y1)[]
             {
-                ("SubBtn_Torre",    "Torre", 0.64f, 0.97f),
-                ("SubBtn_Boss",     "Boss",  0.32f, 0.63f),
-                ("SubBtn_Mazmorra", "Mazm.", 0.00f, 0.31f),
+                ("SubBtn_Torre",    "Torre",  0f,   0.5f, 0.5f, 1f  ),  // superior izquierda
+                ("SubBtn_Boss",     "Boss",   0.5f, 1f,   0.5f, 1f  ),  // superior derecha
+                ("SubBtn_Mazmorra", "Mazm.",  0.5f, 1f,   0f,   0.5f),  // inferior derecha
             };
             var subBtns = new Button[subDefs.Length];
             for (int i = 0; i < subDefs.Length; i++)
@@ -235,10 +264,17 @@ namespace ReinoOscuridad.Editor.Setup
                 var sd    = subDefs[i];
                 var sdGO  = Child(abanicoGO, sd.name);
                 var sdImg = sdGO.AddComponent<Image>();
-                sdImg.color = Hex("2D2D5E");
+                sdImg.color = Hex("3A3A7E");
                 var sdBtn = sdGO.AddComponent<Button>();
                 sdBtn.targetGraphic = sdImg;
-                Anch(sdGO, 0.05f, sd.y0, 0.95f, sd.y1);
+
+                var sdC              = sdBtn.colors;
+                sdC.normalColor      = Hex("3A3A7E");
+                sdC.highlightedColor = Hex("5A5ABE");
+                sdC.pressedColor     = Hex("2A2A5E");
+                sdBtn.colors = sdC;
+
+                Anch(sdGO, sd.x0 + 0.02f, sd.y0 + 0.04f, sd.x1 - 0.02f, sd.y1 - 0.04f);
 
                 var sdLbl = Child(sdGO, "Label");
                 Anch(sdLbl, 0f, 0f, 1f, 1f);
@@ -269,13 +305,13 @@ namespace ReinoOscuridad.Editor.Setup
             UnityEventTools.AddPersistentListener(edificioBtns[9].onClick, ctrl.GoToDungeon);   // Mazmorra
             UnityEventTools.AddPersistentListener(edificioBtns[10].onClick, ctrl.GoToMissions); // Misiones
 
-            // Accesos rapidos
-            UnityEventTools.AddPersistentListener(accesoBtns[0].onClick, ctrl.GoToTriloguzano);
-            UnityEventTools.AddPersistentListener(accesoBtns[1].onClick, ctrl.GoToTower);
-            UnityEventTools.AddPersistentListener(accesoBtns[2].onClick, ctrl.GoToWorldBoss);
-            UnityEventTools.AddPersistentListener(accesoBtns[3].onClick, ctrl.GoToDungeon);
-            UnityEventTools.AddPersistentListener(accesoBtns[4].onClick, ctrl.GoToEvent);
-            UnityEventTools.AddPersistentListener(accesoBtns[5].onClick, ctrl.GoToProfile);
+            // Accesos rapidos (Triloguzano es el ultimo, indice 5)
+            UnityEventTools.AddPersistentListener(accesoBtns[0].onClick, ctrl.GoToTower);
+            UnityEventTools.AddPersistentListener(accesoBtns[1].onClick, ctrl.GoToWorldBoss);
+            UnityEventTools.AddPersistentListener(accesoBtns[2].onClick, ctrl.GoToDungeon);
+            UnityEventTools.AddPersistentListener(accesoBtns[3].onClick, ctrl.GoToEvent);
+            UnityEventTools.AddPersistentListener(accesoBtns[4].onClick, ctrl.GoToProfile);
+            UnityEventTools.AddPersistentListener(accesoBtns[5].onClick, ctrl.GoToTriloguzano);
 
             // Sub-abanico
             UnityEventTools.AddPersistentListener(subBtns[0].onClick, ctrl.GoToTower);
@@ -300,13 +336,13 @@ namespace ReinoOscuridad.Editor.Setup
             soCtrl.FindProperty("_btnDungeon").objectReferenceValue  = edificioBtns[9];  // Mazmorra
             soCtrl.FindProperty("_btnMissions").objectReferenceValue = edificioBtns[10]; // Misiones
 
-            // Accesos rapidos
-            soCtrl.FindProperty("_btnTriloguzano").objectReferenceValue    = accesoBtns[0];
-            soCtrl.FindProperty("_btnTower").objectReferenceValue          = accesoBtns[1];
-            soCtrl.FindProperty("_btnWorldBoss").objectReferenceValue      = accesoBtns[2];
-            soCtrl.FindProperty("_btnMazmorraRapido").objectReferenceValue = accesoBtns[3];
-            soCtrl.FindProperty("_btnEvent").objectReferenceValue          = accesoBtns[4];
-            soCtrl.FindProperty("_btnProfile").objectReferenceValue        = accesoBtns[5];
+            // Accesos rapidos (Triloguzano es el ultimo, indice 5)
+            soCtrl.FindProperty("_btnTower").objectReferenceValue          = accesoBtns[0];
+            soCtrl.FindProperty("_btnWorldBoss").objectReferenceValue      = accesoBtns[1];
+            soCtrl.FindProperty("_btnMazmorraRapido").objectReferenceValue = accesoBtns[2];
+            soCtrl.FindProperty("_btnEvent").objectReferenceValue          = accesoBtns[3];
+            soCtrl.FindProperty("_btnProfile").objectReferenceValue        = accesoBtns[4];
+            soCtrl.FindProperty("_btnTriloguzano").objectReferenceValue    = accesoBtns[5];
 
             soCtrl.ApplyModifiedProperties();
 
