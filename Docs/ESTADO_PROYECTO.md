@@ -46,23 +46,28 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/Utils/UIConstants.cs` — constantes globales de layout (HUD_HEIGHT_PERCENT=0.10, CONTENT_START_PERCENT=0.90)
   - `Assets/Editor/Setup/SetupHUDPrefab.cs` — menú Tools → Reino Oscuridad → 1. Setup HUD Prefab
     Genera HUD.prefab con 4 zonas (Background · ZonaJugador · ZonaMonedas · ZonaIconos), anclas relativas, referencias asignadas via SerializedObject
-  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — menú Tools → Reino Oscuridad → 2. Setup MainMenuScene
-    Abre/crea MainMenuScene.unity, configura cámara, crea Canvas con 11 botones en grid 3×4, instancia HUD, añade a Build Settings
   - Todo posicionamiento via anchorMin/anchorMax — cero píxeles absolutos
+- [x] S10c — MainMenuScene layout Bastión Maldito (5 zonas)
+  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — REESCRITO completo
+    - ZONA 1: HUD_PlayerInfo (0,0.90→0.28,1.0) — AvatarButton + NombreText + NivelBadge
+    - ZONA 2: HUD_Monedas (0.28,0.90→0.72,1.0) — 3× CurrencyPill (Energy/Gold/Caosifera) con SerializedObject
+    - ZONA 3: HUD_Acciones (0.72,0.90→1.0,1.0) — Chat/Mail/Settings/Evento con badges rojo y naranja
+    - ZONA 4: ZonaEdificios (0,0.14→1,0.90) — ScrollRect horizontal, ContentEdificios 1800px wide, 9 edificios via anchoredPosition+sizeDelta, flechas < > fuera de ScrollRect
+    - ZONA 5: ZonaAccesosRapidos (0,0→0.52,0.14) — 6 iconos fijos (Trio/Torre/Boss/Mazm./Evento/Perfil) + SubIconosAbanico hidden by default
+  - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — actualizado
+    - SerializeField _subIconosAbanico (GameObject) + _btnTriloguzano/Tower/WorldBoss/MazmorraRapido/Event/Profile/Chat/Mail/Settings
+    - GoToTriloguzano(): toggle _subIconosAbanico.SetActive
+    - GoToChat/Mail/Settings/Event/Profile(): log TODO overlay S32
 - [x] S11 — MainMenuController
-  - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — hub de navegación central
-  - Awake: guard defensivo si UIManager.Instance es null
-  - Start: instancia HUD prefab + enlaza 11 botones via BindButtons()
-  - 11 métodos de navegación: GoToCampaign/Heroes/Gacha/Arena/Tower/WorldBoss/Clan/Shop/Missions/Dungeon/Conjuros
-  - Todos los botones y el HUD prefab son SerializeField
+  - Hub de navegación central, Awake guard defensivo, Start instancia HUD + BindButtons
   - Validado con S11_Test: checks PASS ✓
 
 ## Scenes implementadas
 - [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
-- [ ] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — crear manualmente (pasos en S11)
+- [ ] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — ejecutar Tools → Reino Oscuridad → 2. Setup MainMenuScene
 
 ## Prefabs pendientes de crear en Unity Editor
-- `Assets/Prefabs/UI/HUD.prefab` — Canvas con HUDController + HUDIcons + 3× CurrencyPill (Energy/Gold/Caosifera)
+- `Assets/Prefabs/UI/HUD.prefab` — ejecutar Tools → Reino Oscuridad → 1. Setup HUD Prefab primero
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
@@ -86,3 +91,4 @@ _Actualizar al final de cada sesión de Claude Code_
 
 ## Siguiente paso
 S12 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
+(S10c completado — MainMenuScene Bastión Maldito 5 zonas lista para ejecutar desde el menú de Unity)

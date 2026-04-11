@@ -13,20 +13,40 @@ namespace ReinoOscuridad.UI.MainMenu
         [Header("HUD")]
         [SerializeField] private GameObject _hudPrefab;
 
-        // ── Botones de navegación ─────────────────────────────────────────────
+        // ── Abanico Triloguzano ───────────────────────────────────────────────
 
-        [Header("Botones")]
+        [Header("Abanico")]
+        [SerializeField] private GameObject _subIconosAbanico;
+
+        // ── Botones de edificios ──────────────────────────────────────────────
+
+        [Header("Botones Edificios")]
         [SerializeField] private Button _btnCampaign;
         [SerializeField] private Button _btnHeroes;
         [SerializeField] private Button _btnGacha;
         [SerializeField] private Button _btnArena;
-        [SerializeField] private Button _btnTower;
-        [SerializeField] private Button _btnWorldBoss;
-        [SerializeField] private Button _btnClan;
         [SerializeField] private Button _btnShop;
+        [SerializeField] private Button _btnClan;
         [SerializeField] private Button _btnMissions;
         [SerializeField] private Button _btnDungeon;
         [SerializeField] private Button _btnConjuros;
+
+        // ── Botones acceso rápido ─────────────────────────────────────────────
+
+        [Header("Accesos Rapidos")]
+        [SerializeField] private Button _btnTriloguzano;
+        [SerializeField] private Button _btnTower;
+        [SerializeField] private Button _btnWorldBoss;
+        [SerializeField] private Button _btnMazmorraRapido;
+        [SerializeField] private Button _btnEvent;
+        [SerializeField] private Button _btnProfile;
+
+        // ── Botones HUD acciones ──────────────────────────────────────────────
+
+        [Header("HUD Acciones")]
+        [SerializeField] private Button _btnChat;
+        [SerializeField] private Button _btnMail;
+        [SerializeField] private Button _btnSettings;
 
         // ── Ciclo de vida ──────────────────────────────────────────────────────
 
@@ -45,6 +65,9 @@ namespace ReinoOscuridad.UI.MainMenu
         {
             InstantiateHUD();
             BindButtons();
+
+            if (_subIconosAbanico != null)
+                _subIconosAbanico.SetActive(false);
         }
 
         // ── HUD ───────────────────────────────────────────────────────────────
@@ -66,20 +89,27 @@ namespace ReinoOscuridad.UI.MainMenu
 
         private void BindButtons()
         {
-            if (_btnCampaign  != null) _btnCampaign.onClick.AddListener(GoToCampaign);
-            if (_btnHeroes    != null) _btnHeroes.onClick.AddListener(GoToHeroes);
-            if (_btnGacha     != null) _btnGacha.onClick.AddListener(GoToGacha);
-            if (_btnArena     != null) _btnArena.onClick.AddListener(GoToArena);
-            if (_btnTower     != null) _btnTower.onClick.AddListener(GoToTower);
-            if (_btnWorldBoss != null) _btnWorldBoss.onClick.AddListener(GoToWorldBoss);
-            if (_btnClan      != null) _btnClan.onClick.AddListener(GoToClan);
-            if (_btnShop      != null) _btnShop.onClick.AddListener(GoToShop);
-            if (_btnMissions  != null) _btnMissions.onClick.AddListener(GoToMissions);
-            if (_btnDungeon   != null) _btnDungeon.onClick.AddListener(GoToDungeon);
-            if (_btnConjuros  != null) _btnConjuros.onClick.AddListener(GoToConjuros);
+            if (_btnCampaign      != null) _btnCampaign.onClick.AddListener(GoToCampaign);
+            if (_btnHeroes        != null) _btnHeroes.onClick.AddListener(GoToHeroes);
+            if (_btnGacha         != null) _btnGacha.onClick.AddListener(GoToGacha);
+            if (_btnArena         != null) _btnArena.onClick.AddListener(GoToArena);
+            if (_btnShop          != null) _btnShop.onClick.AddListener(GoToShop);
+            if (_btnClan          != null) _btnClan.onClick.AddListener(GoToClan);
+            if (_btnMissions      != null) _btnMissions.onClick.AddListener(GoToMissions);
+            if (_btnDungeon       != null) _btnDungeon.onClick.AddListener(GoToDungeon);
+            if (_btnConjuros      != null) _btnConjuros.onClick.AddListener(GoToConjuros);
+            if (_btnTriloguzano   != null) _btnTriloguzano.onClick.AddListener(GoToTriloguzano);
+            if (_btnTower         != null) _btnTower.onClick.AddListener(GoToTower);
+            if (_btnWorldBoss     != null) _btnWorldBoss.onClick.AddListener(GoToWorldBoss);
+            if (_btnMazmorraRapido != null) _btnMazmorraRapido.onClick.AddListener(GoToDungeon);
+            if (_btnEvent         != null) _btnEvent.onClick.AddListener(GoToEvent);
+            if (_btnProfile       != null) _btnProfile.onClick.AddListener(GoToProfile);
+            if (_btnChat          != null) _btnChat.onClick.AddListener(GoToChat);
+            if (_btnMail          != null) _btnMail.onClick.AddListener(GoToMail);
+            if (_btnSettings      != null) _btnSettings.onClick.AddListener(GoToSettings);
         }
 
-        // ── Métodos de navegación ─────────────────────────────────────────────
+        // ── Métodos de navegación — edificios ─────────────────────────────────
 
         public void GoToCampaign()
         {
@@ -145,6 +175,39 @@ namespace ReinoOscuridad.UI.MainMenu
         {
             Debug.Log("[MainMenuController] Navegando a ConjuroScene");
             _ = UIManager.Instance.NavigateTo("ConjuroScene");
+        }
+
+        // ── Métodos nuevos S10c ───────────────────────────────────────────────
+
+        public void GoToTriloguzano()
+        {
+            if (_subIconosAbanico != null)
+                _subIconosAbanico.SetActive(!_subIconosAbanico.activeSelf);
+        }
+
+        public void GoToChat()
+        {
+            Debug.Log("[MainMenuController] TODO: ChatPanel slide-in S32");
+        }
+
+        public void GoToMail()
+        {
+            Debug.Log("[MainMenuController] TODO: MailPanel overlay S32");
+        }
+
+        public void GoToSettings()
+        {
+            Debug.Log("[MainMenuController] TODO: SettingsPanel overlay S32");
+        }
+
+        public void GoToEvent()
+        {
+            Debug.Log("[MainMenuController] TODO: EventPanel overlay S32");
+        }
+
+        public void GoToProfile()
+        {
+            Debug.Log("[MainMenuController] TODO: PlayerInfoPanel overlay S32");
         }
     }
 }
