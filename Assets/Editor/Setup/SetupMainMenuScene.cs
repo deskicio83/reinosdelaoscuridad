@@ -152,14 +152,14 @@ namespace ReinoOscuridad.Editor.Setup
                 edRT.anchoredPosition = new Vector2(ed.x, ed.y);
 
                 var edImg = edGO.AddComponent<Image>();
-                edImg.color = Hex("1A1A2E");
+                edImg.color = Hex("2D4080");
                 var edBtn = edGO.AddComponent<Button>();
                 edBtn.targetGraphic = edImg;
 
                 var c               = edBtn.colors;
-                c.normalColor       = Hex("1A1A2E");
-                c.highlightedColor  = Hex("2D2D4E");
-                c.pressedColor      = Hex("3D3D6E");
+                c.normalColor       = Hex("2D4080");
+                c.highlightedColor  = Hex("4060B0");
+                c.pressedColor      = Hex("5070C0");
                 edBtn.colors = c;
 
                 var lblGO  = Child(edGO, "Label");
