@@ -83,22 +83,15 @@ namespace ReinoOscuridad.Editor.Setup
 
             // =================================================================
             // ZONA EDIFICIOS — ScrollRect libre (todos los lados) con paneo suave
+            // Jerarquia correcta: ZonaEdificios(ScrollRect) > Viewport(Mask) > Content
             // El HUD ocupa el 10% superior => el contenido empieza en y=0.90
             // La barra de accesos rapidos ocupa el 14% inferior => y=0.14
             // =================================================================
             var zonaEdifGO = Child(canvasGO, "ZonaEdificios");
             Anch(zonaEdifGO, 0f, 0.14f, 1f, UIConstants.CONTENT_START_PERCENT);
 
-            // Viewport / mascara
-            var viewportGO  = Child(zonaEdifGO, "Viewport");
-            Anch(viewportGO, 0f, 0f, 1f, 1f);
-            var viewImg  = viewportGO.AddComponent<Image>();
-            viewImg.color = Color.clear;
-            var mask = viewportGO.AddComponent<Mask>();
-            mask.showMaskGraphic = false;
-
-            // ScrollRect en el mismo GO que el viewport
-            var scroll = viewportGO.AddComponent<ScrollRect>();
+            // ScrollRect en ZonaEdificios
+            var scroll = zonaEdifGO.AddComponent<ScrollRect>();
             scroll.horizontal        = true;
             scroll.vertical          = true;
             scroll.movementType      = ScrollRect.MovementType.Elastic;
@@ -106,9 +99,16 @@ namespace ReinoOscuridad.Editor.Setup
             scroll.inertia           = true;
             scroll.decelerationRate  = 0.15f;
             scroll.scrollSensitivity = 1f;
-            scroll.viewport          = viewportGO.GetComponent<RectTransform>();
 
-            // Content — ligeramente mas grande que la pantalla para permitir paneo
+            // Viewport — hijo de ZonaEdificios, tiene la Mask
+            var viewportGO = Child(zonaEdifGO, "Viewport");
+            Anch(viewportGO, 0f, 0f, 1f, 1f);
+            var viewImg = viewportGO.AddComponent<Image>();
+            viewImg.color = Color.clear;
+            viewportGO.AddComponent<Mask>().showMaskGraphic = false;
+            scroll.viewport = viewportGO.GetComponent<RectTransform>();
+
+            // Content — hijo de Viewport, mas grande que la pantalla para paneo libre
             var contentGO = Child(viewportGO, "ContentEdificios");
             var cRT       = contentGO.GetComponent<RectTransform>();
             cRT.anchorMin        = new Vector2(0.5f, 0.5f);
@@ -152,14 +152,14 @@ namespace ReinoOscuridad.Editor.Setup
                 edRT.anchoredPosition = new Vector2(ed.x, ed.y);
 
                 var edImg = edGO.AddComponent<Image>();
-                edImg.color = Hex("2D4080");
+                edImg.color = Hex("4A6FD4");
                 var edBtn = edGO.AddComponent<Button>();
                 edBtn.targetGraphic = edImg;
 
                 var c               = edBtn.colors;
-                c.normalColor       = Hex("2D4080");
-                c.highlightedColor  = Hex("4060B0");
-                c.pressedColor      = Hex("5070C0");
+                c.normalColor       = Hex("4A6FD4");
+                c.highlightedColor  = Hex("6A8FF4");
+                c.pressedColor      = Hex("3A5FB4");
                 edBtn.colors = c;
 
                 var lblGO  = Child(edGO, "Label");
