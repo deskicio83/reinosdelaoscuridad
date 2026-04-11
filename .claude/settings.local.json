@@ -5,7 +5,9 @@
       "Bash(cp \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Docs/hero_catalog.json\" \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Assets/Data/hero_catalog.json\")",
       "Bash(cp \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Docs/player_data.json\" \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Assets/Data/player_data.json\")",
       "Bash(cp \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Docs/gear_catalog.json\" \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Assets/Data/gear_catalog.json\")",
-      "Bash(cp \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Docs/spells_catalog.json\" \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Assets/Data/spells_catalog.json\")"
+      "Bash(cp \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Docs/spells_catalog.json\" \"C:/Users/franh/Documents/GitHub/reinosdelaoscuridad/Assets/Data/spells_catalog.json\")",
+      "Bash(rm \"Assets/Scripts/UI/MainMenuScene/MainMenuDebug.cs\")",
+      "Bash(rm \"Assets/Scripts/UI/MainMenuScene/S10c_Test.cs\")"
     ]
   }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ReinoOscuridad.UI.Common;
 
 namespace ReinoOscuridad.Core
 {
@@ -33,6 +34,9 @@ namespace ReinoOscuridad.Core
         // ── Stack de overlays ─────────────────────────────────────────────────
 
         private readonly List<GameObject> _activeOverlays = new List<GameObject>();
+
+        // Sort order por defecto del InputBlocker — justo por debajo de cualquier overlay tipico
+        private const int INPUT_BLOCKER_SORT_ORDER = 49;
 
         // ── Fade canvas ───────────────────────────────────────────────────────
 
@@ -152,6 +156,11 @@ namespace ReinoOscuridad.Core
 
             var instance = Instantiate(overlayPrefab);
             _activeOverlays.Add(instance);
+
+            // Mostrar InputBlocker por debajo del overlay
+            if (InputBlocker.Instance != null)
+                InputBlocker.Instance.Show(INPUT_BLOCKER_SORT_ORDER);
+
             Debug.Log($"[UIManager] Overlay abierto: {overlayPrefab.name} ({_activeOverlays.Count} activos)");
             return instance;
         }
@@ -163,6 +172,11 @@ namespace ReinoOscuridad.Core
 
             _activeOverlays.Remove(overlayInstance);
             Destroy(overlayInstance);
+
+            // Ocultar InputBlocker cuando no quedan overlays
+            if (_activeOverlays.Count == 0 && InputBlocker.Instance != null)
+                InputBlocker.Instance.Hide();
+
             Debug.Log($"[UIManager] Overlay cerrado ({_activeOverlays.Count} restantes)");
         }
 

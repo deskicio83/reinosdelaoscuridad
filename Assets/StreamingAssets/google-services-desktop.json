@@ -12,7 +12,20 @@
           "package_name": "com.DesdeMiPC.ReinosdelaOscuridad"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "769090242582-73dlkqnr7i7jsomlraillraltoqhqfl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.DesdeMiPC.ReinosdelaOscuridad",
+            "certificate_hash": "bc5e51a9c6bc8a17ccac7198325d8b54f5e458bb"
+          }
+        },
+        {
+          "client_id": "769090242582-66971t7u5nt08jml6e9rpna6ikmmlkoi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCX8XrNg2ftVGiB-7ZNSiAg7476RVZZYFs"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769090242582-66971t7u5nt08jml6e9rpna6ikmmlkoi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "769090242582-sspbpq0ikf4roabn97236hiae5bdg65j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.DesdeMiPC.ReinosdelaOscuridad"
+              }
+            }
+          ]
         }
       }
     }

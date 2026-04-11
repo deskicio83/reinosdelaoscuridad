@@ -83,6 +83,8 @@ _Actualizar al final de cada sesión de Claude Code_
 - BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
 - **New Input System**: nunca usar `Input.GetKeyDown`. Usar `Keyboard.current`, `Touchscreen.current` o ActionAsset
 - **UI**: posicionamiento siempre por anclas relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales. Editor Scripts en `Assets/Editor/Setup/` configuran cada Scene automáticamente.
+- **InputBlocker**: panel bloqueante reutilizable entre Scene y overlay. UIManager lo gestiona automáticamente al abrir/cerrar overlays. Sort Order 49 por defecto (por debajo de cualquier overlay).
+- **LoadingScreen**: Sort Order 998, DontDestroyOnLoad, frases y carrusel configurables. Usar Show/SetProgress/Hide en cualquier carga async. Hide() hace fade out 200ms.
 
 ## ⚠️ Bugs conocidos / Pendientes
 - **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
@@ -98,5 +100,18 @@ _Actualizar al final de cada sesión de Claude Code_
 - **Google Sign-In SDK**: pendiente de integrar
 - **TutorialScene**: no existe aún
 
+- [x] S12 — InputBlocker + LoadingScreen + Modelos datos combate
+  - `Assets/Scripts/UI/Common/InputBlocker.cs` — singleton por Scene, Canvas SSO, Image transparente raycastTarget=true, Show(sortOrder)/Hide()
+  - `Assets/Scripts/UI/Common/LoadingScreen.cs` — singleton DontDestroyOnLoad, Sort Order 998, Show/Hide(fade 200ms)/SetProgress(float)/SetProgress(float,float), 8 frases, carrusel de sprites
+  - `Assets/Editor/Setup/SetupInputBlockerPrefab.cs` — menú 3. Setup InputBlocker Prefab → Assets/Prefabs/UI/InputBlocker.prefab
+  - `Assets/Editor/Setup/SetupLoadingScreenPrefab.cs` — menú 4. Setup LoadingScreen Prefab → Assets/Prefabs/UI/LoadingScreen.prefab
+  - `Assets/Scripts/Core/UIManager.cs` — integración InputBlocker: Show al abrir overlay, Hide al cerrar el último
+  - `Assets/Scripts/Data/CombatContext.cs` — datos entrada CombatScene (encounterID, callerScene, combatMode, playerTeam, enemyTeam, maldicionActiva, elementoBoss)
+  - `Assets/Scripts/Data/CombatResult.cs` — datos salida CombatScene (victoria, danoTotal, drops, xpGanada, trofeosDelta, gradoObtenido)
+  - `Assets/Scripts/Data/HeroInstance.cs` — héroe en combate (hp, stats, efectosActivos, habilidadesEquipadas)
+  - `Assets/Scripts/Data/EnemyInstance.cs` — enemigo en combate (hp, stats, efectosActivos)
+  - `Assets/Scripts/Data/DungeonContext.cs` — contexto mazmorra (dungeonId, nivelDungeon, elementoDungeon, callerScene)
+  - Validado S12_Test: 10/10 PASS ✓
+
 ## Siguiente paso
-S12 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
+S13 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
