@@ -128,5 +128,32 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/Core/EventBus.cs` — 4 nuevos eventos: `OnCombatTurnEnd` · `OnUnitDamaged` · `OnUnitDefeated` · `OnEffectApplied`
   - Validado S13_Test: 8/8 PASS ✓
 
+- [x] S14 — CombatScene — flujo de turno completo con UI de cartas
+  - `Assets/Scripts/Data/CombatSceneData.cs` — pasarela estática entre Scenes (`PendingContext` · `LastResult` · `SetResult`)
+  - `Assets/Scripts/UI/CombatScene/CombatSceneController.cs` — MonoBehaviour no singleton
+    - `Start()`: recibe CombatContext desde CombatSceneData, muestra LoadingScreen, inicializa UI, inicia bucle de combate
+    - `TurnState` enum: WaitingForInput · SelectingTarget · ProcessingAction · ShowingResult · CombatFinished
+    - **Modo Auto**: `CombatSystem.ProcessCombat()` ejecuta todo, `SkipToResult()` salta directo al ResultPanel
+    - **Modo Manual**: coroutine con `WaitUntil` — `SelectAbility(int)` → `SelectTarget(int)` → `ProcessHeroAction()`; enemigos atacan automáticamente
+    - Orden de turno por SPD desc, empates: jugador primero; Stun salta turno
+    - `FinalizarCombate(CombatResult)`: publica `EventBus.OnCombatCompleted`, activa `InputBlocker`, muestra ResultPanel
+    - `OnContinuarPressed()`: oculta InputBlocker, navega a `ctx.callerScene` via `UIManager.NavigateTo()`
+    - HP bars actualizan color dinámico: >60% verde · 30-60% naranja · <30% rojo
+  - `Assets/Editor/Setup/SetupCombatScene.cs` — menú 5. Setup CombatScene
+    - Camera ortográfica · EventSystem con InputSystemUIInputModule
+    - ZonaEnemigos: 3 slots EnemySlot_N con Button + HPBar (Fondo + Relleno + HPText)
+    - BarrasHP_Enemigos: 3 barras alineadas sobre los enemigos
+    - ZonaEquipo: 5 HeroCard_N con Portrait + NombreHero + HPBar + TurnIndicator
+    - PanelHabilidades: 3 botones (BtnHabilidad_0 superior + 1 y 2 en cuadrícula inferior)
+    - ControlesCombate: BtnAuto · BtnVelocidad · TurnoText · BtnHuir
+    - ResultPanel (SetActive false): TituloResult · GradeText · XPText · DropsText · BtnContinuar
+    - Systems GameObject con CombatSystem
+    - Todas las referencias SerializeField del CombatSceneController cableadas via SerializedObject
+
+## Scenes implementadas
+- [x] BootScene — `Assets/Scenes/BootScene.unity`
+- [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity`
+- [ ] CombatScene — `Assets/Scenes/CombatScene.unity` — **crear con menú Tools → Reino Oscuridad → 5. Setup CombatScene**
+
 ## Siguiente paso
-S14 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
+S15 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
