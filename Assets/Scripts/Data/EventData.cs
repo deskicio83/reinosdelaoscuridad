@@ -62,4 +62,40 @@ namespace ReinoOscuridad.Data
         /// true si la cuenta es anónima (invitado)
         public bool isGuest;
     }
+
+    // ── Eventos de combate ────────────────────────────────────────────────────
+
+    public struct CombatTurnEndData
+    {
+        public int  turnoActual;
+        /// true si el equipo del jugador acaba de actuar
+        public bool esEquipoJugador;
+    }
+
+    public struct UnitDamagedData
+    {
+        /// "hero" | "enemy"
+        public string unitType;
+        public string unitId;
+        public DamageResult resultado;
+        public int  hpActual;
+        public int  hpMax;
+    }
+
+    public struct UnitDefeatedData
+    {
+        /// "hero" | "enemy"
+        public string unitType;
+        public string unitId;
+    }
+
+    public struct EffectAppliedData
+    {
+        /// "hero" | "enemy"
+        public string unitType;
+        public string unitId;
+        public string efectoId;
+        /// Stacks totales del efecto en el objetivo tras la aplicación
+        public int    stacks;
+    }
 }

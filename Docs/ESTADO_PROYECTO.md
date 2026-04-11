@@ -113,5 +113,20 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/Data/DungeonContext.cs` — contexto mazmorra (dungeonId, nivelDungeon, elementoDungeon, callerScene)
   - Validado S12_Test: 10/10 PASS ✓
 
+- [x] S13 — CombatSystem — lógica de combate por turnos completa (pura, sin UI)
+  - `Assets/Scripts/Systems/CombatSystem.cs` — `[DefaultExecutionOrder(-10)]`, implementa `ISystem`
+    - `ProcessCombat(CombatContext)` → `CombatResult`: bucle de turnos (máx 50), orden SPD desc, empates jugador primero
+    - `CalculateDamage(HeroInstance, EnemyInstance, float)` → `DamageResult`: 5 pasos Dodge→Crit→Base→Elemental→Efecto
+    - `CalculateDamageEnemyAttack(EnemyInstance, HeroInstance)` → `DamageResult`: enemigos crit base 5 %
+    - `TryApplyEffect(TipoEfecto, List<string>, int, int)` → bool: máx 3 stacks, chance = acc/100 - res/100 clamped [0.10, 0.90]
+    - `RemoveEffect(TipoEfecto, List<string>)` → bool: Bleed no removible (devuelve false)
+    - `GetElementalMultiplier(string, string)` → float: tabla 12 relaciones + mismo elemento 0.85
+    - Shield absorbe daño antes de HP; Stun salta turno; DoT (Bleed 8 %, Burn 6 %, Poison 5 % hpMax/turno)
+  - `Assets/Scripts/Data/EnumData.cs` — añadido enum `TipoEfecto` (17 valores)
+  - `Assets/Scripts/Data/CombatContext.cs` — añadido struct `DamageResult`
+  - `Assets/Scripts/Data/EventData.cs` — añadidos structs `CombatTurnEndData` · `UnitDamagedData` · `UnitDefeatedData` · `EffectAppliedData`
+  - `Assets/Scripts/Core/EventBus.cs` — 4 nuevos eventos: `OnCombatTurnEnd` · `OnUnitDamaged` · `OnUnitDefeated` · `OnEffectApplied`
+  - Validado S13_Test: 8/8 PASS ✓
+
 ## Siguiente paso
-S13 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
+S14 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.

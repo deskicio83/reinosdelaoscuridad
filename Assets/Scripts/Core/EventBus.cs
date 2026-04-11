@@ -18,6 +18,13 @@ namespace ReinoOscuridad.Core
         public static event Action<DailyResetData>       OnDailyReset;
         public static event Action<AuthStateChangedData> OnAuthStateChanged;
 
+        // ── Eventos de combate ─────────────────────────────────────────────────
+
+        public static event Action<CombatTurnEndData>  OnCombatTurnEnd;
+        public static event Action<UnitDamagedData>    OnUnitDamaged;
+        public static event Action<UnitDefeatedData>   OnUnitDefeated;
+        public static event Action<EffectAppliedData>  OnEffectApplied;
+
         // ── Métodos de publicación ─────────────────────────────────────────────
 
         public static void Publish(PlayerLevelUpData data)    => OnPlayerLevelUp?.Invoke(data);
@@ -28,6 +35,10 @@ namespace ReinoOscuridad.Core
         public static void Publish(MissionCompletedData data)  => OnMissionCompleted?.Invoke(data);
         public static void Publish(DailyResetData data)        => OnDailyReset?.Invoke(data);
         public static void Publish(AuthStateChangedData data)  => OnAuthStateChanged?.Invoke(data);
+        public static void Publish(CombatTurnEndData data)     => OnCombatTurnEnd?.Invoke(data);
+        public static void Publish(UnitDamagedData data)       => OnUnitDamaged?.Invoke(data);
+        public static void Publish(UnitDefeatedData data)      => OnUnitDefeated?.Invoke(data);
+        public static void Publish(EffectAppliedData data)     => OnEffectApplied?.Invoke(data);
 
         /// Elimina todos los suscriptores. Llamar en tests o al reiniciar la sesión.
         public static void ClearAll()
@@ -40,6 +51,10 @@ namespace ReinoOscuridad.Core
             OnMissionCompleted = null;
             OnDailyReset       = null;
             OnAuthStateChanged = null;
+            OnCombatTurnEnd    = null;
+            OnUnitDamaged      = null;
+            OnUnitDefeated     = null;
+            OnEffectApplied    = null;
         }
     }
 }

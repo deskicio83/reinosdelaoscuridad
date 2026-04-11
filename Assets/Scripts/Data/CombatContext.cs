@@ -2,6 +2,18 @@ using System;
 
 namespace ReinoOscuridad.Data
 {
+    /// Resultado detallado de un único golpe de daño.
+    public struct DamageResult
+    {
+        public int   dañoFinal;
+        public bool  fueEsquivado;
+        public bool  fueCritico;
+        public bool  fueElementalVentaja;
+        public bool  fueElementalDesventaja;
+        /// ID del efecto aplicado al objetivo, o null si no se aplicó ninguno.
+        public string efectoAplicado;
+    }
+
     /// Datos de entrada a CombatScene.
     /// CombatScene es agnostica — recibe este contexto y devuelve CombatResult.
     [Serializable]
