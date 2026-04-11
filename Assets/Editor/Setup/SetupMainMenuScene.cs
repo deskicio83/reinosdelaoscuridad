@@ -24,7 +24,7 @@ namespace ReinoOscuridad.Editor.Setup
 
         // Content del ScrollRect ligeramente mayor que la pantalla para permitir
         // paneo libre en todos los direcciones sin alejarse demasiado.
-        private const float CONTENT_W = 1600f;
+        private const float CONTENT_W = 1900f;
         private const float CONTENT_H =  640f;
 
         [MenuItem("Tools/Reino Oscuridad/2. Setup MainMenuScene")]
@@ -127,6 +127,7 @@ namespace ReinoOscuridad.Editor.Setup
                 ("Edificio_Porton",     "Portal",     -650f,  200f, 200f, 200f),
                 ("Edificio_Altar",      "Altar",      -360f,  200f, 160f, 160f),
                 ("Edificio_Campana",    "Campana",     -80f,  200f, 160f, 160f),
+                ("Edificio_Arena",      "Arena",       240f,  200f, 160f, 160f),
                 // Fila central
                 ("Edificio_Cuartel",    "Cuartel",    -500f,    0f, 160f, 160f),
                 ("Edificio_Forja",      "Forja",      -220f,    0f, 160f, 160f),
@@ -135,6 +136,7 @@ namespace ReinoOscuridad.Editor.Setup
                 ("Edificio_Mercado",    "Mercado",    -420f, -200f, 160f, 160f),
                 ("Edificio_Taverna",    "Taverna",    -140f, -200f, 160f, 160f),
                 ("Edificio_Mazmorra",   "Mazmorra",    180f, -200f, 160f, 160f),
+                ("Edificio_Misiones",   "Misiones",    460f, -200f, 160f, 160f),
             };
 
             var edificioBtns = new Button[edificios.Length];
@@ -259,12 +261,14 @@ namespace ReinoOscuridad.Editor.Setup
             UnityEventTools.AddPersistentListener(edificioBtns[0].onClick, ctrl.GoToCampaign);  // Portal
             UnityEventTools.AddPersistentListener(edificioBtns[1].onClick, ctrl.GoToGacha);     // Altar (invocacion)
             UnityEventTools.AddPersistentListener(edificioBtns[2].onClick, ctrl.GoToCampaign);  // Campana
-            UnityEventTools.AddPersistentListener(edificioBtns[3].onClick, ctrl.GoToHeroes);    // Cuartel
-            UnityEventTools.AddPersistentListener(edificioBtns[4].onClick, ctrl.GoToConjuros);  // Forja
-            UnityEventTools.AddPersistentListener(edificioBtns[5].onClick, ctrl.GoToGacha);     // Biblioteca
-            UnityEventTools.AddPersistentListener(edificioBtns[6].onClick, ctrl.GoToShop);      // Mercado
-            UnityEventTools.AddPersistentListener(edificioBtns[7].onClick, ctrl.GoToClan);      // Taverna
-            UnityEventTools.AddPersistentListener(edificioBtns[8].onClick, ctrl.GoToDungeon);   // Mazmorra
+            UnityEventTools.AddPersistentListener(edificioBtns[3].onClick, ctrl.GoToArena);     // Arena
+            UnityEventTools.AddPersistentListener(edificioBtns[4].onClick, ctrl.GoToHeroes);    // Cuartel
+            UnityEventTools.AddPersistentListener(edificioBtns[5].onClick, ctrl.GoToConjuros);  // Forja
+            UnityEventTools.AddPersistentListener(edificioBtns[6].onClick, ctrl.GoToGacha);     // Biblioteca
+            UnityEventTools.AddPersistentListener(edificioBtns[7].onClick, ctrl.GoToShop);      // Mercado
+            UnityEventTools.AddPersistentListener(edificioBtns[8].onClick, ctrl.GoToClan);      // Taverna
+            UnityEventTools.AddPersistentListener(edificioBtns[9].onClick, ctrl.GoToDungeon);   // Mazmorra
+            UnityEventTools.AddPersistentListener(edificioBtns[10].onClick, ctrl.GoToMissions); // Misiones
 
             // Accesos rapidos
             UnityEventTools.AddPersistentListener(accesoBtns[0].onClick, ctrl.GoToTriloguzano);
@@ -286,14 +290,16 @@ namespace ReinoOscuridad.Editor.Setup
 
             soCtrl.FindProperty("_subIconosAbanico").objectReferenceValue = abanicoGO;
 
-            // Edificios (los mas representativos; Arena y Missions no tienen edificio aun)
-            soCtrl.FindProperty("_btnCampaign").objectReferenceValue = edificioBtns[0]; // Portal
-            soCtrl.FindProperty("_btnHeroes").objectReferenceValue   = edificioBtns[3]; // Cuartel
-            soCtrl.FindProperty("_btnGacha").objectReferenceValue    = edificioBtns[1]; // Altar
-            soCtrl.FindProperty("_btnShop").objectReferenceValue     = edificioBtns[6]; // Mercado
-            soCtrl.FindProperty("_btnClan").objectReferenceValue     = edificioBtns[7]; // Taverna
-            soCtrl.FindProperty("_btnDungeon").objectReferenceValue  = edificioBtns[8]; // Mazmorra
-            soCtrl.FindProperty("_btnConjuros").objectReferenceValue = edificioBtns[4]; // Forja
+            // Edificios
+            soCtrl.FindProperty("_btnCampaign").objectReferenceValue = edificioBtns[0];  // Portal
+            soCtrl.FindProperty("_btnGacha").objectReferenceValue    = edificioBtns[1];  // Altar
+            soCtrl.FindProperty("_btnArena").objectReferenceValue    = edificioBtns[3];  // Arena
+            soCtrl.FindProperty("_btnHeroes").objectReferenceValue   = edificioBtns[4];  // Cuartel
+            soCtrl.FindProperty("_btnConjuros").objectReferenceValue = edificioBtns[5];  // Forja
+            soCtrl.FindProperty("_btnShop").objectReferenceValue     = edificioBtns[7];  // Mercado
+            soCtrl.FindProperty("_btnClan").objectReferenceValue     = edificioBtns[8];  // Taverna
+            soCtrl.FindProperty("_btnDungeon").objectReferenceValue  = edificioBtns[9];  // Mazmorra
+            soCtrl.FindProperty("_btnMissions").objectReferenceValue = edificioBtns[10]; // Misiones
 
             // Accesos rapidos
             soCtrl.FindProperty("_btnTriloguzano").objectReferenceValue    = accesoBtns[0];
