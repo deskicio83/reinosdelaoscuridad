@@ -47,27 +47,32 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Editor/Setup/SetupHUDPrefab.cs` — menú Tools → Reino Oscuridad → 1. Setup HUD Prefab
     Genera HUD.prefab con 4 zonas (Background · ZonaJugador · ZonaMonedas · ZonaIconos), anclas relativas, referencias asignadas via SerializedObject
   - Todo posicionamiento via anchorMin/anchorMax — cero píxeles absolutos
-- [x] S10c — MainMenuScene layout Bastión Maldito (5 zonas)
-  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — REESCRITO completo
-    - ZONA 1: HUD_PlayerInfo (0,0.90→0.28,1.0) — AvatarButton + NombreText + NivelBadge
-    - ZONA 2: HUD_Monedas (0.28,0.90→0.72,1.0) — 3× CurrencyPill (Energy/Gold/Caosifera) con SerializedObject
-    - ZONA 3: HUD_Acciones (0.72,0.90→1.0,1.0) — Chat/Mail/Settings/Evento con badges rojo y naranja
-    - ZONA 4: ZonaEdificios (0,0.14→1,0.90) — ScrollRect horizontal, ContentEdificios 1800px wide, 9 edificios via anchoredPosition+sizeDelta, flechas < > fuera de ScrollRect
-    - ZONA 5: ZonaAccesosRapidos (0,0→0.52,0.14) — 6 iconos fijos (Trio/Torre/Boss/Mazm./Evento/Perfil) + SubIconosAbanico hidden by default
+- [x] S10c — MainMenuScene layout Bastión Maldito ✓ VALIDADO EN PLAY MODE
+  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — reescrito y validado
+    - ZonaEdificios (0,0.14→1,0.90): ScrollRect bidireccional (horizontal+vertical)
+      · ZonaEdificios(ScrollRect) > Viewport(RectMask2D) > ContentEdificios(1900×640) > 11 edificios
+      · Edificios en grid 3 filas con anchoredPosition relativas al centro del Content
+      · ContentEdificios: Image transparente raycastTarget=true → drag en espacio vacío funciona
+      · RectMask2D en lugar de Mask+Image (Image alpha=0 no escribía al stencil buffer)
+    - ZonaAccesosRapidos (0,0→0.52,0.14): 6 iconos fijos, Triloguzano en el extremo derecho
+    - SubIconosAbanico: hijo del Canvas (no de ZonaAccesosRapidos), grid 2×2
+      · Torre=sup-izq, Boss=sup-der, Mazmorra=inf-der; Triloguzano en la barra = inf-izq
+      · Aparece/desaparece al pulsar Btn_Triloguzano (toggle SetActive)
+    - HUD.prefab instanciado en runtime por MainMenuController (no en design-time)
   - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — actualizado
-    - SerializeField _subIconosAbanico (GameObject) + _btnTriloguzano/Tower/WorldBoss/MazmorraRapido/Event/Profile/Chat/Mail/Settings
-    - GoToTriloguzano(): toggle _subIconosAbanico.SetActive
+    - GoToTriloguzano(): toggle SubIconosAbanico.SetActive
     - GoToChat/Mail/Settings/Event/Profile(): log TODO overlay S32
+  - `Assets/Scripts/UI/MainMenuScene/MainMenuDebug.cs` — debug temporal (eliminar antes de producción)
 - [x] S11 — MainMenuController
   - Hub de navegación central, Awake guard defensivo, Start instancia HUD + BindButtons
   - Validado con S11_Test: checks PASS ✓
 
 ## Scenes implementadas
-- [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
-- [ ] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — ejecutar Tools → Reino Oscuridad → 2. Setup MainMenuScene
+- [x] BootScene — `Assets/Scenes/BootScene.unity` — sistemas + BootController
+- [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — generada con Editor Script, validada en Play Mode ✓
 
-## Prefabs pendientes de crear en Unity Editor
-- `Assets/Prefabs/UI/HUD.prefab` — ejecutar Tools → Reino Oscuridad → 1. Setup HUD Prefab primero
+## Prefabs creados
+- [x] `Assets/Prefabs/UI/HUD.prefab` — HUDController + HUDIcons + 3× CurrencyPill
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
@@ -87,8 +92,11 @@ _Actualizar al final de cada sesión de Claude Code_
   `allow read, write: if request.auth != null && request.auth.uid == userId;`
 - **Google Sign-In SDK**: pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
 - **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree
-- **MainMenuScene**: script creado (S11), Unity Scene pendiente de crear manualmente
+## Pendiente antes de producción
+- `Assets/Scripts/UI/MainMenuScene/MainMenuDebug.cs` — eliminar o desactivar
+- **Firestore security rules**: `allow read, write: if request.auth != null && request.auth.uid == userId;`
+- **Google Sign-In SDK**: pendiente de integrar
+- **TutorialScene**: no existe aún
 
 ## Siguiente paso
 S12 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
-(S10c completado — MainMenuScene Bastión Maldito 5 zonas lista para ejecutar desde el menú de Unity)
