@@ -42,8 +42,17 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/UI/HUD/HUDIcons.cs` — botones chat/mail/settings, badge de mail, prefabs de overlay asignados en S32
   - Validado con S10_Test: 5/5 checks PASS ✓
 
+- [x] S11 — MainMenuController
+  - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — hub de navegación central
+  - Awake: guard defensivo si UIManager.Instance es null
+  - Start: instancia HUD prefab + enlaza 11 botones via BindButtons()
+  - 11 métodos de navegación: GoToCampaign/Heroes/Gacha/Arena/Tower/WorldBoss/Clan/Shop/Missions/Dungeon/Conjuros
+  - Todos los botones y el HUD prefab son SerializeField
+  - Validado con S11_Test: checks PASS ✓
+
 ## Scenes implementadas
 - [x] BootScene — `Assets/Scenes/BootScene.unity` creada con todos los sistemas y BootController
+- [ ] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — crear manualmente (pasos en S11)
 
 ## Prefabs pendientes de crear en Unity Editor
 - `Assets/Prefabs/UI/HUD.prefab` — Canvas con HUDController + HUDIcons + 3× CurrencyPill (Energy/Gold/Caosifera)
@@ -64,7 +73,8 @@ _Actualizar al final de cada sesión de Claude Code_
 - **Firestore security rules**: configurar antes de producción:
   `allow read, write: if request.auth != null && request.auth.uid == userId;`
 - **Google Sign-In SDK**: pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
-- **TutorialScene / MainMenuScene**: no existen aún — añadir a Build Settings cuando se creen
+- **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree
+- **MainMenuScene**: script creado (S11), Unity Scene pendiente de crear manualmente
 
 ## Siguiente paso
-S11 — MainMenuScene: layout base con Canvas principal, botones de navegación a HeroScene/GachaScene/CampaignScene/ShopScene/ArenaScene, y primera instanciación del prefab HUD.
+S12 — CampaignScene: layout base, mapa de niveles, selección de stage y arranque de CombatScene.
