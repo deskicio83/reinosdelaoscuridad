@@ -85,7 +85,7 @@ _Actualizar al final de cada sesión de Claude Code_
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
-  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
+  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15 · CombatSystem: -10 · HeroProgressionSystem: -8 · GearSystem: -6
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
 - Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
@@ -95,6 +95,7 @@ _Actualizar al final de cada sesión de Claude Code_
 - **UI**: posicionamiento siempre por anclas relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales. Editor Scripts en `Assets/Editor/Setup/` configuran cada Scene automáticamente.
 - **InputBlocker**: panel bloqueante reutilizable entre Scene y overlay. UIManager lo gestiona automáticamente al abrir/cerrar overlays. Sort Order 49 por defecto (por debajo de cualquier overlay).
 - **LoadingScreen**: Sort Order 998, DontDestroyOnLoad, frases y carrusel configurables. Usar Show/SetProgress/Hide en cualquier carga async. Hide() hace fade out 200ms.
+- **GearSystem**: 6 slots por héroe (weapon/helmet/armor/boots/ring/necklace). Rolls de substats en +3/+6/+9/+12. Distribución triangular sesgada al mínimo: `roll = max - (max-min)*Sqrt(1-u)`. `BuildCombatInstance()` = HeroProgressionSystem.BuildHeroInstance + gear stats aplicados encima. Stats%: se aplican sobre base heroica (no sobre total acumulado de gear). `EconomySystem.ConsumeGold()` gestiona el coste de mejora.
 
 ## ⚠️ Bugs conocidos / Pendientes
 - **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
@@ -197,5 +198,19 @@ _Actualizar al final de cada sesión de Claude Code_
   - `Assets/Scripts/Core/EventBus.cs` — añadidos `OnHeroLevelUp · OnHeroAwakened`
   - `Assets/Scripts/Data/EventData.cs` — añadidos `HeroLevelUpData · HeroAwakenedData`
 
+- [x] S16 — GearSystem — equipamiento, mejora y stats combinados héroe + gear
+  - `Assets/Scripts/Data/GearInstance.cs` — modelo completo: instanceId, gearId, slot, rareza, nivel (0–15), mainStat, mainStatValue, List<SubstatEntry> substats (máx 4), equipadoEn
+  - `Assets/Scripts/Data/GearCatalog.cs` — GearCatalogRoot/GearCatalogItem para deserializar gear_catalog.json (mainStatRanges, subStatRanges)
+  - `Assets/Scripts/Systems/GearSystem.cs` — `[DefaultExecutionOrder(-6)]`, implementa ISystem
+    - `AddGearToInventory(GearInstance)`: registra en _gearById + PlayerData.gearInventory
+    - `EquipGear(instanceId, heroId, slot)` → bool: verifica slot match, desplaza gear previo al inventario, publica OnGearChanged
+    - `UnequipGear(instanceId)`: mueve al inventario, publica OnGearChanged
+    - `TryUpgradeGear(instanceId)` → bool: coste (nivel+1)*500 Oro Negro via EconomySystem; roll en +3/+6/+9/+12
+    - `RollSubstat(gear)`: revela uno no revelado si los hay, si 4/4 revelados sube uno existente; distribución triangular
+    - `BuildCombatInstance(heroId)` → HeroInstance: HPS.BuildHeroInstance + gear stats (bases capturadas antes del loop)
+    - `TriangularRoll(min, max)` → int: método público estático para tests
+    - Mapeo catálogo español → slot inglés: espada→weapon, casco→helmet, pechera→armor, botas→boots, guantes→ring, escudo→necklace
+  - `Assets/Scripts/Data/EventData.cs` — añadido campo `heroId` a GearChangedData
+
 ## Siguiente paso
-S16 — GearSystem: equipar/desequipar gear, calcular stats con substats, aplicar sobre HeroInstance de HeroProgressionSystem.
+S17 — por definir (ver GDD o Director de Proyecto).

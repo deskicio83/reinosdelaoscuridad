@@ -33,6 +33,8 @@ namespace ReinoOscuridad.Data
         public string gearId;
         /// "equipped", "unequipped", "upgraded", "sold"
         public string changeType;
+        /// heroId del héroe afectado, o null para operaciones de inventario
+        public string heroId;
     }
 
     public struct CombatCompletedData
