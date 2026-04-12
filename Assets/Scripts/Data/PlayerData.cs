@@ -39,12 +39,31 @@ namespace ReinoOscuridad.Data
         /// true si el jugador ha completado el tutorial inicial
         public bool tutorialCompleted;
 
+        /// XP actual del jugador (acumula; se resetea al subir nivel en PlayerProgressionSystem)
+        public int playerXP;
+
+        /// Estado del Pase Oscuro (carril free + premium de temporada)
+        public PaseOscuroData paseOscuro;
+
         /// Poder de cuenta total (no es moneda, no se gasta)
         public int presenciaMaldita;
         /// Aportación de gear al presenciaMaldita
         public int presenciaMalditaGear;
         /// ISO 8601 — momento del último recálculo oficial
         public string presenciaMalditaLastCalc;
+    }
+
+    // ── Pase Oscuro ───────────────────────────────────────────────────────────
+
+    [Serializable]
+    public class PaseOscuroData
+    {
+        /// Nivel actual del Pase (0 = sin progresar)
+        public int nivelActual;
+        /// Puntos acumulados hacia el siguiente nivel de Pase
+        public int puntosActuales;
+        /// true si el jugador tiene el carril premium activo (IAP)
+        public bool tienePasePremium;
     }
 
     // ── Recursos del jugador ──────────────────────────────────────────────────

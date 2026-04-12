@@ -25,6 +25,10 @@ namespace ReinoOscuridad.Core
         public static event Action<UnitDefeatedData>   OnUnitDefeated;
         public static event Action<EffectAppliedData>  OnEffectApplied;
 
+        // ── Eventos de progresión del jugador ──────────────────────────────────
+
+        public static event Action<PaseLevelUpData>   OnPaseLevelUp;
+
         // ── Eventos de progresión de héroes ────────────────────────────────────
 
         public static event Action<HeroLevelUpData>   OnHeroLevelUp;
@@ -44,6 +48,7 @@ namespace ReinoOscuridad.Core
         public static void Publish(UnitDamagedData data)       => OnUnitDamaged?.Invoke(data);
         public static void Publish(UnitDefeatedData data)      => OnUnitDefeated?.Invoke(data);
         public static void Publish(EffectAppliedData data)     => OnEffectApplied?.Invoke(data);
+        public static void Publish(PaseLevelUpData data)        => OnPaseLevelUp?.Invoke(data);
         public static void Publish(HeroLevelUpData data)       => OnHeroLevelUp?.Invoke(data);
         public static void Publish(HeroAwakenedData data)      => OnHeroAwakened?.Invoke(data);
 
@@ -62,6 +67,7 @@ namespace ReinoOscuridad.Core
             OnUnitDamaged      = null;
             OnUnitDefeated     = null;
             OnEffectApplied    = null;
+            OnPaseLevelUp      = null;
             OnHeroLevelUp      = null;
             OnHeroAwakened     = null;
         }

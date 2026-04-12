@@ -85,7 +85,7 @@ _Actualizar al final de cada sesión de Claude Code_
 
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
-  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15 · CombatSystem: -10 · HeroProgressionSystem: -8 · GearSystem: -6
+  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15 · CombatSystem: -10 · HeroProgressionSystem: -8 · GearSystem: -6 · PlayerProgressionSystem: -5
 - Deserialización: **Newtonsoft.Json** en todo el proyecto
 - Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
@@ -96,6 +96,7 @@ _Actualizar al final de cada sesión de Claude Code_
 - **InputBlocker**: panel bloqueante reutilizable entre Scene y overlay. UIManager lo gestiona automáticamente al abrir/cerrar overlays. Sort Order 49 por defecto (por debajo de cualquier overlay).
 - **LoadingScreen**: Sort Order 998, DontDestroyOnLoad, frases y carrusel configurables. Usar Show/SetProgress/Hide en cualquier carga async. Hide() hace fade out 200ms.
 - **GearSystem**: 6 slots por héroe (weapon/helmet/armor/boots/ring/necklace). Rolls de substats en +3/+6/+9/+12. Distribución triangular sesgada al mínimo: `roll = max - (max-min)*Sqrt(1-u)`. `BuildCombatInstance()` = HeroProgressionSystem.BuildHeroInstance + gear stats aplicados encima. Stats%: se aplican sobre base heroica (no sobre total acumulado de gear). `EconomySystem.ConsumeGold()` gestiona el coste de mejora.
+- **PlayerProgressionSystem**: desbloqueos por nivel definidos en DESBLOQUEOS hardcodeado (variables_globales.json no los define). Torre Normal+Difícil desbloquean juntas en nivel 10. XP se recibe via EventBus.OnCombatCompleted. Pase Oscuro tiene carril free y premium — `TienePasePremium()` consulta playerData. energiaMax actualiza en PlayerData al subir nivel (tabla: L1-9→60, L10→70, L20→80, L30+→100); EconomySystem.MaxEnergy se sincroniza en la siguiente sesión.
 
 ## ⚠️ Bugs conocidos / Pendientes
 - **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
@@ -212,5 +213,22 @@ _Actualizar al final de cada sesión de Claude Code_
     - Mapeo catálogo español → slot inglés: espada→weapon, casco→helmet, pechera→armor, botas→boots, guantes→ring, escudo→necklace
   - `Assets/Scripts/Data/EventData.cs` — añadido campo `heroId` a GearChangedData
 
+- [x] S17 — PlayerProgressionSystem — XP jugador, desbloqueos y Pase Oscuro
+  - `Assets/Data/player_level_curve.json` — curva XP jugador: baseExp=1000, growth=1.1, maxLevel=100
+  - `Assets/Scripts/Systems/PlayerProgressionSystem.cs` — `[DefaultExecutionOrder(-5)]`, implementa ISystem
+    - `AddPlayerXP(int)`: acumula XP, sube niveles en bucle, publica OnPlayerLevelUp con desbloqueos[]
+    - `GetPlayerNivel() / GetPlayerXPActual() / GetPlayerXPParaSiguiente() / GetPlayerXPProgress(0-1)`
+    - `IsFeatureUnlocked(featureId)`: verifica nivel actual vs tabla de desbloqueos
+    - `GetFeaturesUnlockedAt(nivel)`: usado por UI para mostrar nuevos desbloqueos
+    - `AddPasePoints(int)`: acumula puntos del Pase, sube nivel en bucle (1000 pts/nivel), publica OnPaseLevelUp
+    - `GetPaseNivel() / TienePasePremium()`
+    - Suscripción a OnCombatCompleted → AddPlayerXP / OnMissionCompleted → AddPasePoints
+    - UpdateEnergyMax actualiza pd.energiaMax según nivel (L10→70, L20→80, L30→100)
+  - `Assets/Scripts/Data/PlayerData.cs` — añadidos `playerXP` (int) y `paseOscuro` (PaseOscuroData)
+    - `PaseOscuroData`: nivelActual, puntosActuales, tienePasePremium
+  - `Assets/Scripts/Data/EventData.cs` — PlayerLevelUpData ampliado (nuevoNivel + desbloqueos[]);
+    PaseLevelUpData añadido; pasePoints añadido a MissionCompletedData
+  - `Assets/Scripts/Core/EventBus.cs` — OnPaseLevelUp añadido
+
 ## Siguiente paso
-S17 — por definir (ver GDD o Director de Proyecto).
+S18 — por definir (ver GDD o Director de Proyecto).

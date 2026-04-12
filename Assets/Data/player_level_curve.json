@@ -1,0 +1,7 @@
+{
+  "maxLevel": 100,
+  "baseExp": 1000,
+  "growth": 1.1,
+  "maxLevelAwaken": 0,
+  "comment": "Curva XP del jugador. xpRequired(N) = RoundToInt(1000 * 1.1^(N-1)). L1→2: 1000 · L10→11: 2358 · L15→16: 3798 · L20→21: 6116 · maxLevel 100. maxLevelAwaken=0 — no aplica al jugador."
+}

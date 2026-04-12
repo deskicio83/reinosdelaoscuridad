@@ -7,6 +7,10 @@ namespace ReinoOscuridad.Data
     {
         public int previousLevel;
         public int newLevel;
+        /// Alias en español para consistencia con el resto de eventos
+        public int nuevoNivel;
+        /// Features desbloqueadas en este nivel (puede estar vacío)
+        public string[] desbloqueos;
     }
 
     public struct CurrencyChangedData
@@ -50,6 +54,8 @@ namespace ReinoOscuridad.Data
         public string missionId;
         /// "daily", "weekly", "story"
         public string missionType;
+        /// Puntos de Pase Oscuro que otorga esta misión (0 si ninguno)
+        public int pasePoints;
     }
 
     public struct DailyResetData
@@ -99,6 +105,16 @@ namespace ReinoOscuridad.Data
         public string efectoId;
         /// Stacks totales del efecto en el objetivo tras la aplicación
         public int    stacks;
+    }
+
+    // ── Eventos de progresión del jugador ─────────────────────────────────────
+
+    public struct PaseLevelUpData
+    {
+        /// Nuevo nivel del Pase Oscuro alcanzado
+        public int nuevoNivel;
+        /// true si el jugador tiene el carril premium activo
+        public bool esCarrilPremium;
     }
 
     // ── Eventos de progresión de héroes ───────────────────────────────────────
