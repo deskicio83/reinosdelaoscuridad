@@ -11,6 +11,9 @@ namespace ReinoOscuridad.Systems
     /// Gestiona la progresión de héroes: subida de nivel, awaken y cálculo de stats.
     /// NUNCA escribe a Firestore — todo opera en memoria vía PlayerDataSystem.
     /// Los stats de gear y maestrías se aplican encima en GearSystem (S16).
+    ///
+    /// Curva de XP: xpRequired(N) = RoundToInt(baseExp * growth^(N-1))
+    /// Cap de nivel por estrellas: 3★→30 · 4★→40 · 5★→50 · 6★→60
     [DefaultExecutionOrder(-8)]
     public class HeroProgressionSystem : MonoBehaviour, ISystem
     {
@@ -27,8 +30,8 @@ namespace ReinoOscuridad.Systems
         /// heroId → HeroData
         private Dictionary<string, HeroData> _heroes;
 
-        /// level → xpRequired (XP para subir DE ese nivel AL siguiente)
-        private Dictionary<int, int> _xpCurve;
+        /// Datos de la curva de nivel (formula + caps por estrellas)
+        private LevelCurveData _curve;
 
         // ── Dependencias ───────────────────────────────────────────────────────
 
@@ -58,7 +61,10 @@ namespace ReinoOscuridad.Systems
                 Debug.LogError("[HeroProgression] PlayerDataSystem no encontrado.");
 
             LoadCatalogs();
-            Debug.Log($"[HeroProgression] Inicializado — {_heroes?.Count ?? 0} héroes · {_xpCurve?.Count ?? 0} niveles en curva.");
+
+            int heroCount  = _heroes?.Count ?? 0;
+            int curveValid = _curve != null ? 1 : 0;
+            Debug.Log($"[HeroProgression] Inicializado — {heroCount} héroes · curva cargada: {curveValid == 1} · maxLevel: {_curve?.maxLevel}");
         }
 
         public void OnSessionStart() { }
@@ -66,9 +72,10 @@ namespace ReinoOscuridad.Systems
 
         // ── API pública — Stats ────────────────────────────────────────────────
 
-        /// Construye una HeroInstance con stats finales para el nivel indicado.
-        /// Fórmula: stat(N) = Lerp(statBase, statMax, t) donde t = (N-1)/(maxLevel-1).
-        /// Gear y maestrías se aplican encima en GearSystem.
+        /// Construye una HeroInstance con los stats finales para el nivel indicado.
+        /// Fórmula: stat(N) = Lerp(statBase, statMax, t)
+        ///   donde t = (nivel - 1) / (maxLevel - 1), usando el maxLevel absoluto (60).
+        /// Gear y maestrías se aplican encima en GearSystem (S16).
         /// Devuelve null con log de error si heroId no existe en el catálogo.
         public HeroInstance BuildHeroInstance(string heroId, int nivel)
         {
@@ -84,13 +91,14 @@ namespace ReinoOscuridad.Systems
                 return null;
             }
 
-            nivel = Mathf.Clamp(nivel, data.baseLevel, data.maxLevel);
+            int absMax = _curve?.maxLevel ?? data.maxLevel;
+            nivel = Mathf.Clamp(nivel, data.baseLevel, absMax);
 
-            float t = data.maxLevel > data.baseLevel
-                ? Mathf.Clamp01((nivel - data.baseLevel) / (float)(data.maxLevel - data.baseLevel))
+            float t = absMax > data.baseLevel
+                ? Mathf.Clamp01((nivel - data.baseLevel) / (float)(absMax - data.baseLevel))
                 : 0f;
 
-            var s = data.stats;
+            var s  = data.stats;
             int hp = LerpStat(s.baseHP, s.maxHP, t);
 
             return new HeroInstance
@@ -118,23 +126,19 @@ namespace ReinoOscuridad.Systems
         // ── API pública — Subida de nivel ──────────────────────────────────────
 
         /// Intenta subir un nivel al héroe si tiene XP suficiente.
-        /// Retorna true si subió, false si no tiene XP o ya está al máximo.
+        /// El nivel máximo depende de las estrellas actuales (3★→30, 4★→40…).
+        /// Retorna false si ya está al cap de estrellas o sin XP suficiente.
         public bool TryLevelUp(string heroId)
         {
             var hero = FindHero(heroId);
             if (hero == null) return false;
 
-            if (!_heroes.TryGetValue(heroId, out var data)) return false;
+            int cap      = GetStarsCap(hero.stars);
+            int xpNeeded = GetXPRequired(hero.level);
 
-            if (hero.level >= data.maxLevel)
+            if (hero.level >= cap)
             {
-                Debug.Log($"[HeroProgression] {heroId} ya está al nivel máximo ({data.maxLevel}).");
-                return false;
-            }
-
-            if (!_xpCurve.TryGetValue(hero.level, out int xpNeeded) || xpNeeded <= 0)
-            {
-                Debug.LogWarning($"[HeroProgression] No se encontró XP requerida para nivel {hero.level}.");
+                Debug.Log($"[HeroProgression] {heroId} en nivel cap para {hero.stars}★ ({cap}).");
                 return false;
             }
 
@@ -163,18 +167,18 @@ namespace ReinoOscuridad.Systems
             hero.exp += cantidad;
             _pds.MarkDirty();
 
-            // Auto-levelup en bucle (puede ganar varios niveles)
             while (TryLevelUp(heroId)) { }
         }
 
         // ── API pública — Awaken ───────────────────────────────────────────────
 
         /// Intenta awaken (evolución de estrellas) del héroe.
-        /// Requiere: nivel máximo + N copias del mismo héroe (N = estrellas actuales).
-        /// Consume las copias del inventario. Máximo 6★.
+        /// Requiere: estar en el nivel cap para las estrellas actuales
+        ///   + N copias del mismo héroe (N = estrellas actuales).
+        /// Consume copias del roster. Máximo 6★.
         public bool TryAwaken(string heroId)
         {
-            if (!_heroes.TryGetValue(heroId, out var data))
+            if (!_heroes.TryGetValue(heroId, out _))
             {
                 Debug.LogError($"[HeroProgression] TryAwaken: '{heroId}' no en catálogo.");
                 return false;
@@ -190,23 +194,24 @@ namespace ReinoOscuridad.Systems
             var mainHero = pd.heroes.Find(h => h.heroId == heroId);
             if (mainHero == null)
             {
-                Debug.LogError($"[HeroProgression] TryAwaken: '{heroId}' no está en el roster.");
+                Debug.LogError($"[HeroProgression] TryAwaken: '{heroId}' no en el roster.");
                 return false;
             }
 
             if (mainHero.stars >= MAX_STARS)
             {
-                Debug.Log($"[HeroProgression] {heroId} ya está en {MAX_STARS}★.");
+                Debug.Log($"[HeroProgression] {heroId} ya en {MAX_STARS}★.");
                 return false;
             }
 
-            if (mainHero.level < data.maxLevel)
+            int cap = GetStarsCap(mainHero.stars);
+            if (mainHero.level < cap)
             {
-                Debug.Log($"[HeroProgression] {heroId} necesita nivel máximo ({data.maxLevel}) para awaken. Nivel actual: {mainHero.level}.");
+                Debug.Log($"[HeroProgression] {heroId} necesita nivel {cap} para awaken (actual: {mainHero.level}).");
                 return false;
             }
 
-            int copiesNeeded    = mainHero.stars; // 1★→2★: 1, 2★→3★: 2, etc.
+            int copiesNeeded    = mainHero.stars; // 3★→4★: 3, 4★→5★: 4, etc.
             int copiesAvailable = pd.heroes.Count(h => h.heroId == heroId) - 1;
 
             if (copiesAvailable < copiesNeeded)
@@ -215,7 +220,7 @@ namespace ReinoOscuridad.Systems
                 return false;
             }
 
-            // Consume las copias (de atrás hacia delante, sin tocar mainHero)
+            // Consume copias (de atrás hacia delante, sin tocar mainHero)
             int consumed = 0;
             for (int i = pd.heroes.Count - 1; i >= 0 && consumed < copiesNeeded; i--)
             {
@@ -231,33 +236,53 @@ namespace ReinoOscuridad.Systems
             _pds.MarkDirty();
 
             EventBus.Publish(new HeroAwakenedData { heroId = heroId, nuevasEstrellas = mainHero.stars });
-            Debug.Log($"[HeroProgression] {heroId} awakened → {mainHero.stars}★");
+            Debug.Log($"[HeroProgression] {heroId} awakened → {mainHero.stars}★ (cap ahora: {GetStarsCap(mainHero.stars)})");
             return true;
         }
 
         // ── API pública — Consultas ────────────────────────────────────────────
 
-        /// Nivel actual del héroe en el roster del jugador. Devuelve 0 si no existe.
+        /// Nivel actual del héroe en el roster. Devuelve 0 si no existe.
         public int GetNivel(string heroId)
             => FindHero(heroId)?.level ?? 0;
 
-        /// Estrellas actuales. Devuelve 0 si el héroe no está en el roster.
+        /// Estrellas actuales. Devuelve 0 si no existe.
         public int GetEstrellas(string heroId)
             => FindHero(heroId)?.stars ?? 0;
 
-        /// Progreso de XP hacia el siguiente nivel (0–1). 1.0 en nivel máximo.
+        /// Progreso XP hacia el siguiente nivel (0–1). 1.0 si en nivel cap actual.
         public float GetXPProgress(string heroId)
         {
             var hero = FindHero(heroId);
             if (hero == null) return 0f;
 
-            if (!_heroes.TryGetValue(heroId, out var data)) return 0f;
-            if (hero.level >= data.maxLevel) return 1f;
+            int cap = GetStarsCap(hero.stars);
+            if (hero.level >= cap) return 1f;
 
-            if (!_xpCurve.TryGetValue(hero.level, out int xpNeeded) || xpNeeded <= 0)
-                return 0f;
+            int xpNeeded = GetXPRequired(hero.level);
+            if (xpNeeded <= 0) return 0f;
 
             return Mathf.Clamp01(hero.exp / (float)xpNeeded);
+        }
+
+        // ── Helpers de curva ───────────────────────────────────────────────────
+
+        /// XP requerida para subir DEL nivel N AL nivel N+1.
+        /// Fórmula: RoundToInt(baseExp * growth^(level-1))
+        private int GetXPRequired(int level)
+        {
+            if (_curve == null) return 9999;
+            return Mathf.RoundToInt(_curve.baseExp * Mathf.Pow(_curve.growth, level - 1));
+        }
+
+        /// Nivel máximo que puede alcanzar un héroe según sus estrellas actuales.
+        private int GetStarsCap(int stars)
+        {
+            if (_curve?.maxLevelPerStars == null) return _curve?.maxLevel ?? 60;
+            string key = stars.ToString();
+            return _curve.maxLevelPerStars.TryGetValue(key, out int cap)
+                ? cap
+                : (_curve.maxLevel);
         }
 
         // ── Carga de catálogos ─────────────────────────────────────────────────
@@ -273,7 +298,7 @@ namespace ReinoOscuridad.Systems
             string path = Path.Combine(Application.dataPath, "Data", "hero_catalog.json");
             if (!File.Exists(path))
             {
-                Debug.LogError($"[HeroProgression] hero_catalog.json no encontrado en: {path}");
+                Debug.LogError($"[HeroProgression] hero_catalog.json no encontrado: {path}");
                 _heroes = new Dictionary<string, HeroData>();
                 return;
             }
@@ -288,10 +313,8 @@ namespace ReinoOscuridad.Systems
             }
 
             foreach (var h in catalog.heroes)
-            {
                 if (!string.IsNullOrEmpty(h.heroId))
                     _heroes[h.heroId] = h;
-            }
         }
 
         private void LoadLevelCurve()
@@ -299,32 +322,24 @@ namespace ReinoOscuridad.Systems
             string path = Path.Combine(Application.dataPath, "Data", "hero_level_curve.json");
             if (!File.Exists(path))
             {
-                Debug.LogError($"[HeroProgression] hero_level_curve.json no encontrado en: {path}");
-                _xpCurve = new Dictionary<int, int>();
+                Debug.LogError($"[HeroProgression] hero_level_curve.json no encontrado: {path}");
+                _curve = null;
                 return;
             }
 
-            var curveData = JsonConvert.DeserializeObject<LevelCurveData>(File.ReadAllText(path));
-            _xpCurve = new Dictionary<int, int>();
-
-            if (curveData?.curve == null)
-            {
+            _curve = JsonConvert.DeserializeObject<LevelCurveData>(File.ReadAllText(path));
+            if (_curve == null)
                 Debug.LogError("[HeroProgression] hero_level_curve.json vacío o malformado.");
-                return;
-            }
-
-            foreach (var entry in curveData.curve)
-                _xpCurve[entry.level] = entry.xpRequired;
         }
 
-        // ── Helpers ────────────────────────────────────────────────────────────
+        // ── Helpers privados ───────────────────────────────────────────────────
 
         private PlayerHeroData FindHero(string heroId)
         {
             var pd = _pds?.GetPlayerData();
             if (pd?.heroes == null)
             {
-                Debug.LogError($"[HeroProgression] PlayerData no disponible para heroId '{heroId}'.");
+                Debug.LogError($"[HeroProgression] PlayerData no disponible para '{heroId}'.");
                 return null;
             }
 
