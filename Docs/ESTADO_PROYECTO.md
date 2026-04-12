@@ -74,6 +74,15 @@ _Actualizar al final de cada sesión de Claude Code_
 ## Prefabs creados
 - [x] `Assets/Prefabs/UI/HUD.prefab` — HUDController + HUDIcons + 3× CurrencyPill
 
+## Notas técnicas — CombatScene
+- **6 zonas**: BarraOrdenTurno (izq) · ZonaEnemigos (centro sup) · PanelControles (der sup) · ZonaEquipo (inf izq) · ZonaConjuros (inf der) · ResultPanel (overlay)
+- Enemigos dinámicos: 1-3 slots, `SetActive(false)` para los vacíos al iniciar
+- Equipo siempre 4 slots (WorldBoss 20 fuera de scope actual)
+- Habilidades flotan sobre la carta activa (`IconosHabilidad` SetActive per turno)
+- Conjuros: 2×5 = 10 slots, esquina inferior derecha
+- InputBlocker activo durante ResultPanel (Sort Order 49)
+- Flujo: `CombatSceneData.PendingContext` → `NavigateTo("CombatScene")` → `Start()` → `ProcessCombat` → `ResultPanel` → `NavigateTo(callerScene)`
+
 ## Notas técnicas
 - Orden de ejecución (`DefaultExecutionOrder`):
   GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15
@@ -150,10 +159,29 @@ _Actualizar al final de cada sesión de Claude Code_
     - Systems GameObject con CombatSystem
     - Todas las referencias SerializeField del CombatSceneController cableadas via SerializedObject
 
+- [x] S14a — CombatScene layout corregido + tooltip de habilidades ✓ VALIDADO EN PLAY MODE
+  - **Layout 6 zonas corregido** (anclas relativas, sin píxeles absolutos):
+    - `BarraOrdenTurno`: acortada a y 0.40–0.95 (antes cubría 0.08–0.92)
+    - `ZonaHabilidades` (nueva): y 0.03–0.37 bajo la barra — 3 círculos BtnHab_0/1/2
+    - `ZonaEnemigos`: y 0.55–0.95 · tarjeta: HPBar arriba → Sprite centro → EfectosBar abajo
+    - `ZonaEquipo`: y 0.03–0.47 · tarjeta: TurnIndicator → EfectosBar → Portrait → Nombre → HPBar
+    - Gap visible entre zonas: y 0.47–0.55 (~58 px a 720 p)
+    - `ZonaConjuros`: reducida a x 0.66–0.99, y 0.03–0.43
+    - `TooltipPanel` (nuevo): centrado, compartido para habilidades y conjuros; botones "Usar" + "Cerrar"
+    - ASCII en todos los labels TMP: `"x1 >"` · `"||"` — sin warnings de unicode
+  - **CombatSceneController.cs** actualizado:
+    - `_iconosHabilidad[]` eliminado → sustituido por `_abilityCircles[3]` en ZonaHabilidades
+    - `ShowTooltip(desc, onConfirm)` / `HideTooltip()` / `OnUsarTooltip()` — tooltip compartido
+    - Tap círculo hab → tooltip con "Usar" → `SelectAbility(i)` → elige objetivo
+    - Tap conjuro → tooltip con descripción (solo "Cerrar", sin acción)
+    - `UpdateAbilityCirclesForHero(heroIndex)` / `DisableAbilityCircles()` sustituyen ShowIconosHabilidad
+    - Nuevos SerializeField: `_abilityCircles` · `_tooltipPanel` · `_tooltipText` · `_btnUsarTooltip` · `_btnCerrarTooltip`
+  - Flujo validado: soloUnEnemigo=true ✓ · soloUnEnemigo=false ✓ (navegación + combate + ResultPanel)
+
 ## Scenes implementadas
 - [x] BootScene — `Assets/Scenes/BootScene.unity`
 - [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity`
-- [ ] CombatScene — `Assets/Scenes/CombatScene.unity` — **crear con menú Tools → Reino Oscuridad → 5. Setup CombatScene**
+- [x] CombatScene — `Assets/Scenes/CombatScene.unity` — **regenerar con menú Tools → Reino Oscuridad → 5. Setup CombatScene** (layout v2 listo)
 
 ## Siguiente paso
 S15 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.

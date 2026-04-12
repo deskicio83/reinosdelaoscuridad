@@ -25,35 +25,50 @@ namespace ReinoOscuridad.UI.Combat
     /// Recibe CombatContext desde CombatSceneData (pasarela entre Scenes).
     public class CombatSceneController : MonoBehaviour
     {
-        // ── Referencias UI — Control Panel ─────────────────────────────────
+        // ── Panel Controles (esquina superior derecha) ─────────────────────
 
-        [Header("Control Panel")]
-        [SerializeField] private TMP_Text _turnoText;
-        [SerializeField] private Button   _btnAuto;
+        [Header("Panel Controles")]
+        [SerializeField] private TMP_Text _turnoLabel;
+        [SerializeField] private Button   _btnModo;       // toggle Auto/Manual
+        [SerializeField] private Button   _btnVelocidad;  // toggle x1/x2
+        [SerializeField] private Button   _btnPausa;
         [SerializeField] private Button   _btnHuir;
 
-        // ── Referencias UI — Zona Enemigos ─────────────────────────────────
+        // ── Zona Enemigos (3 slots dinámicos) ──────────────────────────────
 
         [Header("Zona Enemigos (3 slots)")]
-        [SerializeField] private Image[]    _enemySlots;     // Image del slot
-        [SerializeField] private Image[]    _enemyHPFills;   // Relleno de barra HP
-        [SerializeField] private TMP_Text[] _enemyHPTexts;   // Texto "8000/8000"
-        [SerializeField] private Button[]   _enemySlotBtns;  // Para selección de objetivo
+        [SerializeField] private GameObject[] _enemySlots;    // GameObjects raíz de cada slot
+        [SerializeField] private Image[]      _enemyHPFills;  // Relleno barra HP
+        [SerializeField] private TMP_Text[]   _enemyHPTexts;  // "8000/8000"
+        [SerializeField] private Button[]     _enemySlotBtns; // para selección de objetivo
 
-        // ── Referencias UI — Zona Héroes ───────────────────────────────────
+        // ── Zona Equipo (4 cartas fijas) ────────────────────────────────────
 
-        [Header("Zona Equipo (5 cards)")]
-        [SerializeField] private Button[]     _heroCards;
-        [SerializeField] private TMP_Text[]   _heroNames;
-        [SerializeField] private Image[]      _heroHPFills;
-        [SerializeField] private GameObject[] _turnIndicators; // se activan en turno del héroe
+        [Header("Zona Equipo (4 slots)")]
+        [SerializeField] private Button[]   _heroCards;       // 4
+        [SerializeField] private TMP_Text[] _heroNames;       // 4
+        [SerializeField] private Image[]    _heroHPFills;     // 4
+        [SerializeField] private Image[]    _turnIndicators;  // 4 — barra dorada top
 
-        // ── Referencias UI — Panel Habilidades ─────────────────────────────
+        // ── Zona Habilidades (3 círculos bajo barra de turno) ──────────────
 
-        [Header("Panel Habilidades (3 botones)")]
-        [SerializeField] private Button[] _abilityButtons;
+        [Header("Zona Habilidades (3 circulos)")]
+        [SerializeField] private Button[] _abilityCircles;   // 3 — bajo BarraOrdenTurno
 
-        // ── Referencias UI — Result Panel ──────────────────────────────────
+        // ── Zona Conjuros (2×5) ─────────────────────────────────────────────
+
+        [Header("Zona Conjuros (10 slots)")]
+        [SerializeField] private Button[] _conjuroSlots; // 10
+
+        // ── Tooltip Panel ───────────────────────────────────────────────────
+
+        [Header("Tooltip Panel")]
+        [SerializeField] private GameObject _tooltipPanel;
+        [SerializeField] private TMP_Text   _tooltipText;
+        [SerializeField] private Button     _btnUsarTooltip;
+        [SerializeField] private Button     _btnCerrarTooltip;
+
+        // ── Result Panel ────────────────────────────────────────────────────
 
         [Header("Result Panel")]
         [SerializeField] private GameObject _resultPanel;
@@ -62,6 +77,7 @@ namespace ReinoOscuridad.UI.Combat
         [SerializeField] private TMP_Text   _resultXPText;
         [SerializeField] private TMP_Text   _resultDropsText;
         [SerializeField] private Button     _btnContinuar;
+        [SerializeField] private Button     _btnReintentar;
 
         // ── Colores de HP ───────────────────────────────────────────────────
 
@@ -76,26 +92,23 @@ namespace ReinoOscuridad.UI.Combat
         private TurnState     _state = TurnState.WaitingForInput;
         private bool          _autoMode;
 
-        // Orden de turno y tracking
         private List<TurnSlot> _turnOrder;
         private int            _currentSlotIndex;
         private int            _turnoActual = 1;
+        private int            _selectedAbilityIndex = -1;
 
-        // Selección de habilidad en modo Manual
-        private int _selectedAbilityIndex = -1;
+        private Action _tooltipConfirmAction;
 
         // ── Inicio ─────────────────────────────────────────────────────────
 
         private async void Start()
         {
-            // Guard: GameManager debe estar activo (viene de BootScene)
             if (GameManager.Instance == null)
             {
                 Debug.LogError("[CombatScene] GameManager no encontrado. ¿Se cargó BootScene primero?");
                 return;
             }
 
-            // 1. Recuperar contexto desde la pasarela estática
             _ctx = CombatSceneData.PendingContext;
             if (_ctx == null)
             {
@@ -105,37 +118,33 @@ namespace ReinoOscuridad.UI.Combat
                 return;
             }
 
-            // 2. Mostrar loading mientras preparamos
             if (LoadingScreen.Instance != null)
                 LoadingScreen.Instance.Show("preparando combate");
 
-            // 3. Obtener CombatSystem (registrado en BootScene o en esta Scene)
             _combatSystem = GameManager.Instance.GetSystem<CombatSystem>();
             if (_combatSystem == null)
-                Debug.LogWarning("[CombatScene] CombatSystem no encontrado — modo degradado sin fórmulas.");
+                Debug.LogWarning("[CombatScene] CombatSystem no encontrado — modo degradado.");
 
-            // 4. Calcular orden de turnos por SPD descendente
             BuildTurnOrder();
-
-            // 5. Inicializar UI con datos del contexto
             RefreshEnemyZone();
             RefreshHeroZone();
-            UpdateTurnoText();
+            UpdateTurnoLabel();
+            DisableAbilityCircles();
 
-            // 6. Bindear botones
-            BindButtons();
+            if (_tooltipPanel != null)
+                _tooltipPanel.SetActive(false);
 
             if (_resultPanel != null)
                 _resultPanel.SetActive(false);
 
-            // 7. Ocultar loading y mostrar combate
+            BindButtons();
+
             await System.Threading.Tasks.Task.Delay(400);
             if (LoadingScreen.Instance != null)
                 LoadingScreen.Instance.Hide();
 
             Debug.Log($"[CombatScene] Combate iniciado — encuentro: {_ctx.encounterID} — modo: {_ctx.combatMode}");
 
-            // 8. Iniciar bucle de combate
             if (_autoMode)
                 StartCoroutine(AutoCombatCoroutine());
             else
@@ -144,15 +153,13 @@ namespace ReinoOscuridad.UI.Combat
 
         // ── API pública ────────────────────────────────────────────────────
 
-        /// Cambia entre modo Auto y modo Manual.
         public void SetAutoMode(bool auto)
         {
             _autoMode = auto;
-            UpdateAutoButtonVisual();
+            UpdateModoButtonVisual();
             Debug.Log($"[CombatScene] Modo Auto: {_autoMode}");
         }
 
-        /// Selecciona la habilidad a usar (modo Manual). 0=básico, 1=fuerte, 2=especial.
         public void SelectAbility(int abilityIndex)
         {
             if (_state != TurnState.WaitingForInput) return;
@@ -161,19 +168,15 @@ namespace ReinoOscuridad.UI.Combat
             Debug.Log($"[CombatScene] Habilidad {abilityIndex} seleccionada — elige objetivo.");
         }
 
-        /// Selecciona el enemigo objetivo (modo Manual). Llama después de SelectAbility.
         public void SelectTarget(int targetIndex)
         {
             if (_state != TurnState.SelectingTarget) return;
             if (_ctx?.enemyTeam == null || targetIndex < 0 || targetIndex >= _ctx.enemyTeam.Length) return;
             if (!_ctx.enemyTeam[targetIndex].estaVivo) return;
 
-            var hero   = GetCurrentHero();
-            var target = _ctx.enemyTeam[targetIndex];
-            ProcessHeroAction(hero, target);
+            ProcessHeroAction(GetCurrentHero(), _ctx.enemyTeam[targetIndex]);
         }
 
-        /// Salta directo al resultado usando ProcessCombat (solo en modo Auto).
         public void SkipToResult()
         {
             if (!_autoMode) return;
@@ -184,7 +187,93 @@ namespace ReinoOscuridad.UI.Combat
             FinalizarCombate(result);
         }
 
-        // ── Construcción del orden de turno ────────────────────────────────
+        // ── Tooltip ────────────────────────────────────────────────────────
+
+        public void ShowTooltip(string description, Action onConfirm)
+        {
+            if (_tooltipPanel == null)
+            {
+                onConfirm?.Invoke();
+                return;
+            }
+            if (_tooltipText != null)  _tooltipText.text = description;
+            if (_btnUsarTooltip != null) _btnUsarTooltip.gameObject.SetActive(onConfirm != null);
+            _tooltipConfirmAction = onConfirm;
+            _tooltipPanel.SetActive(true);
+        }
+
+        public void HideTooltip()
+        {
+            if (_tooltipPanel != null) _tooltipPanel.SetActive(false);
+            _tooltipConfirmAction = null;
+        }
+
+        private void OnUsarTooltip()
+        {
+            var action = _tooltipConfirmAction;
+            HideTooltip();
+            action?.Invoke();
+        }
+
+        // ── Habilidades ────────────────────────────────────────────────────
+
+        private void UpdateAbilityCirclesForHero(int heroIndex)
+        {
+            if (_abilityCircles == null) return;
+            bool valid = heroIndex >= 0
+                         && _ctx?.playerTeam != null
+                         && heroIndex < _ctx.playerTeam.Length;
+
+            for (int i = 0; i < _abilityCircles.Length; i++)
+            {
+                if (_abilityCircles[i] == null) continue;
+                _abilityCircles[i].interactable = valid;
+
+                var lbl = _abilityCircles[i].GetComponentInChildren<TMP_Text>(true);
+                if (lbl == null) continue;
+
+                if (valid && _ctx.playerTeam[heroIndex].habilidadesEquipadas != null
+                          && i < _ctx.playerTeam[heroIndex].habilidadesEquipadas.Length)
+                {
+                    var habId = _ctx.playerTeam[heroIndex].habilidadesEquipadas[i];
+                    lbl.text = string.IsNullOrEmpty(habId)
+                        ? $"H{i + 1}"
+                        : habId.Substring(0, Mathf.Min(3, habId.Length)).ToUpper();
+                }
+                else
+                {
+                    lbl.text = $"H{i + 1}";
+                }
+            }
+        }
+
+        private void DisableAbilityCircles()
+        {
+            if (_abilityCircles == null) return;
+            foreach (var btn in _abilityCircles)
+                if (btn != null) btn.interactable = false;
+        }
+
+        private string GetAbilityDescription(int abilityIndex)
+        {
+            if (_turnOrder == null || _currentSlotIndex >= _turnOrder.Count)
+                return $"Habilidad {abilityIndex + 1}";
+
+            var slot = _turnOrder[_currentSlotIndex];
+            if (!slot.IsHero || _ctx?.playerTeam == null)
+                return $"Habilidad {abilityIndex + 1}";
+
+            var hero = _ctx.playerTeam[slot.HeroIndex];
+            string habId = hero.habilidadesEquipadas != null && abilityIndex < hero.habilidadesEquipadas.Length
+                ? hero.habilidadesEquipadas[abilityIndex]
+                : null;
+
+            return string.IsNullOrEmpty(habId)
+                ? $"Habilidad {abilityIndex + 1}\n(Sin equipar)"
+                : $"{habId}\n(Descripción pendiente de catálogo)";
+        }
+
+        // ── Orden de turno ─────────────────────────────────────────────────
 
         private void BuildTurnOrder()
         {
@@ -202,10 +291,10 @@ namespace ReinoOscuridad.UI.Combat
 
             _turnOrder.Sort((a, b) =>
             {
-                int spdA = a.IsHero ? _ctx.playerTeam[a.HeroIndex].spd : _ctx.enemyTeam[a.EnemyIndex].spd;
-                int spdB = b.IsHero ? _ctx.playerTeam[b.HeroIndex].spd : _ctx.enemyTeam[b.EnemyIndex].spd;
-                if (spdB != spdA) return spdB.CompareTo(spdA);
-                return a.IsHero ? -1 : 1; // empate: jugador primero
+                int sA = a.IsHero ? _ctx.playerTeam[a.HeroIndex].spd : _ctx.enemyTeam[a.EnemyIndex].spd;
+                int sB = b.IsHero ? _ctx.playerTeam[b.HeroIndex].spd : _ctx.enemyTeam[b.EnemyIndex].spd;
+                if (sB != sA) return sB.CompareTo(sA);
+                return a.IsHero ? -1 : 1;
             });
 
             _currentSlotIndex = 0;
@@ -222,7 +311,6 @@ namespace ReinoOscuridad.UI.Combat
                 yield break;
             }
 
-            // Procesa todo el combate en un solo paso y espera un beat dramático
             var result = _combatSystem.ProcessCombat(_ctx);
             RefreshEnemyZone();
             RefreshHeroZone();
@@ -243,7 +331,6 @@ namespace ReinoOscuridad.UI.Combat
             {
                 var slot = _turnOrder[_currentSlotIndex];
 
-                // Saltar unidades muertas
                 if (!SlotIsAlive(slot))
                 {
                     AdvanceTurnSlot();
@@ -251,34 +338,35 @@ namespace ReinoOscuridad.UI.Combat
                     continue;
                 }
 
-                HighlightActiveTurnIndicator(slot);
-                UpdateTurnoText();
+                HighlightActiveTurn(slot);
+                UpdateTurnoLabel();
 
                 if (slot.IsHero)
                 {
                     var hero = _ctx.playerTeam[slot.HeroIndex];
 
-                    // Stun: saltar turno sin input
                     if (hero.efectosActivos != null && hero.efectosActivos.Contains("Stun"))
                     {
                         Debug.Log($"[CombatScene] {hero.heroId} aturdido — turno saltado.");
+                        DisableAbilityCircles();
                         yield return new WaitForSeconds(0.4f);
                     }
                     else
                     {
-                        // Esperar input del jugador (SelectAbility → SelectTarget → ProcessHeroAction)
+                        UpdateAbilityCirclesForHero(slot.HeroIndex);
+
                         _state = TurnState.WaitingForInput;
                         yield return new WaitUntil(() =>
                             _state == TurnState.ProcessingAction ||
                             _state == TurnState.CombatFinished);
 
+                        DisableAbilityCircles();
                         if (_state == TurnState.CombatFinished) yield break;
-                        yield return new WaitForSeconds(0.3f); // pausa post-acción
+                        yield return new WaitForSeconds(0.3f);
                     }
                 }
                 else
                 {
-                    // Turno del enemigo — ataque automático al primer héroe vivo
                     _state = TurnState.ProcessingAction;
                     var enemy  = _ctx.enemyTeam[slot.EnemyIndex];
                     var target = PickFirstAlive(_ctx.playerTeam);
@@ -289,9 +377,8 @@ namespace ReinoOscuridad.UI.Combat
                         ApplyDamageToHero(target, dmg.dañoFinal);
                         RefreshHeroZone();
 
-                        Debug.Log($"[CombatScene] {enemy.enemyId} ataca a {target.heroId} por {dmg.dañoFinal}" +
-                                  (dmg.fueEsquivado ? " [ESQUIVADO]" : "") +
-                                  (dmg.fueCritico   ? " [CRIT]"     : ""));
+                        Debug.Log($"[CombatScene] {enemy.enemyId} → {target.heroId}: {dmg.dañoFinal}" +
+                                  (dmg.fueEsquivado ? " [ESQ]" : "") + (dmg.fueCritico ? " [CRIT]" : ""));
                     }
 
                     yield return new WaitForSeconds(0.6f);
@@ -302,7 +389,7 @@ namespace ReinoOscuridad.UI.Combat
                 AdvanceTurnSlot();
             }
 
-            var resultado = new CombatResult
+            FinalizarCombate(new CombatResult
             {
                 victoria      = AnyAlive(_ctx.playerTeam) && !AnyAlive(_ctx.enemyTeam),
                 danoTotal     = 0,
@@ -310,9 +397,7 @@ namespace ReinoOscuridad.UI.Combat
                 xpGanada      = 0,
                 trofeosDelta  = 0,
                 gradoObtenido = _turnoActual <= 5 ? "S" : _turnoActual <= 10 ? "A" : _turnoActual <= 20 ? "B" : "C"
-            };
-
-            FinalizarCombate(resultado);
+            });
         }
 
         // ── Acción del jugador ─────────────────────────────────────────────
@@ -321,9 +406,9 @@ namespace ReinoOscuridad.UI.Combat
         {
             if (hero == null || target == null) return;
 
-            float mult = _selectedAbilityIndex == 1 ? 1.8f  // fuerte
-                       : _selectedAbilityIndex == 2 ? 1.2f  // especial
-                       : 1f;                                 // básico
+            float mult = _selectedAbilityIndex == 1 ? 1.8f
+                       : _selectedAbilityIndex == 2 ? 1.2f
+                       : 1f;
 
             if (_combatSystem != null)
             {
@@ -331,29 +416,27 @@ namespace ReinoOscuridad.UI.Combat
                 ApplyDamageToEnemy(target, dmg.dañoFinal);
                 RefreshEnemyZone();
 
-                Debug.Log($"[CombatScene] {hero.heroId} usa habilidad {_selectedAbilityIndex} " +
-                          $"sobre {target.enemyId} por {dmg.dañoFinal}" +
-                          (dmg.fueEsquivado         ? " [ESQUIVADO]"  : "") +
-                          (dmg.fueCritico            ? " [CRIT]"       : "") +
-                          (dmg.fueElementalVentaja   ? " [VENTAJA]"    : "") +
-                          (dmg.fueElementalDesventaja? " [DESVENTAJA]" : ""));
+                Debug.Log($"[CombatScene] {hero.heroId} hab:{_selectedAbilityIndex} → {target.enemyId}: {dmg.dañoFinal}" +
+                          (dmg.fueEsquivado ? " [ESQ]" : "") + (dmg.fueCritico ? " [CRIT]" : "") +
+                          (dmg.fueElementalVentaja ? " [VENTAJA]" : "") +
+                          (dmg.fueElementalDesventaja ? " [DESV]" : ""));
             }
 
             _selectedAbilityIndex = -1;
-            _state = TurnState.ProcessingAction; // desbloquea la coroutine manual
+            _state = TurnState.ProcessingAction;
         }
 
-        // ── Finalización del combate ────────────────────────────────────────
+        // ── Finalización ────────────────────────────────────────────────────
 
         private void FinalizarCombate(CombatResult result)
         {
             _state = TurnState.CombatFinished;
             StopAllCoroutines();
+            DisableAbilityCircles();
+            HideTooltip();
 
-            // Guardar resultado en la pasarela
             CombatSceneData.SetResult(result);
 
-            // Publicar al EventBus
             EventBus.Publish(new CombatCompletedData
             {
                 encounterId = _ctx?.encounterID ?? "",
@@ -362,7 +445,6 @@ namespace ReinoOscuridad.UI.Combat
                 goldGained  = 0
             });
 
-            // InputBlocker mientras el ResultPanel está visible
             if (InputBlocker.Instance != null)
                 InputBlocker.Instance.Show(49);
 
@@ -373,8 +455,8 @@ namespace ReinoOscuridad.UI.Combat
         {
             if (_resultPanel == null)
             {
-                Debug.LogWarning("[CombatScene] ResultPanel no asignado — volviendo directamente.");
-                _ = (UIManager.Instance?.NavigateTo(_ctx?.callerScene ?? "MainMenuScene"));
+                Debug.LogWarning("[CombatScene] ResultPanel no asignado.");
+                _ = UIManager.Instance?.NavigateTo(_ctx?.callerScene ?? "MainMenuScene");
                 return;
             }
 
@@ -382,29 +464,30 @@ namespace ReinoOscuridad.UI.Combat
 
             if (_resultTitleText != null)
                 _resultTitleText.text = result.victoria ? "VICTORIA" : "DERROTA";
-
             if (_resultGradeText != null)
-                _resultGradeText.text = $"Grado: {result.gradoObtenido}";
-
+                _resultGradeText.text = $"* * *  Grado: {result.gradoObtenido}";
             if (_resultXPText != null)
-                _resultXPText.text = $"XP: +{result.xpGanada}";
-
+                _resultXPText.text = $"+{result.xpGanada} XP";
             if (_resultDropsText != null)
                 _resultDropsText.text = result.drops != null && result.drops.Length > 0
-                    ? "Drops: " + string.Join(", ", result.drops)
-                    : "Sin drops";
+                    ? "Recompensas:\n* " + string.Join("\n* ", result.drops)
+                    : "Recompensas:\nSin drops";
 
             _state = TurnState.ShowingResult;
         }
 
         private async void OnContinuarPressed()
         {
-            if (InputBlocker.Instance != null)
-                InputBlocker.Instance.Hide();
-
-            string destino = _ctx?.callerScene ?? "MainMenuScene";
+            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
             if (UIManager.Instance != null)
-                await UIManager.Instance.NavigateTo(destino);
+                await UIManager.Instance.NavigateTo(_ctx?.callerScene ?? "MainMenuScene");
+        }
+
+        private async void OnReintentarPressed()
+        {
+            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
+            if (UIManager.Instance != null)
+                await UIManager.Instance.NavigateTo(_ctx?.callerScene ?? "MainMenuScene");
         }
 
         // ── Refresh UI ─────────────────────────────────────────────────────
@@ -418,7 +501,7 @@ namespace ReinoOscuridad.UI.Combat
                 bool hasEnemy = i < _ctx.enemyTeam.Length;
 
                 if (_enemySlots != null && i < _enemySlots.Length && _enemySlots[i] != null)
-                    _enemySlots[i].gameObject.SetActive(hasEnemy);
+                    _enemySlots[i].SetActive(hasEnemy);
 
                 if (!hasEnemy) continue;
                 var e = _ctx.enemyTeam[i];
@@ -441,7 +524,7 @@ namespace ReinoOscuridad.UI.Combat
         {
             if (_ctx?.playerTeam == null) return;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
                 bool hasHero = i < _ctx.playerTeam.Length;
 
@@ -454,7 +537,7 @@ namespace ReinoOscuridad.UI.Combat
                 float ratio = h.hpMax > 0 ? (float)h.hpActual / h.hpMax : 0f;
 
                 if (_heroNames != null && i < _heroNames.Length && _heroNames[i] != null)
-                    _heroNames[i].text = string.IsNullOrEmpty(h.heroId) ? $"Héroe {i + 1}" : h.heroId;
+                    _heroNames[i].text = string.IsNullOrEmpty(h.heroId) ? $"Heroe {i + 1}" : h.heroId;
 
                 if (_heroHPFills != null && i < _heroHPFills.Length && _heroHPFills[i] != null)
                 {
@@ -465,91 +548,111 @@ namespace ReinoOscuridad.UI.Combat
             }
         }
 
-        private void HighlightActiveTurnIndicator(TurnSlot slot)
+        private void HighlightActiveTurn(TurnSlot slot)
         {
             if (_turnIndicators == null) return;
 
             for (int i = 0; i < _turnIndicators.Length; i++)
             {
                 if (_turnIndicators[i] == null) continue;
-                bool isActive = slot.IsHero && slot.HeroIndex == i;
-                var img = _turnIndicators[i].GetComponent<Image>();
-                if (img != null)
-                    img.color = new Color(img.color.r, img.color.g, img.color.b,
-                                          isActive ? 1f : 0f);
+                bool active = slot.IsHero && slot.HeroIndex == i;
+                var c = _turnIndicators[i].color;
+                _turnIndicators[i].color = new Color(c.r, c.g, c.b, active ? 1f : 0f);
             }
         }
 
-        private void UpdateTurnoText()
+        private void UpdateTurnoLabel()
         {
-            if (_turnoText != null)
-                _turnoText.text = $"Turno {_turnoActual}";
+            if (_turnoLabel != null)
+                _turnoLabel.text = $"Turno {_turnoActual}";
         }
 
-        private void UpdateAutoButtonVisual()
+        private void UpdateModoButtonVisual()
         {
-            if (_btnAuto == null) return;
-            var img = _btnAuto.GetComponent<Image>();
+            if (_btnModo == null) return;
+            var img = _btnModo.GetComponent<Image>();
             if (img == null) return;
             img.color = _autoMode
-                ? new Color(0.09f, 0.18f, 0.09f)  // #166534
-                : new Color(0.10f, 0.10f, 0.11f);  // #1A1A1C
+                ? new Color(0.09f, 0.18f, 0.09f)
+                : new Color(0.10f, 0.10f, 0.11f);
+            var lbl = _btnModo.GetComponentInChildren<TMP_Text>();
+            if (lbl != null) lbl.text = _autoMode ? "AUTO" : "MANUAL";
         }
 
         // ── Bind botones ───────────────────────────────────────────────────
 
         private void BindButtons()
         {
-            _btnAuto?.onClick.AddListener(() => SetAutoMode(!_autoMode));
+            _btnModo?.onClick.AddListener(() => SetAutoMode(!_autoMode));
 
             _btnHuir?.onClick.AddListener(() =>
-            {
-                var fled = new CombatResult
+                FinalizarCombate(new CombatResult
                 {
-                    victoria      = false,
-                    drops         = Array.Empty<string>(),
-                    gradoObtenido = "F"
-                };
-                FinalizarCombate(fled);
-            });
+                    victoria = false, drops = Array.Empty<string>(), gradoObtenido = "F"
+                }));
 
             _btnContinuar?.onClick.AddListener(OnContinuarPressed);
+            _btnReintentar?.onClick.AddListener(OnReintentarPressed);
 
-            if (_abilityButtons != null)
-                for (int i = 0; i < _abilityButtons.Length; i++)
+            _btnUsarTooltip?.onClick.AddListener(OnUsarTooltip);
+            _btnCerrarTooltip?.onClick.AddListener(HideTooltip);
+
+            // Círculos de habilidad — tap muestra tooltip, confirmar ejecuta SelectAbility
+            if (_abilityCircles != null)
+            {
+                for (int i = 0; i < _abilityCircles.Length; i++)
                 {
                     int idx = i;
-                    _abilityButtons[idx]?.onClick.AddListener(() => SelectAbility(idx));
+                    _abilityCircles[idx]?.onClick.AddListener(() =>
+                    {
+                        string desc = GetAbilityDescription(idx);
+                        ShowTooltip(desc, () => SelectAbility(idx));
+                    });
                 }
+            }
 
+            // Conjuro slots — tap muestra tooltip con descripción
+            if (_conjuroSlots != null)
+            {
+                for (int i = 0; i < _conjuroSlots.Length; i++)
+                {
+                    int idx = i;
+                    _conjuroSlots[idx]?.onClick.AddListener(() =>
+                        ShowTooltip($"Conjuro {idx + 1}\n(Descripcion pendiente de catalogo)", null));
+                }
+            }
+
+            // Enemy slot buttons → target selection
             if (_enemySlotBtns != null)
+            {
                 for (int i = 0; i < _enemySlotBtns.Length; i++)
                 {
                     int idx = i;
                     _enemySlotBtns[idx]?.onClick.AddListener(() => SelectTarget(idx));
                 }
+            }
         }
 
-        // ── Helpers ────────────────────────────────────────────────────────
+        // ── Helpers estáticos ──────────────────────────────────────────────
 
-        private static bool AnyAlive(HeroInstance[] team)
+        private static bool AnyAlive(HeroInstance[] t)
         {
-            if (team == null) return false;
-            foreach (var h in team) if (h.estaVivo) return true;
+            if (t == null) return false;
+            foreach (var h in t) if (h.estaVivo) return true;
             return false;
         }
 
-        private static bool AnyAlive(EnemyInstance[] team)
+        private static bool AnyAlive(EnemyInstance[] t)
         {
-            if (team == null) return false;
-            foreach (var e in team) if (e.estaVivo) return true;
+            if (t == null) return false;
+            foreach (var e in t) if (e.estaVivo) return true;
             return false;
         }
 
-        private static HeroInstance PickFirstAlive(HeroInstance[] team)
+        private static HeroInstance PickFirstAlive(HeroInstance[] t)
         {
-            if (team == null) return null;
-            foreach (var h in team) if (h.estaVivo) return h;
+            if (t == null) return null;
+            foreach (var h in t) if (h.estaVivo) return h;
             return null;
         }
 
@@ -567,10 +670,10 @@ namespace ReinoOscuridad.UI.Combat
             if (e.hpActual == 0) e.estaVivo = false;
         }
 
-        private static Color HPColor(float ratio)
+        private static Color HPColor(float r)
         {
-            if (ratio > 0.60f) return HP_HEALTHY;
-            if (ratio > 0.30f) return HP_MEDIUM;
+            if (r > 0.60f) return HP_HEALTHY;
+            if (r > 0.30f) return HP_MEDIUM;
             return HP_CRITICAL;
         }
 
@@ -583,25 +686,17 @@ namespace ReinoOscuridad.UI.Combat
 
         private bool SlotIsAlive(TurnSlot slot)
         {
-            if (slot.IsHero)
-                return _ctx.playerTeam != null
-                       && slot.HeroIndex < _ctx.playerTeam.Length
-                       && _ctx.playerTeam[slot.HeroIndex].estaVivo;
-
-            return _ctx.enemyTeam != null
-                   && slot.EnemyIndex < _ctx.enemyTeam.Length
-                   && _ctx.enemyTeam[slot.EnemyIndex].estaVivo;
+            return slot.IsHero
+                ? _ctx.playerTeam != null && slot.HeroIndex < _ctx.playerTeam.Length && _ctx.playerTeam[slot.HeroIndex].estaVivo
+                : _ctx.enemyTeam  != null && slot.EnemyIndex < _ctx.enemyTeam.Length  && _ctx.enemyTeam[slot.EnemyIndex].estaVivo;
         }
 
         private HeroInstance GetCurrentHero()
         {
             if (_turnOrder == null || _currentSlotIndex >= _turnOrder.Count) return null;
-            var slot = _turnOrder[_currentSlotIndex];
-            if (!slot.IsHero) return null;
-            return _ctx.playerTeam?[slot.HeroIndex];
+            var s = _turnOrder[_currentSlotIndex];
+            return s.IsHero ? _ctx.playerTeam?[s.HeroIndex] : null;
         }
-
-        // ── Clase auxiliar ─────────────────────────────────────────────────
 
         private class TurnSlot
         {

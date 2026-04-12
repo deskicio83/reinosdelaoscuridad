@@ -11,8 +11,16 @@ using TMPro;
 using ReinoOscuridad.Systems;
 using ReinoOscuridad.UI.Combat;
 
-/// Editor Script — configura CombatScene.unity con todos los elementos de UI.
+/// Editor Script — configura CombatScene.unity con layout corregido de 6 zonas.
 /// Menú: Tools → Reino Oscuridad → 5. Setup CombatScene
+///
+/// LAYOUT (1280×720 landscape):
+///   Col izq (x 0.00–0.06): BarraOrdenTurno (y 0.40–0.95) + ZonaHabilidades (y 0.03–0.37)
+///   Centro-arriba  (x 0.07–0.88, y 0.55–0.95): ZonaEnemigos
+///   Centro-abajo   (x 0.07–0.65, y 0.03–0.47): ZonaEquipo
+///   Derecha-abajo  (x 0.66–0.99, y 0.03–0.43): ZonaConjuros (reducida)
+///   Derecha-arriba (x 0.88–1.00, y 0.80–1.00): PanelControles
+///   Gap visible    (y 0.47–0.55 ≈ 58 px)
 public static class SetupCombatScene
 {
     private const string SCENE_PATH = "Assets/Scenes/CombatScene.unity";
@@ -22,7 +30,6 @@ public static class SetupCombatScene
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
 
-        // Abrir o crear la Scene
         if (File.Exists(SCENE_PATH))
             EditorSceneManager.OpenScene(SCENE_PATH);
         else
@@ -31,324 +38,434 @@ public static class SetupCombatScene
             EditorSceneManager.SaveScene(s, SCENE_PATH);
         }
 
-        // Limpiar objetos existentes
         foreach (var go in Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include))
             Object.DestroyImmediate(go);
 
         Build();
 
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
-        Debug.Log("[SetupCombatScene] CombatScene configurada correctamente.");
+        Debug.Log("[SetupCombat] CombatScene configurada — layout correcto 6 zonas v2");
     }
 
-    // ── Construcción principal ─────────────────────────────────────────────
+    // ── Construcción ───────────────────────────────────────────────────────
 
     private static void Build()
     {
-        // ── PASO 1 — Main Camera ──────────────────────────────────────────
+        // ── Main Camera ───────────────────────────────────────────────────
 
-        var camGO  = new GameObject("Main Camera");
-        camGO.tag  = "MainCamera";
-        var cam    = camGO.AddComponent<Camera>();
+        var camGO = new GameObject("Main Camera");
+        camGO.tag = "MainCamera";
+        var cam   = camGO.AddComponent<Camera>();
         cam.orthographic     = true;
         cam.orthographicSize = 5f;
         cam.backgroundColor  = Hex("#0A0A14");
         cam.clearFlags       = CameraClearFlags.SolidColor;
         cam.transform.position = new Vector3(0, 0, -10);
 
-        // ── PASO 2 — EventSystem con InputSystemUIInputModule ─────────────
+        // ── EventSystem ───────────────────────────────────────────────────
 
         var esGO = new GameObject("EventSystem");
         esGO.AddComponent<EventSystem>();
         esGO.AddComponent<InputSystemUIInputModule>();
 
-        // ── PASO 3 — CombatCanvas ─────────────────────────────────────────
+        // ── Canvas ────────────────────────────────────────────────────────
 
         var canvasGO = new GameObject("CombatCanvas");
         var canvas   = canvasGO.AddComponent<Canvas>();
-        canvas.renderMode  = RenderMode.ScreenSpaceOverlay;
+        canvas.renderMode   = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 20;
 
         var scaler = canvasGO.AddComponent<CanvasScaler>();
         scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1280, 720);
         scaler.matchWidthOrHeight  = 0.5f;
-
         canvasGO.AddComponent<GraphicRaycaster>();
 
-        // ── PASO 4 — Fondo de combate ─────────────────────────────────────
+        // ── Fondo ─────────────────────────────────────────────────────────
 
-        var fondo = Child(canvasGO.transform, "FondoCombate");
-        Anch(fondo, 0, 0, 1, 1);
-        Img(fondo, Hex("#0A0A14"));
+        Img(Child(canvasGO.transform, "FondoCombate"), Hex("#0A0A14"));
+        Anch(canvasGO.transform.Find("FondoCombate").gameObject, 0, 0, 1, 1);
 
-        // ── PASO 5 — Zona Enemigos ────────────────────────────────────────
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 1 — Barra orden de turno (lateral izq, acortada)
+        // Anchors: x 0.00–0.06, y 0.40–0.95
+        // ═══════════════════════════════════════════════════════════════════
+
+        var barraOrden = Child(canvasGO.transform, "BarraOrdenTurno");
+        Anch(barraOrden, 0.00f, 0.40f, 0.06f, 0.95f);
+        Img(barraOrden, Hex("#0D0D1A"), 0.90f);
+
+        var ordenLabel = Child(barraOrden.transform, "OrdenLabel");
+        Anch(ordenLabel, 0.05f, 0.93f, 0.95f, 0.99f);
+        Txt(ordenLabel, "Orden", 7f, Hex("#6B7280"));
+
+        var listaRetratos = Child(barraOrden.transform, "ListaRetratos");
+        Anch(listaRetratos, 0.05f, 0.02f, 0.95f, 0.92f);
+
+        // 7 retratos placeholder (4 jugador azul-oscuro + 3 enemigo rojo-oscuro)
+        Color[] retratoCols =
+        {
+            Hex("#1E1535"), Hex("#1E1535"), Hex("#1E1535"), Hex("#1E1535"),
+            Hex("#2A0010"), Hex("#2A0010"), Hex("#2A0010")
+        };
+        for (int i = 0; i < 7; i++)
+        {
+            float yMax = 1f - i * 0.13f;
+            float yMin = yMax - 0.11f;
+            var r = Child(listaRetratos.transform, $"Retrato_{i}");
+            Anch(r, 0.10f, yMin, 0.90f, yMax);
+            Img(r, retratoCols[i]);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 1b — Habilidades activas (3 círculos bajo barra de turno)
+        // Anchors: x 0.00–0.06, y 0.03–0.37
+        // El círculo seleccionado llama SelectAbility(i) tras confirmar tooltip
+        // ═══════════════════════════════════════════════════════════════════
+
+        var zonaHab = Child(canvasGO.transform, "ZonaHabilidades");
+        Anch(zonaHab, 0.00f, 0.03f, 0.06f, 0.37f);
+        Img(zonaHab, Hex("#0D0D1A"), 0.85f);
+
+        var habLabel = Child(zonaHab.transform, "HabLabel");
+        Anch(habLabel, 0.05f, 0.93f, 0.95f, 0.99f);
+        Txt(habLabel, "HAB", 7f, Hex("#A855F7"));
+
+        // Posiciones verticales para 3 círculos con margen
+        float[] habYMin = { 0.04f, 0.36f, 0.67f };
+        float[] habYMax = { 0.32f, 0.63f, 0.91f };
+        var abilityCircleBtns = new Button[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            var circleGO = Child(zonaHab.transform, $"BtnHab_{i}");
+            Anch(circleGO, 0.10f, habYMin[i], 0.90f, habYMax[i]);
+            Img(circleGO, Hex("#1A1020"));
+            abilityCircleBtns[i] = circleGO.AddComponent<Button>();
+            var lbl = Child(circleGO.transform, "Label");
+            Anch(lbl, 0, 0, 1, 1);
+            Txt(lbl, $"H{i + 1}", 9f, Hex("#A855F7"), bold: true);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 2 — Área de enemigos (centro superior)
+        // Anchors: x 0.07–0.88, y 0.55–0.95
+        // Tarjeta: HP arriba → Sprite centro → EfectosBar abajo
+        // ═══════════════════════════════════════════════════════════════════
 
         var zonaEne = Child(canvasGO.transform, "ZonaEnemigos");
-        Anch(zonaEne, 0.05f, 0.55f, 0.95f, 0.90f);
+        Anch(zonaEne, 0.07f, 0.55f, 0.88f, 0.95f);
 
-        var enemySlotImages = new Image[3];
-        var enemyHPFills    = new Image[3];
-        var enemyHPTexts    = new TMP_Text[3];
-        var enemySlotBtns   = new Button[3];
-
-        float[] eMinX = { 0.05f, 0.36f, 0.67f };
-        float[] eMaxX = { 0.33f, 0.64f, 0.95f };
+        var enemySlotGOs  = new GameObject[3];
+        var enemyHPFills  = new Image[3];
+        var enemyHPTexts  = new TMP_Text[3];
+        var enemySlotBtns = new Button[3];
 
         for (int i = 0; i < 3; i++)
         {
+            float xMin = i * 0.34f;
+            float xMax = xMin + 0.32f;
+
             var slot = Child(zonaEne.transform, $"EnemySlot_{i}");
-            Anch(slot, eMinX[i], 0f, eMaxX[i], 1f);
-            enemySlotImages[i] = Img(slot, Hex("#2D1A1A"));
-            enemySlotBtns[i]   = slot.AddComponent<Button>();
+            Anch(slot, xMin, 0.03f, xMax, 0.97f);
+            Img(slot, Hex("#1A0D0D"), 0.85f);
+            enemySlotGOs[i] = slot;
 
-            var label = Child(slot.transform, "Label");
-            Anch(label, 0.02f, 0.02f, 0.98f, 0.98f);
-            var txt = label.AddComponent<TextMeshProUGUI>();
-            txt.text      = $"Enemigo {i + 1}";
-            txt.fontSize  = 11f;
-            txt.color     = Hex("#FF6B6B");
-            txt.alignment = TextAlignmentOptions.Center;
+            // Button para selección de objetivo cubre toda la carta
+            enemySlotBtns[i] = slot.AddComponent<Button>();
+
+            // HP bar — TOP de la carta (y 0.83–0.95)
+            var hpBar = Child(slot.transform, "HPBar_Enemy");
+            Anch(hpBar, 0.06f, 0.83f, 0.94f, 0.95f);
+
+            var hpBg = Child(hpBar.transform, "Fondo");
+            Anch(hpBg, 0, 0, 1, 1);
+            Img(hpBg, Hex("#3D1A1A"));
+
+            var hpFill = Child(hpBar.transform, "Relleno");
+            Anch(hpFill, 0, 0, 1, 1);
+            enemyHPFills[i] = Img(hpFill, Hex("#EF4444"));
+
+            // HP text — bajo la barra (y 0.71–0.82)
+            var hpTxtGO = Child(slot.transform, "HPText");
+            Anch(hpTxtGO, 0.04f, 0.71f, 0.96f, 0.82f);
+            enemyHPTexts[i] = Txt(hpTxtGO, "8000/8000", 7f, Hex("#FCA5A5"));
+
+            // Sprite enemigo — centro (y 0.20–0.70)
+            var sprite = Child(slot.transform, "EnemySprite");
+            Anch(sprite, 0.10f, 0.20f, 0.90f, 0.70f);
+            Img(sprite, Hex("#2D1A1A"));
+
+            // Efectos/buff bar — BOTTOM de la carta (y 0.04–0.17)
+            var efBar = Child(slot.transform, "EfectosBar");
+            Anch(efBar, 0.06f, 0.04f, 0.94f, 0.17f);
+            Img(efBar, Hex("#1A0A0A"), 0.70f);
         }
 
-        // ── PASO 6 — Barras HP Enemigos ───────────────────────────────────
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 3 — Controles (esquina superior derecha)
+        // ═══════════════════════════════════════════════════════════════════
 
-        var barrasEne = Child(canvasGO.transform, "BarrasHP_Enemigos");
-        Anch(barrasEne, 0.05f, 0.90f, 0.95f, 0.95f);
+        var panelCtrl = Child(canvasGO.transform, "PanelControles");
+        Anch(panelCtrl, 0.88f, 0.80f, 1.00f, 1.00f);
+        Img(panelCtrl, Hex("#0D0D1A"), 0.93f);
 
-        for (int i = 0; i < 3; i++)
-        {
-            var hpBar = Child(barrasEne.transform, $"HPBar_Enemy_{i}");
-            Anch(hpBar, eMinX[i], 0f, eMaxX[i], 1f);
+        // Turno label
+        var turnoLabelGO = Child(panelCtrl.transform, "TurnoLabel");
+        Anch(turnoLabelGO, 0.05f, 0.82f, 0.95f, 0.98f);
+        var turnoLabel = Txt(turnoLabelGO, "Turno 1", 9f, Hex("#9CA3AF"), TextAlignmentOptions.Right);
 
-            var bg = Child(hpBar.transform, "Fondo");
-            Anch(bg, 0f, 0f, 1f, 1f);
-            Img(bg, Hex("#3D1A1A"));
+        // BtnVelocidad — "x1 >" (ASCII, LiberationSans)
+        var btnVelGO = Child(panelCtrl.transform, "BtnVelocidad");
+        Anch(btnVelGO, 0.04f, 0.54f, 0.96f, 0.80f);
+        Img(btnVelGO, Hex("#1A1020"));
+        var btnVelocidad = btnVelGO.AddComponent<Button>();
+        Txt(Child(btnVelGO.transform, "Label"), "x1 >", 11f, Hex("#A855F7"), bold: true);
 
-            var fill = Child(hpBar.transform, "Relleno");
-            Anch(fill, 0f, 0f, 1f, 1f);
-            enemyHPFills[i] = Img(fill, Hex("#EF4444"));
+        // BtnModo
+        var btnModoGO = Child(panelCtrl.transform, "BtnModo");
+        Anch(btnModoGO, 0.04f, 0.28f, 0.96f, 0.52f);
+        Img(btnModoGO, Hex("#166534"));
+        var btnModo = btnModoGO.AddComponent<Button>();
+        Txt(Child(btnModoGO.transform, "Label"), "AUTO", 11f, Hex("#4ADE80"), bold: true);
 
-            var hpTxtGO = Child(hpBar.transform, "HPText");
-            Anch(hpTxtGO, 0f, 0f, 1f, 1f);
-            var hpTxt = hpTxtGO.AddComponent<TextMeshProUGUI>();
-            hpTxt.text      = "8000/8000";
-            hpTxt.fontSize  = 9f;
-            hpTxt.color     = Hex("#FCA5A5");
-            hpTxt.alignment = TextAlignmentOptions.Center;
-            enemyHPTexts[i] = hpTxt;
-        }
+        // BtnPausa — "||" (ASCII)
+        var btnPausaGO = Child(panelCtrl.transform, "BtnPausa");
+        Anch(btnPausaGO, 0.04f, 0.14f, 0.48f, 0.26f);
+        Img(btnPausaGO, Hex("#1A1020"));
+        var btnPausa = btnPausaGO.AddComponent<Button>();
+        Txt(Child(btnPausaGO.transform, "Label"), "||", 14f, Hex("#9CA3AF"));
 
-        // ── PASO 7 — Zona Equipo (5 cartas de héroes) ────────────────────
+        // BtnHuir
+        var btnHuirGO = Child(panelCtrl.transform, "BtnHuir");
+        Anch(btnHuirGO, 0.04f, 0.02f, 0.96f, 0.12f);
+        Img(btnHuirGO, Hex("#2A0000"));
+        var btnHuir = btnHuirGO.AddComponent<Button>();
+        Txt(Child(btnHuirGO.transform, "Label"), "Huir", 10f, Hex("#F87171"));
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 4 — Equipo jugador (inferior izq, 4 slots)
+        // Anchors: x 0.07–0.65, y 0.03–0.47
+        // Tarjeta: TurnIndicator arriba → EfectosBar → Portrait → Nombre → HPBar abajo
+        // ═══════════════════════════════════════════════════════════════════
 
         var zonaEquipo = Child(canvasGO.transform, "ZonaEquipo");
-        Anch(zonaEquipo, 0.00f, 0.02f, 0.55f, 0.45f);
+        Anch(zonaEquipo, 0.07f, 0.03f, 0.65f, 0.47f);
 
-        var heroCards       = new Button[5];
-        var heroNames       = new TMP_Text[5];
-        var heroHPFills     = new Image[5];
-        var turnIndicators  = new GameObject[5];
+        var heroCards      = new Button[4];
+        var heroNames      = new TMP_Text[4];
+        var heroHPFills    = new Image[4];
+        var turnIndicators = new Image[4];
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
-            float minX = i * 0.20f;
-            float maxX = i * 0.20f + 0.19f;
+            float xMin = i * 0.25f;
+            float xMax = xMin + 0.24f;
 
             var card = Child(zonaEquipo.transform, $"HeroCard_{i}");
-            Anch(card, minX, 0f, maxX, 1f);
+            Anch(card, xMin, 0.02f, xMax, 0.98f);
             Img(card, Hex("#1A1A2D"));
             heroCards[i] = card.AddComponent<Button>();
 
-            // Portrait
+            // TurnIndicator — barra dorada en TOP (y 0.95–1.00), alpha=0 por defecto
+            var indGO = Child(card.transform, "TurnIndicator");
+            Anch(indGO, 0f, 0.95f, 1f, 1.00f);
+            var indImg = Img(indGO, Hex("#FACC15"));
+            indImg.color = new Color(indImg.color.r, indImg.color.g, indImg.color.b, 0f);
+            turnIndicators[i] = indImg;
+
+            // EfectosBar — justo bajo TurnIndicator, TOP de la carta (y 0.80–0.93)
+            var efBar = Child(card.transform, "EfectosBar");
+            Anch(efBar, 0.04f, 0.80f, 0.96f, 0.93f);
+            Img(efBar, Hex("#0D0D1E"), 0.70f);
+
+            // Portrait — centro (y 0.38–0.78)
             var portrait = Child(card.transform, "Portrait");
-            Anch(portrait, 0.05f, 0.35f, 0.95f, 0.95f);
+            Anch(portrait, 0.06f, 0.38f, 0.94f, 0.78f);
             Img(portrait, Hex("#2D2D4E"));
 
-            // Nombre
+            // Nombre — bajo portrait (y 0.26–0.37)
             var nameGO = Child(card.transform, "NombreHero");
-            Anch(nameGO, 0.02f, 0.22f, 0.98f, 0.35f);
-            var nameTxt = nameGO.AddComponent<TextMeshProUGUI>();
-            nameTxt.text      = $"Héroe {i + 1}";
-            nameTxt.fontSize  = 9f;
-            nameTxt.color     = Hex("#E9D5FF");
-            nameTxt.alignment = TextAlignmentOptions.Center;
-            heroNames[i] = nameTxt;
+            Anch(nameGO, 0.02f, 0.26f, 0.98f, 0.37f);
+            heroNames[i] = Txt(nameGO, $"Heroe {i + 1}", 8f, Hex("#E9D5FF"));
 
-            // HP bar
-            var hpBarGO = Child(card.transform, "HPBar");
-            Anch(hpBarGO, 0.05f, 0.10f, 0.95f, 0.20f);
+            // HP bar — BOTTOM de la carta (y 0.12–0.23)
+            var hpBar = Child(card.transform, "HPBar");
+            Anch(hpBar, 0.06f, 0.12f, 0.94f, 0.23f);
 
-            var hpBg = Child(hpBarGO.transform, "Fondo");
-            Anch(hpBg, 0f, 0f, 1f, 1f);
+            var hpBg = Child(hpBar.transform, "Fondo");
+            Anch(hpBg, 0, 0, 1, 1);
             Img(hpBg, Hex("#1A1A2E"));
 
-            var hpFill = Child(hpBarGO.transform, "Relleno");
-            Anch(hpFill, 0f, 0f, 1f, 1f);
+            var hpFill = Child(hpBar.transform, "Relleno");
+            Anch(hpFill, 0, 0, 1, 1);
             heroHPFills[i] = Img(hpFill, Hex("#22C55E"));
-
-            // Turn Indicator
-            var indicator = Child(card.transform, "TurnIndicator");
-            Anch(indicator, 0f, 0f, 1f, 0.05f);
-            var indImg = Img(indicator, Hex("#FACC15"));
-            indImg.color = new Color(indImg.color.r, indImg.color.g, indImg.color.b, 0f);
-            turnIndicators[i] = indicator;
         }
 
-        // ── PASO 8 — Panel de Habilidades ─────────────────────────────────
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 5 — Conjuros (inferior derecha, 2×5, reducida)
+        // Anchors: x 0.66–0.99, y 0.03–0.43
+        // ═══════════════════════════════════════════════════════════════════
 
-        var panelHab = Child(canvasGO.transform, "PanelHabilidades");
-        Anch(panelHab, 0.55f, 0.02f, 0.95f, 0.45f);
-        Img(panelHab, Hex("#0F0F1A"));
+        var zonaConj = Child(canvasGO.transform, "ZonaConjuros");
+        Anch(zonaConj, 0.66f, 0.03f, 0.99f, 0.43f);
+        Img(zonaConj, Hex("#0D0D1A"), 0.78f);
 
-        var abilityButtons = new Button[3];
+        var conjuroSlots = new Button[10];
 
-        // BtnHabilidad_0 — ocupa la mitad superior completa
-        var btn0 = Child(panelHab.transform, "BtnHabilidad_0");
-        Anch(btn0, 0.02f, 0.52f, 0.98f, 0.98f);
-        Img(btn0, Hex("#1A1A2E"));
-        abilityButtons[0] = btn0.AddComponent<Button>();
-        AddLabel(btn0.transform, "Habilidad 1", 12f, Hex("#A855F7"));
+        for (int fila = 0; fila < 2; fila++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                int idx    = fila * 5 + col;
+                float xMin = col  * 0.19f + 0.02f;
+                float xMax = col  * 0.19f + 0.20f;
+                float yMin = (1 - fila) * 0.50f + 0.02f;
+                float yMax = (1 - fila) * 0.50f + 0.47f;
 
-        // BtnHabilidad_1 — mitad inferior izquierda
-        var btn1 = Child(panelHab.transform, "BtnHabilidad_1");
-        Anch(btn1, 0.02f, 0.02f, 0.48f, 0.48f);
-        Img(btn1, Hex("#1A1A2E"));
-        abilityButtons[1] = btn1.AddComponent<Button>();
-        AddLabel(btn1.transform, "Habilidad 2", 11f, Hex("#A855F7"));
+                var slot = Child(zonaConj.transform, $"ConjuroSlot_{idx}");
+                Anch(slot, xMin, yMin, xMax, yMax);
+                Img(slot, Hex("#1A1020"));
+                conjuroSlots[idx] = slot.AddComponent<Button>();
 
-        // BtnHabilidad_2 — mitad inferior derecha
-        var btn2 = Child(panelHab.transform, "BtnHabilidad_2");
-        Anch(btn2, 0.52f, 0.02f, 0.98f, 0.48f);
-        Img(btn2, Hex("#1A1A2E"));
-        abilityButtons[2] = btn2.AddComponent<Button>();
-        AddLabel(btn2.transform, "Habilidad 3", 11f, Hex("#A855F7"));
+                var icono = Child(slot.transform, "ConjuroIcono");
+                Anch(icono, 0.05f, 0.32f, 0.95f, 0.95f);
+                Img(icono, Hex("#2D1A3D"));
 
-        // ── PASO 9 — Controles superiores ────────────────────────────────
+                var nombre = Child(slot.transform, "ConjuroNombre");
+                Anch(nombre, 0.02f, 0.02f, 0.98f, 0.30f);
+                Txt(nombre, "—", 6f, Hex("#9CA3AF"));
+            }
+        }
 
-        var controles = Child(canvasGO.transform, "ControlesCombate");
-        Anch(controles, 0.00f, 0.91f, 1.00f, 1.00f);
+        // ═══════════════════════════════════════════════════════════════════
+        // TOOLTIP PANEL (compartido: habilidades + conjuros)
+        // Sort Order alto para estar sobre todo. SetActive(false) por defecto.
+        // ═══════════════════════════════════════════════════════════════════
 
-        // BtnAuto
-        var btnAutoGO = Child(controles.transform, "BtnAuto");
-        Anch(btnAutoGO, 0.02f, 0.10f, 0.18f, 0.90f);
-        Img(btnAutoGO, Hex("#1A2E1A"));
-        var btnAuto = btnAutoGO.AddComponent<Button>();
-        AddLabel(btnAutoGO.transform, "AUTO", 11f, Hex("#4ADE80"), bold: true);
+        var tooltipGO = Child(canvasGO.transform, "TooltipPanel");
+        Anch(tooltipGO, 0.15f, 0.28f, 0.85f, 0.72f);
+        var tooltipImg = Img(tooltipGO, Hex("#1A0F2E"));
+        tooltipImg.color = new Color(tooltipImg.color.r, tooltipImg.color.g, tooltipImg.color.b, 0.97f);
+        tooltipGO.SetActive(false);
 
-        // BtnVelocidad
-        var btnVelGO = Child(controles.transform, "BtnVelocidad");
-        Anch(btnVelGO, 0.19f, 0.10f, 0.32f, 0.90f);
-        Img(btnVelGO, Hex("#1A1A2E"));
-        btnVelGO.AddComponent<Button>();
-        AddLabel(btnVelGO.transform, "x1", 11f, Hex("#A855F7"), bold: true);
+        // Borde decorativo (outline interior)
+        var tooltipBorder = Child(tooltipGO.transform, "Border");
+        Anch(tooltipBorder, 0.01f, 0.02f, 0.99f, 0.98f);
+        var borderImg = Img(tooltipBorder, Hex("#A855F7"), 0.25f);
 
-        // TurnoText
-        var turnoGO = Child(controles.transform, "TurnoText");
-        Anch(turnoGO, 0.35f, 0.10f, 0.65f, 0.90f);
-        var turnoTxt = turnoGO.AddComponent<TextMeshProUGUI>();
-        turnoTxt.text      = "Turno 1";
-        turnoTxt.fontSize  = 12f;
-        turnoTxt.color     = Hex("#E9D5FF");
-        turnoTxt.alignment = TextAlignmentOptions.Center;
+        // Título "Descripción"
+        var tooltipTituloGO = Child(tooltipGO.transform, "TooltipTitulo");
+        Anch(tooltipTituloGO, 0.05f, 0.78f, 0.85f, 0.95f);
+        Txt(tooltipTituloGO, "Descripcion", 12f, Hex("#A855F7"), bold: true);
 
-        // BtnHuir
-        var btnHuirGO = Child(controles.transform, "BtnHuir");
-        Anch(btnHuirGO, 0.82f, 0.10f, 0.98f, 0.90f);
-        Img(btnHuirGO, Hex("#2E1A1A"));
-        var btnHuir = btnHuirGO.AddComponent<Button>();
-        AddLabel(btnHuirGO.transform, "Huir", 11f, Hex("#EF4444"));
+        // Texto descripción
+        var tooltipTxtGO = Child(tooltipGO.transform, "TooltipText");
+        Anch(tooltipTxtGO, 0.05f, 0.28f, 0.95f, 0.76f);
+        var tooltipTxt = Txt(tooltipTxtGO, "Descripcion de la habilidad...", 11f, Hex("#E9D5FF"),
+                             align: TextAlignmentOptions.Left);
 
-        // ── PASO 10 — ResultPanel (inactivo por defecto) ──────────────────
+        // BtnUsar (visible solo si hay accion de confirmacion)
+        var btnUsarGO = Child(tooltipGO.transform, "BtnUsar");
+        Anch(btnUsarGO, 0.05f, 0.06f, 0.48f, 0.24f);
+        Img(btnUsarGO, Hex("#4C1D95"));
+        var btnUsarTooltip = btnUsarGO.AddComponent<Button>();
+        Txt(Child(btnUsarGO.transform, "Label"), "Usar", 12f, Hex("#E9D5FF"), bold: true);
+
+        // BtnCerrar
+        var btnCerrarGO = Child(tooltipGO.transform, "BtnCerrar");
+        Anch(btnCerrarGO, 0.52f, 0.06f, 0.95f, 0.24f);
+        Img(btnCerrarGO, Hex("#2A0000"));
+        var btnCerrarTooltip = btnCerrarGO.AddComponent<Button>();
+        Txt(Child(btnCerrarGO.transform, "Label"), "Cerrar", 12f, Hex("#F87171"), bold: true);
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ZONA 6 — ResultPanel (overlay, inactivo)
+        // ═══════════════════════════════════════════════════════════════════
 
         var resultGO = Child(canvasGO.transform, "ResultPanel");
         Anch(resultGO, 0.10f, 0.12f, 0.90f, 0.88f);
-        Img(resultGO, Hex("#0A0A14"), alpha: 0.97f);
+        Img(resultGO, Hex("#0F0F1A"));
         resultGO.SetActive(false);
 
-        // Título (VICTORIA / DERROTA)
-        var titleGO = Child(resultGO.transform, "TituloResult");
-        Anch(titleGO, 0.05f, 0.82f, 0.95f, 0.97f);
-        var titleTxt = titleGO.AddComponent<TextMeshProUGUI>();
-        titleTxt.text      = "VICTORIA";
-        titleTxt.fontSize  = 24f;
-        titleTxt.color     = Hex("#E9D5FF");
-        titleTxt.alignment = TextAlignmentOptions.Center;
-        titleTxt.fontStyle = FontStyles.Bold;
+        var tituloGO = Child(resultGO.transform, "TituloResultado");
+        Anch(tituloGO, 0.05f, 0.78f, 0.95f, 0.96f);
+        var tituloTxt = Txt(tituloGO, "VICTORIA", 28f, Hex("#E9D5FF"), bold: true);
 
-        // Grado
-        var gradeGO = Child(resultGO.transform, "GradeText");
-        Anch(gradeGO, 0.05f, 0.68f, 0.95f, 0.82f);
-        var gradeTxt = gradeGO.AddComponent<TextMeshProUGUI>();
-        gradeTxt.text      = "Grado: C";
-        gradeTxt.fontSize  = 16f;
-        gradeTxt.color     = Hex("#A855F7");
-        gradeTxt.alignment = TextAlignmentOptions.Center;
+        var estrellaGO = Child(resultGO.transform, "EstrellasFila");
+        Anch(estrellaGO, 0.20f, 0.65f, 0.80f, 0.78f);
+        Txt(estrellaGO, "* * *", 24f, Hex("#FACC15"));
 
-        // XP
-        var xpGO = Child(resultGO.transform, "XPText");
-        Anch(xpGO, 0.05f, 0.55f, 0.95f, 0.68f);
-        var xpTxt = xpGO.AddComponent<TextMeshProUGUI>();
-        xpTxt.text      = "XP: +0";
-        xpTxt.fontSize  = 14f;
-        xpTxt.color     = Hex("#4ADE80");
-        xpTxt.alignment = TextAlignmentOptions.Center;
+        var xpGO = Child(resultGO.transform, "XPGanada");
+        Anch(xpGO, 0.05f, 0.55f, 0.95f, 0.65f);
+        var xpTxt = Txt(xpGO, "+500 XP", 14f, Hex("#A855F7"));
 
-        // Drops
-        var dropsGO = Child(resultGO.transform, "DropsText");
-        Anch(dropsGO, 0.05f, 0.20f, 0.95f, 0.55f);
-        var dropsTxt = dropsGO.AddComponent<TextMeshProUGUI>();
-        dropsTxt.text      = "Sin drops";
-        dropsTxt.fontSize  = 12f;
-        dropsTxt.color     = Hex("#9CA3AF");
-        dropsTxt.alignment = TextAlignmentOptions.Center;
+        var dropsGO = Child(resultGO.transform, "DropsList");
+        Anch(dropsGO, 0.05f, 0.28f, 0.95f, 0.54f);
+        var dropsTxt = Txt(dropsGO, "Recompensas:\n* Item 1", 11f, Hex("#E9D5FF"),
+                           align: TextAlignmentOptions.Left);
 
-        // BtnContinuar
+        var btnReinGO = Child(resultGO.transform, "BtnReintentar");
+        Anch(btnReinGO, 0.05f, 0.08f, 0.45f, 0.24f);
+        Img(btnReinGO, Hex("#1A1A2E"));
+        var btnReintentar = btnReinGO.AddComponent<Button>();
+        Txt(Child(btnReinGO.transform, "Label"), "Reintentar", 13f, Hex("#9CA3AF"), bold: true);
+
         var btnContGO = Child(resultGO.transform, "BtnContinuar");
-        Anch(btnContGO, 0.20f, 0.05f, 0.80f, 0.18f);
-        Img(btnContGO, Hex("#1A1A2E"));
+        Anch(btnContGO, 0.55f, 0.08f, 0.95f, 0.24f);
+        Img(btnContGO, Hex("#4C1D95"));
         var btnContinuar = btnContGO.AddComponent<Button>();
-        AddLabel(btnContGO.transform, "Continuar", 14f, Hex("#E9D5FF"));
+        Txt(Child(btnContGO.transform, "Label"), "Continuar", 13f, Hex("#E9D5FF"), bold: true);
 
-        // ── PASO 11 — Systems (CombatSystem para esta Scene) ─────────────
+        // ── CombatSystem ──────────────────────────────────────────────────
 
-        var systemsGO    = new GameObject("Systems");
-        systemsGO.AddComponent<CombatSystem>();
+        new GameObject("Systems").AddComponent<CombatSystem>();
 
-        // ── PASO 12 — CombatSceneController con referencias ───────────────
+        // ── CombatSceneController + wiring ────────────────────────────────
 
         var ctrlGO     = new GameObject("CombatSceneController");
         var controller = ctrlGO.AddComponent<CombatSceneController>();
+        var so         = new SerializedObject(controller);
 
-        // Wiring via SerializedObject
-        var so = new UnityEditor.SerializedObject(controller);
+        // Panel Controles
+        so.FindProperty("_turnoLabel").objectReferenceValue   = turnoLabel;
+        so.FindProperty("_btnModo").objectReferenceValue      = btnModo;
+        so.FindProperty("_btnVelocidad").objectReferenceValue = btnVelocidad;
+        so.FindProperty("_btnPausa").objectReferenceValue     = btnPausa;
+        so.FindProperty("_btnHuir").objectReferenceValue      = btnHuir;
 
-        // Control Panel
-        so.FindProperty("_turnoText").objectReferenceValue = turnoTxt;
-        so.FindProperty("_btnAuto").objectReferenceValue   = btnAuto;
-        so.FindProperty("_btnHuir").objectReferenceValue   = btnHuir;
+        // Zona Enemigos
+        SetObjArray(so, "_enemySlots",    3, i => enemySlotGOs[i]);
+        SetArray   (so, "_enemyHPFills",  3, i => enemyHPFills[i]);
+        SetTxtArray(so, "_enemyHPTexts",  3, i => enemyHPTexts[i]);
+        SetArray   (so, "_enemySlotBtns", 3, i => enemySlotBtns[i]);
 
-        // Enemy arrays
-        SetArray(so, "_enemySlots",    3, i => enemySlotImages[i]);
-        SetArray(so, "_enemyHPFills",  3, i => enemyHPFills[i]);
-        SetArray(so, "_enemyHPTexts",  3, i => (Object)enemyHPTexts[i]);
-        SetArray(so, "_enemySlotBtns", 3, i => enemySlotBtns[i]);
+        // Zona Equipo
+        SetArray   (so, "_heroCards",      4, i => heroCards[i]);
+        SetTxtArray(so, "_heroNames",      4, i => heroNames[i]);
+        SetArray   (so, "_heroHPFills",    4, i => heroHPFills[i]);
+        SetArray   (so, "_turnIndicators", 4, i => turnIndicators[i]);
 
-        // Hero arrays
-        SetArray(so, "_heroCards",      5, i => heroCards[i]);
-        SetArray(so, "_heroNames",      5, i => (Object)heroNames[i]);
-        SetArray(so, "_heroHPFills",    5, i => heroHPFills[i]);
-        SetArray(so, "_turnIndicators", 5, i => turnIndicators[i]);
+        // Zona Habilidades (3 círculos)
+        SetArray(so, "_abilityCircles", 3, i => abilityCircleBtns[i]);
 
-        // Ability buttons
-        SetArray(so, "_abilityButtons", 3, i => abilityButtons[i]);
+        // Zona Conjuros
+        SetArray(so, "_conjuroSlots", 10, i => conjuroSlots[i]);
 
-        // Result panel
+        // Tooltip Panel
+        so.FindProperty("_tooltipPanel").objectReferenceValue      = tooltipGO;
+        so.FindProperty("_tooltipText").objectReferenceValue       = tooltipTxt;
+        so.FindProperty("_btnUsarTooltip").objectReferenceValue    = btnUsarTooltip;
+        so.FindProperty("_btnCerrarTooltip").objectReferenceValue  = btnCerrarTooltip;
+
+        // Result Panel
         so.FindProperty("_resultPanel").objectReferenceValue      = resultGO;
-        so.FindProperty("_resultTitleText").objectReferenceValue  = titleTxt;
-        so.FindProperty("_resultGradeText").objectReferenceValue  = gradeTxt;
+        so.FindProperty("_resultTitleText").objectReferenceValue  = tituloTxt;
+        so.FindProperty("_resultGradeText").objectReferenceValue  = estrellaGO.GetComponent<TextMeshProUGUI>();
         so.FindProperty("_resultXPText").objectReferenceValue     = xpTxt;
         so.FindProperty("_resultDropsText").objectReferenceValue  = dropsTxt;
         so.FindProperty("_btnContinuar").objectReferenceValue     = btnContinuar;
+        so.FindProperty("_btnReintentar").objectReferenceValue    = btnReintentar;
 
         so.ApplyModifiedProperties();
     }
@@ -363,58 +480,66 @@ public static class SetupCombatScene
         return go;
     }
 
-    private static void Anch(GameObject go, float minX, float minY, float maxX, float maxY)
+    private static void Anch(GameObject go, float x0, float y0, float x1, float y1)
     {
-        var rt      = go.GetComponent<RectTransform>();
-        rt.anchorMin = new Vector2(minX, minY);
-        rt.anchorMax = new Vector2(maxX, maxY);
+        var rt       = go.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(x0, y0);
+        rt.anchorMax = new Vector2(x1, y1);
         rt.offsetMin = Vector2.zero;
         rt.offsetMax = Vector2.zero;
     }
 
-    private static Image Img(GameObject go, Color color, float alpha = 1f)
+    private static Image Img(GameObject go, Color col, float alpha = 1f)
     {
-        var img   = go.AddComponent<Image>();
-        img.color = new Color(color.r, color.g, color.b, alpha);
+        var img = go.AddComponent<Image>();
+        img.color = new Color(col.r, col.g, col.b, alpha);
         return img;
     }
 
-    private static void AddLabel(Transform parent, string text, float fontSize, Color color, bool bold = false)
+    private static TMP_Text Txt(GameObject go, string text, float size, Color col,
+                                 TextAlignmentOptions align = TextAlignmentOptions.Center,
+                                 bool bold = false)
     {
-        var go  = new GameObject("Label");
-        go.transform.SetParent(parent, false);
-        var rt  = go.AddComponent<RectTransform>();
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-
-        var txt = go.AddComponent<TextMeshProUGUI>();
-        txt.text      = text;
-        txt.fontSize  = fontSize;
-        txt.color     = color;
-        txt.alignment = TextAlignmentOptions.Center;
-        if (bold) txt.fontStyle = FontStyles.Bold;
+        var t = go.AddComponent<TextMeshProUGUI>();
+        t.text      = text;
+        t.fontSize  = size;
+        t.color     = col;
+        t.alignment = align;
+        if (bold) t.fontStyle = FontStyles.Bold;
+        return t;
     }
 
-    private static Color Hex(string hex)
+    private static Color Hex(string h)
     {
-        ColorUtility.TryParseHtmlString(hex, out var c);
+        ColorUtility.TryParseHtmlString(h, out var c);
         return c;
     }
 
-    private static void SetArray(UnityEditor.SerializedObject so, string propName, int count,
-                                  System.Func<int, Object> getter)
+    private static void SetArray(SerializedObject so, string prop, int n,
+                                  System.Func<int, Component> get)
     {
-        var prop = so.FindProperty(propName);
-        if (prop == null)
-        {
-            Debug.LogWarning($"[SetupCombatScene] Propiedad '{propName}' no encontrada.");
-            return;
-        }
-        prop.arraySize = count;
-        for (int i = 0; i < count; i++)
-            prop.GetArrayElementAtIndex(i).objectReferenceValue = getter(i);
+        var p = so.FindProperty(prop);
+        if (p == null) { Debug.LogWarning($"[SetupCombat] prop '{prop}' no encontrada"); return; }
+        p.arraySize = n;
+        for (int i = 0; i < n; i++) p.GetArrayElementAtIndex(i).objectReferenceValue = get(i);
+    }
+
+    private static void SetObjArray(SerializedObject so, string prop, int n,
+                                     System.Func<int, GameObject> get)
+    {
+        var p = so.FindProperty(prop);
+        if (p == null) { Debug.LogWarning($"[SetupCombat] prop '{prop}' no encontrada"); return; }
+        p.arraySize = n;
+        for (int i = 0; i < n; i++) p.GetArrayElementAtIndex(i).objectReferenceValue = get(i);
+    }
+
+    private static void SetTxtArray(SerializedObject so, string prop, int n,
+                                     System.Func<int, TMP_Text> get)
+    {
+        var p = so.FindProperty(prop);
+        if (p == null) { Debug.LogWarning($"[SetupCombat] prop '{prop}' no encontrada"); return; }
+        p.arraySize = n;
+        for (int i = 0; i < n; i++) p.GetArrayElementAtIndex(i).objectReferenceValue = get(i);
     }
 }
 #endif
