@@ -91,6 +91,7 @@ _Actualizar al final de cada sesión de Claude Code_
 - `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
 - BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
 - **New Input System**: nunca usar `Input.GetKeyDown`. Usar `Keyboard.current`, `Touchscreen.current` o ActionAsset
+- **HeroProgressionSystem**: stats = `Lerp(statBase, statMax, t)` con `t=(nivel-1)/(maxLevel-1)`. Base y max vienen del hero_catalog.json por héroe. Awaken requiere nivel máximo + copias (N = estrellas actuales). XP se añade via AddXP() que auto-levela en bucle si supera umbral. Gear y maestrías se aplican encima en GearSystem (S16).
 - **UI**: posicionamiento siempre por anclas relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales. Editor Scripts en `Assets/Editor/Setup/` configuran cada Scene automáticamente.
 - **InputBlocker**: panel bloqueante reutilizable entre Scene y overlay. UIManager lo gestiona automáticamente al abrir/cerrar overlays. Sort Order 49 por defecto (por debajo de cualquier overlay).
 - **LoadingScreen**: Sort Order 998, DontDestroyOnLoad, frases y carrusel configurables. Usar Show/SetProgress/Hide en cualquier carga async. Hide() hace fade out 200ms.
@@ -183,5 +184,18 @@ _Actualizar al final de cada sesión de Claude Code_
 - [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity`
 - [x] CombatScene — `Assets/Scenes/CombatScene.unity` — **regenerar con menú Tools → Reino Oscuridad → 5. Setup CombatScene** (layout v2 listo)
 
+- [x] S15 — HeroProgressionSystem — niveles, awaken y cálculo de stats
+  - `Assets/Data/hero_level_curve.json` — curva XP niveles 1–60 (exponencial ×1.14/nivel)
+  - `Assets/Scripts/Data/LevelCurveData.cs` — modelo C# de la curva
+  - `Assets/Scripts/Systems/HeroProgressionSystem.cs` — `[DefaultExecutionOrder(-8)]`, implementa ISystem
+    - `BuildHeroInstance(heroId, nivel)` → `HeroInstance`: `stat = Lerp(statBase, statMax, t)` donde `t=(nivel-1)/(maxLevel-1)`. Devuelve null con log si heroId no existe
+    - `TryLevelUp(heroId)` → bool: consume XP del roster, publica `OnHeroLevelUp`; false si al máximo o sin XP
+    - `AddXP(heroId, cantidad)`: añade XP y llama TryLevelUp en bucle (gana múltiples niveles)
+    - `TryAwaken(heroId)` → bool: requiere nivel máximo + copias (N=estrellas actuales). Consume copias. Publica `OnHeroAwakened`. Máx 6★
+    - `GetNivel(heroId)` · `GetEstrellas(heroId)` · `GetXPProgress(heroId)` (0–1)
+    - Carga hero_catalog.json y hero_level_curve.json una vez en Initialize() → Dictionary en memoria
+  - `Assets/Scripts/Core/EventBus.cs` — añadidos `OnHeroLevelUp · OnHeroAwakened`
+  - `Assets/Scripts/Data/EventData.cs` — añadidos `HeroLevelUpData · HeroAwakenedData`
+
 ## Siguiente paso
-S15 — CampaignScene: Editor Script que configura la scene con mapa de niveles y selección de stage.
+S16 — GearSystem: equipar/desequipar gear, calcular stats con substats, aplicar sobre HeroInstance de HeroProgressionSystem.

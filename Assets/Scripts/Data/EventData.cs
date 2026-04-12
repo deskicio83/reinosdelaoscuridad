@@ -98,4 +98,19 @@ namespace ReinoOscuridad.Data
         /// Stacks totales del efecto en el objetivo tras la aplicación
         public int    stacks;
     }
+
+    // ── Eventos de progresión de héroes ───────────────────────────────────────
+
+    public struct HeroLevelUpData
+    {
+        public string heroId;
+        public int    nuevoNivel;
+    }
+
+    public struct HeroAwakenedData
+    {
+        public string heroId;
+        /// Estrellas tras el awaken (1–6)
+        public int    nuevasEstrellas;
+    }
 }

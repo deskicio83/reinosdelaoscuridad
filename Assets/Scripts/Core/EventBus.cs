@@ -25,6 +25,11 @@ namespace ReinoOscuridad.Core
         public static event Action<UnitDefeatedData>   OnUnitDefeated;
         public static event Action<EffectAppliedData>  OnEffectApplied;
 
+        // ── Eventos de progresión de héroes ────────────────────────────────────
+
+        public static event Action<HeroLevelUpData>   OnHeroLevelUp;
+        public static event Action<HeroAwakenedData>  OnHeroAwakened;
+
         // ── Métodos de publicación ─────────────────────────────────────────────
 
         public static void Publish(PlayerLevelUpData data)    => OnPlayerLevelUp?.Invoke(data);
@@ -39,6 +44,8 @@ namespace ReinoOscuridad.Core
         public static void Publish(UnitDamagedData data)       => OnUnitDamaged?.Invoke(data);
         public static void Publish(UnitDefeatedData data)      => OnUnitDefeated?.Invoke(data);
         public static void Publish(EffectAppliedData data)     => OnEffectApplied?.Invoke(data);
+        public static void Publish(HeroLevelUpData data)       => OnHeroLevelUp?.Invoke(data);
+        public static void Publish(HeroAwakenedData data)      => OnHeroAwakened?.Invoke(data);
 
         /// Elimina todos los suscriptores. Llamar en tests o al reiniciar la sesión.
         public static void ClearAll()
@@ -55,6 +62,8 @@ namespace ReinoOscuridad.Core
             OnUnitDamaged      = null;
             OnUnitDefeated     = null;
             OnEffectApplied    = null;
+            OnHeroLevelUp      = null;
+            OnHeroAwakened     = null;
         }
     }
 }
