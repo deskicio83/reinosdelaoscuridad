@@ -28,15 +28,24 @@ namespace ReinoOscuridad.UI.Campaign
 
         // ── UI refs (asignadas por SetupCampaignScene) ─────────────────────────
 
-        [SerializeField] private Transform _contenedorMundos;
-        [SerializeField] private Transform _contenedorFases;
-        [SerializeField] private Transform _contenedorDificultad;
-        [SerializeField] private Button    _btnVolver;
+        [SerializeField] private Transform    _contenedorMundos;
+        [SerializeField] private Transform    _contenedorFases;
+        [SerializeField] private Transform    _contenedorDificultad;
+        [SerializeField] private Button       _btnVolver;
+
+        // Panel de confirmación de fase
+        [SerializeField] private GameObject   _panelConfirmacion;
+        [SerializeField] private TMP_Text     _txtFaseNombre;
+        [SerializeField] private TMP_Text     _txtEquipo;
+        [SerializeField] private TMP_Text     _txtEnergyCost;
+        [SerializeField] private Button       _btnConfirmarBatalla;
+        [SerializeField] private Button       _btnCancelarConfirmacion;
 
         // ── Estado de selección ────────────────────────────────────────────────
 
         private int    _mundoSeleccionado      = 0;
         private string _dificultadSeleccionada = DIF_NORMAL;
+        private int    _faseSeleccionada        = 0;  // pendiente de confirmar
 
         // ── Catálogos en memoria ───────────────────────────────────────────────
 
@@ -69,7 +78,15 @@ namespace ReinoOscuridad.UI.Campaign
 
         // ── Ciclo de vida ──────────────────────────────────────────────────────
 
-        private void Awake() => LoadCatalogs();
+        private void Awake()
+        {
+            LoadCatalogs();
+
+            // Fallback offline: si los sistemas no están (preview directo en Editor),
+            // funciona con datos de campaña vacíos — solo Fase 0 Mundo 1 desbloqueada.
+            if (PlayerDataSystem.Instance == null)
+                Debug.LogWarning("[CampaignController] PlayerDataSystem no disponible — modo preview (datos offline).");
+        }
 
         private void Start()
         {
@@ -78,9 +95,22 @@ namespace ReinoOscuridad.UI.Campaign
 
             if (_contenedorMundos != null && _contenedorFases != null)
                 BuildUI();
+            else
+                Debug.LogWarning("[CampaignController] Refs de UI nulas — ¿ejecutaste Tools → 6. Setup CampaignScene?");
 
             if (_btnVolver != null)
                 _btnVolver.onClick.AddListener(() => UIManager.Instance?.NavigateBack());
+
+            if (_btnConfirmarBatalla != null)
+                _btnConfirmarBatalla.onClick.AddListener(ConfirmarBatalla);
+
+            if (_btnCancelarConfirmacion != null)
+                _btnCancelarConfirmacion.onClick.AddListener(CerrarConfirmacion);
+
+            if (_panelConfirmacion != null)
+                _panelConfirmacion.SetActive(false);
+
+            Debug.Log($"[CampaignController] CampaignScene lista — mundo:{_mundoSeleccionado} dif:{_dificultadSeleccionada}");
         }
 
         // ── API pública — desbloqueos ──────────────────────────────────────────
@@ -208,7 +238,7 @@ namespace ReinoOscuridad.UI.Campaign
             RefreshFaseNodes();
         }
 
-        /// El jugador pulsa un nodo de fase. Consume energía y lanza CombatScene.
+        /// El jugador pulsa un nodo de fase. Muestra el panel de confirmación.
         public void OnFaseClick(int mundo, int fase, string dif)
         {
             if (!IsFaseDesbloqueada(mundo, fase, dif))
@@ -217,17 +247,66 @@ namespace ReinoOscuridad.UI.Campaign
                 return;
             }
 
-            string key  = BuildEncounterKey(mundo, fase, dif);
+            _mundoSeleccionado      = mundo;
+            _faseSeleccionada       = fase;
+            _dificultadSeleccionada = dif;
+
+            AbrirConfirmacion(mundo, fase, dif);
+        }
+
+        // ── Panel de confirmación ──────────────────────────────────────────────
+
+        private void AbrirConfirmacion(int mundo, int fase, string dif)
+        {
+            if (_panelConfirmacion == null) { ConfirmarBatalla(); return; } // sin panel → combate directo
+
+            string key     = BuildEncounterKey(mundo, fase, dif);
+            bool   esBoss  = fase == FASES_POR_MUNDO - 1;
+            string nombre  = esBoss ? $"JEFE — Mundo {mundo + 1}" : $"Mundo {mundo + 1} · Fase {fase + 1}";
+            int    cost    = GetEnergyCost(key);
+
+            // Nombre de la fase
+            if (_txtFaseNombre != null)
+                _txtFaseNombre.text = $"{nombre}\n<size=14><color=#aaaaaa>{dif.ToUpper()}</color></size>";
+
+            // Coste de energía
+            if (_txtEnergyCost != null)
+                _txtEnergyCost.text = $"Energia: {cost} stamina";
+
+            // Equipo que irá a la batalla
+            if (_txtEquipo != null)
+            {
+                var pd = PlayerDataSystem.Instance?.GetPlayerData();
+                if (pd?.heroes != null && pd.heroes.Count > 0)
+                {
+                    var nombres = new System.Text.StringBuilder("Equipo:\n");
+                    int limit = Mathf.Min(pd.heroes.Count, 4);
+                    for (int i = 0; i < limit; i++)
+                        nombres.AppendLine($"  · {pd.heroes[i].heroId} (Nv.{pd.heroes[i].level})");
+                    _txtEquipo.text = nombres.ToString();
+                }
+                else
+                {
+                    _txtEquipo.text = "Equipo: sin héroes configurados";
+                }
+            }
+
+            _panelConfirmacion.SetActive(true);
+        }
+
+        private void ConfirmarBatalla()
+        {
+            string key  = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadSeleccionada);
             int    cost = GetEnergyCost(key);
 
             var eco = EconomySystem.Instance;
-            if (eco == null || !eco.ConsumeEnergy(cost))
+            if (eco != null && !eco.ConsumeEnergy(cost))
             {
                 Debug.Log("[CampaignController] Energía insuficiente.");
+                CerrarConfirmacion();
                 return;
             }
 
-            // Guardar el encuentro intentado para marcarlo si se gana al volver
             var campana = EnsureCampanaData();
             if (campana != null) campana.ultimoEncuentroIntentado = key;
 
@@ -242,7 +321,14 @@ namespace ReinoOscuridad.UI.Campaign
                 elementoBoss    = null
             };
 
+            CerrarConfirmacion();
             UIManager.Instance?.NavigateTo("CombatScene");
+        }
+
+        private void CerrarConfirmacion()
+        {
+            if (_panelConfirmacion != null)
+                _panelConfirmacion.SetActive(false);
         }
 
         // ── Helpers internos ───────────────────────────────────────────────────

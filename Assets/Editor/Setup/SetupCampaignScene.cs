@@ -124,32 +124,32 @@ public static class SetupCampaignScene
         difHLG.childAlignment         = TextAnchor.MiddleCenter;
 
         // ── Scroll de fases ───────────────────────────────────────────────
+        // IMPORTANTE: añadir Image ANTES de SetAnchors para que exista el RectTransform.
 
-        var scrollGO    = new GameObject("ScrollFases");
+        var scrollGO = new GameObject("ScrollFases");
         scrollGO.transform.SetParent(canvasGO.transform, false);
+        scrollGO.AddComponent<Image>().color = new Color(0.05f, 0.04f, 0.09f); // crea RectTransform
+        var scrollRect = scrollGO.AddComponent<ScrollRect>();
         SetAnchors(scrollGO, new Vector2(0f, 0.05f), new Vector2(1f, 0.78f));
-
-        var scrollRect              = scrollGO.AddComponent<ScrollRect>();
-        scrollGO.AddComponent<Image>().color = new Color(0.05f, 0.04f, 0.09f);
 
         var viewportGO = new GameObject("Viewport");
         viewportGO.transform.SetParent(scrollGO.transform, false);
-        SetAnchors(viewportGO, Vector2.zero, Vector2.one);
+        viewportGO.AddComponent<Image>().color = Color.clear; // crea RectTransform, invisible
         viewportGO.AddComponent<RectMask2D>();
+        SetAnchors(viewportGO, Vector2.zero, Vector2.one);
 
         var contenedorFasesGO = new GameObject("ContenedorFases");
         contenedorFasesGO.transform.SetParent(viewportGO.transform, false);
-        SetAnchors(contenedorFasesGO, Vector2.zero, new Vector2(1f, 1f));
-
+        contenedorFasesGO.AddComponent<Image>().color = Color.clear; // crea RectTransform, invisible
         var fasesHLG = contenedorFasesGO.AddComponent<HorizontalLayoutGroup>();
         fasesHLG.spacing            = 12f;
         fasesHLG.padding            = new RectOffset(20, 20, 10, 10);
         fasesHLG.childForceExpandWidth  = false;
         fasesHLG.childForceExpandHeight = true;
         fasesHLG.childAlignment         = TextAnchor.MiddleLeft;
-
         contenedorFasesGO.AddComponent<ContentSizeFitter>().horizontalFit =
             ContentSizeFitter.FitMode.PreferredSize;
+        SetAnchors(contenedorFasesGO, Vector2.zero, new Vector2(1f, 1f));
 
         scrollRect.content    = contenedorFasesGO.GetComponent<RectTransform>();
         scrollRect.viewport   = viewportGO.GetComponent<RectTransform>();
@@ -158,9 +158,55 @@ public static class SetupCampaignScene
 
         // ── Barra de progreso del mundo (placeholder) ─────────────────────
 
-        var progGO = MakePanel(canvasGO.transform, "BarraProgreso",
+        MakePanel(canvasGO.transform, "BarraProgreso",
             new Vector2(0f, 0.01f), new Vector2(1f, 0.05f),
             new Color(0.12f, 0.10f, 0.18f));
+
+        // ── Panel de confirmación de fase ────────────────────────────────
+
+        var confirmGO = MakePanel(canvasGO.transform, "PanelConfirmacion",
+            new Vector2(0.25f, 0.20f), new Vector2(0.75f, 0.80f),
+            new Color(0.08f, 0.06f, 0.14f, 0.97f));
+
+        // Título de la fase
+        var txtFaseGO = new GameObject("TxtFaseNombre");
+        txtFaseGO.transform.SetParent(confirmGO.transform, false);
+        var txtFase = txtFaseGO.AddComponent<TextMeshProUGUI>();
+        txtFase.text      = "Fase";
+        txtFase.fontSize  = 22f;
+        txtFase.color     = new Color(0.9f, 0.7f, 0.2f);
+        txtFase.alignment = TextAlignmentOptions.Center;
+        SetAnchors(txtFaseGO, new Vector2(0.05f, 0.72f), new Vector2(0.95f, 0.95f));
+
+        // Info del equipo
+        var txtEquipoGO = new GameObject("TxtEquipo");
+        txtEquipoGO.transform.SetParent(confirmGO.transform, false);
+        var txtEquipo = txtEquipoGO.AddComponent<TextMeshProUGUI>();
+        txtEquipo.text     = "Equipo:";
+        txtEquipo.fontSize = 16f;
+        txtEquipo.color    = Color.white;
+        SetAnchors(txtEquipoGO, new Vector2(0.05f, 0.35f), new Vector2(0.95f, 0.70f));
+
+        // Coste de energía
+        var txtCostGO = new GameObject("TxtEnergyCost");
+        txtCostGO.transform.SetParent(confirmGO.transform, false);
+        var txtCost = txtCostGO.AddComponent<TextMeshProUGUI>();
+        txtCost.text      = "Energia: -";
+        txtCost.fontSize  = 16f;
+        txtCost.color     = new Color(0.4f, 0.8f, 1f);
+        txtCost.alignment = TextAlignmentOptions.Center;
+        SetAnchors(txtCostGO, new Vector2(0.05f, 0.26f), new Vector2(0.95f, 0.36f));
+
+        // Botón confirmar
+        var btnConfGO = MakeButton(confirmGO.transform, "BtnConfirmarBatalla", ">> BATALLAR",
+            new Vector2(0.05f, 0.06f), new Vector2(0.50f, 0.24f));
+        btnConfGO.GetComponent<Image>().color = new Color(0.5f, 0.1f, 0.1f);
+
+        // Botón cancelar
+        var btnCancelGO = MakeButton(confirmGO.transform, "BtnCancelar", "Cancelar",
+            new Vector2(0.52f, 0.06f), new Vector2(0.95f, 0.24f));
+
+        confirmGO.SetActive(false);
 
         // ── CampaignSceneController ───────────────────────────────────────
 
@@ -169,10 +215,16 @@ public static class SetupCampaignScene
 
         // Asignar refs via SerializedObject
         var so = new SerializedObject(controller);
-        so.FindProperty("_contenedorMundos")     .objectReferenceValue = mundosGO.transform;
-        so.FindProperty("_contenedorFases")      .objectReferenceValue = contenedorFasesGO.transform;
-        so.FindProperty("_contenedorDificultad") .objectReferenceValue = difGO.transform;
-        so.FindProperty("_btnVolver")            .objectReferenceValue = btnVolverGO.GetComponent<Button>();
+        so.FindProperty("_contenedorMundos")         .objectReferenceValue = mundosGO.transform;
+        so.FindProperty("_contenedorFases")          .objectReferenceValue = contenedorFasesGO.transform;
+        so.FindProperty("_contenedorDificultad")     .objectReferenceValue = difGO.transform;
+        so.FindProperty("_btnVolver")                .objectReferenceValue = btnVolverGO.GetComponent<Button>();
+        so.FindProperty("_panelConfirmacion")        .objectReferenceValue = confirmGO;
+        so.FindProperty("_txtFaseNombre")            .objectReferenceValue = txtFase;
+        so.FindProperty("_txtEquipo")                .objectReferenceValue = txtEquipo;
+        so.FindProperty("_txtEnergyCost")            .objectReferenceValue = txtCost;
+        so.FindProperty("_btnConfirmarBatalla")      .objectReferenceValue = btnConfGO.GetComponent<Button>();
+        so.FindProperty("_btnCancelarConfirmacion")  .objectReferenceValue = btnCancelGO.GetComponent<Button>();
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
@@ -216,7 +268,14 @@ public static class SetupCampaignScene
 
     private static void SetAnchors(GameObject go, Vector2 min, Vector2 max)
     {
-        var rt       = go.GetComponent<RectTransform>() ?? go.AddComponent<RectTransform>();
+        // RectTransform no puede añadirse directamente — necesita un componente UI primero.
+        // Todos los callers deben añadir Image (u otro componente UI) antes de llamar aquí.
+        var rt = go.GetComponent<RectTransform>();
+        if (rt == null)
+        {
+            Debug.LogError($"[SetupCampaign] {go.name} no tiene RectTransform. Añadir un componente UI antes de SetAnchors.");
+            return;
+        }
         rt.anchorMin = min;
         rt.anchorMax = max;
         rt.offsetMin = Vector2.zero;

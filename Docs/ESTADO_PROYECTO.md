@@ -254,4 +254,31 @@ _Actualizar al final de cada sesión de Claude Code_
 - **DataStorageSystem**: Firestore SDK no puede serializar directamente JArray/JObject de Newtonsoft. Se añadió `ToFirestoreValue()` que convierte recursivamente a tipos nativos antes del `SetAsync()`.
 
 ## Siguiente paso
-S19 — por definir (ver GDD o Director de Proyecto).
+S18b / S19 — mejoras visuales CampaignScene + selección de equipo (ver GDD o Director de Proyecto).
+Pendiente de definición por el Director: ver sección "Pendiente de definición" abajo.
+
+## Pendiente de definición por el Director de Proyecto
+
+### CampaignScene — lo que falta para que sea jugable en producción
+
+**1. Visual del mapa** (no definido en S18)
+- Actualmente: botones planos (M1–M7) + nodos de fase como rectángulos de colores
+- Necesario: diseño visual del mundo (fondos temáticos por mundo, nodos conectados por caminos, portrait del boss al final)
+- Preguntas para el Director: ¿mapa isométrico? ¿scroll lateral de nodos? ¿pantalla fija por mundo? ¿assets Addressables por mundo o sprites inline?
+
+**2. Selección de equipo antes del combate** (no definido en S18)
+- Actualmente: va automáticamente con los primeros 4 héroes del roster
+- Necesario: panel donde el jugador elige qué héroes llevar (máx 4 o 5 según GDD)
+- Preguntas: ¿es un overlay sobre CampaignScene o una Scene propia? ¿hay slots fijos o drag & drop? ¿se recuerda el último equipo usado?
+
+**3. Info de la fase antes de entrar** (parcialmente implementado)
+- Actualmente: panel básico con nombre y coste de energía
+- Necesario: mostrar enemigos del encuentro (sprites + nivel + elemento), recompensas esperadas (drop_gear_slot del catálogo), synergy note para orientar la estrategia
+
+**4. Rewarding post-combate en CampaignScene**
+- Actualmente: MarcarFaseCompletada marca el progreso, pero no hay pantalla de recompensas
+- Necesario: al volver de CombatScene con victoria, mostrar drops obtenidos y XP ganada antes de volver al mapa
+
+**5. Progreso visual dentro del mundo**
+- Actualmente: barra placeholder en la parte inferior
+- Necesario: indicador de cuántas fases completadas (ej. "4/7") y si el boss está disponible
