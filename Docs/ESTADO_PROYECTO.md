@@ -230,5 +230,28 @@ _Actualizar al final de cada sesión de Claude Code_
     PaseLevelUpData añadido; pasePoints añadido a MissionCompletedData
   - `Assets/Scripts/Core/EventBus.cs` — OnPaseLevelUp añadido
 
+- [x] S18 — CampaignScene — mapa PvE con 7 mundos, 3 dificultades y navegación a CombatScene
+  - `Assets/Scripts/Data/PlayerData.cs` — añadida clase `CampaignProgressData` (mundoActual, faseActual, dificultadActual, fasesCompletadas, ultimoEncuentroIntentado) y campo `campana` en PlayerData
+  - `Assets/Scripts/UI/CampaignScene/CampaignSceneController.cs` — MonoBehaviour NO singleton, namespace `ReinoOscuridad.UI.Campaign`
+    - `IsFaseDesbloqueada(mundo, fase, dif)`: lógica de desbloqueo secuencial por mundo/dif. Mundo 0 Fase 0 siempre desbloqueado. Dificil: requiere 7 fases normal del mismo mundo. Heroica: requiere 7 fases dificil.
+    - `BuildEncounterKey(mundo, fase, dif)`: genera `campaign_mundo_N_fM_dif` / `campaign_mundo_N_boss_dif`
+    - `BuildPlayerTeam()`: GearSystem.BuildCombatInstance para los primeros 4 héroes del roster
+    - `BuildEnemyTeam(key)`: busca en encounter_catalog.json → construye EnemyInstances; placeholder si clave desconocida
+    - `MarcarFaseCompletada(key)`: añade a fasesCompletadas sin duplicados, MarkDirty
+    - `CheckCombatReturn()`: lee CombatSceneData.LastResult, marca victoria, limpia resultado
+    - Carga `encounter_catalog.json` (309 encuentros) y `enemy_catalog.json` (72 enemigos) una vez en Awake, con manejo de error para campos malformados (`enemies` como string en algunos encuentros)
+    - UI dinámica: tabs de mundo y dificultad, nodos de fase con colores según desbloqueo (gris=bloqueado, blanco=normal, amarillo=boss)
+  - `Assets/Editor/Setup/SetupCampaignScene.cs` — menú Tools → Reino Oscuridad → 6. Setup CampaignScene
+    - Camera · EventSystem(InputSystemUIInputModule) · Canvas(1280×720)
+    - ContenedorMundos (TopBar, HorizontalLayoutGroup) · ContenedorDificultad · ScrollFases(horizontal) · BtnVolver
+    - CampaignSceneController con referencias wired via SerializedObject
+  - `Assets/Scripts/Firebase/DataStorageSystem.cs` — fix pre-existente: `ToFirestoreValue()` convierte recursivamente JObject/JArray de Newtonsoft a Dictionary<string,object>/List<object> nativos antes de `SetAsync()`. Eliminaba error "Nested arrays are not supported" de Firestore.
+  - Validado S18_Test: 8/8 PASS ✓
+
+## Notas técnicas adicionales
+- **CampaignProgressData.fasesCompletadas**: List<string> con claves de encuentro completados. Normalizado en Firestore como array de strings en un map (compatible). Inicializado con `??=` para compatibilidad con partidas antiguas.
+- **encounter_catalog.json**: algunos encuentros tienen `enemies` como string ("procedural_from_campaign_pool") en lugar de array — la deserialización usa callback de error para saltarlos sin romper el resto del catálogo.
+- **DataStorageSystem**: Firestore SDK no puede serializar directamente JArray/JObject de Newtonsoft. Se añadió `ToFirestoreValue()` que convierte recursivamente a tipos nativos antes del `SetAsync()`.
+
 ## Siguiente paso
-S18 — por definir (ver GDD o Director de Proyecto).
+S19 — por definir (ver GDD o Director de Proyecto).

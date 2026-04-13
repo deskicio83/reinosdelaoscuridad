@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Firebase.Firestore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
@@ -156,9 +157,12 @@ namespace ReinoOscuridad.Firebase
             {
                 Debug.Log($"[DataStorageSystem] Guardando en Firestore — uid: {uid}");
 
-                // Serializar con Newtonsoft → deserializar a Dictionary para Firestore
-                string json = JsonConvert.SerializeObject(playerData);
-                var dict    = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                // Serializar con Newtonsoft → convertir a tipos nativos C# para Firestore.
+                // SetAsync no entiende JArray/JObject de Newtonsoft — hay que convertirlos
+                // a List<object>/Dictionary<string,object> o Firestore lanza "Nested arrays".
+                string json    = JsonConvert.SerializeObject(playerData);
+                var rawDict    = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                var dict       = ToFirestoreDict(rawDict);
 
                 var docRef = _db.Collection(PLAYERS_COLLECTION).Document(uid);
                 await docRef.SetAsync(dict);
@@ -170,6 +174,44 @@ namespace ReinoOscuridad.Firebase
             {
                 // NO reintentar automáticamente — el siguiente checkpoint intentará de nuevo.
                 Debug.LogError($"[DataStorageSystem] SavePlayerDataToFirestore falló: {e.Message}");
+            }
+        }
+
+        // ── Conversión Newtonsoft → tipos nativos para Firestore ──────────────
+
+        /// Convierte recursivamente JObject/JArray a Dictionary/List nativos de C#
+        /// para que el SDK de Firestore pueda serializar correctamente la jerarquía.
+        private static Dictionary<string, object> ToFirestoreDict(Dictionary<string, object> src)
+        {
+            if (src == null) return null;
+            var result = new Dictionary<string, object>(src.Count);
+            foreach (var kvp in src)
+                result[kvp.Key] = ToFirestoreValue(kvp.Value);
+            return result;
+        }
+
+        private static object ToFirestoreValue(object value)
+        {
+            switch (value)
+            {
+                case JObject jObj:
+                {
+                    var dict = new Dictionary<string, object>();
+                    foreach (var prop in jObj.Properties())
+                        dict[prop.Name] = ToFirestoreValue(prop.Value);
+                    return dict;
+                }
+                case JArray jArr:
+                {
+                    var list = new List<object>(jArr.Count);
+                    foreach (var item in jArr)
+                        list.Add(ToFirestoreValue(item));
+                    return list;
+                }
+                case JValue jVal:
+                    return jVal.Value;
+                default:
+                    return value;
             }
         }
 

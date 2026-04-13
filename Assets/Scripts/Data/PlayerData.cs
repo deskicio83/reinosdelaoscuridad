@@ -51,6 +51,26 @@ namespace ReinoOscuridad.Data
         public int presenciaMalditaGear;
         /// ISO 8601 — momento del último recálculo oficial
         public string presenciaMalditaLastCalc;
+
+        /// Progreso de campaña PvE (mundos, fases, dificultades)
+        public CampaignProgressData campana;
+    }
+
+    // ── Progreso de campaña ───────────────────────────────────────────────────
+
+    [Serializable]
+    public class CampaignProgressData
+    {
+        /// Índice de base 0 del mundo actualmente seleccionado (0 = Mundo 1)
+        public int mundoActual;
+        /// Índice de base 0 de la última fase jugada dentro del mundo actual
+        public int faseActual;
+        /// Dificultad actualmente seleccionada ("normal" | "dificil" | "heroica")
+        public string dificultadActual;
+        /// Claves de encuentro completados (e.g. "campaign_mundo_1_f1_normal")
+        public List<string> fasesCompletadas;
+        /// Último encounterId lanzado — usado para marcar victoria al volver de CombatScene
+        public string ultimoEncuentroIntentado;
     }
 
     // ── Pase Oscuro ───────────────────────────────────────────────────────────
