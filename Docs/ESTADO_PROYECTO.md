@@ -253,32 +253,41 @@ _Actualizar al final de cada sesión de Claude Code_
 - **encounter_catalog.json**: algunos encuentros tienen `enemies` como string ("procedural_from_campaign_pool") en lugar de array — la deserialización usa callback de error para saltarlos sin romper el resto del catálogo.
 - **DataStorageSystem**: Firestore SDK no puede serializar directamente JArray/JObject de Newtonsoft. Se añadió `ToFirestoreValue()` que convierte recursivamente a tipos nativos antes del `SetAsync()`.
 
+- [x] S18b — BattlePrepPanel unificado (RAID-style) + RewardPanel + placeholders ✓ VALIDADO EN PLAY MODE
+  - `Assets/Scripts/UI/CampaignScene/BattlePrepPanel.cs` — overlay unificado que reemplaza TeamSelectPanel + PanelConfirmacion
+    - `BattlePrepPanel.Show(prefab, titulo, energyCost, enemies[], onBatallar)`: factory estático, instancia via UIManager
+    - Layout RAID Shadow Legends: BarraSuperior (título + energía + cancelar) · ZonaIzquierda (2×2 slots equipo + BtnBatallar) · ZonaDerecha (cartas enemigos) · ZonaHeroes (scroll horizontal colección)
+    - Selección interactiva: tap héroe → asigna al siguiente slot libre; tap slot ocupado → libera slot
+    - Carga último equipo usado desde PlayerData.campana.ultimoEquipoUsado si existe
+    - Enemy cards con color por elemento; hero cards con overlay verde de selección y número de slot
+  - `Assets/Editor/Setup/SetupBattlePrepPrefab.cs` — menú Tools → Reino Oscuridad → 7. Setup BattlePrep Prefab
+    - Genera Assets/Prefabs/UI/BattlePrepPanel.prefab con todo el layout wired via SerializedObject
+    - Colores: zona izquierda verde oscuro · zona derecha azul-morado · separador vertical 1.5px
+  - `Assets/Scripts/UI/CampaignScene/RewardPanel.cs` — overlay de recompensas post-combate
+    - Muestra drops, XP ganada y botón Continuar
+  - `Assets/Editor/Setup/SetupRewardPanelPrefab.cs` — menú 8. Setup RewardPanel Prefab
+  - `Assets/Scripts/UI/CampaignScene/CampaignSceneController.cs` — simplificado: eliminado flujo PanelConfirmacion → TeamSelectPanel; OnFaseClick llama directamente BattlePrepPanel.Show()
+  - `Assets/Editor/Setup/SetupCampaignScene.cs` — limpiado: eliminado bloque PanelConfirmacion (~50 líneas); wires BattlePrepPanel + RewardPanel prefabs
+  - Assets Addressables: placeholder PNG en Assets/Addressables/UI/Test.png + Assets/Resources/Placeholders/
+  - **TeamSelectPanel.cs eliminado** (reemplazado por BattlePrepPanel)
+  - **SetupTeamSelectPrefab.cs eliminado** (reemplazado por SetupBattlePrepPrefab)
+
 ## Siguiente paso
-S18b / S19 — mejoras visuales CampaignScene + selección de equipo (ver GDD o Director de Proyecto).
-Pendiente de definición por el Director: ver sección "Pendiente de definición" abajo.
+S19 — visual del mapa CampaignScene: diseño de mundos temáticos, nodos conectados por caminos, portrait del boss (ver GDD o Director de Proyecto).
 
 ## Pendiente de definición por el Director de Proyecto
 
 ### CampaignScene — lo que falta para que sea jugable en producción
 
-**1. Visual del mapa** (no definido en S18)
+**1. Visual del mapa** (no definido en S18/S18b)
 - Actualmente: botones planos (M1–M7) + nodos de fase como rectángulos de colores
 - Necesario: diseño visual del mundo (fondos temáticos por mundo, nodos conectados por caminos, portrait del boss al final)
 - Preguntas para el Director: ¿mapa isométrico? ¿scroll lateral de nodos? ¿pantalla fija por mundo? ¿assets Addressables por mundo o sprites inline?
 
-**2. Selección de equipo antes del combate** (no definido en S18)
-- Actualmente: va automáticamente con los primeros 4 héroes del roster
-- Necesario: panel donde el jugador elige qué héroes llevar (máx 4 o 5 según GDD)
-- Preguntas: ¿es un overlay sobre CampaignScene o una Scene propia? ¿hay slots fijos o drag & drop? ¿se recuerda el último equipo usado?
-
-**3. Info de la fase antes de entrar** (parcialmente implementado)
-- Actualmente: panel básico con nombre y coste de energía
-- Necesario: mostrar enemigos del encuentro (sprites + nivel + elemento), recompensas esperadas (drop_gear_slot del catálogo), synergy note para orientar la estrategia
-
-**4. Rewarding post-combate en CampaignScene**
-- Actualmente: MarcarFaseCompletada marca el progreso, pero no hay pantalla de recompensas
+**2. Rewarding post-combate en CampaignScene**
+- Actualmente: RewardPanel implementado pero no wired al CheckCombatReturn()
 - Necesario: al volver de CombatScene con victoria, mostrar drops obtenidos y XP ganada antes de volver al mapa
 
-**5. Progreso visual dentro del mundo**
+**3. Progreso visual dentro del mundo**
 - Actualmente: barra placeholder en la parte inferior
 - Necesario: indicador de cuántas fases completadas (ej. "4/7") y si el boss está disponible

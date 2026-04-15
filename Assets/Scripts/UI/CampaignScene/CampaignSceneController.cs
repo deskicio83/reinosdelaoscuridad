@@ -33,19 +33,16 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private Transform    _contenedorDificultad;
         [SerializeField] private Button       _btnVolver;
 
-        // Panel de confirmación de fase
-        [SerializeField] private GameObject   _panelConfirmacion;
-        [SerializeField] private TMP_Text     _txtFaseNombre;
-        [SerializeField] private TMP_Text     _txtEquipo;
-        [SerializeField] private TMP_Text     _txtEnergyCost;
-        [SerializeField] private Button       _btnConfirmarBatalla;
-        [SerializeField] private Button       _btnCancelarConfirmacion;
+        // Prefabs de overlays (asignados por SetupCampaignScene si existen)
+        [SerializeField] private GameObject   _battlePrepPrefab;
+        [SerializeField] private GameObject   _rewardPrefab;
 
         // ── Estado de selección ────────────────────────────────────────────────
 
         private int    _mundoSeleccionado      = 0;
         private string _dificultadSeleccionada = DIF_NORMAL;
-        private int    _faseSeleccionada        = 0;  // pendiente de confirmar
+        private int    _faseSeleccionada        = 0;
+        private string _pendingEncounterKey;
 
         // ── Catálogos en memoria ───────────────────────────────────────────────
 
@@ -82,8 +79,6 @@ namespace ReinoOscuridad.UI.Campaign
         {
             LoadCatalogs();
 
-            // Fallback offline: si los sistemas no están (preview directo en Editor),
-            // funciona con datos de campaña vacíos — solo Fase 0 Mundo 1 desbloqueada.
             if (PlayerDataSystem.Instance == null)
                 Debug.LogWarning("[CampaignController] PlayerDataSystem no disponible — modo preview (datos offline).");
         }
@@ -101,15 +96,6 @@ namespace ReinoOscuridad.UI.Campaign
             if (_btnVolver != null)
                 _btnVolver.onClick.AddListener(() => UIManager.Instance?.NavigateBack());
 
-            if (_btnConfirmarBatalla != null)
-                _btnConfirmarBatalla.onClick.AddListener(ConfirmarBatalla);
-
-            if (_btnCancelarConfirmacion != null)
-                _btnCancelarConfirmacion.onClick.AddListener(CerrarConfirmacion);
-
-            if (_panelConfirmacion != null)
-                _panelConfirmacion.SetActive(false);
-
             Debug.Log($"[CampaignController] CampaignScene lista — mundo:{_mundoSeleccionado} dif:{_dificultadSeleccionada}");
         }
 
@@ -119,7 +105,6 @@ namespace ReinoOscuridad.UI.Campaign
         /// Índices de base 0: mundo 0 = Mundo 1 del catálogo, fase 6 = Boss.
         public bool IsFaseDesbloqueada(int mundo, int fase, string dif)
         {
-            // Primera fase del juego: siempre accesible
             if (mundo == 0 && fase == 0 && dif == DIF_NORMAL) return true;
 
             var completadas = GetCampanaData()?.fasesCompletadas;
@@ -128,14 +113,12 @@ namespace ReinoOscuridad.UI.Campaign
             switch (dif)
             {
                 case DIF_DIFICIL:
-                    // Requiere todas las fases normal de este mundo completadas
                     for (int f = 0; f < FASES_POR_MUNDO; f++)
                         if (!completadas.Contains(BuildEncounterKey(mundo, f, DIF_NORMAL))) return false;
                     if (fase == 0) return true;
                     return completadas.Contains(BuildEncounterKey(mundo, fase - 1, DIF_DIFICIL));
 
                 case DIF_HEROICA:
-                    // Requiere todas las fases dificil de este mundo completadas
                     for (int f = 0; f < FASES_POR_MUNDO; f++)
                         if (!completadas.Contains(BuildEncounterKey(mundo, f, DIF_DIFICIL))) return false;
                     if (fase == 0) return true;
@@ -145,7 +128,6 @@ namespace ReinoOscuridad.UI.Campaign
                     if (fase == 0)
                     {
                         if (mundo == 0) return true;
-                        // Nuevo mundo: requiere boss del mundo anterior en normal
                         return completadas.Contains(BuildEncounterKey(mundo - 1, FASES_POR_MUNDO - 1, DIF_NORMAL));
                     }
                     return completadas.Contains(BuildEncounterKey(mundo, fase - 1, DIF_NORMAL));
@@ -223,14 +205,12 @@ namespace ReinoOscuridad.UI.Campaign
 
         // ── Interacción con UI ─────────────────────────────────────────────────
 
-        /// Selecciona un mundo y refresca los nodos de fases.
         public void SelectMundo(int mundo)
         {
             _mundoSeleccionado = Mathf.Clamp(mundo, 0, MUNDOS - 1);
             RefreshFaseNodes();
         }
 
-        /// Selecciona una dificultad y refresca los nodos.
         public void SelectDificultad(string dif)
         {
             if (Array.IndexOf(DIFICULTADES, dif) < 0) return;
@@ -238,7 +218,6 @@ namespace ReinoOscuridad.UI.Campaign
             RefreshFaseNodes();
         }
 
-        /// El jugador pulsa un nodo de fase. Muestra el panel de confirmación.
         public void OnFaseClick(int mundo, int fase, string dif)
         {
             if (!IsFaseDesbloqueada(mundo, fase, dif))
@@ -251,84 +230,61 @@ namespace ReinoOscuridad.UI.Campaign
             _faseSeleccionada       = fase;
             _dificultadSeleccionada = dif;
 
-            AbrirConfirmacion(mundo, fase, dif);
-        }
+            string key    = BuildEncounterKey(mundo, fase, dif);
+            bool   esBoss = fase == FASES_POR_MUNDO - 1;
+            string titulo = esBoss
+                ? $"JEFE  ·  Mundo {mundo + 1}  ·  {dif.ToUpper()}"
+                : $"Mundo {mundo + 1}  ·  Fase {fase + 1}  ·  {dif.ToUpper()}";
+            int             cost    = GetEnergyCost(key);
+            EnemyInstance[] enemies = BuildEnemyTeam(key);
 
-        // ── Panel de confirmación ──────────────────────────────────────────────
-
-        private void AbrirConfirmacion(int mundo, int fase, string dif)
-        {
-            if (_panelConfirmacion == null) { ConfirmarBatalla(); return; } // sin panel → combate directo
-
-            string key     = BuildEncounterKey(mundo, fase, dif);
-            bool   esBoss  = fase == FASES_POR_MUNDO - 1;
-            string nombre  = esBoss ? $"JEFE — Mundo {mundo + 1}" : $"Mundo {mundo + 1} · Fase {fase + 1}";
-            int    cost    = GetEnergyCost(key);
-
-            // Nombre de la fase
-            if (_txtFaseNombre != null)
-                _txtFaseNombre.text = $"{nombre}\n<size=14><color=#aaaaaa>{dif.ToUpper()}</color></size>";
-
-            // Coste de energía
-            if (_txtEnergyCost != null)
-                _txtEnergyCost.text = $"Energia: {cost} stamina";
-
-            // Equipo que irá a la batalla
-            if (_txtEquipo != null)
-            {
-                var pd = PlayerDataSystem.Instance?.GetPlayerData();
-                if (pd?.heroes != null && pd.heroes.Count > 0)
-                {
-                    var nombres = new System.Text.StringBuilder("Equipo:\n");
-                    int limit = Mathf.Min(pd.heroes.Count, 4);
-                    for (int i = 0; i < limit; i++)
-                        nombres.AppendLine($"  · {pd.heroes[i].heroId} (Nv.{pd.heroes[i].level})");
-                    _txtEquipo.text = nombres.ToString();
-                }
-                else
-                {
-                    _txtEquipo.text = "Equipo: sin héroes configurados";
-                }
-            }
-
-            _panelConfirmacion.SetActive(true);
-        }
-
-        private void ConfirmarBatalla()
-        {
-            string key  = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadSeleccionada);
-            int    cost = GetEnergyCost(key);
-
-            var eco = EconomySystem.Instance;
-            if (eco != null && !eco.ConsumeEnergy(cost))
-            {
-                Debug.Log("[CampaignController] Energía insuficiente.");
-                CerrarConfirmacion();
-                return;
-            }
-
+            _pendingEncounterKey = key;
             var campana = EnsureCampanaData();
             if (campana != null) campana.ultimoEncuentroIntentado = key;
 
+            if (_battlePrepPrefab != null && UIManager.Instance != null)
+            {
+                BattlePrepPanel.Show(_battlePrepPrefab, titulo, cost, enemies, OnTeamSelected);
+            }
+            else
+            {
+                if (UIManager.Instance == null)
+                    Debug.LogWarning("[CampaignController] UIManager null — juega desde SampleScene para activar los sistemas.");
+                OnTeamSelected(BuildPlayerTeam());
+            }
+        }
+
+        private void OnTeamSelected(HeroInstance[] team)
+        {
+            int cost = GetEnergyCost(_pendingEncounterKey);
+            var eco  = EconomySystem.Instance;
+            if (eco != null && !eco.ConsumeEnergy(cost))
+            {
+                Debug.Log("[CampaignController] Energía insuficiente.");
+                return;
+            }
+
             CombatSceneData.PendingContext = new CombatContext
             {
-                encounterID     = key,
+                encounterID     = _pendingEncounterKey,
                 callerScene     = "CampaignScene",
                 combatMode      = "campaign",
-                playerTeam      = BuildPlayerTeam(),
-                enemyTeam       = BuildEnemyTeam(key),
+                playerTeam      = team,
+                enemyTeam       = BuildEnemyTeam(_pendingEncounterKey),
                 maldicionActiva = false,
                 elementoBoss    = null
             };
 
-            CerrarConfirmacion();
             UIManager.Instance?.NavigateTo("CombatScene");
         }
 
-        private void CerrarConfirmacion()
+        // ── GoToNextFase ───────────────────────────────────────────────────────
+
+        /// TODO(S19): calcular la siguiente fase y lanzarla directamente sin volver al mapa.
+        /// Actualmente solo cierra el mapa y el jugador selecciona manualmente.
+        public void GoToNextFase()
         {
-            if (_panelConfirmacion != null)
-                _panelConfirmacion.SetActive(false);
+            Debug.Log("[CampaignController] GoToNextFase — TODO: implementar en S19.");
         }
 
         // ── Helpers internos ───────────────────────────────────────────────────
@@ -343,11 +299,11 @@ namespace ReinoOscuridad.UI.Campaign
 
             pd.campana ??= new CampaignProgressData
             {
-                mundoActual               = 0,
-                faseActual                = 0,
-                dificultadActual          = DIF_NORMAL,
-                fasesCompletadas          = new List<string>(),
-                ultimoEncuentroIntentado  = null
+                mundoActual              = 0,
+                faseActual               = 0,
+                dificultadActual         = DIF_NORMAL,
+                fasesCompletadas         = new List<string>(),
+                ultimoEncuentroIntentado = null
             };
             pd.campana.fasesCompletadas ??= new List<string>();
             return pd.campana;
@@ -358,6 +314,45 @@ namespace ReinoOscuridad.UI.Campaign
             if (_encounterById != null && _encounterById.TryGetValue(encounterKey, out var enc))
                 return enc.energyCost;
             return 6;
+        }
+
+        private HeroInstance[] RebuildTeam(string[] heroIds)
+        {
+            if (heroIds == null || heroIds.Length == 0) return Array.Empty<HeroInstance>();
+            var gs = GearSystem.Instance;
+            if (gs == null) return Array.Empty<HeroInstance>();
+
+            var result = new List<HeroInstance>();
+            foreach (var id in heroIds)
+            {
+                if (string.IsNullOrEmpty(id)) continue;
+                var hi = gs.BuildCombatInstance(id);
+                if (hi != null) result.Add(hi);
+            }
+            return result.ToArray();
+        }
+
+        private void CheckCombatReturn()
+        {
+            var result  = CombatSceneData.LastResult;
+            var campana = GetCampanaData();
+
+            if (result == null) return;
+
+            if (result.victoria && campana != null
+                && !string.IsNullOrEmpty(campana.ultimoEncuentroIntentado))
+            {
+                MarcarFaseCompletada(campana.ultimoEncuentroIntentado);
+                campana.ultimoEncuentroIntentado = null;
+            }
+
+            var lastTeamIds = PlayerDataSystem.Instance?.GetPlayerData()?.lastTeam;
+            HeroInstance[] team = RebuildTeam(lastTeamIds);
+
+            CombatSceneData.SetResult(null);
+
+            if (_rewardPrefab != null)
+                RewardPanel.Show(_rewardPrefab, result, team, GoToNextFase);
         }
 
         private EnemyInstance BuildEnemyInstance(string enemyId, EnemyCatalogEntry data, string dif)
@@ -403,21 +398,6 @@ namespace ReinoOscuridad.UI.Campaign
                 efectosActivos = new List<string>()
             };
 
-        private void CheckCombatReturn()
-        {
-            var result  = CombatSceneData.LastResult;
-            var campana = GetCampanaData();
-            if (result == null || campana == null) return;
-
-            if (result.victoria && !string.IsNullOrEmpty(campana.ultimoEncuentroIntentado))
-            {
-                MarcarFaseCompletada(campana.ultimoEncuentroIntentado);
-                campana.ultimoEncuentroIntentado = null;
-            }
-
-            CombatSceneData.SetResult(null);
-        }
-
         // ── Carga de catálogos ─────────────────────────────────────────────────
 
         private void LoadCatalogs()
@@ -438,8 +418,6 @@ namespace ReinoOscuridad.UI.Campaign
                 return;
             }
 
-            // Algunos encuentros tienen "enemies" como string en vez de array.
-            // El callback de error salta esos campos y continúa deserializando el resto.
             var settings = new JsonSerializerSettings
             {
                 Error = (_, args) => { args.ErrorContext.Handled = true; }
@@ -480,31 +458,57 @@ namespace ReinoOscuridad.UI.Campaign
         {
             if (_contenedorMundos == null) return;
 
+            var campana = GetCampanaData();
+
             for (int m = 0; m < MUNDOS; m++)
             {
                 int capturedIdx = m;
+
+                // Calcular progreso normal del mundo (fases completadas de 7)
+                int fasesCompletadasMundo = 0;
+                if (campana?.fasesCompletadas != null)
+                    for (int f = 0; f < FASES_POR_MUNDO; f++)
+                        if (campana.fasesCompletadas.Contains(BuildEncounterKey(m, f, DIF_NORMAL)))
+                            fasesCompletadasMundo++;
 
                 var go  = new GameObject($"BtnMundo{m + 1}");
                 go.transform.SetParent(_contenedorMundos, false);
 
                 var btn = go.AddComponent<Button>();
-                go.AddComponent<Image>().color = Color.gray;
+                go.AddComponent<Image>().color = fasesCompletadasMundo >= FASES_POR_MUNDO
+                    ? new Color(0.20f, 0.45f, 0.20f)   // mundo completado
+                    : new Color(0.25f, 0.15f, 0.35f);   // disponible/bloqueado
 
                 var rt       = go.GetComponent<RectTransform>();
-                rt.sizeDelta = new Vector2(80f, 40f);
+                rt.sizeDelta = new Vector2(80f, 50f);
 
-                var labelGO = new GameObject("Label");
-                labelGO.transform.SetParent(go.transform, false);
-                var tmp = labelGO.AddComponent<TextMeshProUGUI>();
+                // Nombre del mundo
+                var lblGO = new GameObject("Label");
+                lblGO.transform.SetParent(go.transform, false);
+                var tmp = lblGO.AddComponent<TextMeshProUGUI>();
                 tmp.text      = $"M{m + 1}";
-                tmp.fontSize  = 18f;
+                tmp.fontSize  = 16f;
+                tmp.color     = Color.white;
                 tmp.alignment = TextAlignmentOptions.Center;
-
-                var lrt       = labelGO.GetComponent<RectTransform>();
-                lrt.anchorMin = Vector2.zero;
+                var lrt       = lblGO.GetComponent<RectTransform>();
+                lrt.anchorMin = new Vector2(0f, 0.45f);
                 lrt.anchorMax = Vector2.one;
                 lrt.offsetMin = Vector2.zero;
                 lrt.offsetMax = Vector2.zero;
+
+                // Progreso "N/7"
+                var progGO = new GameObject("Progreso");
+                progGO.transform.SetParent(go.transform, false);
+                var progTxt = progGO.AddComponent<TextMeshProUGUI>();
+                progTxt.text      = $"{fasesCompletadasMundo}/{FASES_POR_MUNDO}";
+                progTxt.fontSize  = 11f;
+                progTxt.color     = new Color(0.75f, 0.75f, 0.75f);
+                progTxt.alignment = TextAlignmentOptions.Center;
+                var prt           = progGO.GetComponent<RectTransform>();
+                prt.anchorMin     = new Vector2(0f, 0f);
+                prt.anchorMax     = new Vector2(1f, 0.45f);
+                prt.offsetMin     = Vector2.zero;
+                prt.offsetMax     = Vector2.zero;
 
                 btn.onClick.AddListener(() => SelectMundo(capturedIdx));
             }
@@ -522,7 +526,7 @@ namespace ReinoOscuridad.UI.Campaign
                 go.transform.SetParent(_contenedorDificultad, false);
 
                 var btn = go.AddComponent<Button>();
-                go.AddComponent<Image>().color = Color.gray;
+                go.AddComponent<Image>().color = new Color(0.22f, 0.15f, 0.30f);
 
                 var rt       = go.GetComponent<RectTransform>();
                 rt.sizeDelta = new Vector2(110f, 36f);
@@ -530,8 +534,9 @@ namespace ReinoOscuridad.UI.Campaign
                 var labelGO = new GameObject("Label");
                 labelGO.transform.SetParent(go.transform, false);
                 var tmp = labelGO.AddComponent<TextMeshProUGUI>();
-                tmp.text      = dif[0].ToString().ToUpper() + dif.Substring(1);
+                tmp.text      = char.ToUpper(dif[0]) + dif.Substring(1);
                 tmp.fontSize  = 16f;
+                tmp.color     = Color.white;
                 tmp.alignment = TextAlignmentOptions.Center;
 
                 var lrt       = labelGO.GetComponent<RectTransform>();
@@ -551,6 +556,8 @@ namespace ReinoOscuridad.UI.Campaign
             foreach (Transform child in _contenedorFases)
                 Destroy(child.gameObject);
 
+            var campana = GetCampanaData();
+
             for (int f = 0; f < FASES_POR_MUNDO; f++)
             {
                 int    capturedFase  = f;
@@ -558,32 +565,57 @@ namespace ReinoOscuridad.UI.Campaign
                 string capturedDif   = _dificultadSeleccionada;
                 bool   esBoss        = f == FASES_POR_MUNDO - 1;
                 bool   desbloqueada  = IsFaseDesbloqueada(_mundoSeleccionado, f, _dificultadSeleccionada);
+                string key           = BuildEncounterKey(_mundoSeleccionado, f, _dificultadSeleccionada);
+                bool   completada    = campana?.fasesCompletadas?.Contains(key) ?? false;
                 string label         = esBoss ? $"Boss M{_mundoSeleccionado + 1}" : $"F{f + 1}";
+
+                Color nodeColor;
+                if (!desbloqueada)
+                    nodeColor = new Color(0.25f, 0.25f, 0.28f);
+                else if (completada)
+                    nodeColor = new Color(0.15f, 0.45f, 0.15f);
+                else if (esBoss)
+                    nodeColor = new Color(0.80f, 0.55f, 0.05f);
+                else
+                    nodeColor = new Color(0.22f, 0.15f, 0.35f);
 
                 var go  = new GameObject($"FaseNode_{f}");
                 go.transform.SetParent(_contenedorFases, false);
 
                 var btn = go.AddComponent<Button>();
-                go.AddComponent<Image>().color = desbloqueada
-                    ? (esBoss ? new Color(1f, 0.85f, 0f) : Color.white)
-                    : new Color(0.3f, 0.3f, 0.3f);
+                go.AddComponent<Image>().color = nodeColor;
+                btn.interactable = desbloqueada;
 
                 var rt       = go.GetComponent<RectTransform>();
-                rt.sizeDelta = new Vector2(110f, 60f);
+                rt.sizeDelta = new Vector2(110f, 65f);
 
+                // Etiqueta principal
                 var labelGO = new GameObject("Label");
                 labelGO.transform.SetParent(go.transform, false);
                 var tmp = labelGO.AddComponent<TextMeshProUGUI>();
                 tmp.text      = label;
                 tmp.fontSize  = 15f;
-                tmp.color     = desbloqueada ? Color.white : new Color(0.5f, 0.5f, 0.5f);
+                tmp.color     = desbloqueada ? Color.white : new Color(0.45f, 0.45f, 0.45f);
                 tmp.alignment = TextAlignmentOptions.Center;
-
                 var lrt       = labelGO.GetComponent<RectTransform>();
-                lrt.anchorMin = Vector2.zero;
+                lrt.anchorMin = new Vector2(0f, 0.45f);
                 lrt.anchorMax = Vector2.one;
-                lrt.offsetMin = Vector2.zero;
-                lrt.offsetMax = Vector2.zero;
+                lrt.offsetMin = new Vector2(4, 2);
+                lrt.offsetMax = new Vector2(-4, -2);
+
+                // Coste de energía
+                var costGO = new GameObject("Cost");
+                costGO.transform.SetParent(go.transform, false);
+                var costTxt = costGO.AddComponent<TextMeshProUGUI>();
+                costTxt.text      = desbloqueada ? $"{GetEnergyCost(key)} stam" : "---";
+                costTxt.fontSize  = 11f;
+                costTxt.color     = new Color(0.5f, 0.75f, 1f);
+                costTxt.alignment = TextAlignmentOptions.Center;
+                var crt           = costGO.GetComponent<RectTransform>();
+                crt.anchorMin     = new Vector2(0f, 0f);
+                crt.anchorMax     = new Vector2(1f, 0.45f);
+                crt.offsetMin     = new Vector2(4, 2);
+                crt.offsetMax     = new Vector2(-4, -2);
 
                 btn.onClick.AddListener(() => OnFaseClick(capturedMundo, capturedFase, capturedDif));
             }

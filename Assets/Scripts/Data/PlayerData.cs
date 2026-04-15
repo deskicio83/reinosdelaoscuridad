@@ -54,6 +54,9 @@ namespace ReinoOscuridad.Data
 
         /// Progreso de campaña PvE (mundos, fases, dificultades)
         public CampaignProgressData campana;
+
+        /// Último equipo usado en combate (hasta 4 heroIds, null = sin guardar)
+        public string[] lastTeam;
     }
 
     // ── Progreso de campaña ───────────────────────────────────────────────────
