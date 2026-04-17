@@ -25,7 +25,15 @@ public static class S19fix_Test
             else       { Debug.LogError($"[S19fix] FAIL — {desc}"); failed++; }
         }
 
-        // ── CHECK 1: BootCanvas tiene InputSystemUIInputModule ────────────────
+        // Helper: busca un GO por nombre incluyendo inactivos
+        GameObject FindInactive(string name)
+        {
+            foreach (var go in Object.FindObjectsByType<GameObject>(
+                         FindObjectsInactive.Include, FindObjectsSortMode.None))
+                if (go.name == name) return go;
+            return null;
+        }
+
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
         {
             Debug.LogWarning("[S19fix] Abortado por el usuario al guardar la escena.");
@@ -45,18 +53,22 @@ public static class S19fix_Test
         {
             EditorSceneManager.OpenScene(BOOT_PATH, OpenSceneMode.Single);
 
-            var es = Object.FindFirstObjectByType<EventSystem>();
+            // CHECK 1: EventSystem tiene InputSystemUIInputModule
+            var es = Object.FindAnyObjectByType<EventSystem>();
             Check("CHECK 1 — BootScene tiene InputSystemUIInputModule",
                 es != null && es.GetComponent<InputSystemUIInputModule>() != null);
 
-            var loginPanel = GameObject.Find("LoginPanel");
+            // CHECK 2: LoginPanel (puede estar inactivo) tiene >= 3 botones con texto
+            // Usamos FindInactive para atravesar objetos inactivos
+            var loginPanel = FindInactive("LoginPanel");
             int loginBtnsWithText = 0;
             if (loginPanel != null)
             {
+                // includeInactive = true para encontrar hijos aunque el panel esté apagado
                 var btns = loginPanel.GetComponentsInChildren<Button>(true);
                 foreach (var btn in btns)
                 {
-                    var lbl = btn.GetComponentInChildren<TextMeshProUGUI>();
+                    var lbl = btn.GetComponentInChildren<TextMeshProUGUI>(true);
                     if (lbl != null && !string.IsNullOrEmpty(lbl.text))
                         loginBtnsWithText++;
                 }
@@ -64,13 +76,14 @@ public static class S19fix_Test
             Check("CHECK 2 — LoginPanel tiene >= 3 botones con texto no vacío",
                 loginPanel != null && loginBtnsWithText >= 3);
 
-            var btnGuest = GameObject.Find("BtnGuest");
+            // CHECK 3: BtnGuest tiene al menos 1 listener OnClick persistente
+            var btnGuest = FindInactive("BtnGuest");
+            var guestBtn = btnGuest != null ? btnGuest.GetComponent<Button>() : null;
             Check("CHECK 3 — BtnGuest tiene al menos 1 listener OnClick",
-                btnGuest != null &&
-                btnGuest.GetComponent<Button>() != null &&
-                btnGuest.GetComponent<Button>().onClick.GetPersistentEventCount() >= 1);
+                guestBtn != null && guestBtn.onClick.GetPersistentEventCount() >= 1);
 
-            var controller = Object.FindFirstObjectByType<BootSceneController>();
+            // CHECK 4: BootSceneController presente
+            var controller = Object.FindAnyObjectByType<BootSceneController>();
             Check("CHECK 4 — BootSceneController está en la escena",
                 controller != null);
         }
@@ -105,7 +118,7 @@ public static class S19fix_Test
         {
             EditorSceneManager.OpenScene(CAMP_PATH, OpenSceneMode.Single);
 
-            var controller = Object.FindFirstObjectByType<CampaignSceneController>();
+            var controller = Object.FindAnyObjectByType<CampaignSceneController>();
             Check("CHECK 6 — CampaignSceneController está en la escena",
                 controller != null);
         }
