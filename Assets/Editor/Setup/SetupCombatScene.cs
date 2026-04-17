@@ -392,9 +392,23 @@ public static class SetupCombatScene
         Anch(tituloGO, 0.05f, 0.78f, 0.95f, 0.96f);
         var tituloTxt = Txt(tituloGO, "VICTORIA", 28f, Hex("#E9D5FF"), bold: true);
 
-        var estrellaGO = Child(resultGO.transform, "EstrellasFila");
-        Anch(estrellaGO, 0.20f, 0.65f, 0.80f, 0.78f);
-        Txt(estrellaGO, "* * *", 24f, Hex("#FACC15"));
+        var estrellasRow = Child(resultGO.transform, "EstrellasFila");
+        Anch(estrellasRow, 0.20f, 0.65f, 0.80f, 0.78f);
+        var estHLG = estrellasRow.AddComponent<HorizontalLayoutGroup>();
+        estHLG.childForceExpandWidth  = false;
+        estHLG.childForceExpandHeight = false;
+        estHLG.spacing        = 8f;
+        estHLG.childAlignment = TextAnchor.MiddleCenter;
+
+        var resultStarImages = new Image[3];
+        for (int si = 0; si < 3; si++)
+        {
+            var star = Child(estrellasRow.transform, $"Star_{si}");
+            var le   = star.AddComponent<LayoutElement>();
+            le.preferredWidth  = 32f;
+            le.preferredHeight = 32f;
+            resultStarImages[si] = Img(star, Hex("#FACC15")); // dorado por defecto
+        }
 
         var xpGO = Child(resultGO.transform, "XPGanada");
         Anch(xpGO, 0.05f, 0.55f, 0.95f, 0.65f);
@@ -464,7 +478,10 @@ public static class SetupCombatScene
         // Result Panel
         so.FindProperty("_resultPanel").objectReferenceValue      = resultGO;
         so.FindProperty("_resultTitleText").objectReferenceValue  = tituloTxt;
-        so.FindProperty("_resultGradeText").objectReferenceValue  = estrellaGO.GetComponent<TextMeshProUGUI>();
+        var resultStarsProp = so.FindProperty("_resultStarImages");
+        resultStarsProp.arraySize = 3;
+        for (int i = 0; i < 3; i++)
+            resultStarsProp.GetArrayElementAtIndex(i).objectReferenceValue = resultStarImages[i];
         so.FindProperty("_resultXPText").objectReferenceValue     = xpTxt;
         so.FindProperty("_resultDropsText").objectReferenceValue  = dropsTxt;
         so.FindProperty("_btnContinuar").objectReferenceValue     = btnContinuar;

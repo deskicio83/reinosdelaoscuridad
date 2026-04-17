@@ -87,15 +87,28 @@ public static class SetupRewardPanelPrefab
         txtResultado.alignment = TextAlignmentOptions.Center;
         SetAnchors(txtResultadoGO, new Vector2(0.02f, 0.86f), new Vector2(0.98f, 1f));
 
-        // Estrellas
-        var txtEstrellasGO = new GameObject("TxtEstrellas");
-        txtEstrellasGO.transform.SetParent(panelGO.transform, false);
-        var txtEstrellas = txtEstrellasGO.AddComponent<TextMeshProUGUI>();
-        txtEstrellas.text      = "★★★";
-        txtEstrellas.fontSize  = 28f;
-        txtEstrellas.color     = new Color(1f, 0.85f, 0.1f);
-        txtEstrellas.alignment = TextAlignmentOptions.Center;
-        SetAnchors(txtEstrellasGO, new Vector2(0.20f, 0.78f), new Vector2(0.80f, 0.87f));
+        // Estrellas (3 Image sprites — sin caracteres Unicode)
+        var estrellasContainer = new GameObject("EstrellasFila");
+        estrellasContainer.transform.SetParent(panelGO.transform, false);
+        estrellasContainer.AddComponent<Image>().color = Color.clear;
+        var estHLG = estrellasContainer.AddComponent<HorizontalLayoutGroup>();
+        estHLG.childForceExpandWidth  = false;
+        estHLG.childForceExpandHeight = false;
+        estHLG.spacing    = 10f;
+        estHLG.childAlignment = TextAnchor.MiddleCenter;
+        SetAnchors(estrellasContainer, new Vector2(0.20f, 0.78f), new Vector2(0.80f, 0.87f));
+
+        var rewardStarImages = new Image[3];
+        for (int i = 0; i < 3; i++)
+        {
+            var star = new GameObject($"Star_{i}");
+            star.transform.SetParent(estrellasContainer.transform, false);
+            rewardStarImages[i] = star.AddComponent<Image>();
+            rewardStarImages[i].color = new Color(0.98f, 0.80f, 0.08f); // dorado por defecto
+            var le = star.AddComponent<LayoutElement>();
+            le.preferredWidth  = 36f;
+            le.preferredHeight = 36f;
+        }
 
         // XP jugador (texto)
         var txtXPGO = new GameObject("TxtXPJugador");
@@ -178,7 +191,10 @@ public static class SetupRewardPanelPrefab
         var so   = new SerializedObject(comp);
 
         so.FindProperty("_txtResultado")     .objectReferenceValue = txtResultado;
-        so.FindProperty("_txtEstrellas")     .objectReferenceValue = txtEstrellas;
+        var rewardStarsProp = so.FindProperty("_imgEstrellas");
+        rewardStarsProp.arraySize = 3;
+        for (int i = 0; i < 3; i++)
+            rewardStarsProp.GetArrayElementAtIndex(i).objectReferenceValue = rewardStarImages[i];
         so.FindProperty("_txtXPJugador")     .objectReferenceValue = txtXP;
         so.FindProperty("_barraXPFill")      .objectReferenceValue = fillRT;
         so.FindProperty("_contenedorHeroes") .objectReferenceValue = contenedorHeroesGO.transform;

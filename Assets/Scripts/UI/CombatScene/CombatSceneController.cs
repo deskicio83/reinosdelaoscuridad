@@ -78,7 +78,7 @@ namespace ReinoOscuridad.UI.Combat
         [Header("Result Panel")]
         [SerializeField] private GameObject _resultPanel;
         [SerializeField] private TMP_Text   _resultTitleText;
-        [SerializeField] private TMP_Text   _resultGradeText;
+        [SerializeField] private Image[]    _resultStarImages;  // 3: dorado=ganada gris=vacia rojo=derrota
         [SerializeField] private TMP_Text   _resultXPText;
         [SerializeField] private TMP_Text   _resultDropsText;
         [SerializeField] private Button     _btnContinuar;
@@ -470,17 +470,18 @@ namespace ReinoOscuridad.UI.Combat
 
             if (_resultTitleText != null)
                 _resultTitleText.text = result.victoria ? "VICTORIA" : "DERROTA";
-            if (_resultGradeText != null)
+
+            if (_resultStarImages != null)
             {
-                if (result.victoria)
+                int stars = result.victoria ? CalcularEstrellas(_ctx.playerTeam) : 0;
+                for (int i = 0; i < _resultStarImages.Length; i++)
                 {
-                    int stars = CalcularEstrellas(_ctx.playerTeam);
-                    _resultGradeText.text  = stars == 3 ? "* * *" : stars == 2 ? "* * -" : "* - -";
-                    _resultGradeText.color = new Color(0.98f, 0.80f, 0.08f);
-                }
-                else
-                {
-                    _resultGradeText.text = "";
+                    if (_resultStarImages[i] == null) continue;
+                    _resultStarImages[i].color = i < stars
+                        ? new Color(0.98f, 0.80f, 0.08f)   // dorado — estrella ganada
+                        : result.victoria
+                            ? new Color(0.25f, 0.25f, 0.28f)  // gris — estrella vacía
+                            : new Color(0.55f, 0.10f, 0.10f); // rojo — derrota / huir
                 }
             }
             if (_resultXPText != null)

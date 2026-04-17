@@ -99,7 +99,7 @@ public static class SetupBattlePrepPrefab
             new Vector2(0.65f, 0.05f), new Vector2(0.84f, 0.95f));
 
         // Botón cancelar X (extremo derecho)
-        var btnCancelGO = MakeButton(topBar.transform, "BtnCancelar", "✕  CANCELAR",
+        var btnCancelGO = MakeButton(topBar.transform, "BtnCancelar", "X  CANCELAR",
             new Vector2(0.85f, 0.05f), new Vector2(0.99f, 0.95f),
             new Color(0.40f, 0.08f, 0.08f));
 
@@ -172,7 +172,7 @@ public static class SetupBattlePrepPrefab
         }
 
         // Botón BATALLAR (dentro de ZonaIzquierda, parte baja)
-        var btnBatallarGO = MakeButton(zonaIzq.transform, "BtnBatallar", "⚔  BATALLAR",
+        var btnBatallarGO = MakeButton(zonaIzq.transform, "BtnBatallar", "BATALLAR",
             new Vector2(0.05f, 0.01f), new Vector2(0.95f, 0.09f),
             new Color(0.55f, 0.08f, 0.05f));
         // Texto más grande para el botón principal

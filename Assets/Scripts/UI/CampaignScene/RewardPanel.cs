@@ -17,7 +17,7 @@ namespace ReinoOscuridad.UI.Campaign
         // ── Refs asignadas por SetupRewardPanelPrefab ──────────────────────────
 
         [SerializeField] private TMP_Text      _txtResultado;       // "VICTORIA" / "DERROTA"
-        [SerializeField] private TMP_Text      _txtEstrellas;       // "★★★"
+        [SerializeField] private Image[]       _imgEstrellas;       // 3 sprites: dorado=ganada gris=vacia
         [SerializeField] private TMP_Text      _txtXPJugador;       // "+N XP  Nv.X"
         [SerializeField] private RectTransform _barraXPFill;        // fill de la barra de XP
         [SerializeField] private Transform     _contenedorHeroes;   // filas de héroes
@@ -75,8 +75,17 @@ namespace ReinoOscuridad.UI.Campaign
                     : new Color(1f, 0.3f, 0.3f);
             }
 
-            if (_txtEstrellas != null)
-                _txtEstrellas.text = GetStarText(result);
+            if (_imgEstrellas != null)
+            {
+                int stars = GetStarCount(result);
+                for (int i = 0; i < _imgEstrellas.Length; i++)
+                {
+                    if (_imgEstrellas[i] == null) continue;
+                    _imgEstrellas[i].color = i < stars
+                        ? new Color(0.98f, 0.80f, 0.08f)
+                        : victoria ? new Color(0.25f, 0.25f, 0.28f) : new Color(0.55f, 0.10f, 0.10f);
+                }
+            }
 
             var pps = PlayerProgressionSystem.Instance;
             if (_txtXPJugador != null)
@@ -211,13 +220,12 @@ namespace ReinoOscuridad.UI.Campaign
 
         // ── Helpers ───────────────────────────────────────────────────────────
 
-        private static string GetStarText(CombatResult result)
+        private static int GetStarCount(CombatResult result)
         {
-            if (result == null || !result.victoria) return "—";
-
-            if (result.gradoObtenido == "S" || result.gradoObtenido == "A") return "★★★";
-            if (result.gradoObtenido == "B") return "★★☆";
-            return "★☆☆";
+            if (result == null || !result.victoria) return 0;
+            if (result.gradoObtenido == "S" || result.gradoObtenido == "A") return 3;
+            if (result.gradoObtenido == "B") return 2;
+            return 1;
         }
 
         private static void SetChildAnchors(GameObject go, Vector2 anchorMin, Vector2 anchorMax,
