@@ -118,8 +118,10 @@ namespace ReinoOscuridad.UI.Boot
             }
             else
             {
-                Debug.Log("[BootSceneController] → TutorialScene (primera vez)");
-                await ui.NavigateTo("TutorialScene");
+                // TutorialScene no existe aún (se implementa en S33).
+                // Mientras no esté en Build Settings, forzar MainMenuScene como fallback.
+                Debug.LogWarning("[BootSceneController] TutorialScene no disponible — navegando a MainMenuScene como fallback.");
+                await ui.NavigateTo("MainMenuScene");
             }
         }
 

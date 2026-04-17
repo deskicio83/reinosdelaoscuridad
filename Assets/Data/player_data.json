@@ -288,6 +288,7 @@
     }
   },
   "equipment": [],
+  "tutorialCompleted": true,
   "heroSceneCompactView": false,
   "presenciaMaldita": 887,
   "presenciaMalditaGear": 9,

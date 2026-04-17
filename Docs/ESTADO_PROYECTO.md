@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S19_fix — 2026-04-17_
+_Última actualización: S19_fix2 — 2026-04-17_
 
 ---
 
@@ -40,6 +40,7 @@ _Última actualización: S19_fix — 2026-04-17_
 | S18 | CampaignScene | 7 mundos · 3 dificultades · nodos fase · desbloqueos secuenciales · navegación CombatScene |
 | S18b | BattlePrepPanel | Panel unificado RAID-style · selección equipo 4 héroes · scroll colección · RewardPanel |
 | S19_fix | SetupBootScene + validación MVP | `SetupBootScene.cs` Editor Script · `BootSceneController` con `_btnApple` + aliases públicos · `S19fix_Test.cs` 6 checks automáticos |
+| S19_fix2 | Correcciones flujo MVP | `tutorialCompleted: true` en player_data.json · fallback TutorialScene→MainMenuScene en BootSceneController · DataStorageSystem catch ya era LogWarning (sin cambio) |
 
 ---
 
@@ -124,7 +125,7 @@ _Última actualización: S19_fix — 2026-04-17_
 | 🟡 Media | Energía — feedback visual | Si energía < coste, `OnTeamSelected()` retorna en silencio sin mensaje al jugador |
 | 🟡 Media | MainMenuDebug.cs | Eliminar o desactivar antes de producción |
 | 🟡 Media | RewardPanel no conectado | `CheckCombatReturn()` llama a `RewardPanel.Show()` pero el flujo completo requiere validación en Play Mode |
-| 🟢 Baja | Firestore parse error | Documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43` tiene `artifactInventory[0].artifactId` como array — borrar desde Firebase Console |
+| 🔴 Alta | ACCIÓN MANUAL PENDIENTE — Firestore doc corrupto | Firebase Console → Firestore → colección "players" → documento `jgdMjlq3sdRmFKCRcXz8b7WPDz43` → ELIMINAR. Campo `presenciaMalditaLastCalc` tiene formato objeto anidado donde se espera string. Se recreará limpio en el próximo save. |
 | 🟢 Baja | player_data.json en build | Solo se usa como fallback en Editor; en Android Firebase lo reemplaza. Si Firebase falla, el jugador ve datos vacíos |
 
 ---
