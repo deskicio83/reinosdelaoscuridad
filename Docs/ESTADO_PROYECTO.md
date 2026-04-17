@@ -93,20 +93,23 @@ _Última actualización: S18b_MVP — 2026-04-16_
 **Player Settings Android configurados (S18b_MVP):**
 - Bundle ID: `com.DesdeMiPC.ReinosdelaOscuridad` ✓
 - Min API: 25 (Android 7.1) ✓
-- Target API: 33 (Android 13) ✓ ← corregido de 0→33
+- Target/Compile API: 34 (Android 14) ✓ ← corregido 0→33→34 (androidx.credentials requiere ≥34)
 - Scripting Backend: IL2CPP ✓
 - Target Architectures: ARMv7 + ARM64 (valor 3) ✓ ← corregido de 2→3
 - Orientation: Landscape Left forzado ✓ ← corregido de LandscapeRight→LandscapeLeft
 - Internet Access: Required ✓ ← corregido de 0→1
-- Development Build: listo en `Assets/Editor/BuildAndroid.cs` (menú Tools → 9. Build Android MVP)
 
-**Bloqueador resuelto:** Catálogos JSON migrados a `Assets/Resources/Data/` para que estén en el APK y sean accesibles con `Resources.Load<TextAsset>()` en Android.
+**✅ BUILD GENERADA:** `Builds/Android/ReinosOscuridad_MVP.apk` — **105 MB** — IL2CPP · ARMv7+ARM64
+- Fecha: 2026-04-17
+- Warnings: RevenueCat deprecaciones internas (no bloquean)
+- Script: `Assets/Editor/BuildAndroid.cs` → `Tools → Reino Oscuridad → Build Android MVP`
 
-### Pasos manuales para generar la build:
-1. Cerrar cualquier instancia de Unity en este proyecto
-2. Abrir el proyecto en Unity Editor
-3. Menú `Tools → Reino Oscuridad → Build Android MVP` (o File → Build Settings → Build)
-4. APK se generará en `Builds/Android/ReinosOscuridad_MVP.apk`
+**Para regenerar (CLI, con Unity cerrado):**
+```
+"C:/Program Files/Unity/Hub/Editor/6000.4.0f1/Editor/Unity.exe" -batchmode
+  -projectPath "C:/Users/franh/Documents/GitHub/reinosdelaoscuridad"
+  -executeMethod BuildAndroid.Build -logFile Builds/Android/build_log.txt -quit
+```
 
 ---
 
