@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S19_fix2 — 2026-04-17_
+_Última actualización: S20_fix — 2026-04-17_
 
 ---
 
@@ -41,6 +41,7 @@ _Última actualización: S19_fix2 — 2026-04-17_
 | S18b | BattlePrepPanel | Panel unificado RAID-style · selección equipo 4 héroes · scroll colección · RewardPanel |
 | S19_fix | SetupBootScene + validación MVP | `SetupBootScene.cs` Editor Script · `BootSceneController` con `_btnApple` + aliases públicos · `S19fix_Test.cs` 6 checks automáticos |
 | S19_fix2 | Correcciones flujo MVP | `tutorialCompleted: true` en player_data.json · fallback TutorialScene→MainMenuScene en BootSceneController · DataStorageSystem catch ya era LogWarning (sin cambio) |
+| S20_fix | Correcciones pre-MVP | BootScene siempre muestra LoginPanel en Editor + BtnDevMode · 5 héroes añadidos a player_data.json · LayoutElement en nodos CampaignScene · stars correctas en ResultPanel · RefreshBarraTurno dinámica |
 
 ---
 
@@ -148,6 +149,7 @@ _Última actualización: S19_fix2 — 2026-04-17_
 
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
+| S20b | Ejecutar Setup CombatScene + Setup BootScene en Unity | Alta — regenerar scenes con nuevos campos cableados |
 | S19b | Visual del mapa CampaignScene | Alta — necesario para que sea jugable en producción |
 | S20 | HeroScene — roster, filtros, upgrade, awaken | Alta |
 | S21 | GachaScene — pull x1/x10, animación, historial | Alta |

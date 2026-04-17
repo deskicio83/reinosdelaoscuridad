@@ -11,11 +11,12 @@ using ReinoOscuridad.Systems;
 namespace ReinoOscuridad.UI.Boot
 {
     /// Gestiona el flujo completo de arranque:
-    /// Firebase init → Auth → Carga Firestore → Energía offline → Navegación.
-    /// Debe estar en la BootScene como único controlador de flujo.
+    /// Firebase init → Auth → Carga Firestore → Energia offline → Navegacion.
+    /// En UNITY_EDITOR/DEVELOPMENT_BUILD siempre muestra LoginPanel (incluye boton MODO DEV).
+    /// En release: si hay sesion activa salta LoginPanel; si no, lo muestra.
     public class BootSceneController : MonoBehaviour
     {
-        // ── Referencias UI (asignar en Inspector) ─────────────────────────────
+        // ── Referencias UI ────────────────────────────────────────────────────
 
         [Header("Paneles")]
         [SerializeField] private GameObject _loadingPanel;
@@ -31,14 +32,11 @@ namespace ReinoOscuridad.UI.Boot
         [SerializeField] private Button _btnApple;
         [SerializeField] private Button _btnGuest;
 
-        [Header("Botón reintentar")]
+        [Header("Boton reintentar")]
         [SerializeField] private Button _btnRetry;
 
-        // ── Estado interno ────────────────────────────────────────────────────
-
-        private TaskCompletionSource<LoginChoice> _loginTcs;
-
-        private enum LoginChoice { Google, Apple, Guest }
+        [Header("Boton modo dev (solo Editor/DevBuild)")]
+        [SerializeField] private Button _btnDevMode;
 
         // ── Ciclo de vida Unity ────────────────────────────────────────────────
 
@@ -51,65 +49,68 @@ namespace ReinoOscuridad.UI.Boot
 
         private async Task RunBootSequenceAsync()
         {
-            // ── 1. Inicialización Firebase ────────────────────────────────────
-            ShowLoading("Iniciando…");
+            ShowLoading("Iniciando...");
 
             var status = await FirebaseApp.CheckAndFixDependenciesAsync();
 
             if (status != DependencyStatus.Available)
             {
-                ShowError($"Firebase no disponible: {status}\nComprueba tu conexión e inténtalo de nuevo.");
+                ShowError($"Firebase no disponible: {status}\nComprueba tu conexion e intentalo de nuevo.");
                 Debug.LogError($"[BootSceneController] Firebase DependencyStatus: {status}");
                 return;
             }
 
             Debug.Log("[BootSceneController] Firebase OK.");
 
-            // ── Guard: verificar que los sistemas existen en la Scene ─────────
             if (GameManager.Instance == null)
             {
-                ShowError("Error interno: GameManager no encontrado.\nAñade GameManager, PlayerDataSystem, EconomySystem, AuthSystem y DataStorageSystem a BootScene.");
-                Debug.LogError("[BootSceneController] GameManager.Instance es null. Estos GameObjects deben estar en BootScene.");
+                ShowError("Error interno: GameManager no encontrado.\nAniade GameManager, PlayerDataSystem, EconomySystem, AuthSystem y DataStorageSystem a BootScene.");
+                Debug.LogError("[BootSceneController] GameManager.Instance es null.");
                 return;
             }
+
+            if (!ValidateSystems()) return;
+
+            // Ocultar BtnDevMode en builds release
+#if !DEVELOPMENT_BUILD && !UNITY_EDITOR
+            if (_btnDevMode != null) _btnDevMode.gameObject.SetActive(false);
+#endif
+
+            // En Editor/DevBuild: mostrar siempre LoginPanel para poder elegir modo dev
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            ShowLoginPanel();
+            return;
+#else
+            var auth = GameManager.Instance.GetSystem<AuthSystem>();
+            if (auth.IsLoggedIn)
+            {
+                await ProceedAfterLoginAsync();
+                return;
+            }
+            ShowLoginPanel();
+#endif
+        }
+
+        // ── Post-login: carga datos y navega ──────────────────────────────────
+
+        private async Task ProceedAfterLoginAsync()
+        {
+            ShowLoading("Cargando datos...");
 
             var auth = GameManager.Instance.GetSystem<AuthSystem>();
             var dss  = GameManager.Instance.GetSystem<DataStorageSystem>();
             var pds  = GameManager.Instance.GetSystem<PlayerDataSystem>();
             var eco  = GameManager.Instance.GetSystem<EconomySystem>();
+            var ui   = GameManager.Instance.GetSystem<UIManager>();
 
-            if (auth == null || dss == null || pds == null || eco == null)
-            {
-                ShowError("Error interno: sistemas no encontrados.\nAñade AuthSystem, DataStorageSystem, PlayerDataSystem y EconomySystem a BootScene.");
-                Debug.LogError($"[BootSceneController] Sistemas faltantes — auth:{auth != null} dss:{dss != null} pds:{pds != null} eco:{eco != null}");
-                return;
-            }
+            await dss.LoadPlayerDataFromFirestore(auth?.CurrentUID ?? "");
 
-            // ── 2. Flujo de login ─────────────────────────────────────────────
-            if (!auth.IsLoggedIn)
-            {
-                bool loginOk = await RunLoginFlowAsync(auth);
-                if (!loginOk) return; // error ya mostrado en RunLoginFlowAsync
-            }
-
-            // ── 3. Carga de datos desde Firestore ─────────────────────────────
-            ShowLoading("Cargando datos…");
-
-            await dss.LoadPlayerDataFromFirestore(auth.CurrentUID);
-
-            // ── 4. Energía offline ────────────────────────────────────────────
-            // Re-inicializar EconomySystem con los datos recién cargados de Firestore
-            // para que calcule correctamente la energía acumulada offline.
             eco.Initialize();
-
-            // Notificar a todos los sistemas que la sesión ha comenzado
             GameManager.Instance.NotifySessionStart(pds.GetPlayerData().lastLoginTimestamp);
 
-            // ── 5. Navegación ─────────────────────────────────────────────────
-            ShowLoading("Entrando…");
+            ShowLoading("Entrando...");
 
             bool tutorialDone = pds.GetPlayerData().tutorialCompleted;
-            var ui = GameManager.Instance.GetSystem<UIManager>();
 
             if (tutorialDone)
             {
@@ -118,75 +119,53 @@ namespace ReinoOscuridad.UI.Boot
             }
             else
             {
-                // TutorialScene no existe aún (se implementa en S33).
-                // Mientras no esté en Build Settings, forzar MainMenuScene como fallback.
+                // TutorialScene no existe aun (se implementa en S33).
                 Debug.LogWarning("[BootSceneController] TutorialScene no disponible — navegando a MainMenuScene como fallback.");
                 await ui.NavigateTo("MainMenuScene");
             }
         }
 
-        // ── Flujo de login con reintentos ─────────────────────────────────────
+        // ── Botones públicos (cableados por SetupBootScene via UnityEventTools) ─
 
-        private async Task<bool> RunLoginFlowAsync(AuthSystem auth)
+        /// Login con Google — SDK pendiente (S25).
+        public void LoginWithGoogle()
+            => ShowError("Google Sign-In SDK pendiente de integrar (S25).\nUsa 'Invitado' o 'Modo Dev'.");
+
+        /// Login con Apple — SDK pendiente (S25, iOS).
+        public void LoginWithApple()
+            => ShowError("Apple Sign-In pendiente de integrar (iOS, S25).\nUsa 'Invitado' o 'Modo Dev'.");
+
+        /// Login anonimo como invitado → Firebase Auth → ProceedAfterLogin.
+        public async void LoginAsGuest()
         {
-            while (true)
+            ShowLoading("Iniciando sesion...");
+            try
             {
-                ShowLoginPanel();
-
-                // Esperar elección del jugador
-                _loginTcs = new TaskCompletionSource<LoginChoice>();
-                LoginChoice choice = await _loginTcs.Task;
-
-                ShowLoading("Iniciando sesión…");
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case LoginChoice.Google:
-                            throw new NotImplementedException("Google Sign-In SDK pendiente de integrar.");
-                        case LoginChoice.Apple:
-                            throw new NotImplementedException("Apple Sign-In pendiente de integrar (iOS).");
-                        case LoginChoice.Guest:
-                            await auth.LoginAsGuest();
-                            break;
-                    }
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"[BootSceneController] Login falló: {e.Message}");
-                    bool retry = await ShowRetryPromptAsync($"Error al iniciar sesión:\n{e.Message}");
-                    if (!retry) return false;
-                    // Si retry == true, el bucle vuelve a mostrar los botones
-                }
+                var auth = GameManager.Instance.GetSystem<AuthSystem>();
+                await auth.LoginAsGuest();
+                await ProceedAfterLoginAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[BootSceneController] LoginAsGuest fallo: {e.Message}");
+                ShowError($"Error al iniciar sesion:\n{e.Message}");
             }
         }
 
-        // ── Callbacks de botones ──────────────────────────────────────────────
+        /// Modo desarrollador — salta autenticacion Firebase completamente.
+        /// Solo visible en UNITY_EDITOR / DEVELOPMENT_BUILD.
+        public async void DevModeLogin()
+        {
+            Debug.LogWarning("[BootSceneController] MODO DEV — saltando autenticacion Firebase.");
+            await ProceedAfterLoginAsync();
+        }
 
-        /// Llamar desde el Inspector del botón Google (OnClick).
-        public void OnLoginGooglePressed() => _loginTcs?.TrySetResult(LoginChoice.Google);
-
-        /// Llamar desde el Inspector del botón Apple (OnClick).
-        public void OnLoginApplePressed() => _loginTcs?.TrySetResult(LoginChoice.Apple);
-
-        /// Llamar desde el Inspector del botón Invitado (OnClick).
-        public void OnLoginGuestPressed() => _loginTcs?.TrySetResult(LoginChoice.Guest);
-
-        /// Llamar desde el Inspector del botón Reintentar (OnClick).
-        public void OnRetryPressed() => _retryTcs?.TrySetResult(true);
-
-        // ── Alias públicos (usados por SetupBootScene via UnityEventTools) ─────
-
-        public void LoginWithGoogle()  => OnLoginGooglePressed();
-        public void LoginWithApple()   => OnLoginApplePressed();
-        public void LoginAsGuest()     => OnLoginGuestPressed();
-        public void RetryInit()        => OnRetryPressed();
+        /// Reintentar arranque completo (usado por BtnRetry en panel de error).
+        public void RetryInit() => _ = RunBootSequenceAsync();
 
         // ── Gestión de UI ─────────────────────────────────────────────────────
 
-        private void ShowLoading(string message = "Cargando…")
+        private void ShowLoading(string message = "Cargando...")
         {
             SetPanels(loading: true, login: false, error: false);
             if (_loadingText != null) _loadingText.text = message;
@@ -210,15 +189,20 @@ namespace ReinoOscuridad.UI.Boot
             if (_errorPanel   != null) _errorPanel.SetActive(error);
         }
 
-        // ── Prompt de reintento ───────────────────────────────────────────────
+        // ── Validación de sistemas ────────────────────────────────────────────
 
-        private TaskCompletionSource<bool> _retryTcs;
-
-        private async Task<bool> ShowRetryPromptAsync(string message)
+        private bool ValidateSystems()
         {
-            ShowError(message);
-            _retryTcs = new TaskCompletionSource<bool>();
-            return await _retryTcs.Task;
+            var auth = GameManager.Instance.GetSystem<AuthSystem>();
+            var dss  = GameManager.Instance.GetSystem<DataStorageSystem>();
+            var pds  = GameManager.Instance.GetSystem<PlayerDataSystem>();
+            var eco  = GameManager.Instance.GetSystem<EconomySystem>();
+
+            if (auth != null && dss != null && pds != null && eco != null) return true;
+
+            ShowError("Error interno: sistemas no encontrados.\nAniade AuthSystem, DataStorageSystem, PlayerDataSystem y EconomySystem a BootScene.");
+            Debug.LogError($"[BootSceneController] Sistemas faltantes — auth:{auth != null} dss:{dss != null} pds:{pds != null} eco:{eco != null}");
+            return false;
         }
     }
 }

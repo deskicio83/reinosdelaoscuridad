@@ -150,6 +150,101 @@
       "customName": "",
       "awaken": false,
       "lado": ""
+    },
+    {
+      "heroId": "SomnarLaRompedoraDeSuenos",
+      "exp": 5000,
+      "level": 15,
+      "stars": 5,
+      "ascension": 0,
+      "skills": [
+        { "skillId": "SomnarLaRompedoraDeSuenos_basic",   "level": 1 },
+        { "skillId": "SomnarLaRompedoraDeSuenos_strong",  "level": 1 },
+        { "skillId": "SomnarLaRompedoraDeSuenos_ultimate","level": 1 }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": false,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "SabioReparador",
+      "exp": 3200,
+      "level": 12,
+      "stars": 5,
+      "ascension": 0,
+      "skills": [
+        { "skillId": "SabioReparador_basic",   "level": 1 },
+        { "skillId": "SabioReparador_strong",  "level": 1 },
+        { "skillId": "SabioReparador_ultimate","level": 1 }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": false,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "AlondriaGuardianaDeLaPureza",
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
+      "ascension": 0,
+      "skills": [
+        { "skillId": "AlondriaGuardianaDeLaPureza_basic",   "level": 1 },
+        { "skillId": "AlondriaGuardianaDeLaPureza_strong",  "level": 1 },
+        { "skillId": "AlondriaGuardianaDeLaPureza_ultimate","level": 1 }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": false,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "MorvakElMuroDelRecuerdo",
+      "exp": 8500,
+      "level": 18,
+      "stars": 4,
+      "ascension": 0,
+      "skills": [
+        { "skillId": "MorvakElMuroDelRecuerdo_basic",   "level": 1 },
+        { "skillId": "MorvakElMuroDelRecuerdo_strong",  "level": 1 },
+        { "skillId": "MorvakElMuroDelRecuerdo_ultimate","level": 1 }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": false,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
+    },
+    {
+      "heroId": "AngelDespojado",
+      "exp": 4600,
+      "level": 14,
+      "stars": 5,
+      "ascension": 0,
+      "skills": [
+        { "skillId": "AngelDespojado_basic",   "level": 1 },
+        { "skillId": "AngelDespojado_strong",  "level": 1 },
+        { "skillId": "AngelDespojado_ultimate","level": 1 }
+      ],
+      "bonusStats": null,
+      "equipment": [],
+      "locked": false,
+      "favorite": false,
+      "customName": "",
+      "awaken": false,
+      "lado": ""
     }
   ],
   "gearInventory": [

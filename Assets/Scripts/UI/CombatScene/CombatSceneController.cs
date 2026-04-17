@@ -68,6 +68,11 @@ namespace ReinoOscuridad.UI.Combat
         [SerializeField] private Button     _btnUsarTooltip;
         [SerializeField] private Button     _btnCerrarTooltip;
 
+        // ── Barra de Turno ──────────────────────────────────────────────────
+
+        [Header("Barra de Turno")]
+        [SerializeField] private Transform _listaRetratos;
+
         // ── Result Panel ────────────────────────────────────────────────────
 
         [Header("Result Panel")]
@@ -126,6 +131,7 @@ namespace ReinoOscuridad.UI.Combat
                 Debug.LogWarning("[CombatScene] CombatSystem no encontrado — modo degradado.");
 
             BuildTurnOrder();
+            RefreshBarraTurno();
             RefreshEnemyZone();
             RefreshHeroZone();
             UpdateTurnoLabel();
@@ -465,7 +471,18 @@ namespace ReinoOscuridad.UI.Combat
             if (_resultTitleText != null)
                 _resultTitleText.text = result.victoria ? "VICTORIA" : "DERROTA";
             if (_resultGradeText != null)
-                _resultGradeText.text = $"* * *  Grado: {result.gradoObtenido}";
+            {
+                if (result.victoria)
+                {
+                    int stars = CalcularEstrellas(_ctx.playerTeam);
+                    _resultGradeText.text  = stars == 3 ? "* * *" : stars == 2 ? "* * -" : "* - -";
+                    _resultGradeText.color = new Color(0.98f, 0.80f, 0.08f);
+                }
+                else
+                {
+                    _resultGradeText.text = "";
+                }
+            }
             if (_resultXPText != null)
                 _resultXPText.text = $"+{result.xpGanada} XP";
             if (_resultDropsText != null)
@@ -491,6 +508,61 @@ namespace ReinoOscuridad.UI.Combat
         }
 
         // ── Refresh UI ─────────────────────────────────────────────────────
+
+        private void RefreshBarraTurno()
+        {
+            if (_listaRetratos == null || _turnOrder == null) return;
+
+            // Destruir retratos anteriores
+            for (int i = _listaRetratos.childCount - 1; i >= 0; i--)
+                Destroy(_listaRetratos.GetChild(i).gameObject);
+
+            // Mostrar los próximos N slots del orden de turno (máx 8)
+            int count = Mathf.Min(_turnOrder.Count, 8);
+            for (int i = 0; i < count; i++)
+            {
+                int    slotIdx = (_currentSlotIndex + i) % _turnOrder.Count;
+                var    slot    = _turnOrder[slotIdx];
+                string label;
+                Color  color;
+
+                if (slot.IsHero && _ctx.playerTeam != null && slot.HeroIndex < _ctx.playerTeam.Length)
+                {
+                    var h = _ctx.playerTeam[slot.HeroIndex];
+                    label = string.IsNullOrEmpty(h.heroId) ? "?" : h.heroId.Substring(0, Mathf.Min(3, h.heroId.Length)).ToUpper();
+                    color = h.estaVivo ? new Color(0.20f, 0.45f, 0.75f) : new Color(0.35f, 0.35f, 0.35f);
+                }
+                else if (!slot.IsHero && _ctx.enemyTeam != null && slot.EnemyIndex < _ctx.enemyTeam.Length)
+                {
+                    var e = _ctx.enemyTeam[slot.EnemyIndex];
+                    label = string.IsNullOrEmpty(e.enemyId) ? "E" : e.enemyId.Substring(0, Mathf.Min(3, e.enemyId.Length)).ToUpper();
+                    color = e.estaVivo ? new Color(0.70f, 0.15f, 0.15f) : new Color(0.35f, 0.35f, 0.35f);
+                }
+                else continue;
+
+                var go  = new GameObject($"Retrato_{i}");
+                go.transform.SetParent(_listaRetratos, false);
+
+                var img = go.AddComponent<UnityEngine.UI.Image>();
+                img.color = i == 0 ? new Color(color.r * 1.3f, color.g * 1.3f, color.b * 1.3f) : color;
+
+                var rt       = go.GetComponent<RectTransform>();
+                rt.sizeDelta = new Vector2(36f, 36f);
+
+                var lblGO = new GameObject("Lbl");
+                lblGO.transform.SetParent(go.transform, false);
+                var tmp = lblGO.AddComponent<TextMeshProUGUI>();
+                tmp.text      = label;
+                tmp.fontSize  = 9f;
+                tmp.color     = Color.white;
+                tmp.alignment = TextAlignmentOptions.Center;
+                var lrt       = lblGO.GetComponent<RectTransform>();
+                lrt.anchorMin = Vector2.zero;
+                lrt.anchorMax = Vector2.one;
+                lrt.offsetMin = Vector2.zero;
+                lrt.offsetMax = Vector2.zero;
+            }
+        }
 
         private void RefreshEnemyZone()
         {
@@ -588,7 +660,7 @@ namespace ReinoOscuridad.UI.Combat
             _btnHuir?.onClick.AddListener(() =>
                 FinalizarCombate(new CombatResult
                 {
-                    victoria = false, drops = Array.Empty<string>(), gradoObtenido = "F"
+                    victoria = false, drops = Array.Empty<string>(), gradoObtenido = ""
                 }));
 
             _btnContinuar?.onClick.AddListener(OnContinuarPressed);
@@ -682,6 +754,7 @@ namespace ReinoOscuridad.UI.Combat
             if (_turnOrder == null || _turnOrder.Count == 0) return;
             _currentSlotIndex = (_currentSlotIndex + 1) % _turnOrder.Count;
             if (_currentSlotIndex == 0) _turnoActual++;
+            RefreshBarraTurno();
         }
 
         private bool SlotIsAlive(TurnSlot slot)
@@ -696,6 +769,16 @@ namespace ReinoOscuridad.UI.Combat
             if (_turnOrder == null || _currentSlotIndex >= _turnOrder.Count) return null;
             var s = _turnOrder[_currentSlotIndex];
             return s.IsHero ? _ctx.playerTeam?[s.HeroIndex] : null;
+        }
+
+        private int CalcularEstrellas(HeroInstance[] team)
+        {
+            if (team == null) return 0;
+            int bajas = 0;
+            foreach (var h in team) if (!h.estaVivo) bajas++;
+            if (bajas == 0)  return 3;
+            if (bajas <= 2)  return 2;
+            return 1;
         }
 
         private class TurnSlot

@@ -166,6 +166,13 @@ public static class SetupBootScene
             12f);
         btnReintentar.gameObject.SetActive(false);
 
+        var btnDevMode = MakeLoginButton(loginPanel.transform, "BtnDevMode",
+            "MODO DEV (sin login)",
+            new Vector2(0.08f, 0.03f), new Vector2(0.92f, 0.19f),
+            new Color(0.051f, 0.180f, 0.051f), // #0D2E0D
+            new Color(0.290f, 0.871f, 0.502f),  // #4ADE80
+            12f);
+
         // ── ErrorPanel ─────────────────────────────────────────────────────
 
         var errorPanel = new GameObject("ErrorPanel");
@@ -196,6 +203,7 @@ public static class SetupBootScene
         so.FindProperty("_btnApple")    .objectReferenceValue = btnApple;
         so.FindProperty("_btnGuest")    .objectReferenceValue = btnGuest;
         so.FindProperty("_btnRetry")    .objectReferenceValue = btnReintentar;
+        so.FindProperty("_btnDevMode")  .objectReferenceValue = btnDevMode;
         so.ApplyModifiedPropertiesWithoutUndo();
 
         // Cablear onClick via UnityEventTools
@@ -203,6 +211,7 @@ public static class SetupBootScene
         UnityEventTools.AddPersistentListener(btnApple.onClick,      controller.LoginWithApple);
         UnityEventTools.AddPersistentListener(btnGuest.onClick,      controller.LoginAsGuest);
         UnityEventTools.AddPersistentListener(btnReintentar.onClick, controller.RetryInit);
+        UnityEventTools.AddPersistentListener(btnDevMode.onClick,    controller.DevModeLogin);
     }
 
     // ── Utilidades ─────────────────────────────────────────────────────────

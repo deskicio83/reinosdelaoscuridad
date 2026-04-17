@@ -458,6 +458,9 @@ public static class SetupCombatScene
         so.FindProperty("_btnUsarTooltip").objectReferenceValue    = btnUsarTooltip;
         so.FindProperty("_btnCerrarTooltip").objectReferenceValue  = btnCerrarTooltip;
 
+        // Barra de Turno
+        so.FindProperty("_listaRetratos").objectReferenceValue    = listaRetratos.transform;
+
         // Result Panel
         so.FindProperty("_resultPanel").objectReferenceValue      = resultGO;
         so.FindProperty("_resultTitleText").objectReferenceValue  = tituloTxt;

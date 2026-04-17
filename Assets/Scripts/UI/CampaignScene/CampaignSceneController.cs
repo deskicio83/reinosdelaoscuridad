@@ -589,6 +589,10 @@ namespace ReinoOscuridad.UI.Campaign
                 var rt       = go.GetComponent<RectTransform>();
                 rt.sizeDelta = new Vector2(110f, 65f);
 
+                var le = go.AddComponent<LayoutElement>();
+                le.preferredWidth  = 110f;
+                le.preferredHeight = 65f;
+
                 // Etiqueta principal
                 var labelGO = new GameObject("Label");
                 labelGO.transform.SetParent(go.transform, false);
