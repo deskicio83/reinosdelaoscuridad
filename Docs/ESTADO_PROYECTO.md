@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S18b_MVP — 2026-04-16_
+_Última actualización: S19_fix — 2026-04-17_
 
 ---
 
@@ -39,6 +39,7 @@ _Última actualización: S18b_MVP — 2026-04-16_
 | S17 | PlayerProgressionSystem | Desbloqueos por nivel · Pase Oscuro · `AddPlayerXP` · `UpdateEnergyMax` |
 | S18 | CampaignScene | 7 mundos · 3 dificultades · nodos fase · desbloqueos secuenciales · navegación CombatScene |
 | S18b | BattlePrepPanel | Panel unificado RAID-style · selección equipo 4 héroes · scroll colección · RewardPanel |
+| S19_fix | SetupBootScene + validación MVP | `SetupBootScene.cs` Editor Script · `BootSceneController` con `_btnApple` + aliases públicos · `S19fix_Test.cs` 6 checks automáticos |
 
 ---
 
@@ -146,7 +147,7 @@ _Última actualización: S18b_MVP — 2026-04-16_
 
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
-| S19 | Visual del mapa CampaignScene | Alta — necesario para que sea jugable en producción |
+| S19b | Visual del mapa CampaignScene | Alta — necesario para que sea jugable en producción |
 | S20 | HeroScene — roster, filtros, upgrade, awaken | Alta |
 | S21 | GachaScene — pull x1/x10, animación, historial | Alta |
 | S22 | ArenaScene — PvP asincrónico | Media |

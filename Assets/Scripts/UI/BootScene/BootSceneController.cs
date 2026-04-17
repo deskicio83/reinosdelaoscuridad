@@ -28,6 +28,7 @@ namespace ReinoOscuridad.UI.Boot
 
         [Header("Botones de login")]
         [SerializeField] private Button _btnGoogle;
+        [SerializeField] private Button _btnApple;
         [SerializeField] private Button _btnGuest;
 
         [Header("Botón reintentar")]
@@ -37,7 +38,7 @@ namespace ReinoOscuridad.UI.Boot
 
         private TaskCompletionSource<LoginChoice> _loginTcs;
 
-        private enum LoginChoice { Google, Guest }
+        private enum LoginChoice { Google, Apple, Guest }
 
         // ── Ciclo de vida Unity ────────────────────────────────────────────────
 
@@ -141,8 +142,9 @@ namespace ReinoOscuridad.UI.Boot
                     switch (choice)
                     {
                         case LoginChoice.Google:
-                            // TODO: obtener idToken desde Google Sign-In SDK
                             throw new NotImplementedException("Google Sign-In SDK pendiente de integrar.");
+                        case LoginChoice.Apple:
+                            throw new NotImplementedException("Apple Sign-In pendiente de integrar (iOS).");
                         case LoginChoice.Guest:
                             await auth.LoginAsGuest();
                             break;
@@ -162,22 +164,23 @@ namespace ReinoOscuridad.UI.Boot
         // ── Callbacks de botones ──────────────────────────────────────────────
 
         /// Llamar desde el Inspector del botón Google (OnClick).
-        public void OnLoginGooglePressed()
-        {
-            _loginTcs?.TrySetResult(LoginChoice.Google);
-        }
+        public void OnLoginGooglePressed() => _loginTcs?.TrySetResult(LoginChoice.Google);
+
+        /// Llamar desde el Inspector del botón Apple (OnClick).
+        public void OnLoginApplePressed() => _loginTcs?.TrySetResult(LoginChoice.Apple);
 
         /// Llamar desde el Inspector del botón Invitado (OnClick).
-        public void OnLoginGuestPressed()
-        {
-            _loginTcs?.TrySetResult(LoginChoice.Guest);
-        }
+        public void OnLoginGuestPressed() => _loginTcs?.TrySetResult(LoginChoice.Guest);
 
         /// Llamar desde el Inspector del botón Reintentar (OnClick).
-        public void OnRetryPressed()
-        {
-            _retryTcs?.TrySetResult(true);
-        }
+        public void OnRetryPressed() => _retryTcs?.TrySetResult(true);
+
+        // ── Alias públicos (usados por SetupBootScene via UnityEventTools) ─────
+
+        public void LoginWithGoogle()  => OnLoginGooglePressed();
+        public void LoginWithApple()   => OnLoginApplePressed();
+        public void LoginAsGuest()     => OnLoginGuestPressed();
+        public void RetryInit()        => OnRetryPressed();
 
         // ── Gestión de UI ─────────────────────────────────────────────────────
 
