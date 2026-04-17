@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 using ReinoOscuridad.Core;
@@ -254,15 +253,15 @@ namespace ReinoOscuridad.Systems
 
         private void LoadLevelCurve()
         {
-            string path = Path.Combine(Application.dataPath, "Data", "player_level_curve.json");
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/player_level_curve");
+            if (ta == null)
             {
-                Debug.LogError($"[PlayerProgression] player_level_curve.json no encontrado: {path}");
+                Debug.LogError("[PlayerProgression] player_level_curve no encontrado en Resources/Data/");
                 _curve = null;
                 return;
             }
 
-            _curve = JsonConvert.DeserializeObject<LevelCurveData>(File.ReadAllText(path));
+            _curve = JsonConvert.DeserializeObject<LevelCurveData>(ta.text);
             if (_curve == null)
                 Debug.LogError("[PlayerProgression] player_level_curve.json vacío o malformado.");
         }

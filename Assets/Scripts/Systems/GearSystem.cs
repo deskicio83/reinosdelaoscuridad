@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -498,14 +497,14 @@ namespace ReinoOscuridad.Systems
 
         private void LoadGearCatalog()
         {
-            string path = Path.Combine(Application.dataPath, "Data", "gear_catalog.json");
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/gear_catalog");
+            if (ta == null)
             {
-                Debug.LogError($"[GearSystem] gear_catalog.json no encontrado: {path}");
+                Debug.LogError("[GearSystem] gear_catalog no encontrado en Resources/Data/");
                 return;
             }
 
-            var root = JsonConvert.DeserializeObject<GearCatalogRoot>(File.ReadAllText(path));
+            var root = JsonConvert.DeserializeObject<GearCatalogRoot>(ta.text);
             if (root?.gear == null)
             {
                 Debug.LogError("[GearSystem] gear_catalog.json vacío o malformado.");

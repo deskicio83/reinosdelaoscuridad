@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -405,16 +404,16 @@ namespace ReinoOscuridad.UI.Campaign
             _encounterById = new Dictionary<string, EncounterEntry>();
             _enemyById     = new Dictionary<string, EnemyCatalogEntry>();
 
-            string basePath = Path.Combine(Application.dataPath, "Data");
-            LoadEncounterCatalog(Path.Combine(basePath, "encounter_catalog.json"));
-            LoadEnemyCatalog(Path.Combine(basePath, "enemy_catalog.json"));
+            LoadEncounterCatalog();
+            LoadEnemyCatalog();
         }
 
-        private void LoadEncounterCatalog(string path)
+        private void LoadEncounterCatalog()
         {
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/encounter_catalog");
+            if (ta == null)
             {
-                Debug.LogError($"[CampaignController] encounter_catalog.json no encontrado: {path}");
+                Debug.LogError("[CampaignController] encounter_catalog no encontrado en Resources/Data/");
                 return;
             }
 
@@ -423,7 +422,7 @@ namespace ReinoOscuridad.UI.Campaign
                 Error = (_, args) => { args.ErrorContext.Handled = true; }
             };
 
-            var root = JsonConvert.DeserializeObject<EncounterCatalogRoot>(File.ReadAllText(path), settings);
+            var root = JsonConvert.DeserializeObject<EncounterCatalogRoot>(ta.text, settings);
             if (root?.encounters == null) return;
             foreach (var e in root.encounters)
                 if (e.encounterId != null)
@@ -431,14 +430,15 @@ namespace ReinoOscuridad.UI.Campaign
             Debug.Log($"[CampaignController] {_encounterById.Count} encuentros cargados.");
         }
 
-        private void LoadEnemyCatalog(string path)
+        private void LoadEnemyCatalog()
         {
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/enemy_catalog");
+            if (ta == null)
             {
-                Debug.LogError($"[CampaignController] enemy_catalog.json no encontrado: {path}");
+                Debug.LogError("[CampaignController] enemy_catalog no encontrado en Resources/Data/");
                 return;
             }
-            var root = JsonConvert.DeserializeObject<EnemyCatalogRoot>(File.ReadAllText(path));
+            var root = JsonConvert.DeserializeObject<EnemyCatalogRoot>(ta.text);
             if (root?.enemies == null) return;
             foreach (var e in root.enemies)
                 _enemyById[e.enemyId] = e;

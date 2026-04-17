@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -295,15 +294,15 @@ namespace ReinoOscuridad.Systems
 
         private void LoadHeroCatalog()
         {
-            string path = Path.Combine(Application.dataPath, "Data", "hero_catalog.json");
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/hero_catalog");
+            if (ta == null)
             {
-                Debug.LogError($"[HeroProgression] hero_catalog.json no encontrado: {path}");
+                Debug.LogError("[HeroProgression] hero_catalog no encontrado en Resources/Data/");
                 _heroes = new Dictionary<string, HeroData>();
                 return;
             }
 
-            var catalog = JsonConvert.DeserializeObject<HeroCatalog>(File.ReadAllText(path));
+            var catalog = JsonConvert.DeserializeObject<HeroCatalog>(ta.text);
             _heroes = new Dictionary<string, HeroData>();
 
             if (catalog?.heroes == null)
@@ -319,15 +318,15 @@ namespace ReinoOscuridad.Systems
 
         private void LoadLevelCurve()
         {
-            string path = Path.Combine(Application.dataPath, "Data", "hero_level_curve.json");
-            if (!File.Exists(path))
+            var ta = Resources.Load<TextAsset>("Data/hero_level_curve");
+            if (ta == null)
             {
-                Debug.LogError($"[HeroProgression] hero_level_curve.json no encontrado: {path}");
+                Debug.LogError("[HeroProgression] hero_level_curve no encontrado en Resources/Data/");
                 _curve = null;
                 return;
             }
 
-            _curve = JsonConvert.DeserializeObject<LevelCurveData>(File.ReadAllText(path));
+            _curve = JsonConvert.DeserializeObject<LevelCurveData>(ta.text);
             if (_curve == null)
                 Debug.LogError("[HeroProgression] hero_level_curve.json vacío o malformado.");
         }

@@ -1,293 +1,153 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Actualizar al final de cada sesión de Claude Code_
+_Última actualización: S18b_MVP — 2026-04-16_
+
+---
 
 ## Setup completado
 - [x] Unity 6000.4.0f1 · URP 2D · 1280×720 landscape
-- [x] Packages instalados (Addressables, Firebase, RevenueCat, TMP, Localization, Newtonsoft.Json)
+- [x] Packages: Addressables · Input System (New) · TextMeshPro · Localization (ES/EN) · Firebase SDK 13.9.0 · RevenueCat · Newtonsoft.Json
 - [x] Estructura de carpetas Assets/ creada
 - [x] CLAUDE.md en raíz
-- [x] JSONs copiados a Assets/Data/
+- [x] JSONs de catálogo en `Assets/Resources/Data/` (migrado desde `Assets/Data/` en S18b_MVP para compatibilidad Android)
+- [x] google-services.json en Assets/ (en .gitignore — cada dev lo coloca en local)
+
+---
 
 ## Sistemas implementados
-- [x] S02 — Modelos C# tipados para JSONs principales
-  - `GlobalVariables.cs` · `HeroCatalog.cs` · `PlayerData.cs`
-- [x] S03 — Núcleo de arquitectura
-  - `ISystem.cs` · `EventBus.cs` · `EventData.cs` · `GameManager.cs`
-- [x] S04 — PlayerDataSystem (GetPlayerData · UpdatePlayerData · Dirty · SetUID/GetUID)
-- [x] S04b — Migración a Newtonsoft.Json (Dictionary<string,T> funciona)
-- [x] S05 — EconomySystem (energía 4 min/unidad · oro · caosifera · offline regen)
-- [x] S06 — AuthSystem (Google · Apple · Facebook · Guest · OnAuthStateChanged)
-- [x] S07 — DataStorageSystem (1 read/sesión · writes en checkpoints · modo offline)
-- [x] S08 — BootSceneController
-  - `BootSceneController.cs` — Firebase init → Auth → Firestore → Energía offline → Navegación
-  - Guard defensivo: verifica GameManager e ISystem antes de continuar el flujo
-  - Paneles UI via SerializeField: loading · login · error · retry
-  - `tutorialCompleted` en PlayerData — navega a TutorialScene o MainMenuScene
-  - Flujo validado en BootScene.unity con todos los sistemas ✓
-- [x] S09 — UIManager
-  - `UIManager.cs` — Singleton DontDestroyOnLoad, implementa ISystem
-  - `NavigateTo(string)`: async Task, fade 200ms entrada+salida, historial máx 5 Scenes
-  - `NavigateBack()`: extrae última Scene del historial
-  - `ShowOverlay(GameObject)`: instancia prefab, máx 2 activos (auto-cierra el más antiguo)
-  - `HideOverlay(GameObject)`: Destroy + elimina del stack
-  - `ActiveOverlayCount`: propiedad pública
-  - FadeCanvas: Canvas sortingOrder=999, Image full-screen negro, DontDestroyOnLoad
-  - Back button Android: `Keyboard.current.escapeKey.wasPressedThisFrame` (New Input System)
-  - `BootSceneController.cs` actualizado — usa `UIManager.Instance.NavigateTo()` en lugar de SceneManager
-  - Validado con S09_Test: 5/5 checks PASS ✓
-- [x] S10 — HUD global (CurrencyPill + HUDIcons)
-  - `Assets/Scripts/Data/EnumData.cs` — enum `CurrencyType` (Energy · Gold · Caosifera); fichero central de enums
-  - `Assets/Scripts/UI/HUD/CurrencyPill.cs` — pill reutilizable: `UpdateValue(current, max)`, plusButton → ShopScene
-  - `Assets/Scripts/UI/HUD/HUDController.cs` — suscripción a `EventBus.OnCurrencyChanged`, `SetVisible(bool)`, `RefreshAll()`
-  - `Assets/Scripts/UI/HUD/HUDIcons.cs` — botones chat/mail/settings, badge de mail, prefabs de overlay asignados en S32
-  - Validado con S10_Test: 5/5 checks PASS ✓
 
-- [x] S10b — Editor Scripts HUD + MainMenuScene
-  - `Assets/Scripts/Utils/UIConstants.cs` — constantes globales de layout (HUD_HEIGHT_PERCENT=0.10, CONTENT_START_PERCENT=0.90)
-  - `Assets/Editor/Setup/SetupHUDPrefab.cs` — menú Tools → Reino Oscuridad → 1. Setup HUD Prefab
-    Genera HUD.prefab con 4 zonas (Background · ZonaJugador · ZonaMonedas · ZonaIconos), anclas relativas, referencias asignadas via SerializedObject
-  - Todo posicionamiento via anchorMin/anchorMax — cero píxeles absolutos
-- [x] S10c — MainMenuScene layout Bastión Maldito ✓ VALIDADO EN PLAY MODE
-  - `Assets/Editor/Setup/SetupMainMenuScene.cs` — reescrito y validado
-    - ZonaEdificios (0,0.14→1,0.90): ScrollRect bidireccional (horizontal+vertical)
-      · ZonaEdificios(ScrollRect) > Viewport(RectMask2D) > ContentEdificios(1900×640) > 11 edificios
-      · Edificios en grid 3 filas con anchoredPosition relativas al centro del Content
-      · ContentEdificios: Image transparente raycastTarget=true → drag en espacio vacío funciona
-      · RectMask2D en lugar de Mask+Image (Image alpha=0 no escribía al stencil buffer)
-    - ZonaAccesosRapidos (0,0→0.52,0.14): 6 iconos fijos, Triloguzano en el extremo derecho
-    - SubIconosAbanico: hijo del Canvas (no de ZonaAccesosRapidos), grid 2×2
-      · Torre=sup-izq, Boss=sup-der, Mazmorra=inf-der; Triloguzano en la barra = inf-izq
-      · Aparece/desaparece al pulsar Btn_Triloguzano (toggle SetActive)
-    - HUD.prefab instanciado en runtime por MainMenuController (no en design-time)
-  - `Assets/Scripts/UI/MainMenuScene/MainMenuController.cs` — actualizado
-    - GoToTriloguzano(): toggle SubIconosAbanico.SetActive
-    - GoToChat/Mail/Settings/Event/Profile(): log TODO overlay S32
-  - `Assets/Scripts/UI/MainMenuScene/MainMenuDebug.cs` — debug temporal (eliminar antes de producción)
-- [x] S11 — MainMenuController
-  - Hub de navegación central, Awake guard defensivo, Start instancia HUD + BindButtons
-  - Validado con S11_Test: checks PASS ✓
+| Sprint | Sistema | Descripción |
+|---|---|---|
+| S02 | Modelos C# | `GlobalVariables`, `HeroCatalog`, `PlayerData` tipados para los JSONs |
+| S03 | Núcleo arquitectura | `ISystem`, `EventBus`, `EventData`, `GameManager` |
+| S04 | PlayerDataSystem | `GetPlayerData`, `UpdatePlayerData`, `MarkDirty`, `SetUID/GetUID` |
+| S04b | Newtonsoft.Json | Migración a Newtonsoft — `Dictionary<string,T>` funciona |
+| S05 | EconomySystem | Energía 4 min/unidad · oro · caosifera · regen offline |
+| S06 | AuthSystem | Google · Apple · Facebook · Guest · `OnAuthStateChanged` |
+| S07 | DataStorageSystem | 1 read/sesión · writes en checkpoints · modo offline · fix `ToFirestoreValue()` para JArray/JObject |
+| S08 | BootSceneController | Firebase init → Auth → Firestore → Energía offline → navegación |
+| S09 | UIManager | Singleton DDOL · NavigateTo(fade 200ms) · ShowOverlay/HideOverlay · back button Android |
+| S10 | HUD global | `CurrencyPill` · `HUDController` (suscripción EventBus) · `HUDIcons` |
+| S10b | Editor Scripts HUD | `UIConstants` · `SetupHUDPrefab` → HUD.prefab |
+| S10c | MainMenuScene | Layout Bastión Maldito · edificios scroll · 6 iconos flotantes · Triloguzano abanico |
+| S11 | MainMenuController | Hub de navegación · Awake guard · instancia HUD runtime |
+| S12 | InputBlocker + LoadingScreen | Panel bloqueante SO49 · LoadingScreen SO998 DDOL fade 200ms · Modelos datos combate |
+| S13 | CombatSystem | Combate por turnos puro (sin UI) · 5 pasos: Dodge→Crit→Base→Elemental→Efecto · Bleed no removible |
+| S14 | CombatScene UI | Controlador combate · Modo Auto/Manual · HP bars dinámicas · ResultPanel |
+| S14a | CombatScene layout | 6 zonas corregidas · ZonaHabilidades fija · Tooltip compartido · ASCII en labels |
+| S15 | HeroProgressionSystem | Niveles 1–60 · `BuildHeroInstance` · `TryAwaken` · curva XP |
+| S16 | GearSystem | 6 slots · rolls triangular +3/+6/+9/+12 · `BuildCombatInstance` |
+| S17 | PlayerProgressionSystem | Desbloqueos por nivel · Pase Oscuro · `AddPlayerXP` · `UpdateEnergyMax` |
+| S18 | CampaignScene | 7 mundos · 3 dificultades · nodos fase · desbloqueos secuenciales · navegación CombatScene |
+| S18b | BattlePrepPanel | Panel unificado RAID-style · selección equipo 4 héroes · scroll colección · RewardPanel |
+
+---
 
 ## Scenes implementadas
-- [x] BootScene — `Assets/Scenes/BootScene.unity` — sistemas + BootController
-- [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity` — generada con Editor Script, validada en Play Mode ✓
 
-## Prefabs creados
-- [x] `Assets/Prefabs/UI/HUD.prefab` — HUDController + HUDIcons + 3× CurrencyPill
+| Scene | Estado | Notas |
+|---|---|---|
+| `BootScene.unity` | ✓ completa | Firebase init · Auth · Firestore · LoadingScreen |
+| `MainMenuScene.unity` | ✓ completa | 9 edificios scroll · HUD · navegación validada |
+| `CombatScene.unity` | ✓ completa | Flujo turno completo · Modo Auto/Manual · ResultPanel |
+| `CampaignScene.unity` | ✓ completa | 7 mundos · 3 dificultades · BattlePrepPanel · RewardPanel |
+| `HeroScene` | ✗ pendiente | No implementada |
+| `GachaScene` | ✗ pendiente | No implementada |
+| `ArenaScene` | ✗ pendiente | No implementada |
+| `TowerScene` | ✗ pendiente | No implementada |
+| Resto de Scenes (8) | ✗ pendiente | No implementadas |
 
-## Notas técnicas — CombatScene
-- **6 zonas**: BarraOrdenTurno (izq) · ZonaEnemigos (centro sup) · PanelControles (der sup) · ZonaEquipo (inf izq) · ZonaConjuros (inf der) · ResultPanel (overlay)
-- Enemigos dinámicos: 1-3 slots, `SetActive(false)` para los vacíos al iniciar
-- Equipo siempre 4 slots (WorldBoss 20 fuera de scope actual)
-- Habilidades flotan sobre la carta activa (`IconosHabilidad` SetActive per turno)
-- Conjuros: 2×5 = 10 slots, esquina inferior derecha
-- InputBlocker activo durante ResultPanel (Sort Order 49)
-- Flujo: `CombatSceneData.PendingContext` → `NavigateTo("CombatScene")` → `Start()` → `ProcessCombat` → `ResultPanel` → `NavigateTo(callerScene)`
+**Build Settings orden correcto:**
+- 0: `BootScene` · 1: `MainMenuScene` · 2: `CombatScene` · 3: `CampaignScene`
 
-## Notas técnicas
-- Orden de ejecución (`DefaultExecutionOrder`):
-  GameManager: -100 · UIManager: -75 · PlayerDataSystem: -50 · EconomySystem: -25 · AuthSystem: -20 · DataStorageSystem: -15 · CombatSystem: -10 · HeroProgressionSystem: -8 · GearSystem: -6 · PlayerProgressionSystem: -5
-- Deserialización: **Newtonsoft.Json** en todo el proyecto
-- Firebase SDK 13.9.0: `SignInAnonymouslyAsync` → `Task<AuthResult>.User` · `SignInWithCredentialAsync` → `Task<FirebaseUser>`
-- `google-services.json` y `GoogleService-Info.plist` en Assets/ — en `.gitignore`, cada desarrollador los coloca en local
-- BootScene contiene todos los GameObjects de sistemas (DontDestroyOnLoad) — solo necesitan estar aquí
-- **New Input System**: nunca usar `Input.GetKeyDown`. Usar `Keyboard.current`, `Touchscreen.current` o ActionAsset
-- **HeroProgressionSystem**: stats = `Lerp(statBase, statMax, t)` con `t=(nivel-1)/(maxLevel-1)`. Base y max vienen del hero_catalog.json por héroe. Awaken requiere nivel máximo + copias (N = estrellas actuales). XP se añade via AddXP() que auto-levela en bucle si supera umbral. Gear y maestrías se aplican encima en GearSystem (S16).
-- **UI**: posicionamiento siempre por anclas relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales. Editor Scripts en `Assets/Editor/Setup/` configuran cada Scene automáticamente.
-- **InputBlocker**: panel bloqueante reutilizable entre Scene y overlay. UIManager lo gestiona automáticamente al abrir/cerrar overlays. Sort Order 49 por defecto (por debajo de cualquier overlay).
-- **LoadingScreen**: Sort Order 998, DontDestroyOnLoad, frases y carrusel configurables. Usar Show/SetProgress/Hide en cualquier carga async. Hide() hace fade out 200ms.
-- **GearSystem**: 6 slots por héroe (weapon/helmet/armor/boots/ring/necklace). Rolls de substats en +3/+6/+9/+12. Distribución triangular sesgada al mínimo: `roll = max - (max-min)*Sqrt(1-u)`. `BuildCombatInstance()` = HeroProgressionSystem.BuildHeroInstance + gear stats aplicados encima. Stats%: se aplican sobre base heroica (no sobre total acumulado de gear). `EconomySystem.ConsumeGold()` gestiona el coste de mejora.
-- **PlayerProgressionSystem**: desbloqueos por nivel definidos en DESBLOQUEOS hardcodeado (variables_globales.json no los define). Torre Normal+Difícil desbloquean juntas en nivel 10. XP se recibe via EventBus.OnCombatCompleted. Pase Oscuro tiene carril free y premium — `TienePasePremium()` consulta playerData. energiaMax actualiza en PlayerData al subir nivel (tabla: L1-9→60, L10→70, L20→80, L30+→100); EconomySystem.MaxEnergy se sincroniza en la siguiente sesión.
+---
 
-## ⚠️ Bugs conocidos / Pendientes
-- **Firestore parse error** (no bloqueante): documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43`
-  en Firestore tiene `artifactInventory[0].artifactId` = array en lugar de string.
-  Solución: borrar el documento desde Firebase Console. El fallback a datos locales funciona correctamente.
-- **Firestore security rules**: configurar antes de producción:
-  `allow read, write: if request.auth != null && request.auth.uid == userId;`
-- **Google Sign-In SDK**: pendiente de integrar (LoginWithGoogle lanza NotImplementedException)
-- **TutorialScene**: no existe aún — añadir a Build Settings cuando se cree
-## Pendiente antes de producción
-- `Assets/Scripts/UI/MainMenuScene/MainMenuDebug.cs` — eliminar o desactivar
-- **Firestore security rules**: `allow read, write: if request.auth != null && request.auth.uid == userId;`
-- **Google Sign-In SDK**: pendiente de integrar
-- **TutorialScene**: no existe aún
+## Assets
 
-- [x] S12 — InputBlocker + LoadingScreen + Modelos datos combate
-  - `Assets/Scripts/UI/Common/InputBlocker.cs` — singleton por Scene, Canvas SSO, Image transparente raycastTarget=true, Show(sortOrder)/Hide()
-  - `Assets/Scripts/UI/Common/LoadingScreen.cs` — singleton DontDestroyOnLoad, Sort Order 998, Show/Hide(fade 200ms)/SetProgress(float)/SetProgress(float,float), 8 frases, carrusel de sprites
-  - `Assets/Editor/Setup/SetupInputBlockerPrefab.cs` — menú 3. Setup InputBlocker Prefab → Assets/Prefabs/UI/InputBlocker.prefab
-  - `Assets/Editor/Setup/SetupLoadingScreenPrefab.cs` — menú 4. Setup LoadingScreen Prefab → Assets/Prefabs/UI/LoadingScreen.prefab
-  - `Assets/Scripts/Core/UIManager.cs` — integración InputBlocker: Show al abrir overlay, Hide al cerrar el último
-  - `Assets/Scripts/Data/CombatContext.cs` — datos entrada CombatScene (encounterID, callerScene, combatMode, playerTeam, enemyTeam, maldicionActiva, elementoBoss)
-  - `Assets/Scripts/Data/CombatResult.cs` — datos salida CombatScene (victoria, danoTotal, drops, xpGanada, trofeosDelta, gradoObtenido)
-  - `Assets/Scripts/Data/HeroInstance.cs` — héroe en combate (hp, stats, efectosActivos, habilidadesEquipadas)
-  - `Assets/Scripts/Data/EnemyInstance.cs` — enemigo en combate (hp, stats, efectosActivos)
-  - `Assets/Scripts/Data/DungeonContext.cs` — contexto mazmorra (dungeonId, nivelDungeon, elementoDungeon, callerScene)
-  - Validado S12_Test: 10/10 PASS ✓
+**Prefabs:**
+- `Assets/Prefabs/UI/HUD.prefab`
+- `Assets/Prefabs/UI/InputBlocker.prefab`
+- `Assets/Prefabs/UI/LoadingScreen.prefab`
+- `Assets/Prefabs/UI/BattlePrepPanel.prefab`
+- `Assets/Prefabs/UI/RewardPanel.prefab`
 
-- [x] S13 — CombatSystem — lógica de combate por turnos completa (pura, sin UI)
-  - `Assets/Scripts/Systems/CombatSystem.cs` — `[DefaultExecutionOrder(-10)]`, implementa `ISystem`
-    - `ProcessCombat(CombatContext)` → `CombatResult`: bucle de turnos (máx 50), orden SPD desc, empates jugador primero
-    - `CalculateDamage(HeroInstance, EnemyInstance, float)` → `DamageResult`: 5 pasos Dodge→Crit→Base→Elemental→Efecto
-    - `CalculateDamageEnemyAttack(EnemyInstance, HeroInstance)` → `DamageResult`: enemigos crit base 5 %
-    - `TryApplyEffect(TipoEfecto, List<string>, int, int)` → bool: máx 3 stacks, chance = acc/100 - res/100 clamped [0.10, 0.90]
-    - `RemoveEffect(TipoEfecto, List<string>)` → bool: Bleed no removible (devuelve false)
-    - `GetElementalMultiplier(string, string)` → float: tabla 12 relaciones + mismo elemento 0.85
-    - Shield absorbe daño antes de HP; Stun salta turno; DoT (Bleed 8 %, Burn 6 %, Poison 5 % hpMax/turno)
-  - `Assets/Scripts/Data/EnumData.cs` — añadido enum `TipoEfecto` (17 valores)
-  - `Assets/Scripts/Data/CombatContext.cs` — añadido struct `DamageResult`
-  - `Assets/Scripts/Data/EventData.cs` — añadidos structs `CombatTurnEndData` · `UnitDamagedData` · `UnitDefeatedData` · `EffectAppliedData`
-  - `Assets/Scripts/Core/EventBus.cs` — 4 nuevos eventos: `OnCombatTurnEnd` · `OnUnitDamaged` · `OnUnitDefeated` · `OnEffectApplied`
-  - Validado S13_Test: 8/8 PASS ✓
+**Placeholders PNG (21 archivos):** `Assets/Resources/Placeholders/`
+- Héroes por elemento: fuego · agua · tierra · naturaleza · luz · oscuridad · rayo · hielo
+- Enemigos por tipo: humanoide · bestia · no_muerto · demonio · dragon · elemental · generico
+- Nodos de mapa: bloqueado · disponible · jefe · completado
+- Fondos: boot · campaign · combat · mainmenu
 
-- [x] S14 — CombatScene — flujo de turno completo con UI de cartas
-  - `Assets/Scripts/Data/CombatSceneData.cs` — pasarela estática entre Scenes (`PendingContext` · `LastResult` · `SetResult`)
-  - `Assets/Scripts/UI/CombatScene/CombatSceneController.cs` — MonoBehaviour no singleton
-    - `Start()`: recibe CombatContext desde CombatSceneData, muestra LoadingScreen, inicializa UI, inicia bucle de combate
-    - `TurnState` enum: WaitingForInput · SelectingTarget · ProcessingAction · ShowingResult · CombatFinished
-    - **Modo Auto**: `CombatSystem.ProcessCombat()` ejecuta todo, `SkipToResult()` salta directo al ResultPanel
-    - **Modo Manual**: coroutine con `WaitUntil` — `SelectAbility(int)` → `SelectTarget(int)` → `ProcessHeroAction()`; enemigos atacan automáticamente
-    - Orden de turno por SPD desc, empates: jugador primero; Stun salta turno
-    - `FinalizarCombate(CombatResult)`: publica `EventBus.OnCombatCompleted`, activa `InputBlocker`, muestra ResultPanel
-    - `OnContinuarPressed()`: oculta InputBlocker, navega a `ctx.callerScene` via `UIManager.NavigateTo()`
-    - HP bars actualizan color dinámico: >60% verde · 30-60% naranja · <30% rojo
-  - `Assets/Editor/Setup/SetupCombatScene.cs` — menú 5. Setup CombatScene
-    - Camera ortográfica · EventSystem con InputSystemUIInputModule
-    - ZonaEnemigos: 3 slots EnemySlot_N con Button + HPBar (Fondo + Relleno + HPText)
-    - BarrasHP_Enemigos: 3 barras alineadas sobre los enemigos
-    - ZonaEquipo: 5 HeroCard_N con Portrait + NombreHero + HPBar + TurnIndicator
-    - PanelHabilidades: 3 botones (BtnHabilidad_0 superior + 1 y 2 en cuadrícula inferior)
-    - ControlesCombate: BtnAuto · BtnVelocidad · TurnoText · BtnHuir
-    - ResultPanel (SetActive false): TituloResult · GradeText · XPText · DropsText · BtnContinuar
-    - Systems GameObject con CombatSystem
-    - Todas las referencias SerializeField del CombatSceneController cableadas via SerializedObject
+**JSONs catálogos:** `Assets/Resources/Data/` (cargados vía `Resources.Load<TextAsset>()`)
+- `hero_catalog.json` · `hero_level_curve.json` · `gear_catalog.json`
+- `player_level_curve.json` · `encounter_catalog.json` · `enemy_catalog.json`
 
-- [x] S14a — CombatScene layout corregido + tooltip de habilidades ✓ VALIDADO EN PLAY MODE
-  - **Layout 6 zonas corregido** (anclas relativas, sin píxeles absolutos):
-    - `BarraOrdenTurno`: acortada a y 0.40–0.95 (antes cubría 0.08–0.92)
-    - `ZonaHabilidades` (nueva): y 0.03–0.37 bajo la barra — 3 círculos BtnHab_0/1/2
-    - `ZonaEnemigos`: y 0.55–0.95 · tarjeta: HPBar arriba → Sprite centro → EfectosBar abajo
-    - `ZonaEquipo`: y 0.03–0.47 · tarjeta: TurnIndicator → EfectosBar → Portrait → Nombre → HPBar
-    - Gap visible entre zonas: y 0.47–0.55 (~58 px a 720 p)
-    - `ZonaConjuros`: reducida a x 0.66–0.99, y 0.03–0.43
-    - `TooltipPanel` (nuevo): centrado, compartido para habilidades y conjuros; botones "Usar" + "Cerrar"
-    - ASCII en todos los labels TMP: `"x1 >"` · `"||"` — sin warnings de unicode
-  - **CombatSceneController.cs** actualizado:
-    - `_iconosHabilidad[]` eliminado → sustituido por `_abilityCircles[3]` en ZonaHabilidades
-    - `ShowTooltip(desc, onConfirm)` / `HideTooltip()` / `OnUsarTooltip()` — tooltip compartido
-    - Tap círculo hab → tooltip con "Usar" → `SelectAbility(i)` → elige objetivo
-    - Tap conjuro → tooltip con descripción (solo "Cerrar", sin acción)
-    - `UpdateAbilityCirclesForHero(heroIndex)` / `DisableAbilityCircles()` sustituyen ShowIconosHabilidad
-    - Nuevos SerializeField: `_abilityCircles` · `_tooltipPanel` · `_tooltipText` · `_btnUsarTooltip` · `_btnCerrarTooltip`
-  - Flujo validado: soloUnEnemigo=true ✓ · soloUnEnemigo=false ✓ (navegación + combate + ResultPanel)
+**JSONs estáticos no cargados en runtime:** `Assets/Data/`
+- `drop_table.json` · `environment_catalog.json` · `spells_catalog.json`
+- `player_data.json` (fallback solo Editor — Firebase lo reemplaza en device)
 
-## Scenes implementadas
-- [x] BootScene — `Assets/Scenes/BootScene.unity`
-- [x] MainMenuScene — `Assets/Scenes/MainMenuScene.unity`
-- [x] CombatScene — `Assets/Scenes/CombatScene.unity` — **regenerar con menú Tools → Reino Oscuridad → 5. Setup CombatScene** (layout v2 listo)
+---
 
-- [x] S15 — HeroProgressionSystem — niveles, awaken y cálculo de stats
-  - `Assets/Data/hero_level_curve.json` — curva XP niveles 1–60 (exponencial ×1.14/nivel)
-  - `Assets/Scripts/Data/LevelCurveData.cs` — modelo C# de la curva
-  - `Assets/Scripts/Systems/HeroProgressionSystem.cs` — `[DefaultExecutionOrder(-8)]`, implementa ISystem
-    - `BuildHeroInstance(heroId, nivel)` → `HeroInstance`: `stat = Lerp(statBase, statMax, t)` donde `t=(nivel-1)/(maxLevel-1)`. Devuelve null con log si heroId no existe
-    - `TryLevelUp(heroId)` → bool: consume XP del roster, publica `OnHeroLevelUp`; false si al máximo o sin XP
-    - `AddXP(heroId, cantidad)`: añade XP y llama TryLevelUp en bucle (gana múltiples niveles)
-    - `TryAwaken(heroId)` → bool: requiere nivel máximo + copias (N=estrellas actuales). Consume copias. Publica `OnHeroAwakened`. Máx 6★
-    - `GetNivel(heroId)` · `GetEstrellas(heroId)` · `GetXPProgress(heroId)` (0–1)
-    - Carga hero_catalog.json y hero_level_curve.json una vez en Initialize() → Dictionary en memoria
-  - `Assets/Scripts/Core/EventBus.cs` — añadidos `OnHeroLevelUp · OnHeroAwakened`
-  - `Assets/Scripts/Data/EventData.cs` — añadidos `HeroLevelUpData · HeroAwakenedData`
+## Build Android
 
-- [x] S16 — GearSystem — equipamiento, mejora y stats combinados héroe + gear
-  - `Assets/Scripts/Data/GearInstance.cs` — modelo completo: instanceId, gearId, slot, rareza, nivel (0–15), mainStat, mainStatValue, List<SubstatEntry> substats (máx 4), equipadoEn
-  - `Assets/Scripts/Data/GearCatalog.cs` — GearCatalogRoot/GearCatalogItem para deserializar gear_catalog.json (mainStatRanges, subStatRanges)
-  - `Assets/Scripts/Systems/GearSystem.cs` — `[DefaultExecutionOrder(-6)]`, implementa ISystem
-    - `AddGearToInventory(GearInstance)`: registra en _gearById + PlayerData.gearInventory
-    - `EquipGear(instanceId, heroId, slot)` → bool: verifica slot match, desplaza gear previo al inventario, publica OnGearChanged
-    - `UnequipGear(instanceId)`: mueve al inventario, publica OnGearChanged
-    - `TryUpgradeGear(instanceId)` → bool: coste (nivel+1)*500 Oro Negro via EconomySystem; roll en +3/+6/+9/+12
-    - `RollSubstat(gear)`: revela uno no revelado si los hay, si 4/4 revelados sube uno existente; distribución triangular
-    - `BuildCombatInstance(heroId)` → HeroInstance: HPS.BuildHeroInstance + gear stats (bases capturadas antes del loop)
-    - `TriangularRoll(min, max)` → int: método público estático para tests
-    - Mapeo catálogo español → slot inglés: espada→weapon, casco→helmet, pechera→armor, botas→boots, guantes→ring, escudo→necklace
-  - `Assets/Scripts/Data/EventData.cs` — añadido campo `heroId` a GearChangedData
+**Estado:** Configurada, NO ejecutada (Unity estaba abierto al intentar CLI build)
 
-- [x] S17 — PlayerProgressionSystem — XP jugador, desbloqueos y Pase Oscuro
-  - `Assets/Data/player_level_curve.json` — curva XP jugador: baseExp=1000, growth=1.1, maxLevel=100
-  - `Assets/Scripts/Systems/PlayerProgressionSystem.cs` — `[DefaultExecutionOrder(-5)]`, implementa ISystem
-    - `AddPlayerXP(int)`: acumula XP, sube niveles en bucle, publica OnPlayerLevelUp con desbloqueos[]
-    - `GetPlayerNivel() / GetPlayerXPActual() / GetPlayerXPParaSiguiente() / GetPlayerXPProgress(0-1)`
-    - `IsFeatureUnlocked(featureId)`: verifica nivel actual vs tabla de desbloqueos
-    - `GetFeaturesUnlockedAt(nivel)`: usado por UI para mostrar nuevos desbloqueos
-    - `AddPasePoints(int)`: acumula puntos del Pase, sube nivel en bucle (1000 pts/nivel), publica OnPaseLevelUp
-    - `GetPaseNivel() / TienePasePremium()`
-    - Suscripción a OnCombatCompleted → AddPlayerXP / OnMissionCompleted → AddPasePoints
-    - UpdateEnergyMax actualiza pd.energiaMax según nivel (L10→70, L20→80, L30→100)
-  - `Assets/Scripts/Data/PlayerData.cs` — añadidos `playerXP` (int) y `paseOscuro` (PaseOscuroData)
-    - `PaseOscuroData`: nivelActual, puntosActuales, tienePasePremium
-  - `Assets/Scripts/Data/EventData.cs` — PlayerLevelUpData ampliado (nuevoNivel + desbloqueos[]);
-    PaseLevelUpData añadido; pasePoints añadido a MissionCompletedData
-  - `Assets/Scripts/Core/EventBus.cs` — OnPaseLevelUp añadido
+**Player Settings Android configurados (S18b_MVP):**
+- Bundle ID: `com.DesdeMiPC.ReinosdelaOscuridad` ✓
+- Min API: 25 (Android 7.1) ✓
+- Target API: 33 (Android 13) ✓ ← corregido de 0→33
+- Scripting Backend: IL2CPP ✓
+- Target Architectures: ARMv7 + ARM64 (valor 3) ✓ ← corregido de 2→3
+- Orientation: Landscape Left forzado ✓ ← corregido de LandscapeRight→LandscapeLeft
+- Internet Access: Required ✓ ← corregido de 0→1
+- Development Build: listo en `Assets/Editor/BuildAndroid.cs` (menú Tools → 9. Build Android MVP)
 
-- [x] S18 — CampaignScene — mapa PvE con 7 mundos, 3 dificultades y navegación a CombatScene
-  - `Assets/Scripts/Data/PlayerData.cs` — añadida clase `CampaignProgressData` (mundoActual, faseActual, dificultadActual, fasesCompletadas, ultimoEncuentroIntentado) y campo `campana` en PlayerData
-  - `Assets/Scripts/UI/CampaignScene/CampaignSceneController.cs` — MonoBehaviour NO singleton, namespace `ReinoOscuridad.UI.Campaign`
-    - `IsFaseDesbloqueada(mundo, fase, dif)`: lógica de desbloqueo secuencial por mundo/dif. Mundo 0 Fase 0 siempre desbloqueado. Dificil: requiere 7 fases normal del mismo mundo. Heroica: requiere 7 fases dificil.
-    - `BuildEncounterKey(mundo, fase, dif)`: genera `campaign_mundo_N_fM_dif` / `campaign_mundo_N_boss_dif`
-    - `BuildPlayerTeam()`: GearSystem.BuildCombatInstance para los primeros 4 héroes del roster
-    - `BuildEnemyTeam(key)`: busca en encounter_catalog.json → construye EnemyInstances; placeholder si clave desconocida
-    - `MarcarFaseCompletada(key)`: añade a fasesCompletadas sin duplicados, MarkDirty
-    - `CheckCombatReturn()`: lee CombatSceneData.LastResult, marca victoria, limpia resultado
-    - Carga `encounter_catalog.json` (309 encuentros) y `enemy_catalog.json` (72 enemigos) una vez en Awake, con manejo de error para campos malformados (`enemies` como string en algunos encuentros)
-    - UI dinámica: tabs de mundo y dificultad, nodos de fase con colores según desbloqueo (gris=bloqueado, blanco=normal, amarillo=boss)
-  - `Assets/Editor/Setup/SetupCampaignScene.cs` — menú Tools → Reino Oscuridad → 6. Setup CampaignScene
-    - Camera · EventSystem(InputSystemUIInputModule) · Canvas(1280×720)
-    - ContenedorMundos (TopBar, HorizontalLayoutGroup) · ContenedorDificultad · ScrollFases(horizontal) · BtnVolver
-    - CampaignSceneController con referencias wired via SerializedObject
-  - `Assets/Scripts/Firebase/DataStorageSystem.cs` — fix pre-existente: `ToFirestoreValue()` convierte recursivamente JObject/JArray de Newtonsoft a Dictionary<string,object>/List<object> nativos antes de `SetAsync()`. Eliminaba error "Nested arrays are not supported" de Firestore.
-  - Validado S18_Test: 8/8 PASS ✓
+**Bloqueador resuelto:** Catálogos JSON migrados a `Assets/Resources/Data/` para que estén en el APK y sean accesibles con `Resources.Load<TextAsset>()` en Android.
 
-## Notas técnicas adicionales
-- **CampaignProgressData.fasesCompletadas**: List<string> con claves de encuentro completados. Normalizado en Firestore como array de strings en un map (compatible). Inicializado con `??=` para compatibilidad con partidas antiguas.
-- **encounter_catalog.json**: algunos encuentros tienen `enemies` como string ("procedural_from_campaign_pool") en lugar de array — la deserialización usa callback de error para saltarlos sin romper el resto del catálogo.
-- **DataStorageSystem**: Firestore SDK no puede serializar directamente JArray/JObject de Newtonsoft. Se añadió `ToFirestoreValue()` que convierte recursivamente a tipos nativos antes del `SetAsync()`.
+### Pasos manuales para generar la build:
+1. Cerrar cualquier instancia de Unity en este proyecto
+2. Abrir el proyecto en Unity Editor
+3. Menú `Tools → Reino Oscuridad → Build Android MVP` (o File → Build Settings → Build)
+4. APK se generará en `Builds/Android/ReinosOscuridad_MVP.apk`
 
-- [x] S18b — BattlePrepPanel unificado (RAID-style) + RewardPanel + placeholders ✓ VALIDADO EN PLAY MODE
-  - `Assets/Scripts/UI/CampaignScene/BattlePrepPanel.cs` — overlay unificado que reemplaza TeamSelectPanel + PanelConfirmacion
-    - `BattlePrepPanel.Show(prefab, titulo, energyCost, enemies[], onBatallar)`: factory estático, instancia via UIManager
-    - Layout RAID Shadow Legends: BarraSuperior (título + energía + cancelar) · ZonaIzquierda (2×2 slots equipo + BtnBatallar) · ZonaDerecha (cartas enemigos) · ZonaHeroes (scroll horizontal colección)
-    - Selección interactiva: tap héroe → asigna al siguiente slot libre; tap slot ocupado → libera slot
-    - Carga último equipo usado desde PlayerData.campana.ultimoEquipoUsado si existe
-    - Enemy cards con color por elemento; hero cards con overlay verde de selección y número de slot
-  - `Assets/Editor/Setup/SetupBattlePrepPrefab.cs` — menú Tools → Reino Oscuridad → 7. Setup BattlePrep Prefab
-    - Genera Assets/Prefabs/UI/BattlePrepPanel.prefab con todo el layout wired via SerializedObject
-    - Colores: zona izquierda verde oscuro · zona derecha azul-morado · separador vertical 1.5px
-  - `Assets/Scripts/UI/CampaignScene/RewardPanel.cs` — overlay de recompensas post-combate
-    - Muestra drops, XP ganada y botón Continuar
-  - `Assets/Editor/Setup/SetupRewardPanelPrefab.cs` — menú 8. Setup RewardPanel Prefab
-  - `Assets/Scripts/UI/CampaignScene/CampaignSceneController.cs` — simplificado: eliminado flujo PanelConfirmacion → TeamSelectPanel; OnFaseClick llama directamente BattlePrepPanel.Show()
-  - `Assets/Editor/Setup/SetupCampaignScene.cs` — limpiado: eliminado bloque PanelConfirmacion (~50 líneas); wires BattlePrepPanel + RewardPanel prefabs
-  - Assets Addressables: placeholder PNG en Assets/Addressables/UI/Test.png + Assets/Resources/Placeholders/
-  - **TeamSelectPanel.cs eliminado** (reemplazado por BattlePrepPanel)
-  - **SetupTeamSelectPrefab.cs eliminado** (reemplazado por SetupBattlePrepPrefab)
+---
 
-## Siguiente paso
-S19 — visual del mapa CampaignScene: diseño de mundos temáticos, nodos conectados por caminos, portrait del boss (ver GDD o Director de Proyecto).
+## Deuda técnica activa
 
-## Pendiente de definición por el Director de Proyecto
+| Prioridad | Issue | Detalle |
+|---|---|---|
+| 🔴 Alta | Firestore security rules | `allow read, write: if request.auth != null && request.auth.uid == userId;` — configurar antes de producción |
+| 🔴 Alta | Google Sign-In SDK | `LoginWithGoogle()` lanza `NotImplementedException` |
+| 🟡 Media | TutorialScene | No existe — añadir a Build Settings cuando se cree |
+| 🟡 Media | Energía — feedback visual | Si energía < coste, `OnTeamSelected()` retorna en silencio sin mensaje al jugador |
+| 🟡 Media | MainMenuDebug.cs | Eliminar o desactivar antes de producción |
+| 🟡 Media | RewardPanel no conectado | `CheckCombatReturn()` llama a `RewardPanel.Show()` pero el flujo completo requiere validación en Play Mode |
+| 🟢 Baja | Firestore parse error | Documento de uid `jgdMjlq3sdRmFKCRcXz8b7WPDz43` tiene `artifactInventory[0].artifactId` como array — borrar desde Firebase Console |
+| 🟢 Baja | player_data.json en build | Solo se usa como fallback en Editor; en Android Firebase lo reemplaza. Si Firebase falla, el jugador ve datos vacíos |
 
-### CampaignScene — lo que falta para que sea jugable en producción
+---
 
-**1. Visual del mapa** (no definido en S18/S18b)
-- Actualmente: botones planos (M1–M7) + nodos de fase como rectángulos de colores
-- Necesario: diseño visual del mundo (fondos temáticos por mundo, nodos conectados por caminos, portrait del boss al final)
-- Preguntas para el Director: ¿mapa isométrico? ¿scroll lateral de nodos? ¿pantalla fija por mundo? ¿assets Addressables por mundo o sprites inline?
+## Notas técnicas críticas
 
-**2. Rewarding post-combate en CampaignScene**
-- Actualmente: RewardPanel implementado pero no wired al CheckCombatReturn()
-- Necesario: al volver de CombatScene con victoria, mostrar drops obtenidos y XP ganada antes de volver al mapa
+- **Input System**: SIEMPRE `InputSystemUIInputModule`. NUNCA `StandaloneInputModule`. Verificado en las 4 Scenes del MVP.
+- **JSON loading**: `Resources.Load<TextAsset>("Data/<nombre_sin_extension>")` para catálogos estáticos. `Application.dataPath + "/Data/"` con `File.ReadAllText` SOLO funciona en Editor.
+- **Firestore / escrituras**: 1 read en BootScene · writes solo en checkpoints (fin combate, gacha x10, cierre app). NUNCA en Update() ni coroutines periódicas.
+- **UI anchors**: siempre relativas (0–1). NUNCA píxeles absolutos. `UIConstants` define márgenes globales.
+- **Orden ejecución DefaultExecutionOrder**: GameManager -100 · UIManager -75 · PlayerDataSystem -50 · EconomySystem -25 · AuthSystem -20 · DataStorageSystem -15 · CombatSystem -10 · HeroProgressionSystem -8 · GearSystem -6 · PlayerProgressionSystem -5
+- **CombatScene agnostica**: recibe `CombatContext` vía `CombatSceneData.PendingContext`, devuelve `CombatResult` vía `CombatSceneData.LastResult`.
+- **EventBus**: única vía de comunicación entre sistemas. No llamadas directas entre sistemas.
+- **Bleed**: NO puede removerse por Cleanse (hardcoded en CombatSystem).
+- **GearSystem rolls**: distribución triangular sesgada al mínimo: `roll = max - (max-min)*Sqrt(1-u)`.
 
-**3. Progreso visual dentro del mundo**
-- Actualmente: barra placeholder en la parte inferior
-- Necesario: indicador de cuántas fases completadas (ej. "4/7") y si el boss está disponible
+---
+
+## Próximas sesiones
+
+| Sprint | Objetivo | Prioridad |
+|---|---|---|
+| S19 | Visual del mapa CampaignScene | Alta — necesario para que sea jugable en producción |
+| S20 | HeroScene — roster, filtros, upgrade, awaken | Alta |
+| S21 | GachaScene — pull x1/x10, animación, historial | Alta |
+| S22 | ArenaScene — PvP asincrónico | Media |
+| S23 | RewardPanel — conectar a CheckCombatReturn | Media |
+| S24 | ShopScene — paquetes IAP RevenueCat | Media |
+| S25 | Google Sign-In SDK integración | Alta (bloquea producción) |
+| Prod | Firestore security rules | Antes de cualquier deploy |
