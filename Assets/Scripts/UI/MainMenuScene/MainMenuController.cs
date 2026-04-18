@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ReinoOscuridad.Core;
+using ReinoOscuridad.Systems;
 
 namespace ReinoOscuridad.UI.MainMenu
 {
@@ -8,6 +9,29 @@ namespace ReinoOscuridad.UI.MainMenu
     /// Todos los botones se asignan via SerializeField desde el Inspector.
     public class MainMenuController : MonoBehaviour
     {
+        // ── Desbloqueos por nivel ──────────────────────────────────────────────
+
+        /// Nivel mínimo de jugador para acceder a cada edificio (índices 0-10).
+        /// Orden: Portal · Altar · Campana · Arena · Cuartel · Forja ·
+        ///        Biblioteca · Mercado · Taverna · Mazmorra · Misiones
+        private static readonly int[] NIVEL_REQUERIDO_EDIFICIO =
+        {
+             1, // 0 Portal     (Campaign)
+             1, // 1 Altar      (Gacha)
+             5, // 2 Campana    (Campaign 2)
+            10, // 3 Arena
+             1, // 4 Cuartel    (Heroes)
+            15, // 5 Forja      (Conjuros)
+            20, // 6 Biblioteca (Gacha avanzado)
+             5, // 7 Mercado    (Shop)
+            25, // 8 Taverna    (Clan)
+            30, // 9 Mazmorra
+            10, // 10 Misiones
+        };
+
+        [Header("Desbloqueos por Nivel")]
+        [SerializeField] private GameObject[] _lockOverlays;  // [11] uno por edificio
+
         // ── Prefab HUD ────────────────────────────────────────────────────────
 
         [Header("HUD")]
@@ -65,9 +89,26 @@ namespace ReinoOscuridad.UI.MainMenu
         {
             InstantiateHUD();
             BindButtons();
+            RefreshEdificiosLock();
 
             if (_subIconosAbanico != null)
                 _subIconosAbanico.SetActive(false);
+        }
+
+        // ── Desbloqueos ───────────────────────────────────────────────────────
+
+        /// Muestra u oculta el overlay de bloqueo de cada edificio según el nivel del jugador.
+        public void RefreshEdificiosLock()
+        {
+            if (_lockOverlays == null) return;
+            var pds = PlayerDataSystem.Instance;
+            int playerLevel = pds?.GetPlayerData()?.playerLevel ?? 1;
+
+            for (int i = 0; i < _lockOverlays.Length && i < NIVEL_REQUERIDO_EDIFICIO.Length; i++)
+            {
+                if (_lockOverlays[i] == null) continue;
+                _lockOverlays[i].SetActive(playerLevel < NIVEL_REQUERIDO_EDIFICIO[i]);
+            }
         }
 
         // ── HUD ───────────────────────────────────────────────────────────────

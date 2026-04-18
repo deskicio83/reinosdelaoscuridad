@@ -32,6 +32,10 @@ public static class GeneratePlaceholderAssets
         foreach (var (name, color) in FONDOS)
             GeneratePng(fullDir, $"bg_{name}", 256, 128, color);
 
+        // Tabla elemental y mundo bloqueado (CampaignScene)
+        GeneratePng(fullDir, "elemental_chart", 256, 256, new Color(0.05f, 0.05f, 0.10f));
+        GeneratePng(fullDir, "world_locked",    128, 128, new Color(0.05f, 0.05f, 0.08f));
+
         // Genérico fallback
         GeneratePng(fullDir, "placeholder", 128, 128, new Color(0.5f, 0.5f, 0.5f));
 

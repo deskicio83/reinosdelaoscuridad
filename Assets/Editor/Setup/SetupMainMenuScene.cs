@@ -125,6 +125,9 @@ namespace ReinoOscuridad.Editor.Setup
             // ── Edificios dentro del Content ──────────────────────────────────
             // Posiciones relativas al centro del Content (pivot 0.5,0.5)
             // x negativo = izquierda, y positivo = arriba
+            // Nivel mínimo requerido (debe coincidir con NIVEL_REQUERIDO_EDIFICIO en MainMenuController)
+            var nivelRequerido = new int[] { 1, 1, 5, 10, 1, 15, 20, 5, 25, 30, 10 };
+
             var edificios = new (string name, string label, float x, float y, float w, float h)[]
             {
                 // Fila superior
@@ -144,6 +147,7 @@ namespace ReinoOscuridad.Editor.Setup
             };
 
             var edificioBtns = new Button[edificios.Length];
+            var lockOverlays = new GameObject[edificios.Length];
             for (int i = 0; i < edificios.Length; i++)
             {
                 var ed   = edificios[i];
@@ -181,6 +185,35 @@ namespace ReinoOscuridad.Editor.Setup
                 lbl.alignment = TextAlignmentOptions.Center;
 
                 edificioBtns[i] = edBtn;
+
+                // LockOverlay — capa oscura con "Nv. X", mostrada cuando jugador < nivel requerido
+                var lockGO  = Child(edGO, "LockOverlay");
+                var lockRT  = lockGO.GetComponent<RectTransform>();
+                lockRT.anchorMin = Vector2.zero;
+                lockRT.anchorMax = Vector2.one;
+                lockRT.offsetMin = Vector2.zero;
+                lockRT.offsetMax = Vector2.zero;
+                var lockImg = lockGO.AddComponent<Image>();
+                lockImg.color         = new Color(0.04f, 0.04f, 0.08f, 0.85f);
+                lockImg.raycastTarget = true; // bloquea clicks en el edificio
+
+                var lockLblGO = Child(lockGO, "LockLabel");
+                var lockLblRT = lockLblGO.GetComponent<RectTransform>();
+                lockLblRT.anchorMin = Vector2.zero;
+                lockLblRT.anchorMax = Vector2.one;
+                lockLblRT.offsetMin = Vector2.zero;
+                lockLblRT.offsetMax = Vector2.zero;
+                var lockTxt = lockLblGO.AddComponent<TextMeshProUGUI>();
+                int nvReq   = i < nivelRequerido.Length ? nivelRequerido[i] : 99;
+                lockTxt.text          = $"Nv. {nvReq}";
+                lockTxt.fontSize      = 13f;
+                lockTxt.color         = new Color(0.65f, 0.65f, 0.75f);
+                lockTxt.alignment     = TextAlignmentOptions.Center;
+                lockTxt.raycastTarget = false;
+
+                // Se muestra/oculta en runtime por MainMenuController.RefreshEdificiosLock()
+                lockGO.SetActive(nvReq > 1); // visible por defecto si requiere nivel > 1
+                lockOverlays[i] = lockGO;
             }
 
             // =================================================================
@@ -323,6 +356,12 @@ namespace ReinoOscuridad.Editor.Setup
             var soCtrl = new SerializedObject(ctrl);
 
             soCtrl.FindProperty("_subIconosAbanico").objectReferenceValue = abanicoGO;
+
+            // Lock overlays de edificios
+            var lockProp = soCtrl.FindProperty("_lockOverlays");
+            lockProp.arraySize = lockOverlays.Length;
+            for (int i = 0; i < lockOverlays.Length; i++)
+                lockProp.GetArrayElementAtIndex(i).objectReferenceValue = lockOverlays[i];
 
             // Edificios
             soCtrl.FindProperty("_btnCampaign").objectReferenceValue = edificioBtns[0];  // Portal

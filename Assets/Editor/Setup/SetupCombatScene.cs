@@ -195,12 +195,18 @@ public static class SetupCombatScene
             atbRellenoImg.type       = Image.Type.Filled;
             atbRellenoImg.fillMethod = Image.FillMethod.Horizontal;
             atbRellenoImg.fillAmount = 0f;
+            // ATBPercent — texto "0%" sobre la barra
+            var atbPercentGO = Child(atbBar.transform, "ATBPercent");
+            Anch(atbPercentGO, 0.02f, 0f, 0.98f, 1f);
+            var atbPercentTxt = Txt(atbPercentGO, "0%", 7f, Hex("#E9D5FF"), bold: true);
+            atbPercentTxt.raycastTarget = false;
 
             // ATBUnit component
             var unit = slot.AddComponent<ATBUnit>();
             var unitSO = new SerializedObject(unit);
             unitSO.FindProperty("_atbBarRelleno").objectReferenceValue = atbRellenoImg;
             unitSO.FindProperty("_cardHighlight").objectReferenceValue = hlImg;
+            unitSO.FindProperty("_atbPercent").objectReferenceValue    = atbPercentTxt;
             unitSO.ApplyModifiedProperties();
             enemyATBUnits[i] = unit;
         }
@@ -298,12 +304,18 @@ public static class SetupCombatScene
             atbRellenoImg.type       = Image.Type.Filled;
             atbRellenoImg.fillMethod = Image.FillMethod.Horizontal;
             atbRellenoImg.fillAmount = 0f;
+            // ATBPercent — texto "0%" sobre la barra
+            var heroAtbPercentGO = Child(atbBar.transform, "ATBPercent");
+            Anch(heroAtbPercentGO, 0.02f, 0f, 0.98f, 1f);
+            var heroAtbPercentTxt = Txt(heroAtbPercentGO, "0%", 7f, Hex("#E9D5FF"), bold: true);
+            heroAtbPercentTxt.raycastTarget = false;
 
             // ATBUnit component
             var unit = card.AddComponent<ATBUnit>();
             var unitSO = new SerializedObject(unit);
             unitSO.FindProperty("_atbBarRelleno").objectReferenceValue = atbRellenoImg;
             unitSO.FindProperty("_cardHighlight").objectReferenceValue = hlImg;
+            unitSO.FindProperty("_atbPercent").objectReferenceValue    = heroAtbPercentTxt;
             unitSO.ApplyModifiedProperties();
             heroATBUnits[i] = unit;
         }
@@ -431,6 +443,10 @@ public static class SetupCombatScene
         var btnContinuar = btnContGO.AddComponent<Button>();
         Txt(Child(btnContGO.transform, "Label"), "Continuar", 13f, Hex("#E9D5FF"), bold: true);
 
+        // ── AbilityTooltip ────────────────────────────────────────────────
+
+        BuildAbilityTooltip(canvasGO.transform);
+
         // ── CombatSystem ──────────────────────────────────────────────────
 
         new GameObject("Systems").AddComponent<CombatSystem>();
@@ -495,6 +511,58 @@ public static class SetupCombatScene
         so.FindProperty("_btnReintentar").objectReferenceValue   = btnReintentar;
 
         so.ApplyModifiedProperties();
+    }
+
+    // ── AbilityTooltip panel ─────────────────────────────────────────────────
+
+    private static void BuildAbilityTooltip(Transform canvasTransform)
+    {
+        // Holder — child of canvas, carries the AbilityTooltip MonoBehaviour.
+        // Size = 0; GetComponentInParent<Canvas>() in Start() finds canvas correctly.
+        var holderGO = Child(canvasTransform, "AbilityTooltipHolder");
+        var holderRT  = holderGO.GetComponent<RectTransform>();
+        holderRT.anchorMin = Vector2.zero;
+        holderRT.anchorMax = Vector2.zero;
+        holderRT.sizeDelta = Vector2.zero;
+
+        // Panel — separate child of canvas, positioned dynamically by Show().
+        // Anchor=center, pivot=bottom-left so anchoredPosition matches local canvas coords.
+        var panelGO = Child(canvasTransform, "AbilityTooltipPanel");
+        var panelRT  = panelGO.GetComponent<RectTransform>();
+        panelRT.anchorMin        = new Vector2(0.5f, 0.5f);
+        panelRT.anchorMax        = new Vector2(0.5f, 0.5f);
+        panelRT.pivot            = new Vector2(0f,   0f);
+        panelRT.sizeDelta        = new Vector2(190f, 115f);
+        panelRT.anchoredPosition = Vector2.zero;
+        Img(panelGO, Hex("#0D0D1A"), 0.97f);
+        panelGO.SetActive(false);
+
+        var border = Child(panelGO.transform, "Border");
+        Anch(border, 0f, 0f, 1f, 1f);
+        var borderImg = Img(border, Hex("#A855F7"), 0.30f);
+        borderImg.raycastTarget = false;
+
+        var nombreGO = Child(panelGO.transform, "NombreHabilidad");
+        Anch(nombreGO, 0.05f, 0.75f, 0.95f, 0.95f);
+        var txtNombre = Txt(nombreGO, "Habilidad", 13f, Hex("#E9D5FF"), bold: true);
+
+        var descGO = Child(panelGO.transform, "DescripcionHabilidad");
+        Anch(descGO, 0.05f, 0.30f, 0.95f, 0.72f);
+        var txtDesc = Txt(descGO, "Descripcion", 11f, Hex("#9CA3AF"),
+                          align: TextAlignmentOptions.Left);
+
+        var cdGO = Child(panelGO.transform, "CooldownText");
+        Anch(cdGO, 0.05f, 0.05f, 0.95f, 0.28f);
+        var txtCooldown = Txt(cdGO, "Sin cooldown", 10f, Hex("#FACC15"));
+
+        // Wire AbilityTooltip serialized fields
+        var tooltip   = holderGO.AddComponent<AbilityTooltip>();
+        var tooltipSO = new SerializedObject(tooltip);
+        tooltipSO.FindProperty("_panel").objectReferenceValue           = panelRT;
+        tooltipSO.FindProperty("_txtNombre").objectReferenceValue       = txtNombre;
+        tooltipSO.FindProperty("_txtDescripcion").objectReferenceValue  = txtDesc;
+        tooltipSO.FindProperty("_txtCooldown").objectReferenceValue     = txtCooldown;
+        tooltipSO.ApplyModifiedProperties();
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
