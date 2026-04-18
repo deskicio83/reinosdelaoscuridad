@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S22_fix — 2026-04-18_
+_Última actualización: S22a — 2026-04-18_
 
 ---
 
@@ -44,7 +44,8 @@ _Última actualización: S22_fix — 2026-04-18_
 | S20_fix | Correcciones pre-MVP | BootScene siempre muestra LoginPanel en Editor + BtnDevMode · 5 héroes añadidos a player_data.json · LayoutElement en nodos CampaignScene · stars correctas en ResultPanel · RefreshBarraTurno dinámica |
 | S20_fix2 | Correcciones layout | SetParent(null)+Destroy en RefreshFaseNodes/BuildHeroCards/BuildEnemyCards · VLG en BarraTurno ListaRetratos · RefreshBarraTurno usa LayoutElement · stars Image sprites (sin Unicode) |
 | S21_fix | Sistema ATB + dinámica de combate | `ATBUnit.cs` (tick/IsReady/ResetATB/highlight) · `FloatingDamageText.cs` (spawn+animate 80px 1s) · `CombatSceneController.cs` reescrito — enum CombatPhase · ATBLoop coroutine · PlayerTurnRoutine (manual+auto) · EnemyTurnRoutine (menor HP) · ExecuteAction (animación escala 150ms · daño · floating text · dim muerte) · `SetupCombatScene.cs` — elimina BarraOrdenTurno · ATBBar+CardHighlight+ATBUnit en cada carta/slot · layout nuevo 5 zonas |
-| S22_fix | Bugs CombatScene + rediseño CampaignScene + desbloqueos MainMenu | **BLOQUE 1**: ATBPercent en barras · FIX highlight lingering (_activeUnit=null) · FIX remove Usar/Cancelar (direct OnAbilitySelected) · FIX long-press AbilityTooltip (AbilityTooltip.cs + EventTrigger + BuildAbilityTooltip en SetupCombatScene) · **BLOQUE 2**: CampaignScene 3 paneles — ScrollMundos/PanelFases slide-in/PanelBatalla · SelectMundo/SelectFase/ToggleHeroInTeam/TryEnterBatalla/PoblarScrollEsbirros/ReclamarRecompensaMundo/IsMundoDesbloqueado · SetupCampaignScene rediseño completo + MakeHScrollView helper · GeneratePlaceholderAssets +elemental_chart +world_locked · **BLOQUE 3**: MainMenuController RefreshEdificiosLock() + _lockOverlays[11] + NIVEL_REQUERIDO_EDIFICIO · SetupMainMenuScene LockOverlay en 11 edificios |
+| S22_fix | Bugs CombatScene + desbloqueos MainMenu | **BLOQUE 1**: ATBPercent en barras · FIX highlight lingering (_activeUnit=null) · FIX remove Usar/Cancelar (direct OnAbilitySelected) · FIX long-press AbilityTooltip (AbilityTooltip.cs + EventTrigger + BuildAbilityTooltip en SetupCombatScene) · **BLOQUE 3**: MainMenuController RefreshEdificiosLock() + _lockOverlays[11] + NIVEL_REQUERIDO_EDIFICIO · SetupMainMenuScene LockOverlay en 11 edificios |
+| S22a | CampaignScene ESTADO 1 — Scroll de Mundos | Reescritura completa CampaignSceneController.cs + SetupCampaignScene.cs. Solo ESTADO 1: ScrollRect horizontal clamped, 7 BtnMundo (LayoutElement 220×260), ContentSizeFitter+HLG padding L/R=280 para centrado, LockedOverlay por mundo, DotsIndicador HLG 7 puntos, PopupBloqueado, CentrarScrollInicial coroutine, IsMundoDesbloqueado basado en _fasesCompletadas[N-1][6]. Stubs OnFaseClick/OnConfirmarEquipo/TryEnterBatalla con Debug.Log("TODO S22b/c"). |
 
 ---
 
@@ -152,7 +153,8 @@ _Última actualización: S22_fix — 2026-04-18_
 
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
-| S22b | Ejecutar Setups en Unity Play Mode: Tools→5 CombatScene · Tools→6 CampaignScene · Tools→2 MainMenuScene. Validar flujo completo: Mundos scroll → Fases slide-in → PanelBatalla → CombatScene → retorno. | Alta |
+| S22b | CampaignScene ESTADO 2: PanelFases slide-in — dificultades, nodos de fase, esbirros, tabla elemental, reclamar recompensa. | Alta |
+| S22c | CampaignScene ESTADO 3: PanelBatalla — selección equipo, coste energía, entrada a CombatScene. | Alta |
 | S23 | HeroScene — roster, filtros, upgrade, awaken | Alta |
 | S24 | GachaScene — pull x1/x10, animación, historial | Alta |
 | S25 | ArenaScene — PvP asincrónico | Media |

@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -10,19 +11,43 @@ using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.Campaign;
 
-/// Editor Script — configura CampaignScene.unity con diseño de 3 paneles.
+/// Editor Script — configura CampaignScene.unity con ESTADO 1: Scroll horizontal de 7 mundos.
 /// Menu: Tools → Reino Oscuridad → 6. Setup CampaignScene
 ///
 /// LAYOUT (1280×720 landscape):
-///   ScrollMundos  — full screen, estado inicial (7 mundos scrolleables horizontal)
-///   PanelFases    — fixed 1280×720, slide-in desde derecha al seleccionar mundo
-///                   Header · TabsDificultad · ScrollFases · ScrollEsbirros · ElementalChart · BtnReclamar
-///   PanelBatalla  — full screen overlay, aparece al clicar una fase
-///                   Titulo · Energia · 4 slots equipo · BtnEntrar · BtnCancelar
-///   PopupBloqueado— overlay central, aparece al clicar fase/mundo bloqueado
+///   Fondo             — pantalla completa
+///   BtnVolver         — esquina inferior izquierda
+///   TituloCampaign    — banda superior
+///   ScrollMundos      — zona central, scroll horizontal clamped, 3 mundos visibles
+///     ContentMundos   — HLG + ContentSizeFitter, padding 280 L/R para centrado
+///       BtnMundo[0-6] — LayoutElement 220×260 cada uno
+///   DotsIndicador     — HLG de 7 puntos bajo el scroll
+///   PopupBloqueado    — overlay central oculto por defecto
 public static class SetupCampaignScene
 {
     private const string SCENE_PATH = "Assets/Scenes/CampaignScene.unity";
+
+    private static readonly string[] MUNDO_NOMBRES =
+    {
+        "Cripta de los Quejosos",
+        "Circo Agonizante",
+        "Pantano del Arrepentimiento",
+        "Fabrica de Pesadillas",
+        "Salon de los Fracasados",
+        "Cementerio de Modas",
+        "Trono del Caos Eterno",
+    };
+
+    private static readonly Color[] MUNDO_TINTS =
+    {
+        new Color(0.8f, 0.3f, 0.3f), // 0 Cripta
+        new Color(0.3f, 0.8f, 0.5f), // 1 Circo
+        new Color(0.3f, 0.5f, 0.8f), // 2 Pantano
+        new Color(0.8f, 0.6f, 0.2f), // 3 Fabrica
+        new Color(0.6f, 0.3f, 0.8f), // 4 Salon
+        new Color(0.8f, 0.4f, 0.6f), // 5 Cementerio
+        new Color(0.9f, 0.2f, 0.2f), // 6 Trono
+    };
 
     [MenuItem("Tools/Reino Oscuridad/6. Setup CampaignScene")]
     public static void Run()
@@ -37,13 +62,17 @@ public static class SetupCampaignScene
             EditorSceneManager.SaveScene(s, SCENE_PATH);
         }
 
-        foreach (var go in Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include))
+        // Limpiar la escena por completo
+        foreach (var go in Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             Object.DestroyImmediate(go);
 
         Build();
 
+        // Añadir a Build Settings si no está
+        AddToBuildSettings(SCENE_PATH);
+
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
-        Debug.Log("[SetupCampaign] CampaignScene configurada — 3 paneles v2.");
+        Debug.Log("[SetupCampaign] CampaignScene — ESTADO 1 configurada correctamente.");
     }
 
     // ── Construcción ───────────────────────────────────────────────────────
@@ -54,11 +83,11 @@ public static class SetupCampaignScene
 
         var camGO = new GameObject("Main Camera");
         camGO.tag = "MainCamera";
-        var cam   = camGO.AddComponent<Camera>();
+        var cam = camGO.AddComponent<Camera>();
         cam.orthographic     = true;
         cam.orthographicSize = 5f;
         cam.clearFlags       = CameraClearFlags.SolidColor;
-        cam.backgroundColor  = Hex("#0A0A14");
+        cam.backgroundColor  = Hex("#14101E");
         cam.transform.position = new Vector3(0f, 0f, -10f);
 
         // ── EventSystem ───────────────────────────────────────────────────
@@ -72,7 +101,7 @@ public static class SetupCampaignScene
         var canvasGO = new GameObject("CampaignCanvas");
         var canvas   = canvasGO.AddComponent<Canvas>();
         canvas.renderMode   = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 10;
+        canvas.sortingOrder = 20;
 
         var scaler = canvasGO.AddComponent<CanvasScaler>();
         scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -80,173 +109,158 @@ public static class SetupCampaignScene
         scaler.matchWidthOrHeight  = 0.5f;
         canvasGO.AddComponent<GraphicRaycaster>();
 
-        // ════════════════════════════════════════════════════════════════
-        // PANEL 1 — ScrollMundos (full screen, activo por defecto)
-        // ════════════════════════════════════════════════════════════════
+        var canvasTr = canvasGO.transform;
 
-        var scrollMundosGO = Child(canvasGO.transform, "ScrollMundos");
-        Anch(scrollMundosGO, 0f, 0f, 1f, 1f);
-        Img(scrollMundosGO, Hex("#0A0A14"));
-        var scrollMundosRT = scrollMundosGO.GetComponent<RectTransform>();
+        // ── Fondo ─────────────────────────────────────────────────────────
 
-        // TopBar (y 0.88–1.00)
-        var topBarGO = Child(scrollMundosGO.transform, "TopBar");
-        Anch(topBarGO, 0f, 0.88f, 1f, 1.00f);
-        Img(topBarGO, Hex("#0D0D1A"), 0.92f);
+        var fondoGO = Child(canvasTr, "Fondo");
+        Anch(fondoGO, 0f, 0f, 1f, 1f);
+        Img(fondoGO, Hex("#0A0A14"));
 
-        var btnVolverMainGO = Child(topBarGO.transform, "BtnVolverMain");
-        Anch(btnVolverMainGO, 0.00f, 0.08f, 0.13f, 0.92f);
-        Img(btnVolverMainGO, Hex("#1A1020"));
-        var btnVolverMain = btnVolverMainGO.AddComponent<Button>();
-        Txt(Child(btnVolverMainGO.transform, "Label"), "< Menu", 11f, Hex("#A855F7"), bold: true);
+        // ── BtnVolver (esquina inf-izquierda) ─────────────────────────────
 
-        var tituloGO = Child(topBarGO.transform, "TxtTitulo");
-        Anch(tituloGO, 0.14f, 0.05f, 0.90f, 0.95f);
+        var btnVolverGO = Child(canvasTr, "BtnVolver");
+        Anch(btnVolverGO, 0.01f, 0.01f, 0.22f, 0.08f);
+        Img(btnVolverGO, Hex("#1A1020"));
+        var btnVolver = btnVolverGO.AddComponent<Button>();
+        Txt(Child(btnVolverGO.transform, "Label"), "< Menu", 13f, Hex("#A855F7"), bold: true);
+
+        // ── TituloCampaign (banda superior) ───────────────────────────────
+
+        var tituloGO = Child(canvasTr, "TituloCampaign");
+        Anch(tituloGO, 0.25f, 0.91f, 0.75f, 0.99f);
         Txt(tituloGO, "CAMPANA", 22f, Hex("#E9D5FF"), bold: true);
 
-        // ScrollView horizontal mundos (y 0.14–0.86)
-        Transform contenedorMundosBtns;
-        MakeHScrollView(scrollMundosGO.transform, "ScrollViewMundos",
-            0.01f, 0.14f, 0.99f, 0.86f, out contenedorMundosBtns, spacing: 12f, padH: 20);
+        // ── ScrollMundos ──────────────────────────────────────────────────
+        // Viewport ocupa 0.00,0.20 → 1.00,0.90
+        // El scroll es Clamped horizontal, mostrando ~3 mundos a la vez.
+        // ContentSizeFitter con HLG y padding L/R=280 permite centrar mundos.
 
-        // IndicadorDots HLG (y 0.07–0.13)
-        var dotsGO = Child(scrollMundosGO.transform, "IndicadorDots");
-        Anch(dotsGO, 0.20f, 0.07f, 0.80f, 0.13f);
+        var scrollGO = Child(canvasTr, "ScrollMundos");
+        Anch(scrollGO, 0.00f, 0.20f, 1.00f, 0.90f);
+        Img(scrollGO, Color.clear, 0f); // imagen transparente necesaria para capturar drags
+        var scrollRect = scrollGO.AddComponent<ScrollRect>();
+        scrollRect.horizontal           = true;
+        scrollRect.vertical             = false;
+        scrollRect.movementType         = ScrollRect.MovementType.Clamped;
+        scrollRect.decelerationRate     = 0.15f;
+        scrollRect.scrollSensitivity    = 50f;
+        scrollRect.inertia              = true;
+
+        var vpGO = Child(scrollGO.transform, "Viewport");
+        Anch(vpGO, 0f, 0f, 1f, 1f);
+        Img(vpGO, Color.clear, 0f);
+        vpGO.AddComponent<RectMask2D>();
+
+        var contentGO = Child(vpGO.transform, "ContentMundos");
+        Img(contentGO, Color.clear, 0f);
+        var contentRT = contentGO.GetComponent<RectTransform>();
+        // anchor izquierda, estiramiento vertical
+        contentRT.anchorMin = new Vector2(0f, 0f);
+        contentRT.anchorMax = new Vector2(0f, 1f);
+        contentRT.pivot     = new Vector2(0f, 0.5f);
+        contentRT.sizeDelta = Vector2.zero;
+
+        var hlg = contentGO.AddComponent<HorizontalLayoutGroup>();
+        hlg.spacing               = 24f;
+        hlg.padding               = new RectOffset(280, 280, 0, 0);
+        hlg.childForceExpandWidth  = false;
+        hlg.childForceExpandHeight = true;
+        hlg.childAlignment         = TextAnchor.MiddleLeft;
+        contentGO.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        scrollRect.content  = contentRT;
+        scrollRect.viewport = vpGO.GetComponent<RectTransform>();
+
+        // ── 7 BtnMundo ────────────────────────────────────────────────────
+
+        var btnsMundo        = new Button[7];
+        var lockedOverlays   = new GameObject[7];
+        var mundoSelBordes   = new Image[7];
+        var mundoNombres     = new TMP_Text[7];
+        var progresoTexts    = new TMP_Text[7];
+
+        for (int i = 0; i < 7; i++)
+        {
+            var btnGO = Child(contentGO.transform, $"BtnMundo{i}");
+            Img(btnGO, Hex("#1A1428"));
+            var le = btnGO.AddComponent<LayoutElement>();
+            le.preferredWidth  = 220f;
+            le.preferredHeight = 260f;
+            btnsMundo[i] = btnGO.AddComponent<Button>();
+
+            // MundoPortrait (imagen de fondo del mundo, tintada)
+            var portraitGO = Child(btnGO.transform, "MundoPortrait");
+            Anch(portraitGO, 0.05f, 0.38f, 0.95f, 0.92f);
+            var portraitImg = Img(portraitGO, MUNDO_TINTS[i], 0.75f);
+
+            // Número del mundo (arriba izquierda del portrait)
+            var numGO = Child(btnGO.transform, "MundoNumero");
+            Anch(numGO, 0.05f, 0.82f, 0.40f, 0.96f);
+            Txt(numGO, $"M{i + 1}", 14f, Hex("#FFFFFF"), bold: true);
+
+            // Nombre del mundo (zona inferior)
+            var nombreGO = Child(btnGO.transform, "MundoNombre");
+            Anch(nombreGO, 0.03f, 0.20f, 0.97f, 0.38f);
+            mundoNombres[i] = Txt(nombreGO, MUNDO_NOMBRES[i], 10f, Hex("#E9D5FF"),
+                                   align: TextAlignmentOptions.Center);
+            mundoNombres[i].enableWordWrapping = true;
+
+            // Progreso (zona muy inferior)
+            var progresoGO = Child(btnGO.transform, "ProgresoText");
+            Anch(progresoGO, 0.05f, 0.06f, 0.95f, 0.21f);
+            progresoTexts[i] = Txt(progresoGO, "0/7 fases", 9f, Hex("#9CA3AF"),
+                                    align: TextAlignmentOptions.Center);
+
+            // Borde seleccionado (dorado, alpha 0 por defecto)
+            var bordeGO = Child(btnGO.transform, "MundoSeleccionadoBorde");
+            Anch(bordeGO, 0f, 0f, 1f, 1f);
+            mundoSelBordes[i] = Img(bordeGO, Hex("#F59E0B"), 0f);
+
+            // LockedOverlay (visible solo si bloqueado; SetActive false = desbloqueado)
+            var lockedGO = Child(btnGO.transform, "LockedOverlay");
+            Anch(lockedGO, 0f, 0f, 1f, 1f);
+            Img(lockedGO, Hex("#000000"), 0.75f);
+
+            var lockIconGO = Child(lockedGO.transform, "LockIcon");
+            Anch(lockIconGO, 0.35f, 0.52f, 0.65f, 0.80f);
+            Img(lockIconGO, Hex("#A855F7"), 0.85f);
+
+            var lockTxtGO = Child(lockedGO.transform, "LockText");
+            Anch(lockTxtGO, 0.05f, 0.20f, 0.95f, 0.50f);
+            Txt(lockTxtGO, "BLOQUEADO", 10f, Hex("#E9D5FF"),
+                align: TextAlignmentOptions.Center, bold: true);
+
+            lockedOverlays[i] = lockedGO;
+            lockedGO.SetActive(false); // El controller lo activa si corresponde
+        }
+
+        // ── DotsIndicador (HLG de 7 puntos) ──────────────────────────────
+
+        var dotsGO = Child(canvasTr, "DotsIndicador");
+        Anch(dotsGO, 0.30f, 0.11f, 0.70f, 0.19f);
         Img(dotsGO, Color.clear, 0f);
         var dotsHLG = dotsGO.AddComponent<HorizontalLayoutGroup>();
-        dotsHLG.spacing            = 8f;
+        dotsHLG.spacing               = 8f;
         dotsHLG.childForceExpandWidth  = false;
         dotsHLG.childForceExpandHeight = false;
         dotsHLG.childAlignment         = TextAnchor.MiddleCenter;
 
-        // ════════════════════════════════════════════════════════════════
-        // PANEL 2 — PanelFases (1280×720 fijo, empieza off-screen derecha)
-        // Se usa anchoredPosition para el slide — NO anchors stretch.
-        // ════════════════════════════════════════════════════════════════
+        var dots = new Image[7];
+        for (int i = 0; i < 7; i++)
+        {
+            var dotGO = Child(dotsGO.transform, $"Dot{i}");
+            Img(dotGO, Hex("#A855F7"), 0.35f);
+            var le = dotGO.AddComponent<LayoutElement>();
+            le.preferredWidth  = 10f;
+            le.preferredHeight = 10f;
+            dots[i] = dotGO.GetComponent<Image>();
+        }
 
-        var panelFasesGO = Child(canvasGO.transform, "PanelFases");
-        // Anchors stretch — ocupa toda la pantalla.
-        // El slide se hace con localPosition en runtime (controller.SlidePanelFromRight).
-        Anch(panelFasesGO, 0f, 0f, 1f, 1f);
-        Img(panelFasesGO, Hex("#0A0A14"));
-        panelFasesGO.SetActive(false);
-        var panelFasesRT = panelFasesGO.GetComponent<RectTransform>();
+        // ── PopupBloqueado ────────────────────────────────────────────────
 
-        // Header PanelFases (y 0.88–1.00)
-        var headerFasesGO = Child(panelFasesGO.transform, "HeaderFases");
-        Anch(headerFasesGO, 0f, 0.88f, 1f, 1.00f);
-        Img(headerFasesGO, Hex("#0D0D1A"), 0.92f);
-
-        var btnVolverFasesGO = Child(headerFasesGO.transform, "BtnVolverFases");
-        Anch(btnVolverFasesGO, 0.00f, 0.08f, 0.15f, 0.92f);
-        Img(btnVolverFasesGO, Hex("#1A1020"));
-        var btnVolverFases = btnVolverFasesGO.AddComponent<Button>();
-        Txt(Child(btnVolverFasesGO.transform, "Label"), "< Mundos", 11f, Hex("#A855F7"), bold: true);
-
-        var txtMundoNombreGO = Child(headerFasesGO.transform, "TxtMundoNombre");
-        Anch(txtMundoNombreGO, 0.16f, 0.05f, 0.92f, 0.95f);
-        var txtMundoNombre = Txt(txtMundoNombreGO, "Mundo 1", 20f, Hex("#E9D5FF"), bold: true);
-
-        // TabsDificultad (y 0.80–0.88) — relleno en runtime por BuildDifTabs()
-        var contenedorDifGO = Child(panelFasesGO.transform, "ContenedorDificultad");
-        Anch(contenedorDifGO, 0f, 0.80f, 1f, 0.88f);
-        Img(contenedorDifGO, Hex("#0D0D1E"), 0.80f);
-        var difHLG = contenedorDifGO.AddComponent<HorizontalLayoutGroup>();
-        difHLG.spacing            = 10f;
-        difHLG.padding            = new RectOffset(12, 12, 4, 4);
-        difHLG.childForceExpandWidth  = false;
-        difHLG.childForceExpandHeight = true;
-        difHLG.childAlignment         = TextAnchor.MiddleCenter;
-
-        // ScrollFases horizontal (y 0.50–0.80) — nodos rellenos en runtime
-        Transform contenedorFases;
-        MakeHScrollView(panelFasesGO.transform, "ScrollFases",
-            0f, 0.50f, 1f, 0.80f, out contenedorFases, spacing: 12f, padH: 16);
-
-        // ScrollEsbirros horizontal (y 0.28–0.50) — enemigos rellenos en runtime
-        Transform contenedorEsbirros;
-        MakeHScrollView(panelFasesGO.transform, "ScrollEsbirros",
-            0f, 0.28f, 1f, 0.50f, out contenedorEsbirros, spacing: 8f, padH: 10);
-
-        // Zona Elemental (y 0.12–0.28)
-        var zonaElemGO = Child(panelFasesGO.transform, "ZonaElemental");
-        Anch(zonaElemGO, 0f, 0.12f, 1f, 0.28f);
-        Img(zonaElemGO, Hex("#0D0D1A"), 0.85f);
-
-        var lblElemGO = Child(zonaElemGO.transform, "LblElemental");
-        Anch(lblElemGO, 0.02f, 0.60f, 0.30f, 0.98f);
-        Txt(lblElemGO, "Tabla Elemental", 9f, Hex("#9CA3AF"));
-
-        var imgElemGO = Child(zonaElemGO.transform, "ImgElementalChart");
-        Anch(imgElemGO, 0.31f, 0.05f, 0.98f, 0.95f);
-        var imgElementalChart = Img(imgElemGO, Hex("#1A1A2A"), 0.90f);
-
-        // BtnReclamarRecompensa (y 0.02–0.12)
-        var btnReclamarGO = Child(panelFasesGO.transform, "BtnReclamarRecompensa");
-        Anch(btnReclamarGO, 0.30f, 0.02f, 0.70f, 0.12f);
-        Img(btnReclamarGO, Hex("#4C1D95"));
-        var btnReclamar = btnReclamarGO.AddComponent<Button>();
-        btnReclamar.interactable = false; // habilitado en runtime cuando mundo completo
-        Txt(Child(btnReclamarGO.transform, "Label"), "Reclamar Recompensa", 12f, Hex("#E9D5FF"), bold: true);
-
-        // ════════════════════════════════════════════════════════════════
-        // PANEL 3 — PanelBatalla (full screen overlay, oculto)
-        // ════════════════════════════════════════════════════════════════
-
-        var panelBatallaGO = Child(canvasGO.transform, "PanelBatalla");
-        Anch(panelBatallaGO, 0f, 0f, 1f, 1f);
-        Img(panelBatallaGO, Hex("#080810"), 0.97f);
-        panelBatallaGO.SetActive(false);
-        var panelBatallaRT = panelBatallaGO.GetComponent<RectTransform>();
-
-        var txtBatallaTituloGO = Child(panelBatallaGO.transform, "TxtBatallaTitulo");
-        Anch(txtBatallaTituloGO, 0.05f, 0.84f, 0.95f, 0.98f);
-        var txtBatallaTitulo = Txt(txtBatallaTituloGO, "Mundo 1 - Fase 1 - NORMAL", 20f, Hex("#E9D5FF"), bold: true);
-
-        var txtBatallaEnergiaGO = Child(panelBatallaGO.transform, "TxtBatallaEnergia");
-        Anch(txtBatallaEnergiaGO, 0.05f, 0.76f, 0.95f, 0.84f);
-        var txtBatallaEnergia = Txt(txtBatallaEnergiaGO, "Coste: 6 energia", 15f, Hex("#60A5FA"));
-
-        var lblEquipoGO = Child(panelBatallaGO.transform, "LblEquipo");
-        Anch(lblEquipoGO, 0.05f, 0.70f, 0.95f, 0.77f);
-        Txt(lblEquipoGO, "Equipo seleccionado (max 4):", 13f, Hex("#9CA3AF"), align: TextAlignmentOptions.Left);
-
-        // ContenedorEquipoSelec HLG (y 0.56–0.70)
-        var contenedorEquipoGO = Child(panelBatallaGO.transform, "ContenedorEquipoSelec");
-        Anch(contenedorEquipoGO, 0.05f, 0.56f, 0.95f, 0.70f);
-        Img(contenedorEquipoGO, Color.clear, 0f);
-        var equipoHLG = contenedorEquipoGO.AddComponent<HorizontalLayoutGroup>();
-        equipoHLG.spacing            = 10f;
-        equipoHLG.childForceExpandWidth  = false;
-        equipoHLG.childForceExpandHeight = true;
-        equipoHLG.childAlignment         = TextAnchor.MiddleCenter;
-
-        // Info texto equipo
-        var txtEquipoInfoGO = Child(panelBatallaGO.transform, "TxtEquipoInfo");
-        Anch(txtEquipoInfoGO, 0.05f, 0.40f, 0.95f, 0.55f);
-        Txt(txtEquipoInfoGO, "Selecciona heroes desde HeroScene o usa el equipo automatico.",
-            11f, Hex("#6B7280"), align: TextAlignmentOptions.Center);
-
-        // BtnCancelarBatalla (y 0.08–0.22, izquierda)
-        var btnCancelarGO = Child(panelBatallaGO.transform, "BtnCancelarBatalla");
-        Anch(btnCancelarGO, 0.08f, 0.08f, 0.44f, 0.22f);
-        Img(btnCancelarGO, Hex("#2A0000"));
-        var btnCancelarBatalla = btnCancelarGO.AddComponent<Button>();
-        Txt(Child(btnCancelarGO.transform, "Label"), "Cancelar", 15f, Hex("#F87171"), bold: true);
-
-        // BtnEntrar (y 0.08–0.22, derecha)
-        var btnEntrarGO = Child(panelBatallaGO.transform, "BtnEntrar");
-        Anch(btnEntrarGO, 0.56f, 0.08f, 0.92f, 0.22f);
-        Img(btnEntrarGO, Hex("#4C1D95"));
-        var btnEntrar = btnEntrarGO.AddComponent<Button>();
-        Txt(Child(btnEntrarGO.transform, "Label"), "ENTRAR", 16f, Hex("#E9D5FF"), bold: true);
-
-        // ════════════════════════════════════════════════════════════════
-        // POPUP — PopupBloqueado (overlay central, oculto)
-        // ════════════════════════════════════════════════════════════════
-
-        var popupGO = Child(canvasGO.transform, "PopupBloqueado");
-        Anch(popupGO, 0.22f, 0.35f, 0.78f, 0.65f);
+        var popupGO = Child(canvasTr, "PopupBloqueado");
+        Anch(popupGO, 0.25f, 0.35f, 0.75f, 0.65f);
         Img(popupGO, Hex("#0F0F20"), 0.97f);
         popupGO.SetActive(false);
 
@@ -254,16 +268,16 @@ public static class SetupCampaignScene
         Anch(popupBordeGO, 0f, 0f, 1f, 1f);
         Img(popupBordeGO, Hex("#A855F7"), 0.22f);
 
-        var txtBloqGO = Child(popupGO.transform, "TxtBloqueadoInfo");
-        Anch(txtBloqGO, 0.08f, 0.38f, 0.92f, 0.92f);
-        var txtBloqueadoInfo = Txt(txtBloqGO, "Contenido bloqueado.", 13f, Hex("#E9D5FF"),
-                                   align: TextAlignmentOptions.Center);
+        var popupTxtGO = Child(popupGO.transform, "TxtInfo");
+        Anch(popupTxtGO, 0.08f, 0.38f, 0.92f, 0.92f);
+        Txt(popupTxtGO, "Completa el mundo anterior para desbloquear.", 12f,
+            Hex("#E9D5FF"), align: TextAlignmentOptions.Center);
 
-        var btnCerrarPopupGO = Child(popupGO.transform, "BtnCerrarPopup");
-        Anch(btnCerrarPopupGO, 0.30f, 0.06f, 0.70f, 0.32f);
-        Img(btnCerrarPopupGO, Hex("#1A1020"));
-        var btnCerrarPopup = btnCerrarPopupGO.AddComponent<Button>();
-        Txt(Child(btnCerrarPopupGO.transform, "Label"), "Cerrar", 13f, Hex("#A855F7"), bold: true);
+        var btnCerrarGO = Child(popupGO.transform, "BtnCerrar");
+        Anch(btnCerrarGO, 0.30f, 0.06f, 0.70f, 0.32f);
+        Img(btnCerrarGO, Hex("#1A1020"));
+        btnCerrarGO.AddComponent<Button>();
+        Txt(Child(btnCerrarGO.transform, "Label"), "Cerrar", 12f, Hex("#A855F7"), bold: true);
 
         // ── CampaignSceneController + wiring ─────────────────────────────
 
@@ -271,88 +285,58 @@ public static class SetupCampaignScene
         var controller = ctrlGO.AddComponent<CampaignSceneController>();
         var so         = new SerializedObject(controller);
 
-        // ScrollMundos
-        so.FindProperty("_scrollMundos")        .objectReferenceValue = scrollMundosRT;
-        so.FindProperty("_contenedorMundosBtns").objectReferenceValue = contenedorMundosBtns;
-        so.FindProperty("_indicadorDots")       .objectReferenceValue = dotsGO.transform;
+        // ScrollRect + Content
+        so.FindProperty("_scrollMundos") .objectReferenceValue = scrollRect;
+        so.FindProperty("_contentMundos").objectReferenceValue = contentRT;
 
-        // PanelFases
-        so.FindProperty("_panelFases")            .objectReferenceValue = panelFasesRT;
-        so.FindProperty("_txtMundoNombre")         .objectReferenceValue = txtMundoNombre;
-        so.FindProperty("_btnVolverFases")         .objectReferenceValue = btnVolverFases;
-        so.FindProperty("_contenedorDificultad")   .objectReferenceValue = contenedorDifGO.transform;
-        so.FindProperty("_contenedorFases")        .objectReferenceValue = contenedorFases;
-        so.FindProperty("_contenedorEsbirros")     .objectReferenceValue = contenedorEsbirros;
-        so.FindProperty("_imgElementalChart")      .objectReferenceValue = imgElementalChart;
-        so.FindProperty("_btnReclamarRecompensa")  .objectReferenceValue = btnReclamar;
-
-        // PanelBatalla
-        so.FindProperty("_panelBatalla")            .objectReferenceValue = panelBatallaRT;
-        so.FindProperty("_txtBatallaTitulo")         .objectReferenceValue = txtBatallaTitulo;
-        so.FindProperty("_txtBatallaEnergia")        .objectReferenceValue = txtBatallaEnergia;
-        so.FindProperty("_contenedorEquipoSelec")    .objectReferenceValue = contenedorEquipoGO.transform;
-        so.FindProperty("_btnEntrar")                .objectReferenceValue = btnEntrar;
-        so.FindProperty("_btnCancelarBatalla")       .objectReferenceValue = btnCancelarBatalla;
+        // BtnVolver
+        so.FindProperty("_btnVolverMain").objectReferenceValue = btnVolver;
 
         // PopupBloqueado
-        so.FindProperty("_popupBloqueado")  .objectReferenceValue = popupGO;
-        so.FindProperty("_txtBloqueadoInfo").objectReferenceValue = txtBloqueadoInfo;
-        so.FindProperty("_btnCerrarPopup")  .objectReferenceValue = btnCerrarPopup;
+        so.FindProperty("_popupBloqueado").objectReferenceValue = popupGO;
 
-        // Navegación
-        so.FindProperty("_btnVolverMain").objectReferenceValue = btnVolverMain;
-
-        // Prefabs de overlays (opcionales — deben existir antes)
-        var battlePrepPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/BattlePrepPanel.prefab");
-        var rewardPrefab     = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/RewardPanel.prefab");
-        if (battlePrepPrefab != null) so.FindProperty("_battlePrepPrefab").objectReferenceValue = battlePrepPrefab;
-        if (rewardPrefab     != null) so.FindProperty("_rewardPrefab")    .objectReferenceValue = rewardPrefab;
+        // Arrays de 7 elementos
+        WireArray(so, "_btnsMundo",      7, i => btnsMundo[i]);
+        WireArray(so, "_lockedOverlays", 7, i => (Object)lockedOverlays[i]);
+        WireArray(so, "_mundoSelBordes", 7, i => mundoSelBordes[i]);
+        WireArray(so, "_mundoNombres",   7, i => mundoNombres[i]);
+        WireArray(so, "_progresoTexts",  7, i => progresoTexts[i]);
+        WireArray(so, "_dots",           7, i => dots[i]);
 
         so.ApplyModifiedPropertiesWithoutUndo();
+
+        Debug.Log("[SetupCampaign] CampaignSceneController cableado correctamente.");
+    }
+
+    // ── Build Settings ─────────────────────────────────────────────────────
+
+    private static void AddToBuildSettings(string scenePath)
+    {
+        var scenes = EditorBuildSettings.scenes;
+        foreach (var s in scenes)
+            if (s.path == scenePath) return;
+
+        var list = new System.Collections.Generic.List<EditorBuildSettingsScene>(scenes)
+        {
+            new EditorBuildSettingsScene(scenePath, true)
+        };
+        EditorBuildSettings.scenes = list.ToArray();
+        Debug.Log($"[SetupCampaign] {scenePath} añadida a Build Settings.");
+    }
+
+    // ── Array wiring helper ────────────────────────────────────────────────
+
+    private static void WireArray(SerializedObject so, string propName, int count,
+                                   System.Func<int, Object> getter)
+    {
+        var prop = so.FindProperty(propName);
+        if (prop == null) { Debug.LogWarning($"[SetupCampaign] Prop '{propName}' no encontrada."); return; }
+        prop.arraySize = count;
+        for (int i = 0; i < count; i++)
+            prop.GetArrayElementAtIndex(i).objectReferenceValue = getter(i);
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────
-
-    /// Crea un ScrollRect horizontal. Devuelve el content Transform via out.
-    private static void MakeHScrollView(Transform parent, string name,
-        float xMin, float yMin, float xMax, float yMax,
-        out Transform contentOut, float spacing = 10f, int padH = 10)
-    {
-        var scrollGO = Child(parent, name);
-        Anch(scrollGO, xMin, yMin, xMax, yMax);
-        // Image necesaria para que ScrollRect reciba input de arrastre
-        Img(scrollGO, Hex("#000000"), 0f);
-        var scrollRect = scrollGO.AddComponent<ScrollRect>();
-
-        var vpGO = Child(scrollGO.transform, "Viewport");
-        Anch(vpGO, 0f, 0f, 1f, 1f);
-        Img(vpGO, Color.clear, 0f);
-        vpGO.AddComponent<RectMask2D>();
-
-        var contentGO = Child(vpGO.transform, "Content");
-        Img(contentGO, Color.clear, 0f);
-        var contentRT = contentGO.GetComponent<RectTransform>();
-        contentRT.anchorMin = Vector2.zero;
-        contentRT.anchorMax = new Vector2(0f, 1f);
-        contentRT.pivot     = new Vector2(0f, 0.5f);
-        contentRT.sizeDelta = Vector2.zero;
-
-        var hlg = contentGO.AddComponent<HorizontalLayoutGroup>();
-        hlg.spacing            = spacing;
-        hlg.padding            = new RectOffset(padH, padH, 6, 6);
-        hlg.childForceExpandWidth  = false;
-        hlg.childForceExpandHeight = true;
-        hlg.childAlignment         = TextAnchor.MiddleLeft;
-        contentGO.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        scrollRect.content    = contentRT;
-        scrollRect.viewport   = vpGO.GetComponent<RectTransform>();
-        scrollRect.horizontal = true;
-        scrollRect.vertical   = false;
-        scrollRect.scrollSensitivity = 20f;
-
-        contentOut = contentGO.transform;
-    }
 
     private static GameObject Child(Transform parent, string name)
     {
@@ -373,7 +357,7 @@ public static class SetupCampaignScene
 
     private static Image Img(GameObject go, Color col, float alpha = 1f)
     {
-        var img = go.AddComponent<Image>();
+        var img   = go.AddComponent<Image>();
         img.color = new Color(col.r, col.g, col.b, alpha);
         return img;
     }
