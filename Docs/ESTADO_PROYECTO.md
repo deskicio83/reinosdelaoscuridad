@@ -42,6 +42,7 @@ _Última actualización: S20_fix — 2026-04-17_
 | S19_fix | SetupBootScene + validación MVP | `SetupBootScene.cs` Editor Script · `BootSceneController` con `_btnApple` + aliases públicos · `S19fix_Test.cs` 6 checks automáticos |
 | S19_fix2 | Correcciones flujo MVP | `tutorialCompleted: true` en player_data.json · fallback TutorialScene→MainMenuScene en BootSceneController · DataStorageSystem catch ya era LogWarning (sin cambio) |
 | S20_fix | Correcciones pre-MVP | BootScene siempre muestra LoginPanel en Editor + BtnDevMode · 5 héroes añadidos a player_data.json · LayoutElement en nodos CampaignScene · stars correctas en ResultPanel · RefreshBarraTurno dinámica |
+| S20_fix2 | Correcciones layout | SetParent(null)+Destroy en RefreshFaseNodes/BuildHeroCards/BuildEnemyCards · VLG en BarraTurno ListaRetratos · RefreshBarraTurno usa LayoutElement · stars Image sprites (sin Unicode) |
 
 ---
 

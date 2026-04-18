@@ -102,20 +102,13 @@ public static class SetupCombatScene
         var listaRetratos = Child(barraOrden.transform, "ListaRetratos");
         Anch(listaRetratos, 0.05f, 0.02f, 0.95f, 0.92f);
 
-        // 7 retratos placeholder (4 jugador azul-oscuro + 3 enemigo rojo-oscuro)
-        Color[] retratoCols =
-        {
-            Hex("#1E1535"), Hex("#1E1535"), Hex("#1E1535"), Hex("#1E1535"),
-            Hex("#2A0010"), Hex("#2A0010"), Hex("#2A0010")
-        };
-        for (int i = 0; i < 7; i++)
-        {
-            float yMax = 1f - i * 0.13f;
-            float yMin = yMax - 0.11f;
-            var r = Child(listaRetratos.transform, $"Retrato_{i}");
-            Anch(r, 0.10f, yMin, 0.90f, yMax);
-            Img(r, retratoCols[i]);
-        }
+        // VLG — los retratos se generan en runtime por RefreshBarraTurno()
+        var listVLG = listaRetratos.AddComponent<VerticalLayoutGroup>();
+        listVLG.childForceExpandWidth  = true;
+        listVLG.childForceExpandHeight = false;
+        listVLG.spacing        = 3f;
+        listVLG.padding        = new RectOffset(2, 2, 2, 2);
+        listVLG.childAlignment = TextAnchor.UpperCenter;
 
         // ═══════════════════════════════════════════════════════════════════
         // ZONA 1b — Habilidades activas (3 círculos bajo barra de turno)

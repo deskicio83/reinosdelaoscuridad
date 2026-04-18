@@ -553,8 +553,12 @@ namespace ReinoOscuridad.UI.Campaign
         {
             if (_contenedorFases == null) return;
 
-            foreach (Transform child in _contenedorFases)
+            for (int ci = _contenedorFases.childCount - 1; ci >= 0; ci--)
+            {
+                var child = _contenedorFases.GetChild(ci);
+                child.SetParent(null);   // desacoplar inmediatamente del HLG
                 Destroy(child.gameObject);
+            }
 
             var campana = GetCampanaData();
 

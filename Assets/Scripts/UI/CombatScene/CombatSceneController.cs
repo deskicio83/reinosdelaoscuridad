@@ -544,18 +544,24 @@ namespace ReinoOscuridad.UI.Combat
                 var go  = new GameObject($"Retrato_{i}");
                 go.transform.SetParent(_listaRetratos, false);
 
-                var img = go.AddComponent<UnityEngine.UI.Image>();
-                img.color = i == 0 ? new Color(color.r * 1.3f, color.g * 1.3f, color.b * 1.3f) : color;
+                // Tamaño via LayoutElement — el VLG en _listaRetratos gestiona la posición
+                var le = go.AddComponent<LayoutElement>();
+                le.preferredHeight = 42f;
 
-                var rt       = go.GetComponent<RectTransform>();
-                rt.sizeDelta = new Vector2(36f, 36f);
+                var img = go.AddComponent<Image>();
+                img.color = i == 0
+                    ? new Color(Mathf.Min(color.r * 1.4f, 1f),
+                                Mathf.Min(color.g * 1.4f, 1f),
+                                Mathf.Min(color.b * 1.4f, 1f))
+                    : color;
 
                 var lblGO = new GameObject("Lbl");
                 lblGO.transform.SetParent(go.transform, false);
                 var tmp = lblGO.AddComponent<TextMeshProUGUI>();
                 tmp.text      = label;
-                tmp.fontSize  = 9f;
+                tmp.fontSize  = i == 0 ? 10f : 8f;
                 tmp.color     = Color.white;
+                tmp.fontStyle = i == 0 ? FontStyles.Bold : FontStyles.Normal;
                 tmp.alignment = TextAlignmentOptions.Center;
                 var lrt       = lblGO.GetComponent<RectTransform>();
                 lrt.anchorMin = Vector2.zero;

@@ -112,6 +112,12 @@ namespace ReinoOscuridad.UI.Campaign
         private void BuildEnemyCards(EnemyInstance[] enemies)
         {
             if (_contenedorEnemigos == null || enemies == null) return;
+            for (int i = _contenedorEnemigos.childCount - 1; i >= 0; i--)
+            {
+                var c = _contenedorEnemigos.GetChild(i);
+                c.SetParent(null);
+                Destroy(c.gameObject);
+            }
 
             foreach (var enemy in enemies)
             {
@@ -174,6 +180,12 @@ namespace ReinoOscuridad.UI.Campaign
         private void BuildHeroCards()
         {
             if (_contenedorHeroes == null) return;
+            for (int i = _contenedorHeroes.childCount - 1; i >= 0; i--)
+            {
+                var c = _contenedorHeroes.GetChild(i);
+                c.SetParent(null);
+                Destroy(c.gameObject);
+            }
 
             var pd = PlayerDataSystem.Instance?.GetPlayerData();
 
