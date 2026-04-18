@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-using System;
 using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -63,8 +62,8 @@ public static class SetupCampaignScene
         }
 
         // Limpiar la escena por completo
-        foreach (var go in Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            Object.DestroyImmediate(go);
+        foreach (var go in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            UnityEngine.Object.DestroyImmediate(go);
 
         Build();
 
@@ -296,12 +295,12 @@ public static class SetupCampaignScene
         so.FindProperty("_popupBloqueado").objectReferenceValue = popupGO;
 
         // Arrays de 7 elementos
-        WireArray(so, "_btnsMundo",      7, i => btnsMundo[i]);
-        WireArray(so, "_lockedOverlays", 7, i => (Object)lockedOverlays[i]);
-        WireArray(so, "_mundoSelBordes", 7, i => mundoSelBordes[i]);
-        WireArray(so, "_mundoNombres",   7, i => mundoNombres[i]);
-        WireArray(so, "_progresoTexts",  7, i => progresoTexts[i]);
-        WireArray(so, "_dots",           7, i => dots[i]);
+        SetArray(so, "_btnsMundo",      btnsMundo);
+        SetArray(so, "_lockedOverlays", lockedOverlays);
+        SetArray(so, "_mundoSelBordes", mundoSelBordes);
+        SetArray(so, "_mundoNombres",   mundoNombres);
+        SetArray(so, "_progresoTexts",  progresoTexts);
+        SetArray(so, "_dots",           dots);
 
         so.ApplyModifiedPropertiesWithoutUndo();
 
@@ -326,14 +325,25 @@ public static class SetupCampaignScene
 
     // ── Array wiring helper ────────────────────────────────────────────────
 
-    private static void WireArray(SerializedObject so, string propName, int count,
-                                   System.Func<int, Object> getter)
+    /// Wire un array SerializedProperty con cualquier array de UnityEngine.Object.
+    private static void SetArray<T>(SerializedObject so, string propName, T[] items)
+        where T : UnityEngine.Object
     {
         var prop = so.FindProperty(propName);
         if (prop == null) { Debug.LogWarning($"[SetupCampaign] Prop '{propName}' no encontrada."); return; }
-        prop.arraySize = count;
-        for (int i = 0; i < count; i++)
-            prop.GetArrayElementAtIndex(i).objectReferenceValue = getter(i);
+        prop.arraySize = items.Length;
+        for (int i = 0; i < items.Length; i++)
+            prop.GetArrayElementAtIndex(i).objectReferenceValue = items[i];
+    }
+
+    /// Sobrecarga para GameObject[] (que no hereda de Component).
+    private static void SetArray(SerializedObject so, string propName, GameObject[] items)
+    {
+        var prop = so.FindProperty(propName);
+        if (prop == null) { Debug.LogWarning($"[SetupCampaign] Prop '{propName}' no encontrada."); return; }
+        prop.arraySize = items.Length;
+        for (int i = 0; i < items.Length; i++)
+            prop.GetArrayElementAtIndex(i).objectReferenceValue = items[i];
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────
