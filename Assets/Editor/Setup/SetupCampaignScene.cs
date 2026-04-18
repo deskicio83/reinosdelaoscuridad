@@ -161,11 +161,13 @@ public static class SetupCampaignScene
         contentRT.sizeDelta = Vector2.zero;
 
         var hlg = contentGO.AddComponent<HorizontalLayoutGroup>();
-        hlg.spacing               = 24f;
-        hlg.padding               = new RectOffset(280, 280, 0, 0);
+        hlg.spacing                = 24f;
+        hlg.padding                = new RectOffset(280, 280, 0, 0);
+        hlg.childControlWidth      = true;   // respetar LayoutElement.preferredWidth
+        hlg.childControlHeight     = true;   // respetar LayoutElement.preferredHeight
         hlg.childForceExpandWidth  = false;
-        hlg.childForceExpandHeight = true;
-        hlg.childAlignment         = TextAnchor.MiddleLeft;
+        hlg.childForceExpandHeight = false;
+        hlg.childAlignment         = TextAnchor.MiddleCenter;
         contentGO.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         scrollRect.content  = contentRT;

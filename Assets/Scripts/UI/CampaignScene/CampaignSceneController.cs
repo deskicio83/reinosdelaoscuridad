@@ -307,12 +307,19 @@ namespace ReinoOscuridad.UI.Campaign
             if (ta == null) { Debug.LogWarning("[CampaignController] encounter_catalog.json no encontrado."); return; }
             try
             {
-                var root = JsonConvert.DeserializeObject<EncounterCatalogRoot>(ta.text);
+                int skipped = 0;
+                var settings = new JsonSerializerSettings
+                {
+                    Error = (_, args) => { args.ErrorContext.Handled = true; skipped++; }
+                };
+                var root = JsonConvert.DeserializeObject<EncounterCatalogRoot>(ta.text, settings);
                 _encounterById = new Dictionary<string, EncounterEntry>();
                 if (root?.encounters != null)
                     foreach (var e in root.encounters)
-                        if (!string.IsNullOrEmpty(e.encounterId))
+                        if (e != null && !string.IsNullOrEmpty(e.encounterId))
                             _encounterById[e.encounterId] = e;
+                if (skipped > 0)
+                    Debug.LogWarning($"[CampaignController] encounter_catalog: {skipped} campo(s) ignorado(s) por formato inesperado (p.ej. enemies=string).");
             }
             catch (System.Exception ex) { Debug.LogError($"[CampaignController] Error parsing encounter_catalog: {ex.Message}"); }
         }
