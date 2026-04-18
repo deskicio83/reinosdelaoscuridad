@@ -125,14 +125,12 @@ public static class SetupCampaignScene
         // ════════════════════════════════════════════════════════════════
 
         var panelFasesGO = Child(canvasGO.transform, "PanelFases");
-        var panelFasesRT = panelFasesGO.GetComponent<RectTransform>();
-        panelFasesRT.anchorMin        = Vector2.zero;
-        panelFasesRT.anchorMax        = Vector2.zero;
-        panelFasesRT.pivot            = Vector2.zero;
-        panelFasesRT.sizeDelta        = new Vector2(1280f, 720f);
-        panelFasesRT.anchoredPosition = new Vector2(1280f, 0f); // off-screen right
+        // Anchors stretch — ocupa toda la pantalla.
+        // El slide se hace con localPosition en runtime (controller.SlidePanelFromRight).
+        Anch(panelFasesGO, 0f, 0f, 1f, 1f);
         Img(panelFasesGO, Hex("#0A0A14"));
         panelFasesGO.SetActive(false);
+        var panelFasesRT = panelFasesGO.GetComponent<RectTransform>();
 
         // Header PanelFases (y 0.88–1.00)
         var headerFasesGO = Child(panelFasesGO.transform, "HeaderFases");

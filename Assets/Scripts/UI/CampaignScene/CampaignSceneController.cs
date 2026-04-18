@@ -116,12 +116,8 @@ namespace ReinoOscuridad.UI.Campaign
             BuildMundoButtons();
             BuildDifTabs();
 
-            // Estados iniciales
-            if (_panelFases != null)
-            {
-                _panelFases.anchoredPosition = new Vector2(1280f, 0f);
-                _panelFases.gameObject.SetActive(false);
-            }
+            // Estados iniciales — ocultar paneles secundarios
+            if (_panelFases != null)     _panelFases.gameObject.SetActive(false);
             if (_panelBatalla   != null) _panelBatalla.gameObject.SetActive(false);
             if (_popupBloqueado != null) _popupBloqueado.SetActive(false);
 
@@ -132,7 +128,13 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void BindButtons()
         {
-            if (_btnVolverMain      != null) _btnVolverMain.onClick.AddListener(() => UIManager.Instance?.NavigateBack());
+            if (_btnVolverMain != null) _btnVolverMain.onClick.AddListener(() =>
+            {
+                if (UIManager.Instance != null)
+                    UIManager.Instance.NavigateBack();
+                else
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
+            });
             if (_btnVolverFases     != null) _btnVolverFases.onClick.AddListener(ClosePanelFases);
             if (_btnCancelarBatalla != null) _btnCancelarBatalla.onClick.AddListener(ClosePanelBatalla);
             if (_btnEntrar          != null) _btnEntrar.onClick.AddListener(TryEnterBatalla);
@@ -222,7 +224,7 @@ namespace ReinoOscuridad.UI.Campaign
                 foreach (var eid in enc.enemies)
                 {
                     EnemyCatalogEntry edata = null;
-                    _enemyById?.TryGetValue(eid, out edata);
+                    if (_enemyById != null) _enemyById.TryGetValue(eid, out edata);
                     result.Add(BuildEnemyInstance(eid, edata, enc.difficulty));
                 }
                 return result.ToArray();
@@ -413,7 +415,8 @@ namespace ReinoOscuridad.UI.Campaign
 
             foreach (var eid in ids)
             {
-                _enemyById?.TryGetValue(eid, out var edata);
+                EnemyCatalogEntry edata = null;
+                if (_enemyById != null) _enemyById.TryGetValue(eid, out edata);
                 string nombre   = edata?.name_es ?? eid;
                 string elemento = edata?.element ?? "Oscuridad";
 
@@ -531,8 +534,14 @@ namespace ReinoOscuridad.UI.Campaign
         private IEnumerator SlidePanelFromRight(RectTransform panel, bool slideIn, float duration = 0.22f)
         {
             if (panel == null) yield break;
-            float from = slideIn ? 1280f : 0f;
-            float to   = slideIn ? 0f   : 1280f;
+
+            // Usamos localPosition para que funcione con cualquier configuración de anchors.
+            // Con CanvasScaler 1280×720, desplazar 1280 unidades locales = ancho completo.
+            const float SLIDE_W = 1280f;
+            Vector3 startPos = slideIn ? new Vector3(SLIDE_W, 0f, 0f) : Vector3.zero;
+            Vector3 endPos   = slideIn ? Vector3.zero                 : new Vector3(SLIDE_W, 0f, 0f);
+
+            panel.localPosition = startPos;
             panel.gameObject.SetActive(true);
 
             float t = 0f;
@@ -540,7 +549,7 @@ namespace ReinoOscuridad.UI.Campaign
             {
                 t = Mathf.Min(t + Time.deltaTime / duration, 1f);
                 float e = t < 0.5f ? 2f * t * t : -1f + (4f - 2f * t) * t; // ease-in-out quad
-                panel.anchoredPosition = new Vector2(Mathf.Lerp(from, to, e), 0f);
+                panel.localPosition = Vector3.Lerp(startPos, endPos, e);
                 yield return null;
             }
 
@@ -623,6 +632,9 @@ namespace ReinoOscuridad.UI.Campaign
             }
 
             BuildIndicadorDots();
+
+            if (_contenedorMundosBtns != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)_contenedorMundosBtns);
         }
 
         private void BuildIndicadorDots()
@@ -747,6 +759,9 @@ namespace ReinoOscuridad.UI.Campaign
 
                 btn.onClick.AddListener(() => SelectFase(capturedFase));
             }
+
+            if (_contenedorFases != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)_contenedorFases);
         }
 
         // ── Helpers internos ───────────────────────────────────────────────────
