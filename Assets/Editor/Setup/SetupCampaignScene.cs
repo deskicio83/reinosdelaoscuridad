@@ -62,7 +62,7 @@ public static class SetupCampaignScene
         }
 
         // Limpiar la escena por completo
-        foreach (var go in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (var go in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include))
             UnityEngine.Object.DestroyImmediate(go);
 
         Build();
@@ -203,7 +203,7 @@ public static class SetupCampaignScene
             Anch(nombreGO, 0.03f, 0.20f, 0.97f, 0.38f);
             mundoNombres[i] = Txt(nombreGO, MUNDO_NOMBRES[i], 10f, Hex("#E9D5FF"),
                                    align: TextAlignmentOptions.Center);
-            mundoNombres[i].enableWordWrapping = true;
+            mundoNombres[i].textWrappingMode = TextWrappingModes.Normal;
 
             // Progreso (zona muy inferior)
             var progresoGO = Child(btnGO.transform, "ProgresoText");
