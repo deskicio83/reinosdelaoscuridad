@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S20_fix — 2026-04-17_
+_Última actualización: S21_fix — 2026-04-17_
 
 ---
 
@@ -43,6 +43,7 @@ _Última actualización: S20_fix — 2026-04-17_
 | S19_fix2 | Correcciones flujo MVP | `tutorialCompleted: true` en player_data.json · fallback TutorialScene→MainMenuScene en BootSceneController · DataStorageSystem catch ya era LogWarning (sin cambio) |
 | S20_fix | Correcciones pre-MVP | BootScene siempre muestra LoginPanel en Editor + BtnDevMode · 5 héroes añadidos a player_data.json · LayoutElement en nodos CampaignScene · stars correctas en ResultPanel · RefreshBarraTurno dinámica |
 | S20_fix2 | Correcciones layout | SetParent(null)+Destroy en RefreshFaseNodes/BuildHeroCards/BuildEnemyCards · VLG en BarraTurno ListaRetratos · RefreshBarraTurno usa LayoutElement · stars Image sprites (sin Unicode) |
+| S21_fix | Sistema ATB + dinámica de combate | `ATBUnit.cs` (tick/IsReady/ResetATB/highlight) · `FloatingDamageText.cs` (spawn+animate 80px 1s) · `CombatSceneController.cs` reescrito — enum CombatPhase · ATBLoop coroutine · PlayerTurnRoutine (manual+auto) · EnemyTurnRoutine (menor HP) · ExecuteAction (animación escala 150ms · daño · floating text · dim muerte) · `SetupCombatScene.cs` — elimina BarraOrdenTurno · ATBBar+CardHighlight+ATBUnit en cada carta/slot · layout nuevo 5 zonas |
 
 ---
 
@@ -150,7 +151,7 @@ _Última actualización: S20_fix — 2026-04-17_
 
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
-| S20b | Ejecutar Setup CombatScene + Setup BootScene en Unity | Alta — regenerar scenes con nuevos campos cableados |
+| S21b | Ejecutar Setup CombatScene en Unity + validar Play Mode ATB | Alta — regenerar CombatScene.unity con nuevos ATBUnit cableados |
 | S19b | Visual del mapa CampaignScene | Alta — necesario para que sea jugable en producción |
 | S20 | HeroScene — roster, filtros, upgrade, awaken | Alta |
 | S21 | GachaScene — pull x1/x10, animación, historial | Alta |

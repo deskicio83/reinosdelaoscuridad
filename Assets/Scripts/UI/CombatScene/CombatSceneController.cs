@@ -11,56 +11,61 @@ using ReinoOscuridad.UI.Common;
 
 namespace ReinoOscuridad.UI.Combat
 {
-    public enum TurnState
+    public enum CombatPhase
     {
-        WaitingForInput,
-        SelectingTarget,
-        ProcessingAction,
-        ShowingResult,
-        CombatFinished
+        Idle,
+        PlayerTurn,
+        EnemyTurn,
+        ActionResolve,
+        CombatEnd
     }
 
-    /// Controlador de CombatScene — flujo de turno completo.
+    /// Controlador de CombatScene — sistema ATB.
     /// NO singleton. Se instancia una vez por carga de CombatScene.
     /// Recibe CombatContext desde CombatSceneData (pasarela entre Scenes).
     public class CombatSceneController : MonoBehaviour
     {
-        // ── Panel Controles (esquina superior derecha) ─────────────────────
+        // ── ATB Units (cableados desde SetupCombatScene) ───────────────────
+
+        [Header("ATB Units")]
+        [SerializeField] private ATBUnit[] _heroUnits;   // 4 — uno por HeroCard
+        [SerializeField] private ATBUnit[] _enemyUnits;  // 3 — uno por EnemySlot
+
+        // ── Panel Controles ────────────────────────────────────────────────
 
         [Header("Panel Controles")]
         [SerializeField] private TMP_Text _turnoLabel;
-        [SerializeField] private Button   _btnModo;       // toggle Auto/Manual
-        [SerializeField] private Button   _btnVelocidad;  // toggle x1/x2
+        [SerializeField] private Button   _btnModo;
+        [SerializeField] private Button   _btnVelocidad;
         [SerializeField] private Button   _btnPausa;
         [SerializeField] private Button   _btnHuir;
 
         // ── Zona Enemigos (3 slots dinámicos) ──────────────────────────────
 
         [Header("Zona Enemigos (3 slots)")]
-        [SerializeField] private GameObject[] _enemySlots;    // GameObjects raíz de cada slot
-        [SerializeField] private Image[]      _enemyHPFills;  // Relleno barra HP
-        [SerializeField] private TMP_Text[]   _enemyHPTexts;  // "8000/8000"
-        [SerializeField] private Button[]     _enemySlotBtns; // para selección de objetivo
+        [SerializeField] private GameObject[] _enemySlots;
+        [SerializeField] private Image[]      _enemyHPFills;
+        [SerializeField] private TMP_Text[]   _enemyHPTexts;
+        [SerializeField] private Button[]     _enemySlotBtns;
 
-        // ── Zona Equipo (4 cartas fijas) ────────────────────────────────────
+        // ── Zona Equipo (4 cartas) ─────────────────────────────────────────
 
         [Header("Zona Equipo (4 slots)")]
-        [SerializeField] private Button[]   _heroCards;       // 4
-        [SerializeField] private TMP_Text[] _heroNames;       // 4
-        [SerializeField] private Image[]    _heroHPFills;     // 4
-        [SerializeField] private Image[]    _turnIndicators;  // 4 — barra dorada top
+        [SerializeField] private Button[]   _heroCards;
+        [SerializeField] private TMP_Text[] _heroNames;
+        [SerializeField] private Image[]    _heroHPFills;
 
-        // ── Zona Habilidades (3 círculos bajo barra de turno) ──────────────
+        // ── Zona Habilidades ───────────────────────────────────────────────
 
         [Header("Zona Habilidades (3 circulos)")]
-        [SerializeField] private Button[] _abilityCircles;   // 3 — bajo BarraOrdenTurno
+        [SerializeField] private Button[] _abilityCircles;
 
-        // ── Zona Conjuros (2×5) ─────────────────────────────────────────────
+        // ── Zona Conjuros ──────────────────────────────────────────────────
 
         [Header("Zona Conjuros (10 slots)")]
-        [SerializeField] private Button[] _conjuroSlots; // 10
+        [SerializeField] private Button[] _conjuroSlots;
 
-        // ── Tooltip Panel ───────────────────────────────────────────────────
+        // ── Tooltip Panel ──────────────────────────────────────────────────
 
         [Header("Tooltip Panel")]
         [SerializeField] private GameObject _tooltipPanel;
@@ -68,41 +73,45 @@ namespace ReinoOscuridad.UI.Combat
         [SerializeField] private Button     _btnUsarTooltip;
         [SerializeField] private Button     _btnCerrarTooltip;
 
-        // ── Barra de Turno ──────────────────────────────────────────────────
-
-        [Header("Barra de Turno")]
-        [SerializeField] private Transform _listaRetratos;
-
-        // ── Result Panel ────────────────────────────────────────────────────
+        // ── Result Panel ───────────────────────────────────────────────────
 
         [Header("Result Panel")]
         [SerializeField] private GameObject _resultPanel;
         [SerializeField] private TMP_Text   _resultTitleText;
-        [SerializeField] private Image[]    _resultStarImages;  // 3: dorado=ganada gris=vacia rojo=derrota
+        [SerializeField] private Image[]    _resultStarImages;
         [SerializeField] private TMP_Text   _resultXPText;
         [SerializeField] private TMP_Text   _resultDropsText;
         [SerializeField] private Button     _btnContinuar;
         [SerializeField] private Button     _btnReintentar;
 
-        // ── Colores de HP ───────────────────────────────────────────────────
+        // ── Colores HP ─────────────────────────────────────────────────────
 
         private static readonly Color HP_HEALTHY  = new Color(0.08f, 0.50f, 0.24f); // #15803D
         private static readonly Color HP_MEDIUM   = new Color(0.85f, 0.47f, 0.03f); // #D97706
         private static readonly Color HP_CRITICAL = new Color(0.86f, 0.15f, 0.15f); // #DC2626
 
+        // ── ATB constantes ─────────────────────────────────────────────────
+
+        private const float TICK_RATE      = 0.05f;
+        private const float ATB_SPEED_BASE = 30f;
+        private const float ATB_HEADSTART  = 50f;
+
         // ── Estado interno ─────────────────────────────────────────────────
 
-        private CombatContext _ctx;
-        private CombatSystem  _combatSystem;
-        private TurnState     _state = TurnState.WaitingForInput;
-        private bool          _autoMode;
-
-        private List<TurnSlot> _turnOrder;
-        private int            _currentSlotIndex;
-        private int            _turnoActual = 1;
-        private int            _selectedAbilityIndex = -1;
-
-        private Action _tooltipConfirmAction;
+        private CombatContext   _ctx;
+        private CombatSystem    _combatSystem;
+        private CombatPhase     _phase = CombatPhase.Idle;
+        private ATBUnit         _activeUnit;
+        private List<ATBUnit>   _allUnits;
+        private float           _tiempoMultiplier = 1f;
+        private bool            _autoMode;
+        private int             _turnoActual = 1;
+        private int             _selectedAbilityIndex = -1;
+        private ATBUnit         _pendingTarget;
+        private int             _dañoAcumulado;
+        private Coroutine       _atbCoroutine;
+        private Canvas          _canvas;
+        private Action          _tooltipConfirmAction;
 
         // ── Inicio ─────────────────────────────────────────────────────────
 
@@ -130,79 +139,410 @@ namespace ReinoOscuridad.UI.Combat
             if (_combatSystem == null)
                 Debug.LogWarning("[CombatScene] CombatSystem no encontrado — modo degradado.");
 
-            BuildTurnOrder();
-            RefreshBarraTurno();
+            _canvas = GetComponentInParent<Canvas>() ?? FindFirstObjectByType<Canvas>();
+
+            BuildATBUnits();
             RefreshEnemyZone();
             RefreshHeroZone();
-            UpdateTurnoLabel();
             DisableAbilityCircles();
 
-            if (_tooltipPanel != null)
-                _tooltipPanel.SetActive(false);
-
-            if (_resultPanel != null)
-                _resultPanel.SetActive(false);
+            if (_tooltipPanel != null) _tooltipPanel.SetActive(false);
+            if (_resultPanel   != null) _resultPanel.SetActive(false);
 
             BindButtons();
 
             await System.Threading.Tasks.Task.Delay(400);
-            if (LoadingScreen.Instance != null)
-                LoadingScreen.Instance.Hide();
+            if (LoadingScreen.Instance != null) LoadingScreen.Instance.Hide();
 
-            Debug.Log($"[CombatScene] Combate iniciado — encuentro: {_ctx.encounterID} — modo: {_ctx.combatMode}");
+            Debug.Log($"[CombatScene] Combate iniciado ATB — encuentro: {_ctx.encounterID}");
+
+            _atbCoroutine = StartCoroutine(ATBLoop());
+        }
+
+        // ── Construcción de unidades ATB ───────────────────────────────────
+
+        private void BuildATBUnits()
+        {
+            _allUnits = new List<ATBUnit>();
+
+            // Héroes
+            if (_heroUnits != null && _ctx.playerTeam != null)
+            {
+                for (int i = 0; i < _heroUnits.Length; i++)
+                {
+                    var unit = _heroUnits[i];
+                    if (unit == null) continue;
+
+                    if (i < _ctx.playerTeam.Length)
+                    {
+                        var h = _ctx.playerTeam[i];
+                        unit.esJugador = true;
+                        unit.unitId    = h.heroId;
+                        unit.spd       = Mathf.Max(h.spd, 1);
+                        unit.estaVivo  = h.estaVivo;
+                        unit.heroData  = h;
+                        unit.ResetATB();
+                        _allUnits.Add(unit);
+                    }
+                    else
+                    {
+                        unit.estaVivo = false;
+                        unit.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            // Enemigos
+            if (_enemyUnits != null && _ctx.enemyTeam != null)
+            {
+                for (int i = 0; i < _enemyUnits.Length; i++)
+                {
+                    var unit = _enemyUnits[i];
+                    if (unit == null) continue;
+
+                    if (i < _ctx.enemyTeam.Length)
+                    {
+                        var e = _ctx.enemyTeam[i];
+                        unit.esJugador = false;
+                        unit.unitId    = e.enemyId;
+                        unit.spd       = Mathf.Max(e.spd, 1);
+                        unit.estaVivo  = e.estaVivo;
+                        unit.enemyData = e;
+                        unit.ResetATB();
+                        _allUnits.Add(unit);
+                    }
+                    else
+                    {
+                        unit.estaVivo = false;
+                        if (_enemySlots != null && i < _enemySlots.Length && _enemySlots[i] != null)
+                            _enemySlots[i].SetActive(false);
+                    }
+                }
+            }
+
+            if (_allUnits.Count == 0) return;
+
+            // La unidad más rápida arranca con ventaja de ATB
+            int maxSpd = 0;
+            foreach (var u in _allUnits) if (u.spd > maxSpd) maxSpd = u.spd;
+
+            bool headStartAssigned = false;
+            foreach (var u in _allUnits)
+            {
+                if (!headStartAssigned && u.spd == maxSpd)
+                {
+                    u.TickATB(ATB_HEADSTART);
+                    headStartAssigned = true;
+                }
+            }
+        }
+
+        // ── ATB Loop principal ─────────────────────────────────────────────
+
+        private IEnumerator ATBLoop()
+        {
+            while (_phase != CombatPhase.CombatEnd)
+            {
+                if (_phase == CombatPhase.Idle && _allUnits != null)
+                {
+                    // Calcular spd máximo de vivos
+                    int maxSpd = 1;
+                    foreach (var u in _allUnits)
+                        if (u.estaVivo && u.spd > maxSpd) maxSpd = u.spd;
+
+                    // Tick a todas las unidades vivas
+                    foreach (var u in _allUnits)
+                    {
+                        if (!u.estaVivo) continue;
+                        float gain = (float)u.spd / maxSpd * ATB_SPEED_BASE * _tiempoMultiplier;
+                        u.TickATB(gain);
+                    }
+
+                    // Buscar la primera unidad lista (mayor spd gana en empate)
+                    ATBUnit readyUnit = null;
+                    int highestSpd = -1;
+                    foreach (var u in _allUnits)
+                    {
+                        if (!u.estaVivo || !u.IsReady()) continue;
+                        if (u.spd > highestSpd)
+                        {
+                            highestSpd = u.spd;
+                            readyUnit  = u;
+                        }
+                    }
+
+                    if (readyUnit != null)
+                    {
+                        _activeUnit = readyUnit;
+                        _activeUnit.SetActive(true);
+
+                        if (readyUnit.esJugador)
+                            yield return StartCoroutine(PlayerTurnRoutine(readyUnit));
+                        else
+                            yield return StartCoroutine(EnemyTurnRoutine(readyUnit));
+                    }
+                }
+
+                yield return new WaitForSeconds(TICK_RATE);
+            }
+        }
+
+        // ── Turno del jugador ──────────────────────────────────────────────
+
+        private IEnumerator PlayerTurnRoutine(ATBUnit unit)
+        {
+            _phase = CombatPhase.PlayerTurn;
+            _turnoActual++;
+            UpdateTurnoLabel();
+            _selectedAbilityIndex = -1;
+            _pendingTarget        = null;
 
             if (_autoMode)
-                StartCoroutine(AutoCombatCoroutine());
+            {
+                yield return new WaitForSeconds(0.5f / _tiempoMultiplier);
+
+                ATBUnit autoTarget = null;
+                foreach (var u in _allUnits)
+                    if (!u.esJugador && u.estaVivo) { autoTarget = u; break; }
+
+                if (autoTarget != null)
+                    yield return StartCoroutine(ExecuteAction(unit, autoTarget, 0));
+                else
+                {
+                    unit.ResetATB();
+                    unit.SetActive(false);
+                    _phase = CombatPhase.Idle;
+                }
+                yield break;
+            }
+
+            // Manual — habilitar círculos y esperar input
+            int heroIdx = GetHeroIndex(unit);
+            UpdateAbilityCirclesForHero(heroIdx);
+
+            yield return new WaitUntil(() => _pendingTarget != null || _phase == CombatPhase.CombatEnd);
+
+            if (_phase == CombatPhase.CombatEnd) yield break;
+
+            var target     = _pendingTarget;
+            int abilityIdx = _selectedAbilityIndex >= 0 ? _selectedAbilityIndex : 0;
+            _pendingTarget        = null;
+            _selectedAbilityIndex = -1;
+
+            yield return StartCoroutine(ExecuteAction(unit, target, abilityIdx));
+        }
+
+        // ── Turno del enemigo ──────────────────────────────────────────────
+
+        private IEnumerator EnemyTurnRoutine(ATBUnit unit)
+        {
+            _phase = CombatPhase.EnemyTurn;
+            _turnoActual++;
+            UpdateTurnoLabel();
+
+            yield return new WaitForSeconds(0.5f / _tiempoMultiplier);
+
+            // Objetivo: héroe con menor HP
+            ATBUnit target   = null;
+            int     lowestHP = int.MaxValue;
+            foreach (var u in _allUnits)
+            {
+                if (!u.esJugador || !u.estaVivo) continue;
+                int hp = u.heroData?.hpActual ?? 0;
+                if (hp < lowestHP) { lowestHP = hp; target = u; }
+            }
+
+            if (target != null)
+                yield return StartCoroutine(ExecuteAction(unit, target, 0));
             else
-                StartCoroutine(ManualCombatCoroutine());
+            {
+                unit.ResetATB();
+                unit.SetActive(false);
+                _phase = CombatPhase.Idle;
+            }
         }
 
-        // ── API pública ────────────────────────────────────────────────────
+        // ── Ejecución de acción ────────────────────────────────────────────
 
-        public void SetAutoMode(bool auto)
+        private IEnumerator ExecuteAction(ATBUnit attacker, ATBUnit target, int abilityIndex)
         {
-            _autoMode = auto;
-            UpdateModoButtonVisual();
-            Debug.Log($"[CombatScene] Modo Auto: {_autoMode}");
+            _phase = CombatPhase.ActionResolve;
+            DisableAbilityCircles();
+
+            // Animación: escalar carta 1.0 → 1.1 en 150 ms y volver
+            var attackerRT = attacker.GetComponent<RectTransform>();
+            if (attackerRT != null)
+            {
+                float t = 0f;
+                while (t < 0.15f)
+                {
+                    t += Time.deltaTime;
+                    attackerRT.localScale = Vector3.one * Mathf.Lerp(1f, 1.1f, t / 0.15f);
+                    yield return null;
+                }
+                attackerRT.localScale = Vector3.one;
+            }
+
+            yield return new WaitForSeconds(0.2f);
+
+            // Calcular daño
+            int  daño    = 0;
+            bool crit    = false;
+            bool ventaja = false;
+            bool esquivado = false;
+
+            if (_combatSystem != null)
+            {
+                if (attacker.esJugador && attacker.heroData != null && target.enemyData != null)
+                {
+                    float mult = abilityIndex == 1 ? 1.8f : abilityIndex == 2 ? 1.2f : 1f;
+                    var res = _combatSystem.CalculateDamage(attacker.heroData, target.enemyData, mult);
+                    daño     = res.dañoFinal;
+                    crit     = res.fueCritico;
+                    ventaja  = res.fueElementalVentaja;
+                    esquivado = res.fueEsquivado;
+
+                    if (!esquivado)
+                    {
+                        target.enemyData.hpActual = Mathf.Max(0, target.enemyData.hpActual - daño);
+                        if (target.enemyData.hpActual == 0)
+                        {
+                            target.enemyData.estaVivo = false;
+                            target.estaVivo           = false;
+                        }
+                    }
+                }
+                else if (!attacker.esJugador && attacker.enemyData != null && target.heroData != null)
+                {
+                    var res = _combatSystem.CalculateDamageEnemyAttack(attacker.enemyData, target.heroData);
+                    daño     = res.dañoFinal;
+                    crit     = res.fueCritico;
+                    esquivado = res.fueEsquivado;
+
+                    if (!esquivado)
+                    {
+                        target.heroData.hpActual = Mathf.Max(0, target.heroData.hpActual - daño);
+                        if (target.heroData.hpActual == 0)
+                        {
+                            target.heroData.estaVivo = false;
+                            target.estaVivo          = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Modo degradado sin CombatSystem
+                daño = UnityEngine.Random.Range(100, 500);
+                if (target.enemyData != null)
+                {
+                    target.enemyData.hpActual = Mathf.Max(0, target.enemyData.hpActual - daño);
+                    if (target.enemyData.hpActual == 0) { target.enemyData.estaVivo = false; target.estaVivo = false; }
+                }
+                else if (target.heroData != null)
+                {
+                    target.heroData.hpActual = Mathf.Max(0, target.heroData.hpActual - daño);
+                    if (target.heroData.hpActual == 0) { target.heroData.estaVivo = false; target.estaVivo = false; }
+                }
+            }
+
+            _dañoAcumulado += daño;
+
+            Debug.Log($"[ATB] {attacker.unitId} hab:{abilityIndex} → {target.unitId}: {daño}" +
+                      (esquivado ? " [ESQ]" : "") + (crit ? " [CRIT]" : "") + (ventaja ? " [VENTAJA]" : ""));
+
+            // Texto de daño flotante
+            if (_canvas != null && daño > 0 && !esquivado)
+            {
+                var targetRT = target.GetComponent<RectTransform>();
+                Vector2 screenPos = targetRT != null
+                    ? RectTransformUtility.WorldToScreenPoint(null, targetRT.position)
+                    : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+                FloatingDamageText.Spawn(_canvas, screenPos, daño, crit, ventaja);
+            }
+
+            // Actualizar barras HP
+            RefreshEnemyZone();
+            RefreshHeroZone();
+
+            // Dim carta si murió
+            if (!target.estaVivo)
+            {
+                target.SetActive(false);
+                var cardImg = target.GetComponent<Image>();
+                if (cardImg != null)
+                    cardImg.color = new Color(0.15f, 0.15f, 0.15f, 0.50f);
+            }
+
+            yield return new WaitForSeconds(0.2f);
+
+            // Verificar fin de combate
+            bool anyHeroAlive  = false;
+            bool anyEnemyAlive = false;
+            foreach (var u in _allUnits)
+            {
+                if (u.esJugador  && u.estaVivo) anyHeroAlive  = true;
+                if (!u.esJugador && u.estaVivo) anyEnemyAlive = true;
+            }
+
+            if (!anyHeroAlive || !anyEnemyAlive)
+            {
+                bool victoria = anyHeroAlive && !anyEnemyAlive;
+                FinalizarCombate(new CombatResult
+                {
+                    victoria      = victoria,
+                    danoTotal     = _dañoAcumulado,
+                    drops         = Array.Empty<string>(),
+                    xpGanada      = victoria ? 200 : 0,
+                    trofeosDelta  = 0,
+                    gradoObtenido = victoria ? "" : ""
+                });
+                yield break;
+            }
+
+            // Resetear atacante y volver a Idle
+            attacker.ResetATB();
+            attacker.SetActive(false);
+            _phase = CombatPhase.Idle;
         }
 
-        public void SelectAbility(int abilityIndex)
+        // ── Input del jugador ──────────────────────────────────────────────
+
+        public void OnAbilitySelected(int abilityIndex)
         {
-            if (_state != TurnState.WaitingForInput) return;
+            if (_phase != CombatPhase.PlayerTurn) return;
             _selectedAbilityIndex = abilityIndex;
-            _state = TurnState.SelectingTarget;
-            Debug.Log($"[CombatScene] Habilidad {abilityIndex} seleccionada — elige objetivo.");
+
+            // Highlight enemies como objetivo
+            if (_allUnits == null) return;
+            foreach (var u in _allUnits)
+            {
+                if (!u.esJugador && u.estaVivo)
+                    u.SetHighlightTargetable(true);
+            }
+
+            Debug.Log($"[ATB] Habilidad {abilityIndex} seleccionada — elige objetivo.");
         }
 
-        public void SelectTarget(int targetIndex)
+        public void OnUnitTapped(ATBUnit tapped)
         {
-            if (_state != TurnState.SelectingTarget) return;
-            if (_ctx?.enemyTeam == null || targetIndex < 0 || targetIndex >= _ctx.enemyTeam.Length) return;
-            if (!_ctx.enemyTeam[targetIndex].estaVivo) return;
+            if (_phase != CombatPhase.PlayerTurn) return;
+            if (_selectedAbilityIndex < 0) return;
+            if (tapped == null || !tapped.estaVivo || tapped.esJugador) return;
 
-            ProcessHeroAction(GetCurrentHero(), _ctx.enemyTeam[targetIndex]);
-        }
+            // Limpiar highlights
+            foreach (var u in _allUnits) u.SetHighlightTargetable(false);
+            DisableAbilityCircles();
 
-        public void SkipToResult()
-        {
-            if (!_autoMode) return;
-            StopAllCoroutines();
-            var result = _combatSystem != null
-                ? _combatSystem.ProcessCombat(_ctx)
-                : new CombatResult { victoria = false, drops = Array.Empty<string>(), gradoObtenido = "C" };
-            FinalizarCombate(result);
+            _pendingTarget = tapped;
         }
 
         // ── Tooltip ────────────────────────────────────────────────────────
 
         public void ShowTooltip(string description, Action onConfirm)
         {
-            if (_tooltipPanel == null)
-            {
-                onConfirm?.Invoke();
-                return;
-            }
-            if (_tooltipText != null)  _tooltipText.text = description;
+            if (_tooltipPanel == null) { onConfirm?.Invoke(); return; }
+            if (_tooltipText != null)    _tooltipText.text = description;
             if (_btnUsarTooltip != null) _btnUsarTooltip.gameObject.SetActive(onConfirm != null);
             _tooltipConfirmAction = onConfirm;
             _tooltipPanel.SetActive(true);
@@ -221,222 +561,12 @@ namespace ReinoOscuridad.UI.Combat
             action?.Invoke();
         }
 
-        // ── Habilidades ────────────────────────────────────────────────────
-
-        private void UpdateAbilityCirclesForHero(int heroIndex)
-        {
-            if (_abilityCircles == null) return;
-            bool valid = heroIndex >= 0
-                         && _ctx?.playerTeam != null
-                         && heroIndex < _ctx.playerTeam.Length;
-
-            for (int i = 0; i < _abilityCircles.Length; i++)
-            {
-                if (_abilityCircles[i] == null) continue;
-                _abilityCircles[i].interactable = valid;
-
-                var lbl = _abilityCircles[i].GetComponentInChildren<TMP_Text>(true);
-                if (lbl == null) continue;
-
-                if (valid && _ctx.playerTeam[heroIndex].habilidadesEquipadas != null
-                          && i < _ctx.playerTeam[heroIndex].habilidadesEquipadas.Length)
-                {
-                    var habId = _ctx.playerTeam[heroIndex].habilidadesEquipadas[i];
-                    lbl.text = string.IsNullOrEmpty(habId)
-                        ? $"H{i + 1}"
-                        : habId.Substring(0, Mathf.Min(3, habId.Length)).ToUpper();
-                }
-                else
-                {
-                    lbl.text = $"H{i + 1}";
-                }
-            }
-        }
-
-        private void DisableAbilityCircles()
-        {
-            if (_abilityCircles == null) return;
-            foreach (var btn in _abilityCircles)
-                if (btn != null) btn.interactable = false;
-        }
-
-        private string GetAbilityDescription(int abilityIndex)
-        {
-            if (_turnOrder == null || _currentSlotIndex >= _turnOrder.Count)
-                return $"Habilidad {abilityIndex + 1}";
-
-            var slot = _turnOrder[_currentSlotIndex];
-            if (!slot.IsHero || _ctx?.playerTeam == null)
-                return $"Habilidad {abilityIndex + 1}";
-
-            var hero = _ctx.playerTeam[slot.HeroIndex];
-            string habId = hero.habilidadesEquipadas != null && abilityIndex < hero.habilidadesEquipadas.Length
-                ? hero.habilidadesEquipadas[abilityIndex]
-                : null;
-
-            return string.IsNullOrEmpty(habId)
-                ? $"Habilidad {abilityIndex + 1}\n(Sin equipar)"
-                : $"{habId}\n(Descripción pendiente de catálogo)";
-        }
-
-        // ── Orden de turno ─────────────────────────────────────────────────
-
-        private void BuildTurnOrder()
-        {
-            _turnOrder = new List<TurnSlot>();
-
-            if (_ctx.playerTeam != null)
-                for (int i = 0; i < _ctx.playerTeam.Length; i++)
-                    if (_ctx.playerTeam[i].estaVivo)
-                        _turnOrder.Add(new TurnSlot { IsHero = true, HeroIndex = i });
-
-            if (_ctx.enemyTeam != null)
-                for (int i = 0; i < _ctx.enemyTeam.Length; i++)
-                    if (_ctx.enemyTeam[i].estaVivo)
-                        _turnOrder.Add(new TurnSlot { IsHero = false, EnemyIndex = i });
-
-            _turnOrder.Sort((a, b) =>
-            {
-                int sA = a.IsHero ? _ctx.playerTeam[a.HeroIndex].spd : _ctx.enemyTeam[a.EnemyIndex].spd;
-                int sB = b.IsHero ? _ctx.playerTeam[b.HeroIndex].spd : _ctx.enemyTeam[b.EnemyIndex].spd;
-                if (sB != sA) return sB.CompareTo(sA);
-                return a.IsHero ? -1 : 1;
-            });
-
-            _currentSlotIndex = 0;
-            _turnoActual      = 1;
-        }
-
-        // ── Auto Combat ────────────────────────────────────────────────────
-
-        private IEnumerator AutoCombatCoroutine()
-        {
-            if (_combatSystem == null)
-            {
-                Debug.LogError("[CombatScene] AutoMode requiere CombatSystem.");
-                yield break;
-            }
-
-            var result = _combatSystem.ProcessCombat(_ctx);
-            RefreshEnemyZone();
-            RefreshHeroZone();
-
-            yield return new WaitForSeconds(1.2f);
-            FinalizarCombate(result);
-        }
-
-        // ── Manual Combat ──────────────────────────────────────────────────
-
-        private IEnumerator ManualCombatCoroutine()
-        {
-            const int MAX_TURNS = 50;
-
-            while (_turnoActual <= MAX_TURNS
-                   && AnyAlive(_ctx.playerTeam)
-                   && AnyAlive(_ctx.enemyTeam))
-            {
-                var slot = _turnOrder[_currentSlotIndex];
-
-                if (!SlotIsAlive(slot))
-                {
-                    AdvanceTurnSlot();
-                    yield return null;
-                    continue;
-                }
-
-                HighlightActiveTurn(slot);
-                UpdateTurnoLabel();
-
-                if (slot.IsHero)
-                {
-                    var hero = _ctx.playerTeam[slot.HeroIndex];
-
-                    if (hero.efectosActivos != null && hero.efectosActivos.Contains("Stun"))
-                    {
-                        Debug.Log($"[CombatScene] {hero.heroId} aturdido — turno saltado.");
-                        DisableAbilityCircles();
-                        yield return new WaitForSeconds(0.4f);
-                    }
-                    else
-                    {
-                        UpdateAbilityCirclesForHero(slot.HeroIndex);
-
-                        _state = TurnState.WaitingForInput;
-                        yield return new WaitUntil(() =>
-                            _state == TurnState.ProcessingAction ||
-                            _state == TurnState.CombatFinished);
-
-                        DisableAbilityCircles();
-                        if (_state == TurnState.CombatFinished) yield break;
-                        yield return new WaitForSeconds(0.3f);
-                    }
-                }
-                else
-                {
-                    _state = TurnState.ProcessingAction;
-                    var enemy  = _ctx.enemyTeam[slot.EnemyIndex];
-                    var target = PickFirstAlive(_ctx.playerTeam);
-
-                    if (target != null && _combatSystem != null)
-                    {
-                        var dmg = _combatSystem.CalculateDamageEnemyAttack(enemy, target);
-                        ApplyDamageToHero(target, dmg.dañoFinal);
-                        RefreshHeroZone();
-
-                        Debug.Log($"[CombatScene] {enemy.enemyId} → {target.heroId}: {dmg.dañoFinal}" +
-                                  (dmg.fueEsquivado ? " [ESQ]" : "") + (dmg.fueCritico ? " [CRIT]" : ""));
-                    }
-
-                    yield return new WaitForSeconds(0.6f);
-                }
-
-                if (!AnyAlive(_ctx.playerTeam) || !AnyAlive(_ctx.enemyTeam)) break;
-
-                AdvanceTurnSlot();
-            }
-
-            FinalizarCombate(new CombatResult
-            {
-                victoria      = AnyAlive(_ctx.playerTeam) && !AnyAlive(_ctx.enemyTeam),
-                danoTotal     = 0,
-                drops         = Array.Empty<string>(),
-                xpGanada      = 0,
-                trofeosDelta  = 0,
-                gradoObtenido = _turnoActual <= 5 ? "S" : _turnoActual <= 10 ? "A" : _turnoActual <= 20 ? "B" : "C"
-            });
-        }
-
-        // ── Acción del jugador ─────────────────────────────────────────────
-
-        private void ProcessHeroAction(HeroInstance hero, EnemyInstance target)
-        {
-            if (hero == null || target == null) return;
-
-            float mult = _selectedAbilityIndex == 1 ? 1.8f
-                       : _selectedAbilityIndex == 2 ? 1.2f
-                       : 1f;
-
-            if (_combatSystem != null)
-            {
-                var dmg = _combatSystem.CalculateDamage(hero, target, mult);
-                ApplyDamageToEnemy(target, dmg.dañoFinal);
-                RefreshEnemyZone();
-
-                Debug.Log($"[CombatScene] {hero.heroId} hab:{_selectedAbilityIndex} → {target.enemyId}: {dmg.dañoFinal}" +
-                          (dmg.fueEsquivado ? " [ESQ]" : "") + (dmg.fueCritico ? " [CRIT]" : "") +
-                          (dmg.fueElementalVentaja ? " [VENTAJA]" : "") +
-                          (dmg.fueElementalDesventaja ? " [DESV]" : ""));
-            }
-
-            _selectedAbilityIndex = -1;
-            _state = TurnState.ProcessingAction;
-        }
-
-        // ── Finalización ────────────────────────────────────────────────────
+        // ── Finalización ───────────────────────────────────────────────────
 
         private void FinalizarCombate(CombatResult result)
         {
-            _state = TurnState.CombatFinished;
+            _phase = CombatPhase.CombatEnd;
+            if (_atbCoroutine != null) StopCoroutine(_atbCoroutine);
             StopAllCoroutines();
             DisableAbilityCircles();
             HideTooltip();
@@ -478,20 +608,18 @@ namespace ReinoOscuridad.UI.Combat
                 {
                     if (_resultStarImages[i] == null) continue;
                     _resultStarImages[i].color = i < stars
-                        ? new Color(0.98f, 0.80f, 0.08f)   // dorado — estrella ganada
+                        ? new Color(0.98f, 0.80f, 0.08f)
                         : result.victoria
-                            ? new Color(0.25f, 0.25f, 0.28f)  // gris — estrella vacía
-                            : new Color(0.55f, 0.10f, 0.10f); // rojo — derrota / huir
+                            ? new Color(0.25f, 0.25f, 0.28f)
+                            : new Color(0.55f, 0.10f, 0.10f);
                 }
             }
-            if (_resultXPText != null)
-                _resultXPText.text = $"+{result.xpGanada} XP";
+
+            if (_resultXPText   != null) _resultXPText.text   = $"+{result.xpGanada} XP";
             if (_resultDropsText != null)
                 _resultDropsText.text = result.drops != null && result.drops.Length > 0
                     ? "Recompensas:\n* " + string.Join("\n* ", result.drops)
                     : "Recompensas:\nSin drops";
-
-            _state = TurnState.ShowingResult;
         }
 
         private async void OnContinuarPressed()
@@ -509,67 +637,6 @@ namespace ReinoOscuridad.UI.Combat
         }
 
         // ── Refresh UI ─────────────────────────────────────────────────────
-
-        private void RefreshBarraTurno()
-        {
-            if (_listaRetratos == null || _turnOrder == null) return;
-
-            // Destruir retratos anteriores
-            for (int i = _listaRetratos.childCount - 1; i >= 0; i--)
-                Destroy(_listaRetratos.GetChild(i).gameObject);
-
-            // Mostrar los próximos N slots del orden de turno (máx 8)
-            int count = Mathf.Min(_turnOrder.Count, 8);
-            for (int i = 0; i < count; i++)
-            {
-                int    slotIdx = (_currentSlotIndex + i) % _turnOrder.Count;
-                var    slot    = _turnOrder[slotIdx];
-                string label;
-                Color  color;
-
-                if (slot.IsHero && _ctx.playerTeam != null && slot.HeroIndex < _ctx.playerTeam.Length)
-                {
-                    var h = _ctx.playerTeam[slot.HeroIndex];
-                    label = string.IsNullOrEmpty(h.heroId) ? "?" : h.heroId.Substring(0, Mathf.Min(3, h.heroId.Length)).ToUpper();
-                    color = h.estaVivo ? new Color(0.20f, 0.45f, 0.75f) : new Color(0.35f, 0.35f, 0.35f);
-                }
-                else if (!slot.IsHero && _ctx.enemyTeam != null && slot.EnemyIndex < _ctx.enemyTeam.Length)
-                {
-                    var e = _ctx.enemyTeam[slot.EnemyIndex];
-                    label = string.IsNullOrEmpty(e.enemyId) ? "E" : e.enemyId.Substring(0, Mathf.Min(3, e.enemyId.Length)).ToUpper();
-                    color = e.estaVivo ? new Color(0.70f, 0.15f, 0.15f) : new Color(0.35f, 0.35f, 0.35f);
-                }
-                else continue;
-
-                var go  = new GameObject($"Retrato_{i}");
-                go.transform.SetParent(_listaRetratos, false);
-
-                // Tamaño via LayoutElement — el VLG en _listaRetratos gestiona la posición
-                var le = go.AddComponent<LayoutElement>();
-                le.preferredHeight = 42f;
-
-                var img = go.AddComponent<Image>();
-                img.color = i == 0
-                    ? new Color(Mathf.Min(color.r * 1.4f, 1f),
-                                Mathf.Min(color.g * 1.4f, 1f),
-                                Mathf.Min(color.b * 1.4f, 1f))
-                    : color;
-
-                var lblGO = new GameObject("Lbl");
-                lblGO.transform.SetParent(go.transform, false);
-                var tmp = lblGO.AddComponent<TextMeshProUGUI>();
-                tmp.text      = label;
-                tmp.fontSize  = i == 0 ? 10f : 8f;
-                tmp.color     = Color.white;
-                tmp.fontStyle = i == 0 ? FontStyles.Bold : FontStyles.Normal;
-                tmp.alignment = TextAlignmentOptions.Center;
-                var lrt       = lblGO.GetComponent<RectTransform>();
-                lrt.anchorMin = Vector2.zero;
-                lrt.anchorMax = Vector2.one;
-                lrt.offsetMin = Vector2.zero;
-                lrt.offsetMax = Vector2.zero;
-            }
-        }
 
         private void RefreshEnemyZone()
         {
@@ -627,43 +694,94 @@ namespace ReinoOscuridad.UI.Combat
             }
         }
 
-        private void HighlightActiveTurn(TurnSlot slot)
-        {
-            if (_turnIndicators == null) return;
-
-            for (int i = 0; i < _turnIndicators.Length; i++)
-            {
-                if (_turnIndicators[i] == null) continue;
-                bool active = slot.IsHero && slot.HeroIndex == i;
-                var c = _turnIndicators[i].color;
-                _turnIndicators[i].color = new Color(c.r, c.g, c.b, active ? 1f : 0f);
-            }
-        }
-
         private void UpdateTurnoLabel()
         {
             if (_turnoLabel != null)
-                _turnoLabel.text = $"Turno {_turnoActual}";
+            {
+                string quien = _phase == CombatPhase.PlayerTurn ? "Jugador"
+                             : _phase == CombatPhase.EnemyTurn  ? "Enemigo"
+                             : "...";
+                _turnoLabel.text = $"T{_turnoActual} {quien}";
+            }
         }
 
-        private void UpdateModoButtonVisual()
+        // ── Habilidades ────────────────────────────────────────────────────
+
+        private void UpdateAbilityCirclesForHero(int heroIndex)
         {
-            if (_btnModo == null) return;
-            var img = _btnModo.GetComponent<Image>();
-            if (img == null) return;
-            img.color = _autoMode
-                ? new Color(0.09f, 0.18f, 0.09f)
-                : new Color(0.10f, 0.10f, 0.11f);
-            var lbl = _btnModo.GetComponentInChildren<TMP_Text>();
-            if (lbl != null) lbl.text = _autoMode ? "AUTO" : "MANUAL";
+            if (_abilityCircles == null) return;
+            bool valid = heroIndex >= 0
+                      && _ctx?.playerTeam != null
+                      && heroIndex < _ctx.playerTeam.Length;
+
+            for (int i = 0; i < _abilityCircles.Length; i++)
+            {
+                if (_abilityCircles[i] == null) continue;
+                _abilityCircles[i].interactable = valid;
+
+                var lbl = _abilityCircles[i].GetComponentInChildren<TMP_Text>(true);
+                if (lbl == null) continue;
+
+                if (valid && _ctx.playerTeam[heroIndex].habilidadesEquipadas != null
+                          && i < _ctx.playerTeam[heroIndex].habilidadesEquipadas.Length)
+                {
+                    var habId = _ctx.playerTeam[heroIndex].habilidadesEquipadas[i];
+                    lbl.text = string.IsNullOrEmpty(habId)
+                        ? $"H{i + 1}"
+                        : habId.Substring(0, Mathf.Min(3, habId.Length)).ToUpper();
+                }
+                else
+                {
+                    lbl.text = $"H{i + 1}";
+                }
+            }
+        }
+
+        private void DisableAbilityCircles()
+        {
+            if (_abilityCircles == null) return;
+            foreach (var btn in _abilityCircles)
+                if (btn != null) btn.interactable = false;
+        }
+
+        private string GetAbilityDescription(int abilityIndex)
+        {
+            if (_activeUnit == null || _activeUnit.heroData == null)
+                return $"Habilidad {abilityIndex + 1}";
+
+            var hero = _activeUnit.heroData;
+            string habId = hero.habilidadesEquipadas != null && abilityIndex < hero.habilidadesEquipadas.Length
+                ? hero.habilidadesEquipadas[abilityIndex]
+                : null;
+
+            return string.IsNullOrEmpty(habId)
+                ? $"Habilidad {abilityIndex + 1}\n(Sin equipar)"
+                : $"{habId}\n(Descripcion pendiente de catalogo)";
         }
 
         // ── Bind botones ───────────────────────────────────────────────────
 
         private void BindButtons()
         {
-            _btnModo?.onClick.AddListener(() => SetAutoMode(!_autoMode));
+            // Velocidad x1/x2
+            _btnVelocidad?.onClick.AddListener(() =>
+            {
+                _tiempoMultiplier = _tiempoMultiplier < 1.5f ? 2f : 1f;
+                var lbl = _btnVelocidad.GetComponentInChildren<TMP_Text>();
+                if (lbl != null) lbl.text = _tiempoMultiplier > 1.5f ? "x2 >" : "x1 >";
+            });
 
+            // Modo Auto/Manual
+            _btnModo?.onClick.AddListener(() =>
+            {
+                _autoMode = !_autoMode;
+                var img = _btnModo.GetComponent<Image>();
+                if (img != null) img.color = _autoMode ? new Color(0.09f, 0.18f, 0.09f) : new Color(0.10f, 0.10f, 0.11f);
+                var lbl = _btnModo.GetComponentInChildren<TMP_Text>();
+                if (lbl != null) lbl.text = _autoMode ? "AUTO" : "MANUAL";
+            });
+
+            // Huir
             _btnHuir?.onClick.AddListener(() =>
                 FinalizarCombate(new CombatResult
                 {
@@ -676,7 +794,7 @@ namespace ReinoOscuridad.UI.Combat
             _btnUsarTooltip?.onClick.AddListener(OnUsarTooltip);
             _btnCerrarTooltip?.onClick.AddListener(HideTooltip);
 
-            // Círculos de habilidad — tap muestra tooltip, confirmar ejecuta SelectAbility
+            // Círculos de habilidad → tooltip → OnAbilitySelected
             if (_abilityCircles != null)
             {
                 for (int i = 0; i < _abilityCircles.Length; i++)
@@ -685,12 +803,12 @@ namespace ReinoOscuridad.UI.Combat
                     _abilityCircles[idx]?.onClick.AddListener(() =>
                     {
                         string desc = GetAbilityDescription(idx);
-                        ShowTooltip(desc, () => SelectAbility(idx));
+                        ShowTooltip(desc, () => OnAbilitySelected(idx));
                     });
                 }
             }
 
-            // Conjuro slots — tap muestra tooltip con descripción
+            // Conjuro slots → tooltip informativo
             if (_conjuroSlots != null)
             {
                 for (int i = 0; i < _conjuroSlots.Length; i++)
@@ -701,81 +819,36 @@ namespace ReinoOscuridad.UI.Combat
                 }
             }
 
-            // Enemy slot buttons → target selection
+            // Enemy slot buttons → selección de objetivo tras elegir habilidad
             if (_enemySlotBtns != null)
             {
                 for (int i = 0; i < _enemySlotBtns.Length; i++)
                 {
                     int idx = i;
-                    _enemySlotBtns[idx]?.onClick.AddListener(() => SelectTarget(idx));
+                    _enemySlotBtns[idx]?.onClick.AddListener(() =>
+                    {
+                        if (_enemyUnits != null && idx < _enemyUnits.Length && _enemyUnits[idx] != null)
+                            OnUnitTapped(_enemyUnits[idx]);
+                    });
                 }
             }
         }
 
-        // ── Helpers estáticos ──────────────────────────────────────────────
+        // ── Helpers ────────────────────────────────────────────────────────
 
-        private static bool AnyAlive(HeroInstance[] t)
+        private int GetHeroIndex(ATBUnit unit)
         {
-            if (t == null) return false;
-            foreach (var h in t) if (h.estaVivo) return true;
-            return false;
+            if (_heroUnits == null) return -1;
+            for (int i = 0; i < _heroUnits.Length; i++)
+                if (_heroUnits[i] == unit) return i;
+            return -1;
         }
 
-        private static bool AnyAlive(EnemyInstance[] t)
+        private static Color HPColor(float ratio)
         {
-            if (t == null) return false;
-            foreach (var e in t) if (e.estaVivo) return true;
-            return false;
-        }
-
-        private static HeroInstance PickFirstAlive(HeroInstance[] t)
-        {
-            if (t == null) return null;
-            foreach (var h in t) if (h.estaVivo) return h;
-            return null;
-        }
-
-        private static void ApplyDamageToHero(HeroInstance h, int dmg)
-        {
-            if (dmg <= 0) return;
-            h.hpActual = Mathf.Max(0, h.hpActual - dmg);
-            if (h.hpActual == 0) h.estaVivo = false;
-        }
-
-        private static void ApplyDamageToEnemy(EnemyInstance e, int dmg)
-        {
-            if (dmg <= 0) return;
-            e.hpActual = Mathf.Max(0, e.hpActual - dmg);
-            if (e.hpActual == 0) e.estaVivo = false;
-        }
-
-        private static Color HPColor(float r)
-        {
-            if (r > 0.60f) return HP_HEALTHY;
-            if (r > 0.30f) return HP_MEDIUM;
+            if (ratio > 0.50f) return HP_HEALTHY;
+            if (ratio > 0.25f) return HP_MEDIUM;
             return HP_CRITICAL;
-        }
-
-        private void AdvanceTurnSlot()
-        {
-            if (_turnOrder == null || _turnOrder.Count == 0) return;
-            _currentSlotIndex = (_currentSlotIndex + 1) % _turnOrder.Count;
-            if (_currentSlotIndex == 0) _turnoActual++;
-            RefreshBarraTurno();
-        }
-
-        private bool SlotIsAlive(TurnSlot slot)
-        {
-            return slot.IsHero
-                ? _ctx.playerTeam != null && slot.HeroIndex < _ctx.playerTeam.Length && _ctx.playerTeam[slot.HeroIndex].estaVivo
-                : _ctx.enemyTeam  != null && slot.EnemyIndex < _ctx.enemyTeam.Length  && _ctx.enemyTeam[slot.EnemyIndex].estaVivo;
-        }
-
-        private HeroInstance GetCurrentHero()
-        {
-            if (_turnOrder == null || _currentSlotIndex >= _turnOrder.Count) return null;
-            var s = _turnOrder[_currentSlotIndex];
-            return s.IsHero ? _ctx.playerTeam?[s.HeroIndex] : null;
         }
 
         private int CalcularEstrellas(HeroInstance[] team)
@@ -786,13 +859,6 @@ namespace ReinoOscuridad.UI.Combat
             if (bajas == 0)  return 3;
             if (bajas <= 2)  return 2;
             return 1;
-        }
-
-        private class TurnSlot
-        {
-            public bool IsHero;
-            public int  HeroIndex;
-            public int  EnemyIndex;
         }
     }
 }
