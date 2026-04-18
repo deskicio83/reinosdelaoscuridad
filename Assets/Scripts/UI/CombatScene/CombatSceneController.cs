@@ -139,7 +139,7 @@ namespace ReinoOscuridad.UI.Combat
             if (_combatSystem == null)
                 Debug.LogWarning("[CombatScene] CombatSystem no encontrado — modo degradado.");
 
-            _canvas = GetComponentInParent<Canvas>() ?? FindFirstObjectByType<Canvas>();
+            _canvas = GetComponentInParent<Canvas>() ?? FindAnyObjectByType<Canvas>();
 
             BuildATBUnits();
             RefreshEnemyZone();
