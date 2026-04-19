@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ReinoOscuridad.Core;
+using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
 
 namespace ReinoOscuridad.UI.MainMenu
