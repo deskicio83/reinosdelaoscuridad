@@ -19,30 +19,36 @@ namespace ReinoOscuridad.Core
 
         // ── Constantes ─────────────────────────────────────────────────────────
 
-        private const int   MAX_HISTORY  = 5;
-        private const int   MAX_OVERLAYS = 2;
-        private const float FADE_SECONDS = 0.2f;
+        private const int MAX_HISTORY  = 5;
+        private const int MAX_OVERLAYS = 2;
+
+        // ── Configuración de fade ─────────────────────────────────────────────
+
+        [SerializeField] private float _fadeDuration = 0.3f;
+        public float FadeDuration
+        {
+            get => _fadeDuration;
+            set => _fadeDuration = Mathf.Max(0.05f, value);
+        }
 
         // ── Estado de navegación ──────────────────────────────────────────────
 
         public string CurrentScene { get; private set; }
 
-        /// Historial de Scenes: [0] = más antigua, [last] = inmediatamente anterior.
         private readonly List<string> _sceneHistory = new List<string>();
         private bool _isTransitioning;
 
         // ── Stack de overlays ─────────────────────────────────────────────────
 
         private readonly List<GameObject> _activeOverlays = new List<GameObject>();
-
-        // Sort order por defecto del InputBlocker — justo por debajo de cualquier overlay tipico
         private const int INPUT_BLOCKER_SORT_ORDER = 49;
 
         // ── Fade canvas ───────────────────────────────────────────────────────
 
-        private Canvas _fadeCanvas;
-        private Image  _fadeImage;
-        private bool   _fadeCanvasReady;
+        private Canvas       _fadeCanvas;
+        private Image        _fadeImage;
+        private CanvasGroup  _fadeCanvasGroup;
+        private bool         _fadeCanvasReady;
 
         // ── Ciclo de vida Unity ────────────────────────────────────────────────
 
@@ -61,7 +67,6 @@ namespace ReinoOscuridad.Core
 
         private void Update()
         {
-            // Back físico de Android: cerrar overlay superior o navegar atrás
             if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 if (_activeOverlays.Count > 0)
@@ -85,7 +90,8 @@ namespace ReinoOscuridad.Core
 
         // ── NAVEGACIÓN ────────────────────────────────────────────────────────
 
-        /// Carga la Scene por nombre con transición fade (200ms entrada + 200ms salida).
+        /// Carga la Scene por nombre con transición:
+        /// FadeOut → overlays silenciosos → LoadSceneAsync → FadeIn
         public async Task NavigateTo(string sceneName)
         {
             if (_isTransitioning)
@@ -96,7 +102,6 @@ namespace ReinoOscuridad.Core
 
             _isTransitioning = true;
 
-            // Guardar Scene actual en historial
             if (!string.IsNullOrEmpty(CurrentScene))
             {
                 _sceneHistory.Add(CurrentScene);
@@ -104,16 +109,36 @@ namespace ReinoOscuridad.Core
                     _sceneHistory.RemoveAt(0);
             }
 
-            await FadeAsync(0f, 1f); // FadeIn: transparente → negro
-            SceneManager.LoadScene(sceneName);
+            // PASO 1: Fade OUT — pantalla → negro completo
+            await FadeOut();
+
+            // PASO 2: Cerrar overlays sin animación (ya en negro)
+            CloseAllOverlaysSilent();
+
+            // PASO 3: Cargar Scene en async, sin activar todavía
+            var op = SceneManager.LoadSceneAsync(sceneName);
+            op.allowSceneActivation = false;
+
+            while (op.progress < 0.9f)
+                await Task.Yield();
+
+            // PASO 4: Activar Scene (aún en negro — el jugador no ve nada)
+            op.allowSceneActivation = true;
+
+            // Esperar 2 frames para que Awake/Start de la nueva Scene se ejecuten
+            await Task.Yield();
+            await Task.Yield();
+
             CurrentScene = sceneName;
-            await FadeAsync(1f, 0f); // FadeOut: negro → transparente
+
+            // PASO 5: Fade IN — negro → pantalla
+            await FadeIn();
 
             _isTransitioning = false;
             Debug.Log($"[UIManager] Navegado a: {sceneName}");
         }
 
-        /// Vuelve a la Scene anterior del historial (si existe).
+        /// Vuelve a la Scene anterior del historial con el mismo orden de fundido.
         public async void NavigateBack()
         {
             if (_sceneHistory.Count == 0)
@@ -125,12 +150,37 @@ namespace ReinoOscuridad.Core
             string previous = _sceneHistory[_sceneHistory.Count - 1];
             _sceneHistory.RemoveAt(_sceneHistory.Count - 1);
 
+            if (_isTransitioning)
+            {
+                Debug.LogWarning("[UIManager] NavigateBack ignorado — transición en curso.");
+                return;
+            }
+
             _isTransitioning = true;
 
-            await FadeAsync(0f, 1f);
-            SceneManager.LoadScene(previous);
+            // PASO 1: Fade OUT
+            await FadeOut();
+
+            // PASO 2: Overlays en silencio
+            CloseAllOverlaysSilent();
+
+            // PASO 3: Cargar Scene anterior
+            var op = SceneManager.LoadSceneAsync(previous);
+            op.allowSceneActivation = false;
+
+            while (op.progress < 0.9f)
+                await Task.Yield();
+
+            // PASO 4: Activar Scene
+            op.allowSceneActivation = true;
+
+            await Task.Yield();
+            await Task.Yield();
+
             CurrentScene = previous;
-            await FadeAsync(1f, 0f);
+
+            // PASO 5: Fade IN
+            await FadeIn();
 
             _isTransitioning = false;
             Debug.Log($"[UIManager] Vuelto a: {previous}");
@@ -138,8 +188,6 @@ namespace ReinoOscuridad.Core
 
         // ── OVERLAYS ──────────────────────────────────────────────────────────
 
-        /// Instancia un overlay sobre la Scene activa.
-        /// Si ya hay 2 overlays activos, cierra el más antiguo automáticamente.
         public GameObject ShowOverlay(GameObject overlayPrefab)
         {
             if (overlayPrefab == null)
@@ -157,7 +205,6 @@ namespace ReinoOscuridad.Core
             var instance = Instantiate(overlayPrefab);
             _activeOverlays.Add(instance);
 
-            // Mostrar InputBlocker por debajo del overlay
             if (InputBlocker.Instance != null)
                 InputBlocker.Instance.Show(INPUT_BLOCKER_SORT_ORDER);
 
@@ -165,7 +212,6 @@ namespace ReinoOscuridad.Core
             return instance;
         }
 
-        /// Destruye la instancia de overlay y la elimina del stack.
         public void HideOverlay(GameObject overlayInstance)
         {
             if (overlayInstance == null) return;
@@ -173,43 +219,61 @@ namespace ReinoOscuridad.Core
             _activeOverlays.Remove(overlayInstance);
             Destroy(overlayInstance);
 
-            // Ocultar InputBlocker cuando no quedan overlays
             if (_activeOverlays.Count == 0 && InputBlocker.Instance != null)
                 InputBlocker.Instance.Hide();
 
             Debug.Log($"[UIManager] Overlay cerrado ({_activeOverlays.Count} restantes)");
         }
 
-        /// Número de overlays activos en este momento.
+        /// Destruye todos los overlays sin animación (para usar en negro durante transición).
+        private void CloseAllOverlaysSilent()
+        {
+            foreach (var ov in _activeOverlays)
+                if (ov != null) Destroy(ov);
+            _activeOverlays.Clear();
+
+            if (InputBlocker.Instance != null)
+                InputBlocker.Instance.Hide();
+        }
+
         public int ActiveOverlayCount => _activeOverlays.Count;
 
         // ── FADE ──────────────────────────────────────────────────────────────
 
-        private async Task FadeAsync(float from, float to)
+        /// Pantalla → negro en _fadeDuration segundos.
+        private async Task FadeOut()
         {
             if (!_fadeCanvasReady) return;
 
-            float elapsed = 0f;
-            SetFadeAlpha(from);
             _fadeCanvas.gameObject.SetActive(true);
+            _fadeCanvasGroup.alpha = 0f;
 
-            while (elapsed < FADE_SECONDS)
+            float elapsed = 0f;
+            while (elapsed < _fadeDuration)
             {
                 elapsed += Time.deltaTime;
-                SetFadeAlpha(Mathf.Lerp(from, to, elapsed / FADE_SECONDS));
+                _fadeCanvasGroup.alpha = Mathf.Clamp01(elapsed / _fadeDuration);
                 await Task.Yield();
             }
-
-            SetFadeAlpha(to);
-
-            if (Mathf.Approximately(to, 0f))
-                _fadeCanvas.gameObject.SetActive(false);
+            _fadeCanvasGroup.alpha = 1f;
         }
 
-        private void SetFadeAlpha(float alpha)
+        /// Negro → pantalla en _fadeDuration segundos.
+        private async Task FadeIn()
         {
-            if (_fadeImage != null)
-                _fadeImage.color = new Color(0f, 0f, 0f, alpha);
+            if (!_fadeCanvasReady) return;
+
+            _fadeCanvasGroup.alpha = 1f;
+
+            float elapsed = 0f;
+            while (elapsed < _fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                _fadeCanvasGroup.alpha = 1f - Mathf.Clamp01(elapsed / _fadeDuration);
+                await Task.Yield();
+            }
+            _fadeCanvasGroup.alpha = 0f;
+            _fadeCanvas.gameObject.SetActive(false);
         }
 
         // ── Creación del canvas de fade ───────────────────────────────────────
@@ -225,19 +289,26 @@ namespace ReinoOscuridad.Core
 
             go.AddComponent<CanvasScaler>();
 
-            _fadeImage               = go.AddComponent<Image>();
-            _fadeImage.color         = new Color(0f, 0f, 0f, 0f);
-            _fadeImage.raycastTarget = true; // bloquea input durante la transición
+            // CanvasGroup controla el alpha global — más limpio que Image.color.a
+            _fadeCanvasGroup               = go.AddComponent<CanvasGroup>();
+            _fadeCanvasGroup.alpha         = 0f;
+            _fadeCanvasGroup.blocksRaycasts = true;
+            _fadeCanvasGroup.interactable  = false;
 
-            var rt        = _fadeImage.rectTransform;
-            rt.anchorMin  = Vector2.zero;
-            rt.anchorMax  = Vector2.one;
-            rt.offsetMin  = Vector2.zero;
-            rt.offsetMax  = Vector2.zero;
+            // Image negro sólido; el alpha lo gestiona CanvasGroup
+            _fadeImage               = go.AddComponent<Image>();
+            _fadeImage.color         = new Color(0f, 0f, 0f, 1f);
+            _fadeImage.raycastTarget = true;
+
+            var rt       = _fadeImage.rectTransform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
 
             go.SetActive(false);
             _fadeCanvasReady = true;
-            Debug.Log("[UIManager] FadeCanvas creado (sortingOrder=999).");
+            Debug.Log("[UIManager] FadeCanvas creado con CanvasGroup (sortingOrder=999, _fadeDuration=" + _fadeDuration + "s).");
         }
     }
 }

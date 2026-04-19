@@ -90,10 +90,18 @@ namespace ReinoOscuridad.UI.MainMenu
             InstantiateHUD();
             BindButtons();
             RefreshEdificiosLock();
+            EventBus.OnPlayerLevelUp += OnPlayerLevelUp;
 
             if (_subIconosAbanico != null)
                 _subIconosAbanico.SetActive(false);
         }
+
+        private void OnDestroy()
+        {
+            EventBus.OnPlayerLevelUp -= OnPlayerLevelUp;
+        }
+
+        private void OnPlayerLevelUp(PlayerLevelUpData data) => RefreshEdificiosLock();
 
         // ── Desbloqueos ───────────────────────────────────────────────────────
 

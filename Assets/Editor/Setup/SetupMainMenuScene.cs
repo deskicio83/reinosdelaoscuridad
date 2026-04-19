@@ -186,33 +186,57 @@ namespace ReinoOscuridad.Editor.Setup
 
                 edificioBtns[i] = edBtn;
 
-                // LockOverlay — capa oscura con "Nv. X", mostrada cuando jugador < nivel requerido
+                // LockOverlay — estructura: LockDim + LockIcon + NivelReqText
                 var lockGO  = Child(edGO, "LockOverlay");
                 var lockRT  = lockGO.GetComponent<RectTransform>();
                 lockRT.anchorMin = Vector2.zero;
                 lockRT.anchorMax = Vector2.one;
                 lockRT.offsetMin = Vector2.zero;
                 lockRT.offsetMax = Vector2.zero;
-                var lockImg = lockGO.AddComponent<Image>();
-                lockImg.color         = new Color(0.04f, 0.04f, 0.08f, 0.85f);
-                lockImg.raycastTarget = true; // bloquea clicks en el edificio
 
-                var lockLblGO = Child(lockGO, "LockLabel");
-                var lockLblRT = lockLblGO.GetComponent<RectTransform>();
-                lockLblRT.anchorMin = Vector2.zero;
-                lockLblRT.anchorMax = Vector2.one;
-                lockLblRT.offsetMin = Vector2.zero;
-                lockLblRT.offsetMax = Vector2.zero;
-                var lockTxt = lockLblGO.AddComponent<TextMeshProUGUI>();
-                int nvReq   = i < nivelRequerido.Length ? nivelRequerido[i] : 99;
-                lockTxt.text          = $"Nv. {nvReq}";
-                lockTxt.fontSize      = 13f;
-                lockTxt.color         = new Color(0.65f, 0.65f, 0.75f);
-                lockTxt.alignment     = TextAlignmentOptions.Center;
-                lockTxt.raycastTarget = false;
+                // LockDim — capa oscura que bloquea input
+                var lockDimGO  = Child(lockGO, "LockDim");
+                var lockDimRT  = lockDimGO.GetComponent<RectTransform>();
+                lockDimRT.anchorMin = Vector2.zero;
+                lockDimRT.anchorMax = Vector2.one;
+                lockDimRT.offsetMin = Vector2.zero;
+                lockDimRT.offsetMax = Vector2.zero;
+                var lockDimImg         = lockDimGO.AddComponent<Image>();
+                lockDimImg.color       = new Color(0f, 0f, 0f, 0.71f);
+                lockDimImg.raycastTarget = true;
 
-                // Se muestra/oculta en runtime por MainMenuController.RefreshEdificiosLock()
-                lockGO.SetActive(nvReq > 1); // visible por defecto si requiere nivel > 1
+                // LockIcon — candado placeholder
+                var lockIconGO  = Child(lockGO, "LockIcon");
+                var lockIconRT  = lockIconGO.GetComponent<RectTransform>();
+                lockIconRT.anchorMin = new Vector2(0.30f, 0.45f);
+                lockIconRT.anchorMax = new Vector2(0.70f, 0.72f);
+                lockIconRT.offsetMin = Vector2.zero;
+                lockIconRT.offsetMax = Vector2.zero;
+                var lockIconImg = lockIconGO.AddComponent<Image>();
+                var lockSprite  = Resources.Load<Sprite>("Placeholders/world_locked");
+                if (lockSprite != null)
+                    lockIconImg.sprite = lockSprite;
+                else
+                    lockIconImg.color = Hex("374151");
+                lockIconImg.raycastTarget = false;
+
+                // NivelReqText — "Nivel N requerido"
+                var nivelTxtGO  = Child(lockGO, "NivelReqText");
+                var nivelTxtRT  = nivelTxtGO.GetComponent<RectTransform>();
+                nivelTxtRT.anchorMin = new Vector2(0.05f, 0.22f);
+                nivelTxtRT.anchorMax = new Vector2(0.95f, 0.43f);
+                nivelTxtRT.offsetMin = Vector2.zero;
+                nivelTxtRT.offsetMax = Vector2.zero;
+                var nivelTxt         = nivelTxtGO.AddComponent<TextMeshProUGUI>();
+                int nvReq            = i < nivelRequerido.Length ? nivelRequerido[i] : 99;
+                nivelTxt.text          = $"Nivel {nvReq} requerido";
+                nivelTxt.fontSize      = 9f;
+                nivelTxt.color         = new Color(0.60f, 0.60f, 0.70f);
+                nivelTxt.alignment     = TextAlignmentOptions.Center;
+                nivelTxt.raycastTarget = false;
+
+                // Visible por defecto si requiere nivel > 1; RefreshEdificiosLock lo gestiona en runtime
+                lockGO.SetActive(nvReq > 1);
                 lockOverlays[i] = lockGO;
             }
 
