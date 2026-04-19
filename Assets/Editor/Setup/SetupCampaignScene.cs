@@ -71,7 +71,7 @@ public static class SetupCampaignScene
         AddToBuildSettings(SCENE_PATH);
 
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
-        Debug.Log("[SetupCampaign] CampaignScene — ESTADO 1 configurada correctamente.");
+        Debug.Log("[SetupCampaign] CampaignScene — ESTADO 1+2+3 configurada correctamente.");
     }
 
     // ── Construcción ───────────────────────────────────────────────────────
@@ -397,6 +397,262 @@ public static class SetupCampaignScene
             lockGO.SetActive(i > 0); // solo activo si bloqueado
         }
 
+        // ════════════════════════════════════════════════════════════════
+        // PANEL BATALLA — tapa toda la pantalla al hacer click en una fase
+        // SetActive(false) por defecto. Se activa desde el controller.
+        // Debe ser el último hijo del canvas para aparecer encima de todo.
+        // ════════════════════════════════════════════════════════════════
+
+        var panelBatallaGO = Child(canvasTr, "PanelBatalla");
+        Anch(panelBatallaGO, 0f, 0f, 1f, 1f);
+        Img(panelBatallaGO, Hex("#0F0F1A"));
+        panelBatallaGO.SetActive(false);
+
+        // ── Header Batalla ────────────────────────────────────────────
+
+        var headerBatallaGO = Child(panelBatallaGO.transform, "HeaderBatalla");
+        Anch(headerBatallaGO, 0f, 0.90f, 1f, 1.00f);
+        Img(headerBatallaGO, Hex("#14101E"));
+
+        var mundoFaseGO = Child(headerBatallaGO.transform, "MundoFaseText");
+        Anch(mundoFaseGO, 0.02f, 0.15f, 0.55f, 0.85f);
+        var mundoFaseText = Txt(mundoFaseGO, "Mundo 1 - Fase 1", 13f, Hex("#A855F7"),
+                                bold: true, align: TextAlignmentOptions.Left);
+
+        var dificultadGO = Child(headerBatallaGO.transform, "DificultadText");
+        Anch(dificultadGO, 0.56f, 0.15f, 0.76f, 0.85f);
+        var dificultadText = Txt(dificultadGO, "Normal", 11f, Hex("#9CA3AF"));
+
+        var btnVolverBatallaGO = Child(headerBatallaGO.transform, "BtnVolverBatalla");
+        Anch(btnVolverBatallaGO, 0.78f, 0.10f, 0.98f, 0.90f);
+        Img(btnVolverBatallaGO, Hex("#1A1A2E"));
+        var btnVolverBatalla = btnVolverBatallaGO.AddComponent<Button>();
+        Txt(Child(btnVolverBatallaGO.transform, "Label"), "Volver", 11f, Hex("#9CA3AF"), bold: true);
+
+        // ── Zona Central ──────────────────────────────────────────────
+
+        var zonaCentralGO = Child(panelBatallaGO.transform, "ZonaCentral");
+        Anch(zonaCentralGO, 0f, 0.15f, 1f, 0.90f);
+
+        // ── Panel Equipo (izquierda 40%) ──────────────────────────────
+
+        var panelEquipoGO = Child(zonaCentralGO.transform, "PanelEquipo");
+        Anch(panelEquipoGO, 0.00f, 0f, 0.40f, 1f);
+        Img(panelEquipoGO, Hex("#0D0D1A"));
+
+        var tituloEquipoGO = Child(panelEquipoGO.transform, "TituloEquipo");
+        Anch(tituloEquipoGO, 0.05f, 0.93f, 0.95f, 0.99f);
+        var tituloEquipo = Txt(tituloEquipoGO, "Mi Equipo (0/4)", 10f, Hex("#9CA3AF"));
+
+        // Grid 2x2 de slots
+        var heroSlots     = new Button[4];
+        var slotPortraits = new Image[4];
+        var slotLabels    = new TMP_Text[4];
+
+        float[][] slotAnchors =
+        {
+            new[] { 0.04f, 0.60f, 0.48f, 0.91f },
+            new[] { 0.52f, 0.60f, 0.96f, 0.91f },
+            new[] { 0.04f, 0.26f, 0.48f, 0.57f },
+            new[] { 0.52f, 0.26f, 0.96f, 0.57f },
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+            var slotGO = Child(panelEquipoGO.transform, $"HeroSlot_{i}");
+            Anch(slotGO, slotAnchors[i][0], slotAnchors[i][1], slotAnchors[i][2], slotAnchors[i][3]);
+            Img(slotGO, Hex("#1A1A2E"));
+            heroSlots[i] = slotGO.AddComponent<Button>();
+
+            var portraitGO = Child(slotGO.transform, "SlotPortrait");
+            Anch(portraitGO, 0.05f, 0.30f, 0.95f, 0.95f);
+            slotPortraits[i] = Img(portraitGO, Hex("#2D2D4E"));
+
+            var labelGO = Child(slotGO.transform, "SlotLabel");
+            Anch(labelGO, 0.02f, 0.02f, 0.98f, 0.28f);
+            slotLabels[i] = Txt(labelGO, "+", 8f, Hex("#6B7280"));
+        }
+
+        // Título conjuros
+        var tituloConjurosGO = Child(panelEquipoGO.transform, "TituloConjuros");
+        Anch(tituloConjurosGO, 0.05f, 0.18f, 0.95f, 0.24f);
+        Txt(tituloConjurosGO, "Conjuros equipados", 9f, Hex("#9CA3AF"));
+
+        // ScrollConjuros (horizontal)
+        var scrollConjurosGO = Child(panelEquipoGO.transform, "ScrollConjuros");
+        Anch(scrollConjurosGO, 0.02f, 0.06f, 0.98f, 0.18f);
+        Img(scrollConjurosGO, Color.clear, 0f);
+        var scrollConjuros = scrollConjurosGO.AddComponent<ScrollRect>();
+        scrollConjuros.horizontal = true; scrollConjuros.vertical = false;
+
+        var vpConjurosGO = Child(scrollConjurosGO.transform, "ViewportConjuros");
+        Anch(vpConjurosGO, 0f, 0f, 1f, 1f);
+        Img(vpConjurosGO, Color.clear, 0f);
+        vpConjurosGO.AddComponent<RectMask2D>();
+
+        var contentConjurosGO = Child(vpConjurosGO.transform, "ContentConjuros");
+        Img(contentConjurosGO, Color.clear, 0f);
+        var contentConjurosRT = contentConjurosGO.GetComponent<RectTransform>();
+        contentConjurosRT.anchorMin = new Vector2(0f, 0f);
+        contentConjurosRT.anchorMax = new Vector2(0f, 1f);
+        contentConjurosRT.pivot     = new Vector2(0f, 0.5f);
+        contentConjurosRT.sizeDelta = Vector2.zero;
+        var hlgConj = contentConjurosGO.AddComponent<HorizontalLayoutGroup>();
+        hlgConj.spacing               = 4f;
+        hlgConj.childControlWidth      = true;
+        hlgConj.childControlHeight     = true;
+        hlgConj.childForceExpandWidth  = false;
+        hlgConj.childForceExpandHeight = false;
+        contentConjurosGO.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scrollConjuros.content  = contentConjurosRT;
+        scrollConjuros.viewport = vpConjurosGO.GetComponent<RectTransform>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            var conjGO = Child(contentConjurosGO.transform, $"ConjuroSlot_{i}");
+            var conjLE = conjGO.AddComponent<LayoutElement>();
+            conjLE.preferredWidth  = 40f;
+            conjLE.preferredHeight = 40f;
+            Img(conjGO, Hex("#1A1020"));
+            conjGO.AddComponent<Button>();
+            Txt(Child(conjGO.transform, "Label"), "?", 16f, Hex("#6B7280"));
+        }
+
+        // ── Zona Elemental (centro 20%) ───────────────────────────────
+
+        var zonaElementalGO = Child(zonaCentralGO.transform, "ZonaElemental");
+        Anch(zonaElementalGO, 0.40f, 0.05f, 0.60f, 0.95f);
+
+        var elementalLabelGO = Child(zonaElementalGO.transform, "ElementalLabel");
+        Anch(elementalLabelGO, 0.05f, 0.88f, 0.95f, 0.97f);
+        Txt(elementalLabelGO, "Ventajas elementales", 8f, Hex("#6B7280"));
+
+        var elementalChartGO = Child(zonaElementalGO.transform, "ElementalChart");
+        Anch(elementalChartGO, 0.05f, 0.15f, 0.95f, 0.88f);
+        var elementalImg = Img(elementalChartGO, Hex("#1A1A2E"));
+        {
+            var chartTex = Resources.Load<Texture2D>("Placeholders/elemental_chart");
+            if (chartTex != null)
+                elementalImg.sprite = Sprite.Create(chartTex,
+                    new Rect(0, 0, chartTex.width, chartTex.height), new Vector2(0.5f, 0.5f));
+        }
+
+        // ── Panel Enemigos (derecha 40%) ──────────────────────────────
+
+        var panelEnemigosGO = Child(zonaCentralGO.transform, "PanelEnemigos");
+        Anch(panelEnemigosGO, 0.60f, 0f, 1.00f, 1f);
+        Img(panelEnemigosGO, Hex("#0D0D1A"));
+
+        var tituloEnemigosGO = Child(panelEnemigosGO.transform, "TituloEnemigos");
+        Anch(tituloEnemigosGO, 0.05f, 0.93f, 0.95f, 0.99f);
+        Txt(tituloEnemigosGO, "Enemigos", 10f, Hex("#9CA3AF"));
+
+        var listaEnemigosGO = Child(panelEnemigosGO.transform, "ListaEnemigos");
+        Anch(listaEnemigosGO, 0.05f, 0.38f, 0.95f, 0.91f);
+        var vlgEnemigos = listaEnemigosGO.AddComponent<VerticalLayoutGroup>();
+        vlgEnemigos.spacing               = 6f;
+        vlgEnemigos.childControlWidth      = true;
+        vlgEnemigos.childControlHeight     = true;
+        vlgEnemigos.childForceExpandWidth  = true;
+        vlgEnemigos.childForceExpandHeight = false;
+
+        var enemyPreviews = new GameObject[3];
+        var enemyNombres  = new TMP_Text[3];
+        var enemyNiveles  = new TMP_Text[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            var epGO = Child(listaEnemigosGO.transform, $"EnemyPreview_{i}");
+            var epLE = epGO.AddComponent<LayoutElement>();
+            epLE.preferredHeight = 54f;
+            Img(epGO, Hex("#1A0A0A"));
+            epGO.SetActive(false);
+
+            var eSpriteGO = Child(epGO.transform, "EnemySprite");
+            Anch(eSpriteGO, 0.02f, 0.10f, 0.28f, 0.90f);
+            Img(eSpriteGO, Hex("#2A1010"));
+
+            var eNombreGO = Child(epGO.transform, "EnemyNombre");
+            Anch(eNombreGO, 0.30f, 0.55f, 0.98f, 0.92f);
+            enemyNombres[i] = Txt(eNombreGO, "Enemigo", 9f, Hex("#EF4444"),
+                                   align: TextAlignmentOptions.Left);
+
+            var eNivelGO = Child(epGO.transform, "EnemyNivel");
+            Anch(eNivelGO, 0.30f, 0.08f, 0.98f, 0.52f);
+            enemyNiveles[i] = Txt(eNivelGO, "Nv. ?", 8f, Hex("#9CA3AF"),
+                                   align: TextAlignmentOptions.Left);
+
+            enemyPreviews[i] = epGO;
+        }
+
+        // BtnBatallar
+        var btnBatallarGO = Child(panelEnemigosGO.transform, "BtnBatallar");
+        Anch(btnBatallarGO, 0.08f, 0.20f, 0.92f, 0.34f);
+        Img(btnBatallarGO, Hex("#4C1D95"));
+        var btnBatallar = btnBatallarGO.AddComponent<Button>();
+        btnBatallar.interactable = false;
+        Txt(Child(btnBatallarGO.transform, "Label"), "BATALLAR", 14f, Hex("#E9D5FF"), bold: true);
+
+        // CosteEnergia
+        var costeEnergiaGO = Child(panelEnemigosGO.transform, "CosteEnergia");
+        Anch(costeEnergiaGO, 0.08f, 0.12f, 0.92f, 0.20f);
+
+        var costeIconGO = Child(costeEnergiaGO.transform, "CosteIcon");
+        Anch(costeIconGO, 0.00f, 0f, 0.18f, 1f);
+        Img(costeIconGO, Hex("#FACC15"));
+
+        var costeTextGO = Child(costeEnergiaGO.transform, "CosteText");
+        Anch(costeTextGO, 0.20f, 0f, 1.00f, 1f);
+        Txt(costeTextGO, "6 Energia por intento", 10f, Hex("#FACC15"), align: TextAlignmentOptions.Left);
+
+        // SinEnergiaText
+        var sinEnergiaGO = Child(panelEnemigosGO.transform, "SinEnergiaText");
+        Anch(sinEnergiaGO, 0.05f, 0.06f, 0.95f, 0.12f);
+        var sinEnergiaText = Txt(sinEnergiaGO, "Sin energia suficiente", 9f, Hex("#EF4444"));
+        sinEnergiaGO.SetActive(false);
+
+        // ── Franja Esbirros (15% inferior) ───────────────────────────
+
+        var franjaGO = Child(panelBatallaGO.transform, "FranjaEsbirros");
+        Anch(franjaGO, 0f, 0f, 1f, 0.15f);
+        Img(franjaGO, Hex("#0A0A14"));
+
+        var tituloEsbirrosGO = Child(franjaGO.transform, "TituloEsbirros");
+        Anch(tituloEsbirrosGO, 0.01f, 0.72f, 0.18f, 0.97f);
+        Txt(tituloEsbirrosGO, "Esbirros:", 9f, Hex("#9CA3AF"), align: TextAlignmentOptions.Left);
+
+        var scrollEsbirrosGO = Child(franjaGO.transform, "ScrollEsbirros");
+        Anch(scrollEsbirrosGO, 0.01f, 0.04f, 0.98f, 0.70f);
+        Img(scrollEsbirrosGO, Color.clear, 0f);
+        var scrollEsbirros = scrollEsbirrosGO.AddComponent<ScrollRect>();
+        scrollEsbirros.horizontal        = true;
+        scrollEsbirros.vertical          = false;
+        scrollEsbirros.inertia           = true;
+        scrollEsbirros.decelerationRate  = 0.15f;
+
+        var vpEsbirrosGO = Child(scrollEsbirrosGO.transform, "ViewportEsbirros");
+        Anch(vpEsbirrosGO, 0f, 0f, 1f, 1f);
+        Img(vpEsbirrosGO, Color.clear, 0f);
+        vpEsbirrosGO.AddComponent<RectMask2D>();
+
+        var contentEsbirrosGO = Child(vpEsbirrosGO.transform, "ContentEsbirros");
+        Img(contentEsbirrosGO, Color.clear, 0f);
+        var contentEsbirrosRT = contentEsbirrosGO.GetComponent<RectTransform>();
+        contentEsbirrosRT.anchorMin = new Vector2(0f, 0f);
+        contentEsbirrosRT.anchorMax = new Vector2(0f, 1f);
+        contentEsbirrosRT.pivot     = new Vector2(0f, 0.5f);
+        contentEsbirrosRT.sizeDelta = Vector2.zero;
+        var hlgEsbirros = contentEsbirrosGO.AddComponent<HorizontalLayoutGroup>();
+        hlgEsbirros.spacing               = 6f;
+        hlgEsbirros.padding               = new RectOffset(4, 4, 0, 0);
+        hlgEsbirros.childControlWidth      = true;
+        hlgEsbirros.childControlHeight     = true;
+        hlgEsbirros.childForceExpandWidth  = false;
+        hlgEsbirros.childForceExpandHeight = false;
+        contentEsbirrosGO.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scrollEsbirros.content  = contentEsbirrosRT;
+        scrollEsbirros.viewport = vpEsbirrosGO.GetComponent<RectTransform>();
+
         // ── CampaignSceneController + wiring ─────────────────────────
 
         var ctrlGO     = new GameObject("CampaignSceneController");
@@ -425,9 +681,25 @@ public static class SetupCampaignScene
         SetArray(so, "_estrellasTexts", estrellasTexts);
         SetArray(so, "_lockIconsFase",  lockIconsFase);
 
+        // ESTADO 3 — PanelBatalla
+        so.FindProperty("_panelBatalla")    .objectReferenceValue = panelBatallaGO;
+        so.FindProperty("_mundoFaseText")   .objectReferenceValue = mundoFaseText;
+        so.FindProperty("_dificultadText")  .objectReferenceValue = dificultadText;
+        so.FindProperty("_btnVolverBatalla").objectReferenceValue = btnVolverBatalla;
+        so.FindProperty("_tituloEquipo")    .objectReferenceValue = tituloEquipo;
+        so.FindProperty("_btnBatallar")     .objectReferenceValue = btnBatallar;
+        so.FindProperty("_sinEnergiaText")  .objectReferenceValue = sinEnergiaText;
+        so.FindProperty("_contentEsbirros") .objectReferenceValue = contentEsbirrosRT;
+        SetArray(so, "_heroSlots",      heroSlots);
+        SetArray(so, "_slotPortraits",  slotPortraits);
+        SetArray(so, "_slotLabels",     slotLabels);
+        SetArray(so, "_enemyPreviews",  enemyPreviews);
+        SetArray(so, "_enemyNombres",   enemyNombres);
+        SetArray(so, "_enemyNiveles",   enemyNiveles);
+
         so.ApplyModifiedPropertiesWithoutUndo();
 
-        Debug.Log("[SetupCampaign] CampaignSceneController cableado — ESTADO 1+2.");
+        Debug.Log("[SetupCampaign] CampaignSceneController cableado — ESTADO 1+2+3.");
     }
 
     // ── Build Settings ─────────────────────────────────────────────────────

@@ -7,13 +7,14 @@ using Newtonsoft.Json;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
+using ReinoOscuridad.Utils;
 
 namespace ReinoOscuridad.UI.Campaign
 {
     /// Controlador de CampaignScene.
     /// ESTADO 1 (S22a): Scroll horizontal de 7 mundos.
     /// ESTADO 2 (S22b): PanelFases slide-in desde derecha.
-    /// ESTADO 3 (S22c): PanelBatalla (pendiente).
+    /// ESTADO 3 (S22c): PanelBatalla con selección de equipo y entrada a combate.
     public class CampaignSceneController : MonoBehaviour
     {
         // ── Constantes ─────────────────────────────────────────────────────────
@@ -56,9 +57,22 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private TMP_Text[]    _estrellasTexts;     // [7]
         [SerializeField] private GameObject[]  _lockIconsFase;      // [7]
 
-        // ── UI refs stub — ESTADO 3 (S22c) ────────────────────────────────────
+        // ── UI refs — ESTADO 3: PanelBatalla ──────────────────────────────────
 
-        [SerializeField] private GameObject _panelBatalla;
+        [SerializeField] private GameObject    _panelBatalla;
+        [SerializeField] private TMP_Text      _mundoFaseText;
+        [SerializeField] private TMP_Text      _dificultadText;
+        [SerializeField] private Button        _btnVolverBatalla;
+        [SerializeField] private Button[]      _heroSlots;          // [4]
+        [SerializeField] private Image[]       _slotPortraits;      // [4]
+        [SerializeField] private TMP_Text[]    _slotLabels;         // [4]
+        [SerializeField] private TMP_Text      _tituloEquipo;
+        [SerializeField] private GameObject[]  _enemyPreviews;      // [3]
+        [SerializeField] private TMP_Text[]    _enemyNombres;       // [3]
+        [SerializeField] private TMP_Text[]    _enemyNiveles;       // [3]
+        [SerializeField] private Button        _btnBatallar;
+        [SerializeField] private TMP_Text      _sinEnergiaText;
+        [SerializeField] private RectTransform _contentEsbirros;
 
         // ── Estado interno ─────────────────────────────────────────────────────
 
@@ -71,10 +85,14 @@ namespace ReinoOscuridad.UI.Campaign
         private bool[][] _fasesCompletadas;           // [mundo][fase]
         private bool[]   _mundosRecompensaReclamada;
 
+        private List<string>   _equipoActual  = new List<string>();
+        private HeroInstance[] _lastTeamBuilt;
+
         // ── Catálogos ──────────────────────────────────────────────────────────
 
         private Dictionary<string, EncounterEntry>    _encounterById;
         private Dictionary<string, EnemyCatalogEntry> _enemyById;
+        private Dictionary<string, HeroCatalogEntry>  _heroById;
 
         // ── Modelos privados de catálogo ───────────────────────────────────────
 
@@ -103,12 +121,21 @@ namespace ReinoOscuridad.UI.Campaign
             public Dictionary<string, int> levels;
         }
 
+        private class HeroCatalogRoot { public List<HeroCatalogEntry> heroes; }
+        private class HeroCatalogEntry
+        {
+            public string heroId;
+            public string element;
+            public string displayName_es;
+        }
+
         // ── Ciclo de vida ──────────────────────────────────────────────────────
 
         private void Awake()
         {
             LoadEncounterCatalog();
             LoadEnemyCatalog();
+            LoadHeroCatalog();
             if (PlayerDataSystem.Instance == null)
                 Debug.LogWarning("[CampaignController] PlayerDataSystem no disponible — modo preview offline.");
         }
@@ -124,7 +151,7 @@ namespace ReinoOscuridad.UI.Campaign
             if (_popupBloqueado != null) _popupBloqueado.SetActive(false);
             if (_panelBatalla   != null) _panelBatalla.SetActive(false);
 
-            Debug.Log("[CampaignController] ESTADO 1+2 — scroll mundos + panel fases listos.");
+            Debug.Log("[CampaignController] ESTADO 1+2+3 — scroll mundos + panel fases + panel batalla listos.");
         }
 
         // ── ESTADO 1: Progreso ─────────────────────────────────────────────────
@@ -256,7 +283,6 @@ namespace ReinoOscuridad.UI.Campaign
 
         private IEnumerator InicializarPanelFases()
         {
-            // Esperar un frame para que el layout calcule rect.width
             yield return null;
             yield return null;
 
@@ -265,7 +291,6 @@ namespace ReinoOscuridad.UI.Campaign
             _panelFasesAncho = _panelFasesRT.rect.width;
             if (_panelFasesAncho <= 0f) _panelFasesAncho = 614f; // fallback 48% de 1280
 
-            // Posicionar fuera de pantalla a la derecha
             var pos = _panelFasesRT.anchoredPosition;
             _panelFasesRT.anchoredPosition = new Vector2(_panelFasesAncho, pos.y);
         }
@@ -282,10 +307,7 @@ namespace ReinoOscuridad.UI.Campaign
             RefreshNodosFase(mundoIndex);
 
             if (_panelFasesAbierto)
-            {
-                // Ya abierto — solo actualizar contenido sin reanimar
                 return;
-            }
 
             StartCoroutine(AnimarPanelFases(abrir: true));
             _panelFasesAbierto = true;
@@ -302,7 +324,6 @@ namespace ReinoOscuridad.UI.Campaign
         {
             if (_panelFasesRT == null) yield break;
 
-            // Si el ancho todavía no se ha calculado, esperar
             if (_panelFasesAncho <= 0f)
             {
                 yield return null;
@@ -310,17 +331,17 @@ namespace ReinoOscuridad.UI.Campaign
                 if (_panelFasesAncho <= 0f) _panelFasesAncho = 614f;
             }
 
-            float duracion   = 0.2f;
-            float tiempo     = 0f;
-            Vector2 posInicio = _panelFasesRT.anchoredPosition;
-            float xDestino   = abrir ? 0f : _panelFasesAncho;
+            float duracion    = 0.2f;
+            float tiempo      = 0f;
+            Vector2 posInicio  = _panelFasesRT.anchoredPosition;
+            float xDestino    = abrir ? 0f : _panelFasesAncho;
             Vector2 posDestino = new Vector2(xDestino, posInicio.y);
 
             while (tiempo < duracion)
             {
                 tiempo += Time.deltaTime;
                 float t       = Mathf.Clamp01(tiempo / duracion);
-                float tSmooth = t * t * (3f - 2f * t); // SmoothStep
+                float tSmooth = t * t * (3f - 2f * t);
                 _panelFasesRT.anchoredPosition = Vector2.Lerp(posInicio, posDestino, tSmooth);
                 yield return null;
             }
@@ -336,32 +357,28 @@ namespace ReinoOscuridad.UI.Campaign
                 bool completada   = _fasesCompletadas != null && _fasesCompletadas[mundoIndex][i];
                 bool desbloqueada = IsFaseDesbloqueada(mundoIndex, i, _dificultadActual);
 
-                // Color del nodo
                 if (_nodoFaseImages != null && i < _nodoFaseImages.Length && _nodoFaseImages[i] != null)
                 {
                     if (completada)
-                        _nodoFaseImages[i].color = new Color(0.09f, 0.40f, 0.20f);   // #166534 verde
+                        _nodoFaseImages[i].color = new Color(0.09f, 0.40f, 0.20f);
                     else if (desbloqueada)
-                        _nodoFaseImages[i].color = new Color(0.12f, 0.08f, 0.21f);   // #1E1535 morado
+                        _nodoFaseImages[i].color = new Color(0.12f, 0.08f, 0.21f);
                     else
-                        _nodoFaseImages[i].color = new Color(0.05f, 0.05f, 0.05f);   // #0D0D0D oscuro
+                        _nodoFaseImages[i].color = new Color(0.05f, 0.05f, 0.05f);
                 }
 
-                // Interactable
                 if (_btnsFase != null && i < _btnsFase.Length && _btnsFase[i] != null)
                     _btnsFase[i].interactable = desbloqueada;
 
-                // Lock icon
                 if (_lockIconsFase != null && i < _lockIconsFase.Length && _lockIconsFase[i] != null)
                     _lockIconsFase[i].SetActive(!desbloqueada);
 
-                // Estrellas
                 if (_estrellasTexts != null && i < _estrellasTexts.Length && _estrellasTexts[i] != null)
                 {
                     if (completada)
                     {
                         _estrellasTexts[i].text  = "* * *";
-                        _estrellasTexts[i].color = new Color(0.98f, 0.80f, 0.08f); // #FACC15
+                        _estrellasTexts[i].color = new Color(0.98f, 0.80f, 0.08f);
                     }
                     else
                     {
@@ -370,7 +387,6 @@ namespace ReinoOscuridad.UI.Campaign
                     }
                 }
 
-                // Drop garantizado + energía
                 if (_dropTexts != null && i < _dropTexts.Length && _dropTexts[i] != null)
                 {
                     string encounterKey = BuildEncounterKey(mundoIndex, i, _dificultadActual);
@@ -403,20 +419,368 @@ namespace ReinoOscuridad.UI.Campaign
         public void OnFaseClick(int faseIndex)
         {
             _faseSeleccionada = faseIndex;
-            Debug.Log($"[Campaign] Fase seleccionada: {faseIndex} — PanelBatalla en S22c");
-            // TODO S22c: abrir PanelBatalla
+            AbrirPanelBatalla();
         }
 
-        // ── ESTADO 3: Stubs (S22c) ─────────────────────────────────────────────
+        // ── ESTADO 3: PanelBatalla — abrir / cerrar ────────────────────────────
 
-        public void OnConfirmarEquipo()
+        public void AbrirPanelBatalla()
         {
-            Debug.Log("[CampaignController] TODO S22c: OnConfirmarEquipo");
+            if (_panelBatalla == null) return;
+
+            // Header
+            if (_mundoFaseText != null)
+                _mundoFaseText.text = "Mundo " + (_mundoSeleccionado + 1) + " - " +
+                    (_faseSeleccionada < FASES_POR_MUNDO - 1
+                        ? "Fase " + (_faseSeleccionada + 1)
+                        : "BOSS");
+
+            if (_dificultadText != null)
+            {
+                string dif = _dificultadActual;
+                _dificultadText.text = dif.Length > 0
+                    ? char.ToUpper(dif[0]) + dif.Substring(1)
+                    : dif;
+            }
+
+            // Resetear equipo
+            _equipoActual.Clear();
+            RefreshSlotsEquipo();
+
+            // Cargar lastTeam si existe
+            var pds = PlayerDataSystem.Instance;
+            if (pds != null)
+            {
+                var pd = pds.GetPlayerData();
+                if (pd?.lastTeam != null)
+                {
+                    foreach (var heroId in pd.lastTeam)
+                        if (!string.IsNullOrEmpty(heroId) && _equipoActual.Count < 4)
+                            _equipoActual.Add(heroId);
+                }
+            }
+            RefreshSlotsEquipo();
+
+            // Cargar enemigos del encuentro
+            string key     = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadActual);
+            var    enemies = BuildEnemyTeam(key);
+            PoblarEnemyPreviews(enemies);
+
+            // Poblar scroll de esbirros
+            PoblarScrollEsbirros();
+
+            // Estado inicial del botón
+            ActualizarBtnBatallar();
+
+            _panelBatalla.SetActive(true);
         }
 
-        public void TryEnterBatalla()
+        public void ClosePanelBatalla()
         {
-            Debug.Log("[CampaignController] TODO S22c: TryEnterBatalla");
+            if (_panelBatalla == null) return;
+            _panelBatalla.SetActive(false);
+
+            if (_contentEsbirros != null)
+            {
+                var children = new List<Transform>();
+                foreach (Transform child in _contentEsbirros)
+                    children.Add(child);
+                foreach (var child in children)
+                {
+                    child.SetParent(null);
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+
+        // ── ESTADO 3: Enemigos ─────────────────────────────────────────────────
+
+        private void PoblarEnemyPreviews(EnemyInstance[] enemies)
+        {
+            if (_enemyPreviews == null) return;
+
+            for (int i = 0; i < _enemyPreviews.Length; i++)
+                if (_enemyPreviews[i] != null) _enemyPreviews[i].SetActive(false);
+
+            int count = Mathf.Min(enemies.Length, _enemyPreviews.Length);
+            for (int i = 0; i < count; i++)
+            {
+                if (_enemyPreviews[i] == null) continue;
+                _enemyPreviews[i].SetActive(true);
+
+                if (_enemyNombres != null && i < _enemyNombres.Length && _enemyNombres[i] != null)
+                    _enemyNombres[i].text = enemies[i].nombre;
+
+                if (_enemyNiveles != null && i < _enemyNiveles.Length && _enemyNiveles[i] != null)
+                    _enemyNiveles[i].text = "Nv. " + enemies[i].nivel;
+
+                var imgs = _enemyPreviews[i].GetComponentsInChildren<Image>();
+                if (imgs.Length > 1)
+                {
+                    var sp = PlaceholderAssets.GetEnemySprite("normal");
+                    if (sp != null) imgs[1].sprite = sp;
+                }
+            }
+        }
+
+        // ── ESTADO 3: Scroll de esbirros ──────────────────────────────────────
+
+        private void PoblarScrollEsbirros()
+        {
+            if (_contentEsbirros == null) return;
+
+            var children = new List<Transform>();
+            foreach (Transform child in _contentEsbirros)
+                children.Add(child);
+            foreach (var child in children)
+            {
+                child.SetParent(null);
+                Destroy(child.gameObject);
+            }
+
+            var pds = PlayerDataSystem.Instance;
+            if (pds == null) return;
+
+            var pd = pds.GetPlayerData();
+            if (pd?.heroes == null) return;
+
+            foreach (var heroEntry in pd.heroes)
+                CrearHeroMiniCard(heroEntry);
+        }
+
+        private void CrearHeroMiniCard(PlayerHeroData heroData)
+        {
+            var card = new GameObject("MiniCard_" + heroData.heroId);
+            card.transform.SetParent(_contentEsbirros, false);
+
+            var le             = card.AddComponent<LayoutElement>();
+            le.preferredWidth  = 64f;
+            le.preferredHeight = 64f;
+
+            var img   = card.AddComponent<Image>();
+            bool enEquipo = _equipoActual.Contains(heroData.heroId);
+            img.color = enEquipo
+                ? new Color(0.30f, 0.13f, 0.49f)
+                : new Color(0.10f, 0.10f, 0.18f);
+
+            card.AddComponent<Button>();
+
+            // Portrait
+            var portraitGO = new GameObject("Portrait");
+            portraitGO.transform.SetParent(card.transform, false);
+            var prt   = portraitGO.AddComponent<Image>();
+            var prtRT = portraitGO.GetComponent<RectTransform>();
+            prtRT.anchorMin = new Vector2(0.05f, 0.22f);
+            prtRT.anchorMax = new Vector2(0.95f, 0.95f);
+            prtRT.offsetMin = prtRT.offsetMax = Vector2.zero;
+            string elem = GetHeroElemento(heroData.heroId);
+            var sp      = PlaceholderAssets.GetHeroPortrait(elem);
+            if (sp != null) prt.sprite = sp;
+
+            // Nivel (esquina superior izquierda)
+            var nivelGO  = new GameObject("Nivel");
+            nivelGO.transform.SetParent(card.transform, false);
+            var nivelTMP = nivelGO.AddComponent<TextMeshProUGUI>();
+            nivelTMP.text      = heroData.level.ToString();
+            nivelTMP.fontSize  = 8f;
+            nivelTMP.fontStyle = FontStyles.Bold;
+            nivelTMP.color     = new Color(0.98f, 0.80f, 0.08f);
+            var nivelRT = nivelGO.GetComponent<RectTransform>();
+            nivelRT.anchorMin = new Vector2(0.02f, 0.76f);
+            nivelRT.anchorMax = new Vector2(0.50f, 0.98f);
+            nivelRT.offsetMin = nivelRT.offsetMax = Vector2.zero;
+
+            // Estrellas (parte inferior)
+            var starsGO  = new GameObject("Estrellas");
+            starsGO.transform.SetParent(card.transform, false);
+            var starsTMP = starsGO.AddComponent<TextMeshProUGUI>();
+            starsTMP.text      = new string('*', Mathf.Clamp(heroData.stars, 0, 6));
+            starsTMP.fontSize  = 7f;
+            starsTMP.alignment = TextAlignmentOptions.Center;
+            starsTMP.color     = new Color(0.98f, 0.80f, 0.08f);
+            var starsRT = starsGO.GetComponent<RectTransform>();
+            starsRT.anchorMin = new Vector2(0.02f, 0.02f);
+            starsRT.anchorMax = new Vector2(0.98f, 0.20f);
+            starsRT.offsetMin = starsRT.offsetMax = Vector2.zero;
+
+            // Click
+            string heroId = heroData.heroId;
+            card.GetComponent<Button>().onClick.AddListener(() => ToggleHeroEnEquipo(heroId));
+        }
+
+        // ── ESTADO 3: Lógica equipo ────────────────────────────────────────────
+
+        public void ToggleHeroEnEquipo(string heroId)
+        {
+            if (_equipoActual.Contains(heroId))
+                _equipoActual.Remove(heroId);
+            else if (_equipoActual.Count < 4)
+                _equipoActual.Add(heroId);
+            else
+                return;
+
+            RefreshSlotsEquipo();
+            RefreshMiniCards();
+            ActualizarBtnBatallar();
+        }
+
+        private void RefreshSlotsEquipo()
+        {
+            if (_tituloEquipo != null)
+                _tituloEquipo.text = "Mi Equipo (" + _equipoActual.Count + "/4)";
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (_heroSlots == null || i >= _heroSlots.Length || _heroSlots[i] == null) continue;
+
+                if (i < _equipoActual.Count)
+                {
+                    string heroId = _equipoActual[i];
+                    string elem   = GetHeroElemento(heroId);
+                    var sp        = PlaceholderAssets.GetHeroPortrait(elem);
+
+                    if (_slotPortraits != null && i < _slotPortraits.Length && _slotPortraits[i] != null)
+                    {
+                        if (sp != null) _slotPortraits[i].sprite = sp;
+                        _slotPortraits[i].color = Color.white;
+                    }
+                    if (_slotLabels != null && i < _slotLabels.Length && _slotLabels[i] != null)
+                        _slotLabels[i].text = GetHeroNombre(heroId);
+
+                    _heroSlots[i].image.color = new Color(0.18f, 0.10f, 0.30f);
+                }
+                else
+                {
+                    if (_slotPortraits != null && i < _slotPortraits.Length && _slotPortraits[i] != null)
+                    {
+                        _slotPortraits[i].sprite = null;
+                        _slotPortraits[i].color  = new Color(0.18f, 0.18f, 0.28f, 0.5f);
+                    }
+                    if (_slotLabels != null && i < _slotLabels.Length && _slotLabels[i] != null)
+                        _slotLabels[i].text = "+";
+
+                    _heroSlots[i].image.color = new Color(0.10f, 0.10f, 0.18f);
+                }
+            }
+        }
+
+        private void RefreshMiniCards()
+        {
+            if (_contentEsbirros == null) return;
+            foreach (Transform child in _contentEsbirros)
+            {
+                string heroId = child.name.Replace("MiniCard_", "");
+                bool enEquipo = _equipoActual.Contains(heroId);
+                var img = child.GetComponent<Image>();
+                if (img != null)
+                    img.color = enEquipo
+                        ? new Color(0.30f, 0.13f, 0.49f)
+                        : new Color(0.10f, 0.10f, 0.18f);
+            }
+        }
+
+        public void OnHeroSlotClick(int slotIndex)
+        {
+            if (_equipoActual == null || slotIndex >= _equipoActual.Count) return;
+            _equipoActual.RemoveAt(slotIndex);
+            RefreshSlotsEquipo();
+            RefreshMiniCards();
+            ActualizarBtnBatallar();
+        }
+
+        private void ActualizarBtnBatallar()
+        {
+            bool tieneEnergia = EconomySystem.Instance != null
+                && EconomySystem.Instance.CurrentEnergy >= 6;
+            bool tieneEquipo  = _equipoActual.Count > 0;
+
+            if (_btnBatallar != null)
+                _btnBatallar.interactable = tieneEquipo && tieneEnergia;
+
+            if (_sinEnergiaText != null)
+                _sinEnergiaText.gameObject.SetActive(!tieneEnergia);
+        }
+
+        public async void TryEnterBatalla()
+        {
+            if (_equipoActual.Count == 0) return;
+            if (EconomySystem.Instance == null || EconomySystem.Instance.CurrentEnergy < 6)
+            {
+                ActualizarBtnBatallar();
+                return;
+            }
+
+            // Construir equipo
+            _lastTeamBuilt = new HeroInstance[_equipoActual.Count];
+            for (int i = 0; i < _equipoActual.Count; i++)
+            {
+                string heroId = _equipoActual[i];
+                _lastTeamBuilt[i] = GearSystem.Instance != null
+                    ? GearSystem.Instance.BuildCombatInstance(heroId)
+                    : HeroProgressionSystem.Instance?.BuildHeroInstance(heroId, GetHeroNivel(heroId))
+                      ?? new HeroInstance { heroId = heroId, nivel = 1, hpMax = 1000, hpActual = 1000, estaVivo = true };
+            }
+
+            // Guardar lastTeam en PlayerData
+            var pds = PlayerDataSystem.Instance;
+            if (pds != null)
+            {
+                var pd   = pds.GetPlayerData();
+                pd.lastTeam = _equipoActual.ToArray();
+                pds.UpdatePlayerData(pd);
+                pds.MarkDirty();
+            }
+
+            // Construir CombatContext
+            string key     = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadActual);
+            var    enemies = BuildEnemyTeam(key);
+
+            CombatSceneData.PendingContext = new CombatContext
+            {
+                encounterID    = key,
+                callerScene    = "CampaignScene",
+                combatMode     = "campaign",
+                playerTeam     = _lastTeamBuilt,
+                enemyTeam      = enemies,
+                maldicionActiva = false,
+            };
+
+            Debug.Log($"[CampaignController] TryEnterBatalla → {key} · equipo: {string.Join(",", _equipoActual)}");
+
+            EconomySystem.Instance.ConsumeEnergy(6);
+            ClosePanelBatalla();
+
+            if (UIManager.Instance != null)
+                await UIManager.Instance.NavigateTo("CombatScene");
+            else
+                UnityEngine.SceneManagement.SceneManager.LoadScene("CombatScene");
+        }
+
+        // ── ESTADO 3: Helpers de catálogo ─────────────────────────────────────
+
+        private string GetHeroElemento(string heroId)
+        {
+            if (_heroById != null && _heroById.TryGetValue(heroId, out var h) && !string.IsNullOrEmpty(h.element))
+                return h.element.ToLower();
+            return "oscuridad";
+        }
+
+        private string GetHeroNombre(string heroId)
+        {
+            if (_heroById != null && _heroById.TryGetValue(heroId, out var h) && !string.IsNullOrEmpty(h.displayName_es))
+                return h.displayName_es;
+            return heroId;
+        }
+
+        private int GetHeroNivel(string heroId)
+        {
+            var pds = PlayerDataSystem.Instance;
+            if (pds == null) return 1;
+            var pd = pds.GetPlayerData();
+            if (pd?.heroes == null) return 1;
+            foreach (var h in pd.heroes)
+                if (h.heroId == heroId) return h.level;
+            return 1;
         }
 
         // ── Bind botones ───────────────────────────────────────────────────────
@@ -461,6 +825,23 @@ namespace ReinoOscuridad.UI.Campaign
                         _btnsFase[i].onClick.AddListener(() => OnFaseClick(idx));
                 }
             }
+
+            // Botones panel batalla
+            if (_btnVolverBatalla != null)
+                _btnVolverBatalla.onClick.AddListener(ClosePanelBatalla);
+
+            if (_btnBatallar != null)
+                _btnBatallar.onClick.AddListener(TryEnterBatalla);
+
+            if (_heroSlots != null)
+            {
+                for (int i = 0; i < _heroSlots.Length; i++)
+                {
+                    int idx = i;
+                    if (_heroSlots[i] != null)
+                        _heroSlots[i].onClick.AddListener(() => OnHeroSlotClick(idx));
+                }
+            }
         }
 
         // ── Catálogos ──────────────────────────────────────────────────────────
@@ -483,7 +864,7 @@ namespace ReinoOscuridad.UI.Campaign
                         if (e != null && !string.IsNullOrEmpty(e.encounterId))
                             _encounterById[e.encounterId] = e;
                 if (skipped > 0)
-                    Debug.LogWarning($"[CampaignController] encounter_catalog: {skipped} campo(s) ignorado(s) por formato inesperado.");
+                    Debug.LogWarning($"[CampaignController] encounter_catalog: {skipped} campo(s) ignorado(s).");
             }
             catch (System.Exception ex) { Debug.LogError($"[CampaignController] Error parsing encounter_catalog: {ex.Message}"); }
         }
@@ -502,6 +883,22 @@ namespace ReinoOscuridad.UI.Campaign
                             _enemyById[e.enemyId] = e;
             }
             catch (System.Exception ex) { Debug.LogError($"[CampaignController] Error parsing enemy_catalog: {ex.Message}"); }
+        }
+
+        private void LoadHeroCatalog()
+        {
+            var ta = Resources.Load<TextAsset>("Data/hero_catalog");
+            if (ta == null) { Debug.LogWarning("[CampaignController] hero_catalog.json no encontrado."); return; }
+            try
+            {
+                var root = JsonConvert.DeserializeObject<HeroCatalogRoot>(ta.text);
+                _heroById = new Dictionary<string, HeroCatalogEntry>();
+                if (root?.heroes != null)
+                    foreach (var h in root.heroes)
+                        if (!string.IsNullOrEmpty(h.heroId))
+                            _heroById[h.heroId] = h;
+            }
+            catch (System.Exception ex) { Debug.LogError($"[CampaignController] Error parsing hero_catalog: {ex.Message}"); }
         }
 
         // ── IsFaseDesbloqueada ─────────────────────────────────────────────────
@@ -530,7 +927,7 @@ namespace ReinoOscuridad.UI.Campaign
             }
         }
 
-        // ── BuildEnemyTeam (S22c) ──────────────────────────────────────────────
+        // ── BuildEnemyTeam ─────────────────────────────────────────────────────
 
         public EnemyInstance[] BuildEnemyTeam(string encounterKey)
         {
