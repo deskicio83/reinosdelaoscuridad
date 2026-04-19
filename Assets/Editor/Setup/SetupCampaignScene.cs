@@ -449,12 +449,13 @@ public static class SetupCampaignScene
         var slotPortraits = new Image[4];
         var slotLabels    = new TMP_Text[4];
 
+        // Cruz: slot 0 = derecha (primer slot), 1 = arriba, 2 = izquierda, 3 = abajo
         float[][] slotAnchors =
         {
-            new[] { 0.04f, 0.60f, 0.48f, 0.91f },
-            new[] { 0.52f, 0.60f, 0.96f, 0.91f },
-            new[] { 0.04f, 0.26f, 0.48f, 0.57f },
-            new[] { 0.52f, 0.26f, 0.96f, 0.57f },
+            new[] { 0.52f, 0.47f, 0.98f, 0.68f },  // 0 = Derecha (primer slot)
+            new[] { 0.20f, 0.70f, 0.80f, 0.91f },  // 1 = Arriba
+            new[] { 0.02f, 0.47f, 0.48f, 0.68f },  // 2 = Izquierda
+            new[] { 0.20f, 0.26f, 0.80f, 0.47f },  // 3 = Abajo
         };
 
         for (int i = 0; i < 4; i++)

@@ -85,7 +85,7 @@ namespace ReinoOscuridad.UI.Campaign
         private bool[][] _fasesCompletadas;           // [mundo][fase]
         private bool[]   _mundosRecompensaReclamada;
 
-        private List<string>   _equipoActual  = new List<string>();
+        private string[]       _equipoSlots   = new string[4];  // índice fijo por slot
         private HeroInstance[] _lastTeamBuilt;
 
         // ── Catálogos ──────────────────────────────────────────────────────────
@@ -443,20 +443,23 @@ namespace ReinoOscuridad.UI.Campaign
                     : dif;
             }
 
-            // Resetear equipo
-            _equipoActual.Clear();
+            // Resetear equipo (slots posicionales)
+            _equipoSlots = new string[4];
             RefreshSlotsEquipo();
 
-            // Cargar lastTeam si existe
+            // Cargar lastTeam si existe, respetando posiciones
             var pds = PlayerDataSystem.Instance;
             if (pds != null)
             {
                 var pd = pds.GetPlayerData();
                 if (pd?.lastTeam != null)
                 {
+                    int si = 0;
                     foreach (var heroId in pd.lastTeam)
-                        if (!string.IsNullOrEmpty(heroId) && _equipoActual.Count < 4)
-                            _equipoActual.Add(heroId);
+                    {
+                        if (!string.IsNullOrEmpty(heroId) && si < 4)
+                            _equipoSlots[si++] = heroId;
+                    }
                 }
             }
             RefreshSlotsEquipo();
@@ -558,7 +561,7 @@ namespace ReinoOscuridad.UI.Campaign
             le.preferredHeight = 64f;
 
             var img   = card.AddComponent<Image>();
-            bool enEquipo = _equipoActual.Contains(heroData.heroId);
+            bool enEquipo = System.Array.IndexOf(_equipoSlots, heroData.heroId) >= 0;
             img.color = enEquipo
                 ? new Color(0.30f, 0.13f, 0.49f)
                 : new Color(0.10f, 0.10f, 0.18f);
@@ -612,12 +615,24 @@ namespace ReinoOscuridad.UI.Campaign
 
         public void ToggleHeroEnEquipo(string heroId)
         {
-            if (_equipoActual.Contains(heroId))
-                _equipoActual.Remove(heroId);
-            else if (_equipoActual.Count < 4)
-                _equipoActual.Add(heroId);
+            // Buscar si ya ocupa un slot (posición fija — se vacía ese slot)
+            int slotOcupado = -1;
+            for (int s = 0; s < 4; s++)
+                if (_equipoSlots[s] == heroId) { slotOcupado = s; break; }
+
+            if (slotOcupado >= 0)
+            {
+                _equipoSlots[slotOcupado] = null;  // vaciar solo ese slot
+            }
             else
-                return;
+            {
+                // Buscar primer slot libre
+                int libre = -1;
+                for (int s = 0; s < 4; s++)
+                    if (_equipoSlots[s] == null) { libre = s; break; }
+                if (libre < 0) return;  // equipo lleno
+                _equipoSlots[libre] = heroId;
+            }
 
             RefreshSlotsEquipo();
             RefreshMiniCards();
@@ -626,16 +641,18 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void RefreshSlotsEquipo()
         {
+            int count = 0;
+            foreach (var s in _equipoSlots) if (s != null) count++;
             if (_tituloEquipo != null)
-                _tituloEquipo.text = "Mi Equipo (" + _equipoActual.Count + "/4)";
+                _tituloEquipo.text = "Mi Equipo (" + count + "/4)";
 
             for (int i = 0; i < 4; i++)
             {
                 if (_heroSlots == null || i >= _heroSlots.Length || _heroSlots[i] == null) continue;
 
-                if (i < _equipoActual.Count)
+                if (_equipoSlots[i] != null)
                 {
-                    string heroId = _equipoActual[i];
+                    string heroId = _equipoSlots[i];
                     string elem   = GetHeroElemento(heroId);
                     var sp        = PlaceholderAssets.GetHeroPortrait(elem);
 
@@ -670,7 +687,7 @@ namespace ReinoOscuridad.UI.Campaign
             foreach (Transform child in _contentEsbirros)
             {
                 string heroId = child.name.Replace("MiniCard_", "");
-                bool enEquipo = _equipoActual.Contains(heroId);
+                bool enEquipo = System.Array.IndexOf(_equipoSlots, heroId) >= 0;
                 var img = child.GetComponent<Image>();
                 if (img != null)
                     img.color = enEquipo
@@ -681,8 +698,8 @@ namespace ReinoOscuridad.UI.Campaign
 
         public void OnHeroSlotClick(int slotIndex)
         {
-            if (_equipoActual == null || slotIndex >= _equipoActual.Count) return;
-            _equipoActual.RemoveAt(slotIndex);
+            if (_equipoSlots == null || slotIndex >= 4 || _equipoSlots[slotIndex] == null) return;
+            _equipoSlots[slotIndex] = null;
             RefreshSlotsEquipo();
             RefreshMiniCards();
             ActualizarBtnBatallar();
@@ -692,7 +709,9 @@ namespace ReinoOscuridad.UI.Campaign
         {
             bool tieneEnergia = EconomySystem.Instance != null
                 && EconomySystem.Instance.CurrentEnergy >= 6;
-            bool tieneEquipo  = _equipoActual.Count > 0;
+            int  equipoCount   = 0;
+            foreach (var s in _equipoSlots) if (s != null) equipoCount++;
+            bool tieneEquipo  = equipoCount > 0;
 
             if (_btnBatallar != null)
                 _btnBatallar.interactable = tieneEquipo && tieneEnergia;
@@ -703,7 +722,11 @@ namespace ReinoOscuridad.UI.Campaign
 
         public async void TryEnterBatalla()
         {
-            if (_equipoActual.Count == 0) return;
+            // Recoger slots no vacíos en orden
+            var equipo = new List<string>();
+            foreach (var s in _equipoSlots) if (s != null) equipo.Add(s);
+            if (equipo.Count == 0) return;
+
             if (EconomySystem.Instance == null || EconomySystem.Instance.CurrentEnergy < 6)
             {
                 ActualizarBtnBatallar();
@@ -711,10 +734,10 @@ namespace ReinoOscuridad.UI.Campaign
             }
 
             // Construir equipo
-            _lastTeamBuilt = new HeroInstance[_equipoActual.Count];
-            for (int i = 0; i < _equipoActual.Count; i++)
+            _lastTeamBuilt = new HeroInstance[equipo.Count];
+            for (int i = 0; i < equipo.Count; i++)
             {
-                string heroId = _equipoActual[i];
+                string heroId = equipo[i];
                 _lastTeamBuilt[i] = GearSystem.Instance != null
                     ? GearSystem.Instance.BuildCombatInstance(heroId)
                     : HeroProgressionSystem.Instance?.BuildHeroInstance(heroId, GetHeroNivel(heroId))
@@ -726,7 +749,7 @@ namespace ReinoOscuridad.UI.Campaign
             if (pds != null)
             {
                 var pd   = pds.GetPlayerData();
-                pd.lastTeam = _equipoActual.ToArray();
+                pd.lastTeam = equipo.ToArray();
                 pds.UpdatePlayerData(pd);
                 pds.MarkDirty();
             }
@@ -745,7 +768,7 @@ namespace ReinoOscuridad.UI.Campaign
                 maldicionActiva = false,
             };
 
-            Debug.Log($"[CampaignController] TryEnterBatalla → {key} · equipo: {string.Join(",", _equipoActual)}");
+            Debug.Log($"[CampaignController] TryEnterBatalla → {key} · equipo: {string.Join(",", equipo)}");
 
             EconomySystem.Instance.ConsumeEnergy(6);
             ClosePanelBatalla();
