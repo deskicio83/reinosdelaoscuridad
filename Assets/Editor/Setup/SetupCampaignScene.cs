@@ -280,23 +280,134 @@ public static class SetupCampaignScene
         btnCerrarGO.AddComponent<Button>();
         Txt(Child(btnCerrarGO.transform, "Label"), "Cerrar", 12f, Hex("#A855F7"), bold: true);
 
-        // ── CampaignSceneController + wiring ─────────────────────────────
+        // ════════════════════════════════════════════════════════════════
+        // PANEL FASES — slide-in desde la derecha
+        // anchors (0.52,0.09)→(1.00,0.90) = posición "abierto".
+        // El controller lo desplaza fuera de pantalla vía anchoredPosition.x
+        // ════════════════════════════════════════════════════════════════
+
+        var panelFasesGO = Child(canvasTr, "PanelFases");
+        Anch(panelFasesGO, 0.52f, 0.09f, 1.00f, 0.90f);
+        Img(panelFasesGO, Hex("#0F0F1A"));
+        var panelFasesRT = panelFasesGO.GetComponent<RectTransform>();
+
+        // ── Header del PanelFases ─────────────────────────────────────
+
+        var headerFasesGO = Child(panelFasesGO.transform, "HeaderFases");
+        Anch(headerFasesGO, 0f, 0.92f, 1f, 1.00f);
+        Img(headerFasesGO, Hex("#14101E"));
+
+        var tituloMundoGO = Child(headerFasesGO.transform, "TituloMundoFases");
+        Anch(tituloMundoGO, 0.05f, 0.15f, 0.78f, 0.85f);
+        var tituloMundoFases = Txt(tituloMundoGO, "Mundo 1", 13f, Hex("#A855F7"), bold: true,
+                                    align: TextAlignmentOptions.Left);
+
+        var btnCerrarFasesGO = Child(headerFasesGO.transform, "BtnCerrarFases");
+        Anch(btnCerrarFasesGO, 0.82f, 0.10f, 0.98f, 0.90f);
+        Img(btnCerrarFasesGO, Hex("#1A1A2E"));
+        var btnCerrarFases = btnCerrarFasesGO.AddComponent<Button>();
+        Txt(Child(btnCerrarFasesGO.transform, "Label"), "X", 12f, Hex("#9CA3AF"), bold: true);
+
+        // ── ScrollFases vertical ──────────────────────────────────────
+
+        var scrollFasesGO = Child(panelFasesGO.transform, "ScrollFases");
+        Anch(scrollFasesGO, 0f, 0f, 1f, 0.92f);
+        Img(scrollFasesGO, Color.clear, 0f);
+        var scrollFasesRect = scrollFasesGO.AddComponent<ScrollRect>();
+        scrollFasesRect.horizontal        = false;
+        scrollFasesRect.vertical          = true;
+        scrollFasesRect.inertia           = true;
+        scrollFasesRect.decelerationRate  = 0.15f;
+
+        var vpFasesGO = Child(scrollFasesGO.transform, "ViewportFases");
+        Anch(vpFasesGO, 0f, 0f, 1f, 1f);
+        Img(vpFasesGO, Color.clear, 0f);
+        vpFasesGO.AddComponent<RectMask2D>();
+
+        var contentFasesGO = Child(vpFasesGO.transform, "ContentFases");
+        Img(contentFasesGO, Color.clear, 0f);
+        var contentFasesRT = contentFasesGO.GetComponent<RectTransform>();
+        // Pivot arriba — el scroll empieza desde arriba
+        contentFasesRT.anchorMin = new Vector2(0f, 1f);
+        contentFasesRT.anchorMax = new Vector2(1f, 1f);
+        contentFasesRT.pivot     = new Vector2(0.5f, 1f);
+        contentFasesRT.sizeDelta = Vector2.zero;
+
+        var vlg = contentFasesGO.AddComponent<VerticalLayoutGroup>();
+        vlg.spacing               = 8f;
+        vlg.padding               = new RectOffset(8, 8, 8, 8);
+        vlg.childControlWidth      = true;
+        vlg.childControlHeight     = true;
+        vlg.childForceExpandWidth  = true;
+        vlg.childForceExpandHeight = false;
+        vlg.childAlignment         = TextAnchor.UpperCenter;
+        contentFasesGO.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        scrollFasesRect.content  = contentFasesRT;
+        scrollFasesRect.viewport = vpFasesGO.GetComponent<RectTransform>();
+
+        // ── 7 Nodos de fase ───────────────────────────────────────────
+
+        var btnsFase      = new Button[7];
+        var nodoImages    = new Image[7];
+        var dropTexts     = new TMP_Text[7];
+        var estrellasTexts = new TMP_Text[7];
+        var lockIconsFase = new GameObject[7];
+
+        // Precargar sprite world_locked para lock icons
+        var lockSprite = Resources.Load<Sprite>("Placeholders/world_locked");
+
+        for (int i = 0; i < 7; i++)
+        {
+            var nodoGO = Child(contentFasesGO.transform, $"NodoFase_{i}");
+            var nodoLE = nodoGO.AddComponent<LayoutElement>();
+            nodoLE.preferredHeight = 72f;
+            Color nodoColor = i == 0 ? Hex("#1E1535") : Hex("#0D0D0D");
+            nodoImages[i] = Img(nodoGO, nodoColor);
+            btnsFase[i] = nodoGO.AddComponent<Button>();
+            if (i > 0) btnsFase[i].interactable = false;
+
+            // NumFase
+            var numGO = Child(nodoGO.transform, "NumFase");
+            Anch(numGO, 0.04f, 0.55f, 0.42f, 0.95f);
+            string labelFase = i < 6 ? $"Fase {i + 1}" : "BOSS";
+            Txt(numGO, labelFase, 13f, Hex("#E9D5FF"), bold: true, align: TextAlignmentOptions.Left);
+
+            // DropGarantizado
+            var dropGO = Child(nodoGO.transform, "DropGarantizado");
+            Anch(dropGO, 0.04f, 0.10f, 0.58f, 0.52f);
+            dropTexts[i] = Txt(dropGO, "Drop: -", 9f, Hex("#9CA3AF"), align: TextAlignmentOptions.Left);
+
+            // StaminaCost
+            var costGO = Child(nodoGO.transform, "StaminaCost");
+            Anch(costGO, 0.77f, 0.55f, 0.96f, 0.95f);
+            Txt(costGO, "6", 11f, Hex("#FACC15"), bold: true, align: TextAlignmentOptions.Right);
+
+            // EstrellasFase
+            var estrellaGO = Child(nodoGO.transform, "EstrellasFase");
+            Anch(estrellaGO, 0.62f, 0.10f, 0.96f, 0.50f);
+            estrellasTexts[i] = Txt(estrellaGO, "- - -", 10f, Hex("#9CA3AF"));
+
+            // LockIconFase
+            var lockGO = Child(nodoGO.transform, "LockIconFase");
+            Anch(lockGO, 0.44f, 0.20f, 0.60f, 0.80f);
+            var lockImg = Img(lockGO, Hex("#374151"));
+            if (lockSprite != null) lockImg.sprite = lockSprite;
+            lockIconsFase[i] = lockGO;
+            lockGO.SetActive(i > 0); // solo activo si bloqueado
+        }
+
+        // ── CampaignSceneController + wiring ─────────────────────────
 
         var ctrlGO     = new GameObject("CampaignSceneController");
         var controller = ctrlGO.AddComponent<CampaignSceneController>();
         var so         = new SerializedObject(controller);
 
-        // ScrollRect + Content
+        // ESTADO 1 — ScrollMundos
         so.FindProperty("_scrollMundos") .objectReferenceValue = scrollRect;
         so.FindProperty("_contentMundos").objectReferenceValue = contentRT;
-
-        // BtnVolver
         so.FindProperty("_btnVolverMain").objectReferenceValue = btnVolver;
-
-        // PopupBloqueado
         so.FindProperty("_popupBloqueado").objectReferenceValue = popupGO;
-
-        // Arrays de 7 elementos
         SetArray(so, "_btnsMundo",      btnsMundo);
         SetArray(so, "_lockedOverlays", lockedOverlays);
         SetArray(so, "_mundoSelBordes", mundoSelBordes);
@@ -304,9 +415,19 @@ public static class SetupCampaignScene
         SetArray(so, "_progresoTexts",  progresoTexts);
         SetArray(so, "_dots",           dots);
 
+        // ESTADO 2 — PanelFases
+        so.FindProperty("_panelFasesRT")     .objectReferenceValue = panelFasesRT;
+        so.FindProperty("_tituloMundoFases") .objectReferenceValue = tituloMundoFases;
+        so.FindProperty("_btnCerrarFases")   .objectReferenceValue = btnCerrarFases;
+        SetArray(so, "_btnsFase",       btnsFase);
+        SetArray(so, "_nodoFaseImages", nodoImages);
+        SetArray(so, "_dropTexts",      dropTexts);
+        SetArray(so, "_estrellasTexts", estrellasTexts);
+        SetArray(so, "_lockIconsFase",  lockIconsFase);
+
         so.ApplyModifiedPropertiesWithoutUndo();
 
-        Debug.Log("[SetupCampaign] CampaignSceneController cableado correctamente.");
+        Debug.Log("[SetupCampaign] CampaignSceneController cableado — ESTADO 1+2.");
     }
 
     // ── Build Settings ─────────────────────────────────────────────────────
