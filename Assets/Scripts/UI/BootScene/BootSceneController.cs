@@ -156,7 +156,10 @@ namespace ReinoOscuridad.UI.Boot
         /// Solo visible en UNITY_EDITOR / DEVELOPMENT_BUILD.
         public async void DevModeLogin()
         {
-            Debug.LogWarning("[BootSceneController] MODO DEV — saltando autenticacion Firebase.");
+            const string DEV_UID = "dev_mode_player_001";
+            Debug.LogWarning("[BootSceneController] MODO DEV — uid fijo: " + DEV_UID);
+            var auth = GameManager.Instance?.GetSystem<AuthSystem>();
+            auth?.SetDevUID(DEV_UID);
             await ProceedAfterLoginAsync();
         }
 

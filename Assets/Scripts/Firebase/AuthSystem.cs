@@ -201,6 +201,18 @@ namespace ReinoOscuridad.Firebase
             });
         }
 
+        /// Modo desarrollador: fija un uid sin pasar por Firebase Auth.
+        /// Solo para UNITY_EDITOR / DEVELOPMENT_BUILD.
+        public void SetDevUID(string uid)
+        {
+            IsLoggedIn = true;
+            IsGuest    = true;
+            CurrentUID = uid;
+            _pds?.SetUID(uid);
+            EventBus.Publish(new AuthStateChangedData { uid = uid, isGuest = true });
+            Debug.Log($"[AuthSystem] Dev mode — uid fijo: {uid}");
+        }
+
         private void EnsureAuth()
         {
             if (_auth == null)
