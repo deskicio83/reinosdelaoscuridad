@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
@@ -112,7 +114,9 @@ namespace ReinoOscuridad.UI.Combat
         private Coroutine       _atbCoroutine;
         private Canvas          _canvas;
         private Action          _tooltipConfirmAction;
-        private Dictionary<string, int[]> _cooldowns = new Dictionary<string, int[]>();
+        private Dictionary<string, int[]>               _cooldowns     = new Dictionary<string, int[]>();
+        private Dictionary<string, HeroSkillDef>        _skillCatalog  = new Dictionary<string, HeroSkillDef>();
+        private Dictionary<string, List<HeroSkillDef>>  _heroSkillsList = new Dictionary<string, List<HeroSkillDef>>();
 
         // ── Inicio ─────────────────────────────────────────────────────────
 
@@ -149,6 +153,7 @@ namespace ReinoOscuridad.UI.Combat
                     if (c.gameObject.scene == gameObject.scene) { _canvas = c; break; }
             }
 
+            CargarCatalogoHabilidades();
             BuildATBUnits();
             RefreshEnemyZone();
             RefreshHeroZone();
@@ -165,6 +170,33 @@ namespace ReinoOscuridad.UI.Combat
             Debug.Log($"[CombatScene] Combate iniciado ATB — encuentro: {_ctx.encounterID}");
 
             _atbCoroutine = StartCoroutine(ATBLoop());
+        }
+
+        // ── Carga catálogo de habilidades ──────────────────────────────────
+
+        private void CargarCatalogoHabilidades()
+        {
+            _skillCatalog.Clear();
+            var ta = Resources.Load<TextAsset>("Data/hero_catalog");
+            if (ta == null)
+            {
+                Debug.LogWarning("[CombatScene] hero_catalog no encontrado en Resources/Data/");
+                return;
+            }
+            try
+            {
+                var root = JsonConvert.DeserializeObject<HeroCatalog>(ta.text);
+                if (root?.heroes == null) return;
+                foreach (var hero in root.heroes)
+                    if (hero.skills != null)
+                        foreach (var skill in hero.skills)
+                            _skillCatalog[skill.skillId] = skill;
+                Debug.Log($"[CombatScene] {_skillCatalog.Count} skills cargadas del catálogo");
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[CombatScene] Error al cargar hero_catalog: {e.Message}");
+            }
         }
 
         // ── Construcción de unidades ATB ───────────────────────────────────
@@ -191,7 +223,9 @@ namespace ReinoOscuridad.UI.Combat
                         unit.heroData  = h;
                         unit.ResetATB();
                         _allUnits.Add(unit);
-                        _cooldowns[h.heroId] = new int[3];
+                        var skills = BuildHeroSkillList(h);
+                        _heroSkillsList[h.heroId] = skills;
+                        _cooldowns[h.heroId] = new int[Mathf.Max(skills.Count, 3)];
                     }
                     else
                     {
@@ -406,7 +440,7 @@ namespace ReinoOscuridad.UI.Combat
             {
                 if (attacker.esJugador && attacker.heroData != null && target.enemyData != null)
                 {
-                    float mult = abilityIndex == 1 ? 1.8f : abilityIndex == 2 ? 1.2f : 1f;
+                    float mult = GetAbilityMultiplier(attacker.unitId, abilityIndex);
                     var res = _combatSystem.CalculateDamage(attacker.heroData, target.enemyData, mult);
                     daño     = res.dañoFinal;
                     crit     = res.fueCritico;
@@ -472,7 +506,8 @@ namespace ReinoOscuridad.UI.Combat
                 FloatingDamageText.Spawn(_canvas, screenPos, daño, crit, ventaja);
             }
 
-            // Actualizar barras HP
+            // Actualizar barras HP — per-unit + refresh global como fallback
+            UpdateHPBar(target);
             RefreshEnemyZone();
             RefreshHeroZone();
 
@@ -566,12 +601,18 @@ namespace ReinoOscuridad.UI.Combat
         private void ShowAbilityTooltip(int index, Vector3 worldPos)
         {
             // Solo muestra información — no modifica _selectedAbilityIndex ni _phase
+            int cd = 0;
+            if (_activeUnit?.heroData != null
+                && _heroSkillsList.TryGetValue(_activeUnit.heroData.heroId, out var skills)
+                && index < skills.Count)
+                cd = skills[index].cooldown;
+
             var screenPos = RectTransformUtility.WorldToScreenPoint(null, worldPos);
             AbilityTooltip.Instance?.Show(
                 screenPos,
                 GetAbilityNombre(index),
                 GetAbilityDescription(index),
-                0);
+                cd);
         }
 
         public void OnUnitTapped(ATBUnit tapped)
@@ -612,6 +653,41 @@ namespace ReinoOscuridad.UI.Combat
         }
 
         // ── Finalización ───────────────────────────────────────────────────
+
+        private void OnHuirPressed()
+        {
+            if (_phase == CombatPhase.CombatEnd) return; // evitar doble llamada
+
+            _phase = CombatPhase.CombatEnd; // marcar ANTES de StopAllCoroutines
+
+            if (_atbCoroutine != null) { StopCoroutine(_atbCoroutine); _atbCoroutine = null; }
+            StopAllCoroutines();
+            DisableAbilityCircles();
+            HideTooltip();
+
+            if (_activeUnit != null) { _activeUnit.SetActive(false); _activeUnit = null; }
+            if (_allUnits != null)
+                foreach (var u in _allUnits) u.SetHighlightTargetable(false);
+            _selectedAbilityIndex = -1;
+
+            var result = new CombatResult
+            {
+                victoria      = false,
+                danoTotal     = _dañoAcumulado,
+                drops         = Array.Empty<string>(),
+                gradoObtenido = ""
+            };
+            CombatSceneData.SetResult(result);
+            EventBus.Publish(new CombatCompletedData
+            {
+                encounterId = _ctx?.encounterID ?? "",
+                victory     = false,
+                expGained   = 0,
+                goldGained  = 0
+            });
+            // Delay corto — no hay FloatingDamageText pendiente
+            StartCoroutine(MostrarResultadoConDelay(result, 0.5f));
+        }
 
         private void FinalizarCombate(CombatResult result, float delay = 1.5f)
         {
@@ -675,20 +751,91 @@ namespace ReinoOscuridad.UI.Combat
                 _resultDropsText.text = result.drops != null && result.drops.Length > 0
                     ? "Recompensas:\n* " + string.Join("\n* ", result.drops)
                     : "Recompensas:\nSin drops";
+
+            // Reconectar botones según victoria / derrota (FIX 6)
+            _btnContinuar?.onClick.RemoveAllListeners();
+            _btnReintentar?.onClick.RemoveAllListeners();
+
+            if (result.victoria)
+            {
+                SetBtnLabel(_btnContinuar,  "Siguiente");
+                SetBtnLabel(_btnReintentar, "Repetir");
+                _btnContinuar?.onClick.AddListener(OnSiguientePressed);
+                _btnReintentar?.onClick.AddListener(OnRepetirVictoriaPressed);
+            }
+            else
+            {
+                SetBtnLabel(_btnReintentar, "Repetir");
+                SetBtnLabel(_btnContinuar,  "Volver");
+                _btnReintentar?.onClick.AddListener(OnRepetirDerrotaPressed);
+                _btnContinuar?.onClick.AddListener(OnVolverPressed);
+            }
         }
 
-        private void OnContinuarPressed()
+        private static void SetBtnLabel(Button btn, string texto)
+        {
+            if (btn == null) return;
+            var lbl = btn.GetComponentInChildren<TMP_Text>();
+            if (lbl != null) lbl.text = texto;
+        }
+
+        private void OnSiguientePressed()
         {
             if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
+            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int fase))
+            {
+                CombatSceneData.NextFaseRequest = true;
+                CombatSceneData.NextMundo       = mundo;
+                CombatSceneData.NextFase        = fase + 1; // siguiente fase
+            }
             UIManager.Instance?.NavigateBack();
         }
 
-        private async void OnReintentarPressed()
+        private async void OnRepetirVictoriaPressed()
         {
+            // VICTORIA "Repetir" → mismo combate directamente
             if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
             if (UIManager.Instance == null) return;
             CombatSceneData.PendingContext = _ctx;
             await UIManager.Instance.NavigateTo("CombatScene");
+        }
+
+        private void OnRepetirDerrotaPressed()
+        {
+            // DERROTA "Repetir" → PanelBatalla de la misma fase
+            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
+            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int fase))
+            {
+                CombatSceneData.NextFaseRequest = true;
+                CombatSceneData.NextMundo       = mundo;
+                CombatSceneData.NextFase        = fase; // misma fase
+            }
+            UIManager.Instance?.NavigateBack();
+        }
+
+        private void OnVolverPressed()
+        {
+            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
+            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int _))
+            {
+                CombatSceneData.ReturnToPanelFases = true;
+                CombatSceneData.NextMundo          = mundo;
+            }
+            UIManager.Instance?.NavigateBack();
+        }
+
+        private static bool TryParseEncounterId(string id, out int mundo, out int fase)
+        {
+            mundo = 0; fase = 0;
+            if (string.IsNullOrEmpty(id)) return false;
+            var parts = id.Split('_');
+            if (parts.Length < 4) return false;
+            if (!int.TryParse(parts[2], out int mNum)) return false;
+            mundo = mNum - 1;
+            if (parts[3] == "boss") { fase = 6; return true; }
+            if (parts[3].StartsWith("f") && int.TryParse(parts[3].Substring(1), out int fNum))
+            { fase = fNum - 1; return true; }
+            return false;
         }
 
         // ── Refresh UI ─────────────────────────────────────────────────────
@@ -770,35 +917,37 @@ namespace ReinoOscuridad.UI.Combat
                       && heroIndex < _ctx.playerTeam.Length;
 
             string heroId = valid ? _ctx.playerTeam[heroIndex].heroId : null;
+            _heroSkillsList.TryGetValue(heroId ?? "", out var skills);
 
             for (int i = 0; i < _abilityCircles.Length; i++)
             {
                 if (_abilityCircles[i] == null) continue;
-
                 var lbl = _abilityCircles[i].GetComponentInChildren<TMP_Text>(true);
 
-                if (valid && _ctx.playerTeam[heroIndex].habilidadesEquipadas != null
-                          && i < _ctx.playerTeam[heroIndex].habilidadesEquipadas.Length)
+                bool hasSkill = valid && skills != null && i < skills.Count;
+                if (hasSkill)
                 {
                     int cd = GetCooldown(heroId, i);
                     if (cd > 0)
                     {
                         _abilityCircles[i].interactable = false;
-                        if (lbl != null) lbl.text = $"CD:{cd}";
+                        if (lbl != null) lbl.text = $"{skills[i].name_es}\nCD:{cd}";
                     }
                     else
                     {
                         _abilityCircles[i].interactable = true;
-                        var habId = _ctx.playerTeam[heroIndex].habilidadesEquipadas[i];
                         if (lbl != null)
-                            lbl.text = string.IsNullOrEmpty(habId)
-                                ? $"H{i + 1}"
-                                : habId.Substring(0, Mathf.Min(3, habId.Length)).ToUpper();
+                        {
+                            string nombre = skills[i].name_es;
+                            lbl.text = nombre.Length > 6
+                                ? nombre.Substring(0, 6).ToUpper()
+                                : nombre.ToUpper();
+                        }
                     }
                 }
                 else
                 {
-                    _abilityCircles[i].interactable = valid;
+                    _abilityCircles[i].interactable = valid && skills == null;
                     if (lbl != null) lbl.text = $"H{i + 1}";
                 }
             }
@@ -811,15 +960,61 @@ namespace ReinoOscuridad.UI.Combat
                 if (btn != null) btn.interactable = false;
         }
 
-        // ── Cooldowns ──────────────────────────────────────────────────────
+        // ── Cooldowns (basados en catálogo real) ───────────────────────────
 
-        private static int GetAbilityCooldownTurns(int abilityIndex) =>
-            abilityIndex == 2 ? 3 : abilityIndex == 1 ? 2 : 0;
+        private List<HeroSkillDef> BuildHeroSkillList(HeroInstance hero)
+        {
+            var result = new List<HeroSkillDef>();
+            if (hero.habilidadesEquipadas == null || !_skillCatalog.Any()) return result;
+
+            var pds = GameManager.Instance?.GetSystem<PlayerDataSystem>();
+            var playerHero = pds?.GetPlayerData()?.heroes
+                ?.FirstOrDefault(h => h.heroId == hero.heroId);
+
+            foreach (var skillId in hero.habilidadesEquipadas)
+            {
+                if (string.IsNullOrEmpty(skillId)) continue;
+                if (!_skillCatalog.TryGetValue(skillId, out var def)) continue;
+                if (def.type == "passive") continue;
+
+                int skillLevel = playerHero?.skills
+                    ?.FirstOrDefault(s => s.skillId == skillId)?.level ?? 0;
+
+                result.Add(new HeroSkillDef
+                {
+                    skillId     = def.skillId,
+                    type        = def.type,
+                    name_es     = def.name_es,
+                    name_en     = def.name_en,
+                    multiplier  = def.multiplier,
+                    cooldown    = CalcularCooldownReal(def, skillLevel),
+                    levelUp     = def.levelUp,
+                    description_es = def.description_es,
+                    description_en = def.description_en,
+                });
+            }
+            return result;
+        }
+
+        private static int CalcularCooldownReal(HeroSkillDef skill, int skillLevel)
+        {
+            int cd = skill.cooldown;
+            if (skill.levelUp == null) return cd;
+            foreach (var lu in skill.levelUp)
+            {
+                if (lu.lvl > skillLevel) break;
+                if (lu.change == "cooldown" && int.TryParse(lu.value, out int delta))
+                    cd = Mathf.Max(0, cd + delta);
+            }
+            return cd;
+        }
 
         private void AplicarCooldown(string heroId, int abilityIndex)
         {
             if (!_cooldowns.TryGetValue(heroId, out var cds)) return;
-            int cd = GetAbilityCooldownTurns(abilityIndex);
+            if (!_heroSkillsList.TryGetValue(heroId, out var skills)) return;
+            if (abilityIndex >= skills.Count) return;
+            int cd = skills[abilityIndex].cooldown;
             if (abilityIndex < cds.Length) cds[abilityIndex] = cd;
         }
 
@@ -837,32 +1032,78 @@ namespace ReinoOscuridad.UI.Combat
             return 0;
         }
 
+        private float GetAbilityMultiplier(string heroId, int abilityIndex)
+        {
+            if (_heroSkillsList.TryGetValue(heroId, out var skills) && abilityIndex < skills.Count)
+                return skills[abilityIndex].multiplier;
+            return 1f;
+        }
+
         private string GetAbilityNombre(int abilityIndex)
         {
-            if (_activeUnit == null || _activeUnit.heroData == null)
-                return $"Habilidad {abilityIndex + 1}";
-
-            var hero = _activeUnit.heroData;
-            string habId = hero.habilidadesEquipadas != null && abilityIndex < hero.habilidadesEquipadas.Length
-                ? hero.habilidadesEquipadas[abilityIndex]
-                : null;
-
-            return string.IsNullOrEmpty(habId) ? $"Habilidad {abilityIndex + 1}" : habId;
+            if (_activeUnit?.heroData == null) return $"Habilidad {abilityIndex + 1}";
+            if (_heroSkillsList.TryGetValue(_activeUnit.heroData.heroId, out var skills)
+                && abilityIndex < skills.Count)
+                return skills[abilityIndex].name_es;
+            return $"Habilidad {abilityIndex + 1}";
         }
 
         private string GetAbilityDescription(int abilityIndex)
         {
-            if (_activeUnit == null || _activeUnit.heroData == null)
-                return "Descripcion pendiente";
+            if (_activeUnit?.heroData == null) return "Descripcion pendiente";
+            if (_heroSkillsList.TryGetValue(_activeUnit.heroData.heroId, out var skills)
+                && abilityIndex < skills.Count)
+            {
+                var sk = skills[abilityIndex];
+                return string.IsNullOrEmpty(sk.description_es)
+                    ? sk.description_en ?? "Sin descripcion"
+                    : sk.description_es;
+            }
+            return "Sin equipar";
+        }
 
-            var hero = _activeUnit.heroData;
-            string habId = hero.habilidadesEquipadas != null && abilityIndex < hero.habilidadesEquipadas.Length
-                ? hero.habilidadesEquipadas[abilityIndex]
-                : null;
+        // ── HP bar por unidad (BUG 3) ──────────────────────────────────────
 
-            return string.IsNullOrEmpty(habId)
-                ? "Sin equipar"
-                : "Descripcion pendiente de catalogo";
+        private void UpdateHPBar(ATBUnit unit)
+        {
+            int hpActual, hpMax;
+            if (unit.esJugador && unit.heroData != null)
+            {
+                hpActual = unit.heroData.hpActual;
+                hpMax    = unit.heroData.hpMax;
+            }
+            else if (!unit.esJugador && unit.enemyData != null)
+            {
+                hpActual = unit.enemyData.hpActual;
+                hpMax    = unit.enemyData.hpMax;
+            }
+            else return;
+
+            float ratio = hpMax > 0 ? Mathf.Clamp01((float)hpActual / hpMax) : 0f;
+
+            // Buscar barra HP dentro de la carta de la unidad
+            Image hpRelleno = null;
+            var t = unit.transform.Find("HPBar/Relleno")
+                 ?? unit.transform.Find("HPBar/HPRelleno")
+                 ?? unit.transform.Find("Relleno");
+            if (t != null) hpRelleno = t.GetComponent<Image>();
+
+            if (hpRelleno == null)
+            {
+                foreach (var img in unit.GetComponentsInChildren<Image>())
+                {
+                    var n = img.gameObject.name;
+                    if (n == "Relleno" || n == "HPRelleno" || n == "HPFill")
+                    { hpRelleno = img; break; }
+                }
+            }
+
+            if (hpRelleno != null)
+            {
+                var rt = hpRelleno.rectTransform;
+                var mx = rt.anchorMax; mx.x = ratio; rt.anchorMax = mx;
+                hpRelleno.color = HPColor(ratio);
+            }
         }
 
         // ── Bind botones ───────────────────────────────────────────────────
@@ -887,18 +1128,10 @@ namespace ReinoOscuridad.UI.Combat
                 if (lbl != null) lbl.text = _autoMode ? "AUTO" : "MANUAL";
             });
 
-            // Huir — sin FloatingDamage, delay corto
-            _btnHuir?.onClick.AddListener(() =>
-                FinalizarCombate(new CombatResult
-                {
-                    victoria      = false,
-                    danoTotal     = _dañoAcumulado,
-                    drops         = Array.Empty<string>(),
-                    gradoObtenido = ""
-                }, 0.5f));
+            // Huir
+            _btnHuir?.onClick.AddListener(OnHuirPressed);
 
-            _btnContinuar?.onClick.AddListener(OnContinuarPressed);
-            _btnReintentar?.onClick.AddListener(OnReintentarPressed);
+            // _btnContinuar y _btnReintentar se configuran en ShowResultPanel según victoria/derrota
 
             _btnUsarTooltip?.onClick.AddListener(OnUsarTooltip);
             _btnCerrarTooltip?.onClick.AddListener(HideTooltip);

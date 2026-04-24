@@ -85,6 +85,12 @@ namespace ReinoOscuridad.UI.Campaign
         private bool[][] _fasesCompletadas;           // [mundo][fase]
         private bool[]   _mundosRecompensaReclamada;
 
+        // Navegación post-combate (FIX 6)
+        private int  _pendingNavMundo    = -1;
+        private int  _pendingNavFase     = -1;
+        private bool _pendingNavBatalla  = false;
+        private bool _pendingNavFases    = false;
+
         private string[]       _equipoSlots   = new string[4];  // índice fijo por slot
         private HeroInstance[] _lastTeamBuilt;
 
@@ -142,6 +148,7 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void Start()
         {
+            CheckCombatReturn();
             CargarProgreso();
             BindButtons();
             RefreshMundos();
@@ -151,7 +158,85 @@ namespace ReinoOscuridad.UI.Campaign
             if (_popupBloqueado != null) _popupBloqueado.SetActive(false);
             if (_panelBatalla   != null) _panelBatalla.SetActive(false);
 
+            if (_pendingNavBatalla || _pendingNavFases)
+                StartCoroutine(HandlePostCombatNav());
+
             Debug.Log("[CampaignController] ESTADO 1+2+3 — scroll mundos + panel fases + panel batalla listos.");
+        }
+
+        // ── Retorno de CombatScene ─────────────────────────────────────────────
+
+        private void CheckCombatReturn()
+        {
+            // Marcar fase completada si hubo victoria
+            var result = CombatSceneData.LastResult;
+            if (result != null && result.victoria)
+            {
+                var pds = PlayerDataSystem.Instance;
+                if (pds != null)
+                {
+                    var pd = pds.GetPlayerData();
+                    if (pd?.campana != null)
+                    {
+                        string key = pd.campana.ultimoEncuentroIntentado;
+                        if (!string.IsNullOrEmpty(key))
+                        {
+                            if (pd.campana.fasesCompletadas == null)
+                                pd.campana.fasesCompletadas = new List<string>();
+                            if (!pd.campana.fasesCompletadas.Contains(key))
+                            {
+                                pd.campana.fasesCompletadas.Add(key);
+                                pd.campana.ultimoEncuentroIntentado = null;
+                                pds.UpdatePlayerData(pd);
+                                pds.MarkDirty();
+                                Debug.Log($"[CampaignController] Fase completada: {key}");
+                            }
+                        }
+                    }
+                }
+            }
+            CombatSceneData.SetResult(null);
+
+            // Leer flags de navegación post-combate (FIX 6)
+            if (CombatSceneData.NextFaseRequest)
+            {
+                CombatSceneData.NextFaseRequest = false;
+                _pendingNavMundo   = CombatSceneData.NextMundo;
+                _pendingNavFase    = Mathf.Clamp(CombatSceneData.NextFase, 0, FASES_POR_MUNDO - 1);
+                _pendingNavBatalla = true;
+            }
+            else if (CombatSceneData.ReturnToPanelFases)
+            {
+                CombatSceneData.ReturnToPanelFases = false;
+                _pendingNavMundo  = CombatSceneData.NextMundo;
+                _pendingNavFases  = true;
+            }
+        }
+
+        private IEnumerator HandlePostCombatNav()
+        {
+            // Esperar a que InicializarPanelFases termine (necesita 2+ frames)
+            yield return null;
+            yield return null;
+            yield return null;
+
+            if (_pendingNavBatalla && _pendingNavMundo >= 0)
+            {
+                _mundoSeleccionado = _pendingNavMundo;
+                RefreshMundos();
+                OpenPanelFases(_pendingNavMundo);
+                yield return null;
+                _faseSeleccionada = _pendingNavFase;
+                AbrirPanelBatalla();
+                _pendingNavBatalla = false;
+            }
+            else if (_pendingNavFases && _pendingNavMundo >= 0)
+            {
+                _mundoSeleccionado = _pendingNavMundo;
+                RefreshMundos();
+                OpenPanelFases(_pendingNavMundo);
+                _pendingNavFases = false;
+            }
         }
 
         // ── ESTADO 1: Progreso ─────────────────────────────────────────────────
@@ -744,19 +829,21 @@ namespace ReinoOscuridad.UI.Campaign
                       ?? new HeroInstance { heroId = heroId, nivel = 1, hpMax = 1000, hpActual = 1000, estaVivo = true };
             }
 
-            // Guardar lastTeam en PlayerData
-            var pds = PlayerDataSystem.Instance;
-            if (pds != null)
-            {
-                var pd   = pds.GetPlayerData();
-                pd.lastTeam = equipo.ToArray();
-                pds.UpdatePlayerData(pd);
-                pds.MarkDirty();
-            }
-
             // Construir CombatContext
             string key     = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadActual);
             var    enemies = BuildEnemyTeam(key);
+
+            // Guardar lastTeam + ultimoEncuentroIntentado en PlayerData
+            var pds = PlayerDataSystem.Instance;
+            if (pds != null)
+            {
+                var pd = pds.GetPlayerData();
+                pd.lastTeam = equipo.ToArray();
+                if (pd.campana == null) pd.campana = new CampaignProgressData();
+                pd.campana.ultimoEncuentroIntentado = key;
+                pds.UpdatePlayerData(pd);
+                pds.MarkDirty();
+            }
 
             CombatSceneData.PendingContext = new CombatContext
             {
@@ -771,7 +858,11 @@ namespace ReinoOscuridad.UI.Campaign
             Debug.Log($"[CampaignController] TryEnterBatalla → {key} · equipo: {string.Join(",", equipo)}");
 
             EconomySystem.Instance.ConsumeEnergy(6);
-            ClosePanelBatalla();
+
+            // Cerrar paneles al instante sin animación (el FadeOut a negro los cubre)
+            if (_panelBatalla != null) _panelBatalla.SetActive(false);
+            if (_panelFasesRT != null) _panelFasesRT.gameObject.SetActive(false);
+            _panelFasesAbierto = false;
 
             if (UIManager.Instance != null)
                 await UIManager.Instance.NavigateTo("CombatScene");

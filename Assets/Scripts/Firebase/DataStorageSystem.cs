@@ -26,9 +26,13 @@ namespace ReinoOscuridad.Firebase
 
         public static DataStorageSystem Instance { get; private set; }
 
+        /// En modo dev (Editor), omite Firestore y usa PlayerPrefs como caché local.
+        public static bool IsDevMode { get; set; } = false;
+
         // ── Constantes ─────────────────────────────────────────────────────────
 
         private const string PLAYERS_COLLECTION = "players";
+        private const string DEV_PREFS_KEY      = "dev_playerdata";
 
         // ── Referencias internas ──────────────────────────────────────────────
 
@@ -85,6 +89,26 @@ namespace ReinoOscuridad.Firebase
         /// Si el documento no existe o hay error de red, mantiene datos locales (modo offline).
         public async Task LoadPlayerDataFromFirestore(string uid)
         {
+            if (IsDevMode)
+            {
+                string saved = PlayerPrefs.GetString(DEV_PREFS_KEY, "");
+                if (!string.IsNullOrEmpty(saved))
+                {
+                    var pd = JsonConvert.DeserializeObject<PlayerData>(saved);
+                    if (pd != null)
+                    {
+                        _pds.UpdatePlayerData(pd);
+                        _pds.ClearDirty();
+                        Debug.Log("[DevMode] PlayerData cargado desde PlayerPrefs");
+                    }
+                }
+                else
+                {
+                    Debug.Log("[DevMode] Sin datos en PlayerPrefs — usando JSON local");
+                }
+                return;
+            }
+
             if (!ValidateFirestore("LoadPlayerDataFromFirestore")) return;
             if (string.IsNullOrEmpty(uid))
             {
@@ -139,6 +163,17 @@ namespace ReinoOscuridad.Firebase
             if (_pds == null || !_pds.HasPendingChanges)
             {
                 Debug.Log("[DataStorageSystem] SavePlayerDataToFirestore: sin cambios pendientes, skip.");
+                return;
+            }
+
+            if (IsDevMode)
+            {
+                var pdDev = _pds.GetPlayerData();
+                string jsonDev = JsonConvert.SerializeObject(pdDev);
+                PlayerPrefs.SetString(DEV_PREFS_KEY, jsonDev);
+                PlayerPrefs.Save();
+                _pds.ClearDirty();
+                Debug.Log("[DevMode] PlayerData guardado en PlayerPrefs");
                 return;
             }
 

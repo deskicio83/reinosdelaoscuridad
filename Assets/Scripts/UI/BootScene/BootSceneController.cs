@@ -158,6 +158,7 @@ namespace ReinoOscuridad.UI.Boot
         {
             const string DEV_UID = "dev_mode_player_001";
             Debug.LogWarning("[BootSceneController] MODO DEV — uid fijo: " + DEV_UID);
+            DataStorageSystem.IsDevMode = true;
             var auth = GameManager.Instance?.GetSystem<AuthSystem>();
             auth?.SetDevUID(DEV_UID);
             await ProceedAfterLoginAsync();
