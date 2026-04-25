@@ -1094,7 +1094,7 @@ namespace ReinoOscuridad.UI.Combat
             return "Sin equipar";
         }
 
-        // ── HP bar por unidad (BUG 3) ──────────────────────────────────────
+        // ── HP bar por unidad ──────────────────────────────────────────────────
 
         private void UpdateHPBar(ATBUnit unit)
         {
@@ -1111,33 +1111,42 @@ namespace ReinoOscuridad.UI.Combat
             }
             else return;
 
-            float ratio = hpMax > 0 ? Mathf.Clamp01((float)hpActual / hpMax) : 0f;
+            float ratio     = hpMax > 0 ? Mathf.Clamp01((float)hpActual / hpMax) : 0f;
+            Image hpRelleno = FindHPRelleno(unit);
+            if (hpRelleno == null) return;
 
-            // Buscar barra HP — paths distintos según tipo (HPBar_Enemy para enemigos)
-            Image hpRelleno = null;
-            string primary   = unit.esJugador ? "HPBar/Relleno"       : "HPBar_Enemy/Relleno";
-            string secondary = unit.esJugador ? "HPBar/HPRelleno"      : "HPBar_Enemy/HPRelleno";
-            var t = unit.transform.Find(primary)
-                 ?? unit.transform.Find(secondary)
-                 ?? unit.transform.Find("Relleno");
-            if (t != null) hpRelleno = t.GetComponent<Image>();
+            var rt = hpRelleno.rectTransform;
+            var mx = rt.anchorMax; mx.x = ratio; rt.anchorMax = mx;
+            hpRelleno.color = HPColor(ratio);
+        }
 
-            if (hpRelleno == null)
+        private Image FindHPRelleno(ATBUnit unit)
+        {
+            // Paths exactos confirmados desde SetupCombatScene
+            string[] heroPaths  = { "HPBar/Relleno",       "HPBar/HPRelleno",       "HPBar/Fill"  };
+            string[] enemyPaths = { "HPBar_Enemy/Relleno", "HPBar_Enemy/HPRelleno", "HPBar_Enemy/Fill" };
+            string[] paths      = unit.esJugador ? heroPaths : enemyPaths;
+
+            foreach (var path in paths)
             {
-                foreach (var img in unit.GetComponentsInChildren<Image>())
+                var t = unit.transform.Find(path);
+                if (t != null)
                 {
-                    var n = img.gameObject.name;
-                    if (n == "Relleno" || n == "HPRelleno" || n == "HPFill")
-                    { hpRelleno = img; break; }
+                    var img = t.GetComponent<Image>();
+                    if (img != null) return img;
                 }
             }
 
-            if (hpRelleno != null)
+            // Fallback: buscar por nombre en todos los hijos (incluye inactivos)
+            foreach (var img in unit.GetComponentsInChildren<Image>(true))
             {
-                var rt = hpRelleno.rectTransform;
-                var mx = rt.anchorMax; mx.x = ratio; rt.anchorMax = mx;
-                hpRelleno.color = HPColor(ratio);
+                string n = img.gameObject.name.ToLower();
+                if (n == "relleno" || n == "hprelleno" || n == "fill" || n.Contains("hpfill"))
+                    return img;
             }
+
+            Debug.LogWarning($"[HPBar] Relleno no encontrado en: {unit.name}");
+            return null;
         }
 
         // ── Bind botones ───────────────────────────────────────────────────

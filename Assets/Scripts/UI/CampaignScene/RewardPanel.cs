@@ -23,8 +23,8 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private Transform     _contenedorHeroes;   // filas de héroes
         [SerializeField] private Transform     _contenedorDrops;    // items de drop
         [SerializeField] private Button        _btnRepetir;
-        [SerializeField] private Button        _btnVolverMapa;
-        [SerializeField] private Button        _btnSiguienteFase;
+        [SerializeField] private Button        _btnVolver;
+        [SerializeField] private Button        _btnSiguiente;
 
         // ── Callbacks ──────────────────────────────────────────────────────────
 
@@ -62,22 +62,30 @@ namespace ReinoOscuridad.UI.Campaign
 
             bool victoria = result?.victoria ?? false;
 
-            // Victoria: Repetir | Volver | Siguiente   Derrota: Repetir | Volver
+            // Victoria: 3 botones (Repetir | Volver | Siguiente)
+            // Derrota:  2 botones (Repetir | Volver) — se reposicionan para centrar
             if (_btnRepetir != null)
             {
                 _btnRepetir.gameObject.SetActive(true);
                 _btnRepetir.onClick.AddListener(OnRepetir);
             }
-            if (_btnVolverMapa != null)
+            if (_btnVolver != null)
             {
-                _btnVolverMapa.gameObject.SetActive(true);
-                _btnVolverMapa.onClick.AddListener(OnVolverMapa);
+                _btnVolver.gameObject.SetActive(true);
+                _btnVolver.onClick.AddListener(OnVolver);
             }
-            if (_btnSiguienteFase != null)
+            if (_btnSiguiente != null)
             {
-                _btnSiguienteFase.gameObject.SetActive(victoria);
+                _btnSiguiente.gameObject.SetActive(victoria);
                 if (victoria)
-                    _btnSiguienteFase.onClick.AddListener(OnSiguienteFase);
+                    _btnSiguiente.onClick.AddListener(OnSiguiente);
+            }
+
+            // Reposicionar para layout derrota (2 botones centrados)
+            if (!victoria)
+            {
+                SetBtnAnchors(_btnRepetir, new Vector2(0.05f, 0.04f), new Vector2(0.48f, 0.18f));
+                SetBtnAnchors(_btnVolver,  new Vector2(0.52f, 0.04f), new Vector2(0.95f, 0.18f));
             }
         }
 
@@ -227,13 +235,13 @@ namespace ReinoOscuridad.UI.Campaign
 
         // ── Botones ───────────────────────────────────────────────────────────
 
-        private void OnSiguienteFase()
+        private void OnSiguiente()
         {
             UIManager.Instance?.HideOverlay(gameObject);
             _onSiguienteFase?.Invoke();
         }
 
-        private void OnVolverMapa()
+        private void OnVolver()
         {
             UIManager.Instance?.HideOverlay(gameObject);
         }
@@ -263,6 +271,17 @@ namespace ReinoOscuridad.UI.Campaign
             rt.anchorMax = anchorMax;
             rt.offsetMin = offsetMin;
             rt.offsetMax = offsetMax;
+        }
+
+        private static void SetBtnAnchors(Button btn, Vector2 anchorMin, Vector2 anchorMax)
+        {
+            if (btn == null) return;
+            var rt = btn.GetComponent<RectTransform>();
+            if (rt == null) return;
+            rt.anchorMin = anchorMin;
+            rt.anchorMax = anchorMax;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
         }
     }
 }

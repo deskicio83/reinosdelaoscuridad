@@ -10,6 +10,7 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using ReinoOscuridad.Systems;
 using ReinoOscuridad.UI.Boot;
 
 /// Editor Script — reconstruye la UI de BootScene.
@@ -186,6 +187,14 @@ public static class SetupBootScene
             12f, FontStyles.Normal, TextAlignmentOptions.Center,
             new Color(0.937f, 0.267f, 0.267f)); // #EF4444
         SetAnchors(errorTxt.gameObject, new Vector2(0.05f, 0.20f), new Vector2(0.95f, 0.80f));
+
+        // ── CombatSystem (DDOL — si no existe ya en la escena) ────────────────
+
+        if (Object.FindFirstObjectByType<CombatSystem>() == null)
+        {
+            var combatGO = new GameObject("CombatSystem");
+            combatGO.AddComponent<CombatSystem>();
+        }
 
         // ── BootController ─────────────────────────────────────────────────
 

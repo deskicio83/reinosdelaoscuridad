@@ -175,19 +175,25 @@ public static class SetupRewardPanelPrefab
         lblDrops.alignment = TextAlignmentOptions.MidlineLeft;
         SetAnchors(lblDropsGO, new Vector2(0.02f, 0.34f), new Vector2(0.25f, 0.39f));
 
-        // ── Botones (3 columnas: Repetir | Volver | Siguiente) ───────────────
+        // ── Botones victoria (3 col) — derrota se reposiciona en runtime ────────
+        // Repetir:  0.03–0.32  gris  #9CA3AF  fs11
+        // Volver:   0.35–0.64  gris  #9CA3AF  fs11
+        // Siguiente:0.67–0.97  lila  #E9D5FF  fs12  (se oculta en derrota)
 
         var btnRepetirGO = MakeButton(panelGO.transform, "BtnRepetir", "Repetir",
-            new Vector2(0.01f, 0.01f), new Vector2(0.32f, 0.12f),
-            new Color(0.25f, 0.15f, 0.10f));
+            new Vector2(0.03f, 0.04f), new Vector2(0.32f, 0.18f),
+            new Color(0.10f, 0.10f, 0.18f),
+            new Color(0.612f, 0.639f, 0.686f), 11f);
 
-        var btnVolverGO = MakeButton(panelGO.transform, "BtnVolverMapa", "Volver",
-            new Vector2(0.34f, 0.01f), new Vector2(0.65f, 0.12f),
-            new Color(0.20f, 0.10f, 0.30f));
+        var btnVolverGO = MakeButton(panelGO.transform, "BtnVolver", "Volver",
+            new Vector2(0.35f, 0.04f), new Vector2(0.64f, 0.18f),
+            new Color(0.10f, 0.10f, 0.18f),
+            new Color(0.612f, 0.639f, 0.686f), 11f);
 
-        var btnSigGO = MakeButton(panelGO.transform, "BtnSiguienteFase", "Siguiente",
-            new Vector2(0.67f, 0.01f), new Vector2(0.99f, 0.12f),
-            new Color(0.12f, 0.35f, 0.12f));
+        var btnSigGO = MakeButton(panelGO.transform, "BtnSiguiente", "Siguiente",
+            new Vector2(0.67f, 0.04f), new Vector2(0.97f, 0.18f),
+            new Color(0.298f, 0.114f, 0.584f),
+            new Color(0.914f, 0.835f, 1f), 12f);
 
         // ── RewardPanel MonoBehaviour ─────────────────────────────────────────
 
@@ -204,8 +210,8 @@ public static class SetupRewardPanelPrefab
         so.FindProperty("_contenedorHeroes") .objectReferenceValue = contenedorHeroesGO.transform;
         so.FindProperty("_contenedorDrops")  .objectReferenceValue = contenedorDropsGO.transform;
         so.FindProperty("_btnRepetir")       .objectReferenceValue = btnRepetirGO.GetComponent<Button>();
-        so.FindProperty("_btnVolverMapa")    .objectReferenceValue = btnVolverGO.GetComponent<Button>();
-        so.FindProperty("_btnSiguienteFase") .objectReferenceValue = btnSigGO.GetComponent<Button>();
+        so.FindProperty("_btnVolver")        .objectReferenceValue = btnVolverGO.GetComponent<Button>();
+        so.FindProperty("_btnSiguiente")     .objectReferenceValue = btnSigGO.GetComponent<Button>();
         so.ApplyModifiedPropertiesWithoutUndo();
 
         return root;
@@ -214,7 +220,8 @@ public static class SetupRewardPanelPrefab
     // ── Utilidades ────────────────────────────────────────────────────────────
 
     private static GameObject MakeButton(Transform parent, string name, string label,
-        Vector2 anchorMin, Vector2 anchorMax, Color color)
+        Vector2 anchorMin, Vector2 anchorMax, Color color,
+        Color? labelColor = null, float fontSize = 14f)
     {
         var go  = new GameObject(name);
         go.transform.SetParent(parent, false);
@@ -226,8 +233,9 @@ public static class SetupRewardPanelPrefab
         lblGO.transform.SetParent(go.transform, false);
         var tmp   = lblGO.AddComponent<TextMeshProUGUI>();
         tmp.text      = label;
-        tmp.fontSize  = 14f;
-        tmp.color     = Color.white;
+        tmp.fontSize  = fontSize;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.color     = labelColor ?? Color.white;
         tmp.alignment = TextAlignmentOptions.Center;
         var lRT       = lblGO.GetComponent<RectTransform>();
         lRT.anchorMin = Vector2.zero;

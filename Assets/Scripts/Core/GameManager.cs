@@ -59,12 +59,16 @@ namespace ReinoOscuridad.Core
         }
 
         /// Devuelve el primer sistema del tipo T registrado, o null si no existe.
+        /// Ignora referencias destruidas (MonoBehaviour destruido = Unity null).
         public T GetSystem<T>() where T : class, ISystem
         {
             foreach (var s in _systems)
             {
                 if (s is T typed)
+                {
+                    if (s is MonoBehaviour mb && mb == null) continue;
                     return typed;
+                }
             }
             return null;
         }
