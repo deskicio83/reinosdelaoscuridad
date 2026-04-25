@@ -114,9 +114,10 @@ namespace ReinoOscuridad.UI.Combat
         private Coroutine       _atbCoroutine;
         private Canvas          _canvas;
         private Action          _tooltipConfirmAction;
-        private Dictionary<string, int[]>               _cooldowns     = new Dictionary<string, int[]>();
-        private Dictionary<string, HeroSkillDef>        _skillCatalog  = new Dictionary<string, HeroSkillDef>();
-        private Dictionary<string, List<HeroSkillDef>>  _heroSkillsList = new Dictionary<string, List<HeroSkillDef>>();
+        private Dictionary<string, int[]>               _cooldowns          = new Dictionary<string, int[]>();
+        private Dictionary<string, HeroSkillDef>        _skillCatalog       = new Dictionary<string, HeroSkillDef>();
+        private Dictionary<string, List<HeroSkillDef>>  _heroSkillsList     = new Dictionary<string, List<HeroSkillDef>>();
+        private Dictionary<string, List<HeroSkillDef>>  _heroSkillsByHeroId = new Dictionary<string, List<HeroSkillDef>>();
 
         // ── Inicio ─────────────────────────────────────────────────────────
 
@@ -187,10 +188,19 @@ namespace ReinoOscuridad.UI.Combat
             {
                 var root = JsonConvert.DeserializeObject<HeroCatalog>(ta.text);
                 if (root?.heroes == null) return;
+                _heroSkillsByHeroId.Clear();
                 foreach (var hero in root.heroes)
-                    if (hero.skills != null)
-                        foreach (var skill in hero.skills)
-                            _skillCatalog[skill.skillId] = skill;
+                {
+                    if (hero.skills == null) continue;
+                    var nonPassive = new List<HeroSkillDef>();
+                    foreach (var skill in hero.skills)
+                    {
+                        _skillCatalog[skill.skillId] = skill;
+                        if (skill.type != "passive") nonPassive.Add(skill);
+                    }
+                    if (nonPassive.Count > 0)
+                        _heroSkillsByHeroId[hero.heroId] = nonPassive;
+                }
                 Debug.Log($"[CombatScene] {_skillCatalog.Count} skills cargadas del catálogo");
             }
             catch (Exception e)
@@ -965,34 +975,56 @@ namespace ReinoOscuridad.UI.Combat
         private List<HeroSkillDef> BuildHeroSkillList(HeroInstance hero)
         {
             var result = new List<HeroSkillDef>();
-            if (hero.habilidadesEquipadas == null || !_skillCatalog.Any()) return result;
 
-            var pds = GameManager.Instance?.GetSystem<PlayerDataSystem>();
-            var playerHero = pds?.GetPlayerData()?.heroes
-                ?.FirstOrDefault(h => h.heroId == hero.heroId);
-
-            foreach (var skillId in hero.habilidadesEquipadas)
+            if (hero.habilidadesEquipadas != null && _skillCatalog.Any())
             {
-                if (string.IsNullOrEmpty(skillId)) continue;
-                if (!_skillCatalog.TryGetValue(skillId, out var def)) continue;
-                if (def.type == "passive") continue;
+                var pds = GameManager.Instance?.GetSystem<PlayerDataSystem>();
+                var playerHero = pds?.GetPlayerData()?.heroes
+                    ?.FirstOrDefault(h => h.heroId == hero.heroId);
 
-                int skillLevel = playerHero?.skills
-                    ?.FirstOrDefault(s => s.skillId == skillId)?.level ?? 0;
-
-                result.Add(new HeroSkillDef
+                foreach (var skillId in hero.habilidadesEquipadas)
                 {
-                    skillId     = def.skillId,
-                    type        = def.type,
-                    name_es     = def.name_es,
-                    name_en     = def.name_en,
-                    multiplier  = def.multiplier,
-                    cooldown    = CalcularCooldownReal(def, skillLevel),
-                    levelUp     = def.levelUp,
-                    description_es = def.description_es,
-                    description_en = def.description_en,
-                });
+                    if (string.IsNullOrEmpty(skillId)) continue;
+                    if (!_skillCatalog.TryGetValue(skillId, out var def)) continue;
+                    if (def.type == "passive") continue;
+
+                    int skillLevel = playerHero?.skills
+                        ?.FirstOrDefault(s => string.Equals(s.skillId, skillId,
+                            StringComparison.OrdinalIgnoreCase))?.level ?? 0;
+
+                    result.Add(new HeroSkillDef
+                    {
+                        skillId        = def.skillId,
+                        type           = def.type,
+                        name_es        = def.name_es,
+                        name_en        = def.name_en,
+                        multiplier     = def.multiplier,
+                        cooldown       = CalcularCooldownReal(def, skillLevel),
+                        levelUp        = def.levelUp,
+                        description_es = def.description_es,
+                        description_en = def.description_en,
+                    });
+                }
             }
+
+            // CASO C: habilidadesEquipadas vacío — usar skills del catálogo directo por heroId
+            if (result.Count == 0 && _heroSkillsByHeroId.TryGetValue(hero.heroId, out var catalogSkills))
+            {
+                foreach (var def in catalogSkills)
+                    result.Add(new HeroSkillDef
+                    {
+                        skillId        = def.skillId,
+                        type           = def.type,
+                        name_es        = def.name_es,
+                        name_en        = def.name_en,
+                        multiplier     = def.multiplier,
+                        cooldown       = def.cooldown,
+                        levelUp        = def.levelUp,
+                        description_es = def.description_es,
+                        description_en = def.description_en,
+                    });
+            }
+
             return result;
         }
 
@@ -1081,10 +1113,12 @@ namespace ReinoOscuridad.UI.Combat
 
             float ratio = hpMax > 0 ? Mathf.Clamp01((float)hpActual / hpMax) : 0f;
 
-            // Buscar barra HP dentro de la carta de la unidad
+            // Buscar barra HP — paths distintos según tipo (HPBar_Enemy para enemigos)
             Image hpRelleno = null;
-            var t = unit.transform.Find("HPBar/Relleno")
-                 ?? unit.transform.Find("HPBar/HPRelleno")
+            string primary   = unit.esJugador ? "HPBar/Relleno"       : "HPBar_Enemy/Relleno";
+            string secondary = unit.esJugador ? "HPBar/HPRelleno"      : "HPBar_Enemy/HPRelleno";
+            var t = unit.transform.Find(primary)
+                 ?? unit.transform.Find(secondary)
                  ?? unit.transform.Find("Relleno");
             if (t != null) hpRelleno = t.GetComponent<Image>();
 

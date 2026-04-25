@@ -22,18 +22,21 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private RectTransform _barraXPFill;        // fill de la barra de XP
         [SerializeField] private Transform     _contenedorHeroes;   // filas de héroes
         [SerializeField] private Transform     _contenedorDrops;    // items de drop
-        [SerializeField] private Button        _btnSiguienteFase;
+        [SerializeField] private Button        _btnRepetir;
         [SerializeField] private Button        _btnVolverMapa;
+        [SerializeField] private Button        _btnSiguienteFase;
 
-        // ── Callback ───────────────────────────────────────────────────────────
+        // ── Callbacks ──────────────────────────────────────────────────────────
 
         private Action _onSiguienteFase;
+        private Action _onRepetir;
 
         // ── Static factory ────────────────────────────────────────────────────
 
         /// Muestra el panel de recompensas como overlay vía UIManager.
         public static void Show(GameObject prefab, CombatResult result,
-                                HeroInstance[] team, Action onSiguienteFase)
+                                HeroInstance[] team, Action onSiguienteFase,
+                                Action onRepetir = null)
         {
             if (prefab == null || UIManager.Instance == null)
             {
@@ -42,23 +45,40 @@ namespace ReinoOscuridad.UI.Campaign
             }
 
             var go = UIManager.Instance.ShowOverlay(prefab);
-            go?.GetComponent<RewardPanel>()?.Initialize(result, team, onSiguienteFase);
+            go?.GetComponent<RewardPanel>()?.Initialize(result, team, onSiguienteFase, onRepetir);
         }
 
         // ── Inicialización ────────────────────────────────────────────────────
 
-        public void Initialize(CombatResult result, HeroInstance[] team, Action onSiguienteFase)
+        public void Initialize(CombatResult result, HeroInstance[] team,
+                               Action onSiguienteFase, Action onRepetir = null)
         {
             _onSiguienteFase = onSiguienteFase;
+            _onRepetir       = onRepetir;
 
             PopulateHeader(result);
             PopulateHeroRows(result, team);
             PopulateDrops(result);
 
-            if (_btnSiguienteFase != null)
-                _btnSiguienteFase.onClick.AddListener(OnSiguienteFase);
+            bool victoria = result?.victoria ?? false;
+
+            // Victoria: Repetir | Volver | Siguiente   Derrota: Repetir | Volver
+            if (_btnRepetir != null)
+            {
+                _btnRepetir.gameObject.SetActive(true);
+                _btnRepetir.onClick.AddListener(OnRepetir);
+            }
             if (_btnVolverMapa != null)
+            {
+                _btnVolverMapa.gameObject.SetActive(true);
                 _btnVolverMapa.onClick.AddListener(OnVolverMapa);
+            }
+            if (_btnSiguienteFase != null)
+            {
+                _btnSiguienteFase.gameObject.SetActive(victoria);
+                if (victoria)
+                    _btnSiguienteFase.onClick.AddListener(OnSiguienteFase);
+            }
         }
 
         // ── Header: resultado + estrellas + XP jugador ────────────────────────
@@ -216,6 +236,12 @@ namespace ReinoOscuridad.UI.Campaign
         private void OnVolverMapa()
         {
             UIManager.Instance?.HideOverlay(gameObject);
+        }
+
+        private void OnRepetir()
+        {
+            UIManager.Instance?.HideOverlay(gameObject);
+            _onRepetir?.Invoke();
         }
 
         // ── Helpers ───────────────────────────────────────────────────────────

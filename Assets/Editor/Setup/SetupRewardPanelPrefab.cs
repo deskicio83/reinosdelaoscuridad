@@ -175,15 +175,19 @@ public static class SetupRewardPanelPrefab
         lblDrops.alignment = TextAlignmentOptions.MidlineLeft;
         SetAnchors(lblDropsGO, new Vector2(0.02f, 0.34f), new Vector2(0.25f, 0.39f));
 
-        // ── Botones ───────────────────────────────────────────────────────────
+        // ── Botones (3 columnas: Repetir | Volver | Siguiente) ───────────────
 
-        var btnSigGO = MakeButton(panelGO.transform, "BtnSiguienteFase", "Siguiente fase",
-            new Vector2(0.01f, 0.01f), new Vector2(0.48f, 0.12f),
-            new Color(0.12f, 0.35f, 0.12f));
+        var btnRepetirGO = MakeButton(panelGO.transform, "BtnRepetir", "Repetir",
+            new Vector2(0.01f, 0.01f), new Vector2(0.32f, 0.12f),
+            new Color(0.25f, 0.15f, 0.10f));
 
-        var btnVolverGO = MakeButton(panelGO.transform, "BtnVolverMapa", "Volver al mapa",
-            new Vector2(0.51f, 0.01f), new Vector2(0.99f, 0.12f),
+        var btnVolverGO = MakeButton(panelGO.transform, "BtnVolverMapa", "Volver",
+            new Vector2(0.34f, 0.01f), new Vector2(0.65f, 0.12f),
             new Color(0.20f, 0.10f, 0.30f));
+
+        var btnSigGO = MakeButton(panelGO.transform, "BtnSiguienteFase", "Siguiente",
+            new Vector2(0.67f, 0.01f), new Vector2(0.99f, 0.12f),
+            new Color(0.12f, 0.35f, 0.12f));
 
         // ── RewardPanel MonoBehaviour ─────────────────────────────────────────
 
@@ -199,8 +203,9 @@ public static class SetupRewardPanelPrefab
         so.FindProperty("_barraXPFill")      .objectReferenceValue = fillRT;
         so.FindProperty("_contenedorHeroes") .objectReferenceValue = contenedorHeroesGO.transform;
         so.FindProperty("_contenedorDrops")  .objectReferenceValue = contenedorDropsGO.transform;
-        so.FindProperty("_btnSiguienteFase") .objectReferenceValue = btnSigGO.GetComponent<Button>();
+        so.FindProperty("_btnRepetir")       .objectReferenceValue = btnRepetirGO.GetComponent<Button>();
         so.FindProperty("_btnVolverMapa")    .objectReferenceValue = btnVolverGO.GetComponent<Button>();
+        so.FindProperty("_btnSiguienteFase") .objectReferenceValue = btnSigGO.GetComponent<Button>();
         so.ApplyModifiedPropertiesWithoutUndo();
 
         return root;
