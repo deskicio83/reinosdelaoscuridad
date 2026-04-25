@@ -35,7 +35,7 @@ namespace ReinoOscuridad.Utils
         private IEnumerator TestHPBar()
         {
             yield return new WaitForSeconds(1f);
-            var units = FindObjectsByType<ATBUnit>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var units = FindObjectsByType<ATBUnit>(FindObjectsInactive.Include);
             Assert(units != null && units.Length > 0,
                    "ATBUnits encontradas: " + (units?.Length ?? 0));
         }
