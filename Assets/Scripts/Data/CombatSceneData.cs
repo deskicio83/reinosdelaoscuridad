@@ -7,6 +7,7 @@ namespace ReinoOscuridad.Data
     public static class CombatSceneData
     {
         public static CombatContext PendingContext { get; set; }
+        public static CombatContext LastContext    { get; private set; }
         public static CombatResult  LastResult     { get; private set; }
 
         // ── Navegación post-combate (FIX 6) ───────────────────────────────────
@@ -17,11 +18,18 @@ namespace ReinoOscuridad.Data
         /// Si true, CampaignScene abre PanelFases (sin PanelBatalla) del NextMundo.
         public static bool ReturnToPanelFases { get; set; } = false;
 
-        /// Guarda el resultado del combate y limpia el contexto pendiente.
+        /// Guarda el resultado del combate y preserva LastContext antes de limpiar.
         public static void SetResult(CombatResult result)
         {
-            LastResult     = result;
+            LastResult = result;
+            if (PendingContext != null) LastContext = PendingContext;
             PendingContext = null;
+        }
+
+        /// Restaura PendingContext desde LastContext para repetir el mismo combate.
+        public static void PrepareRepeat()
+        {
+            if (LastContext != null) PendingContext = LastContext;
         }
     }
 }

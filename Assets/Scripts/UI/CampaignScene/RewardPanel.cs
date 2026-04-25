@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -26,17 +25,10 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private Button        _btnVolver;
         [SerializeField] private Button        _btnSiguiente;
 
-        // ── Callbacks ──────────────────────────────────────────────────────────
-
-        private Action _onSiguienteFase;
-        private Action _onRepetir;
-
         // ── Static factory ────────────────────────────────────────────────────
 
         /// Muestra el panel de recompensas como overlay vía UIManager.
-        public static void Show(GameObject prefab, CombatResult result,
-                                HeroInstance[] team, Action onSiguienteFase,
-                                Action onRepetir = null)
+        public static void Show(GameObject prefab, CombatResult result, HeroInstance[] team)
         {
             if (prefab == null || UIManager.Instance == null)
             {
@@ -45,17 +37,13 @@ namespace ReinoOscuridad.UI.Campaign
             }
 
             var go = UIManager.Instance.ShowOverlay(prefab);
-            go?.GetComponent<RewardPanel>()?.Initialize(result, team, onSiguienteFase, onRepetir);
+            go?.GetComponent<RewardPanel>()?.Initialize(result, team);
         }
 
         // ── Inicialización ────────────────────────────────────────────────────
 
-        public void Initialize(CombatResult result, HeroInstance[] team,
-                               Action onSiguienteFase, Action onRepetir = null)
+        public void Initialize(CombatResult result, HeroInstance[] team)
         {
-            _onSiguienteFase = onSiguienteFase;
-            _onRepetir       = onRepetir;
-
             PopulateHeader(result);
             PopulateHeroRows(result, team);
             PopulateDrops(result);
@@ -237,19 +225,48 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void OnSiguiente()
         {
+            var ctx = CombatSceneData.LastContext;
+            if (ctx != null && TryParseEncounterId(ctx.encounterID, out int mundo, out int fase))
+            {
+                CombatSceneData.NextFaseRequest = true;
+                CombatSceneData.NextMundo       = mundo;
+                CombatSceneData.NextFase        = fase + 1;
+            }
             UIManager.Instance?.HideOverlay(gameObject);
-            _onSiguienteFase?.Invoke();
+            UIManager.Instance?.NavigateBack();
         }
 
         private void OnVolver()
         {
+            var ctx = CombatSceneData.LastContext;
+            if (ctx != null && TryParseEncounterId(ctx.encounterID, out int mundo, out _))
+            {
+                CombatSceneData.ReturnToPanelFases = true;
+                CombatSceneData.NextMundo          = mundo;
+            }
             UIManager.Instance?.HideOverlay(gameObject);
+            UIManager.Instance?.NavigateBack();
         }
 
         private void OnRepetir()
         {
+            CombatSceneData.PrepareRepeat();
             UIManager.Instance?.HideOverlay(gameObject);
-            _onRepetir?.Invoke();
+            _ = UIManager.Instance?.NavigateTo("CombatScene");
+        }
+
+        private static bool TryParseEncounterId(string id, out int mundo, out int fase)
+        {
+            mundo = 0; fase = 0;
+            if (string.IsNullOrEmpty(id)) return false;
+            var parts = id.Split('_');
+            if (parts.Length < 4) return false;
+            if (!int.TryParse(parts[2], out int mNum)) return false;
+            mundo = mNum - 1;
+            if (parts[3] == "boss") { fase = 6; return true; }
+            if (parts[3].StartsWith("f") && int.TryParse(parts[3].Substring(1), out int fNum))
+            { fase = fNum - 1; return true; }
+            return false;
         }
 
         // ── Helpers ───────────────────────────────────────────────────────────

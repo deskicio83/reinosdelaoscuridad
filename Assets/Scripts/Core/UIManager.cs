@@ -33,7 +33,8 @@ namespace ReinoOscuridad.Core
 
         // ── Estado de navegación ──────────────────────────────────────────────
 
-        public string CurrentScene { get; private set; }
+        public string CurrentScene    { get; private set; }
+        public bool   IsTransitioning => _isTransitioning;
 
         private readonly List<string> _sceneHistory = new List<string>();
         private bool _isTransitioning;

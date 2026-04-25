@@ -666,7 +666,8 @@ namespace ReinoOscuridad.UI.Combat
 
         private void OnHuirPressed()
         {
-            if (_phase == CombatPhase.CombatEnd) return; // evitar doble llamada
+            if (_phase == CombatPhase.CombatEnd) return;
+            if (UIManager.Instance != null && UIManager.Instance.IsTransitioning) return;
 
             _phase = CombatPhase.CombatEnd; // marcar ANTES de StopAllCoroutines
 
@@ -803,10 +804,9 @@ namespace ReinoOscuridad.UI.Combat
 
         private async void OnRepetirVictoriaPressed()
         {
-            // VICTORIA "Repetir" → mismo combate directamente
             if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
             if (UIManager.Instance == null) return;
-            CombatSceneData.PendingContext = _ctx;
+            CombatSceneData.PrepareRepeat();
             await UIManager.Instance.NavigateTo("CombatScene");
         }
 
