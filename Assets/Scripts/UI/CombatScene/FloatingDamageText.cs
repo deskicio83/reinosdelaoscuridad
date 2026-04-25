@@ -21,6 +21,7 @@ namespace ReinoOscuridad.UI.Combat
 
             var go = new GameObject("FloatingDamage");
             go.transform.SetParent(canvas.transform, false);
+            go.SetActive(true); // re-activar por si el canvas padre está inactivo
 
             var rt = go.AddComponent<RectTransform>();
             rt.sizeDelta = new Vector2(140f, 50f);
@@ -34,7 +35,7 @@ namespace ReinoOscuridad.UI.Combat
             {
                 tmp.fontSize  = 28f;
                 tmp.color     = new Color(0.980f, 0.800f, 0.082f); // #FACC15
-                tmp.text      = $"{daño}!";
+                tmp.text      = $"{daño}";
                 tmp.fontStyle = FontStyles.Bold;
             }
             else if (ventaja)
