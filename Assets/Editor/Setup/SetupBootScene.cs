@@ -190,7 +190,7 @@ public static class SetupBootScene
 
         // ── CombatSystem (DDOL — si no existe ya en la escena) ────────────────
 
-        if (Object.FindFirstObjectByType<CombatSystem>() == null)
+        if (Object.FindAnyObjectByType<CombatSystem>() == null)
         {
             var combatGO = new GameObject("CombatSystem");
             combatGO.AddComponent<CombatSystem>();
