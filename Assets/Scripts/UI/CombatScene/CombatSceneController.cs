@@ -153,7 +153,6 @@ namespace ReinoOscuridad.UI.Combat
             DisableAbilityCircles();
 
             if (_tooltipPanel != null) _tooltipPanel.SetActive(false);
-            if (_resultPanel   != null) _resultPanel.SetActive(false);
 
             BindButtons();
 
