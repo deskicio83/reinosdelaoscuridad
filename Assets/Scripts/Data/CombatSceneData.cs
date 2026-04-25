@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ReinoOscuridad.Data
 {
     /// Pasarela estática de datos entre Scenes de combate.
@@ -10,15 +13,13 @@ namespace ReinoOscuridad.Data
         public static CombatContext LastContext    { get; private set; }
         public static CombatResult  LastResult     { get; private set; }
 
-        // ── Navegación post-combate (FIX 6) ───────────────────────────────────
-        /// Si true, CampaignScene abre PanelBatalla de NextMundo/NextFase al volver.
+        // ── Navegación post-combate ────────────────────────────────────────────
         public static bool NextFaseRequest    { get; set; } = false;
         public static int  NextMundo          { get; set; } = 0;
         public static int  NextFase           { get; set; } = 0;
-        /// Si true, CampaignScene abre PanelFases (sin PanelBatalla) del NextMundo.
         public static bool ReturnToPanelFases { get; set; } = false;
 
-        /// Guarda el resultado del combate y preserva LastContext antes de limpiar.
+        /// Guarda el resultado y preserva LastContext antes de limpiar PendingContext.
         public static void SetResult(CombatResult result)
         {
             LastResult = result;
@@ -26,10 +27,42 @@ namespace ReinoOscuridad.Data
             PendingContext = null;
         }
 
-        /// Restaura PendingContext desde LastContext para repetir el mismo combate.
+        /// Limpia el último resultado (llamar después de mostrarlo en CampaignScene).
+        public static void ClearLastResult()
+        {
+            LastResult = null;
+        }
+
+        /// Restaura PendingContext desde LastContext con enemigos al HP completo.
         public static void PrepareRepeat()
         {
-            if (LastContext != null) PendingContext = LastContext;
+            if (LastContext == null) return;
+
+            var newCtx = new CombatContext
+            {
+                encounterID     = LastContext.encounterID,
+                callerScene     = LastContext.callerScene,
+                combatMode      = LastContext.combatMode,
+                maldicionActiva = LastContext.maldicionActiva,
+                playerTeam      = LastContext.playerTeam,
+                enemyTeam       = LastContext.enemyTeam
+                    ?.Select(e => new EnemyInstance
+                    {
+                        enemyId        = e.enemyId,
+                        nombre         = e.nombre,
+                        nivel          = e.nivel,
+                        hpActual       = e.hpMax,
+                        hpMax          = e.hpMax,
+                        atk            = e.atk,
+                        def            = e.def,
+                        spd            = e.spd,
+                        agi            = e.agi,
+                        elemento       = e.elemento,
+                        estaVivo       = true,
+                        efectosActivos = new List<string>(),
+                    }).ToArray()
+            };
+            PendingContext = newCtx;
         }
     }
 }

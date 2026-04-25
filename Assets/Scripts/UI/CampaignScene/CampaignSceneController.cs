@@ -74,6 +74,10 @@ namespace ReinoOscuridad.UI.Campaign
         [SerializeField] private TMP_Text      _sinEnergiaText;
         [SerializeField] private RectTransform _contentEsbirros;
 
+        // ── RewardPanel ───────────────────────────────────────────────────────
+
+        [SerializeField] private GameObject _rewardPanelPrefab;
+
         // ── Estado interno ─────────────────────────────────────────────────────
 
         private int    _mundoSeleccionado   = -1;
@@ -82,17 +86,12 @@ namespace ReinoOscuridad.UI.Campaign
         private bool   _panelFasesAbierto   = false;
         private float  _panelFasesAncho     = 0f;
 
-        private bool[][] _fasesCompletadas;           // [mundo][fase]
+        private bool[][] _fasesCompletadas;
         private bool[]   _mundosRecompensaReclamada;
 
-        // Navegación post-combate (FIX 6)
-        private int  _pendingNavMundo    = -1;
-        private int  _pendingNavFase     = -1;
-        private bool _pendingNavBatalla  = false;
-        private bool _pendingNavFases    = false;
-
-        private string[]       _equipoSlots   = new string[4];  // índice fijo por slot
+        private string[]       _equipoSlots   = new string[4];
         private HeroInstance[] _lastTeamBuilt;
+        private HeroInstance[] _lastTeamUsado;
 
         // ── Catálogos ──────────────────────────────────────────────────────────
 
@@ -148,7 +147,6 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void Start()
         {
-            CheckCombatReturn();
             CargarProgreso();
             BindButtons();
             RefreshMundos();
@@ -158,8 +156,7 @@ namespace ReinoOscuridad.UI.Campaign
             if (_popupBloqueado != null) _popupBloqueado.SetActive(false);
             if (_panelBatalla   != null) _panelBatalla.SetActive(false);
 
-            if (_pendingNavBatalla || _pendingNavFases)
-                StartCoroutine(HandlePostCombatNav());
+            CheckCombatReturn();
 
             Debug.Log("[CampaignController] ESTADO 1+2+3 — scroll mundos + panel fases + panel batalla listos.");
         }
@@ -168,75 +165,87 @@ namespace ReinoOscuridad.UI.Campaign
 
         private void CheckCombatReturn()
         {
-            // Marcar fase completada si hubo victoria
             var result = CombatSceneData.LastResult;
-            if (result != null && result.victoria)
-            {
-                var pds = PlayerDataSystem.Instance;
-                if (pds != null)
-                {
-                    var pd = pds.GetPlayerData();
-                    if (pd?.campana != null)
-                    {
-                        string key = pd.campana.ultimoEncuentroIntentado;
-                        if (!string.IsNullOrEmpty(key))
-                        {
-                            if (pd.campana.fasesCompletadas == null)
-                                pd.campana.fasesCompletadas = new List<string>();
-                            if (!pd.campana.fasesCompletadas.Contains(key))
-                            {
-                                pd.campana.fasesCompletadas.Add(key);
-                                pd.campana.ultimoEncuentroIntentado = null;
-                                pds.UpdatePlayerData(pd);
-                                pds.MarkDirty();
-                                Debug.Log($"[CampaignController] Fase completada: {key}");
-                            }
-                        }
-                    }
-                }
-            }
-            CombatSceneData.SetResult(null);
+            if (result == null) return;
 
-            // Leer flags de navegación post-combate (FIX 6)
-            if (CombatSceneData.NextFaseRequest)
+            if (result.victoria) MarcarFaseCompletada();
+
+            // Cargar prefab desde Resources si no está cableado
+            var prefab = _rewardPanelPrefab
+                ?? Resources.Load<GameObject>("Prefabs/UI/RewardPanel");
+
+            if (prefab != null)
             {
-                CombatSceneData.NextFaseRequest = false;
-                _pendingNavMundo   = CombatSceneData.NextMundo;
-                _pendingNavFase    = Mathf.Clamp(CombatSceneData.NextFase, 0, FASES_POR_MUNDO - 1);
-                _pendingNavBatalla = true;
+                var panelGO = Instantiate(prefab);
+                var rp = panelGO.GetComponent<RewardPanel>();
+                rp?.Show(result, _lastTeamUsado,
+                         OnRepetirCombate, OnSiguienteFase, OnVolverAlMapa);
             }
-            else if (CombatSceneData.ReturnToPanelFases)
+            else
             {
-                CombatSceneData.ReturnToPanelFases = false;
-                _pendingNavMundo  = CombatSceneData.NextMundo;
-                _pendingNavFases  = true;
+                Debug.LogWarning("[CampaignController] RewardPanel prefab no encontrado.");
+            }
+
+            CombatSceneData.ClearLastResult();
+        }
+
+        private void MarcarFaseCompletada()
+        {
+            var pds = PlayerDataSystem.Instance;
+            if (pds == null) return;
+            var pd = pds.GetPlayerData();
+            if (pd?.campana == null) return;
+            string key = pd.campana.ultimoEncuentroIntentado;
+            if (string.IsNullOrEmpty(key)) return;
+            if (pd.campana.fasesCompletadas == null)
+                pd.campana.fasesCompletadas = new List<string>();
+            if (!pd.campana.fasesCompletadas.Contains(key))
+            {
+                pd.campana.fasesCompletadas.Add(key);
+                pd.campana.ultimoEncuentroIntentado = null;
+                pds.UpdatePlayerData(pd);
+                pds.MarkDirty();
+                Debug.Log($"[CampaignController] Fase completada: {key}");
             }
         }
 
-        private IEnumerator HandlePostCombatNav()
-        {
-            // Esperar a que InicializarPanelFases termine (necesita 2+ frames)
-            yield return null;
-            yield return null;
-            yield return null;
+        // ── Callbacks post-combate ─────────────────────────────────────────────
 
-            if (_pendingNavBatalla && _pendingNavMundo >= 0)
+        private void OnRepetirCombate()
+        {
+            var ctx = CombatSceneData.LastContext;
+            if (ctx != null && TryParseEncounterKey(ctx.encounterID, out int mundo, out int fase))
             {
-                _mundoSeleccionado = _pendingNavMundo;
+                _mundoSeleccionado = mundo;
+                _faseSeleccionada  = fase;
                 RefreshMundos();
-                OpenPanelFases(_pendingNavMundo);
-                yield return null;
-                _faseSeleccionada = _pendingNavFase;
-                AbrirPanelBatalla();
-                _pendingNavBatalla = false;
             }
-            else if (_pendingNavFases && _pendingNavMundo >= 0)
+            AbrirPanelBatalla();
+        }
+
+        private void OnSiguienteFase()
+        {
+            var ctx = CombatSceneData.LastContext;
+            if (ctx != null && TryParseEncounterKey(ctx.encounterID, out int mundo, out int fase))
             {
-                _mundoSeleccionado = _pendingNavMundo;
+                _mundoSeleccionado = mundo;
+                _faseSeleccionada  = Mathf.Clamp(fase + 1, 0, FASES_POR_MUNDO - 1);
                 RefreshMundos();
-                OpenPanelFases(_pendingNavMundo);
-                _pendingNavFases = false;
+                OpenPanelFases(mundo);
             }
+            AbrirPanelBatalla();
+        }
+
+        private void OnVolverAlMapa()
+        {
+            var ctx = CombatSceneData.LastContext;
+            if (ctx != null && TryParseEncounterKey(ctx.encounterID, out int mundo, out _))
+            {
+                _mundoSeleccionado = mundo;
+                RefreshMundos();
+                OpenPanelFases(mundo);
+            }
+            ClosePanelBatalla();
         }
 
         // ── ESTADO 1: Progreso ─────────────────────────────────────────────────
@@ -828,6 +837,7 @@ namespace ReinoOscuridad.UI.Campaign
                     : HeroProgressionSystem.Instance?.BuildHeroInstance(heroId, GetHeroNivel(heroId))
                       ?? new HeroInstance { heroId = heroId, nivel = 1, hpMax = 1000, hpActual = 1000, estaVivo = true };
             }
+            _lastTeamUsado = _lastTeamBuilt;
 
             // Construir CombatContext
             string key     = BuildEncounterKey(_mundoSeleccionado, _faseSeleccionada, _dificultadActual);

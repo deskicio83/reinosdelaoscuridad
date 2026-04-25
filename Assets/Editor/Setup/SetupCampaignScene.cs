@@ -700,6 +700,16 @@ public static class SetupCampaignScene
 
         so.ApplyModifiedPropertiesWithoutUndo();
 
+        // RewardPanel prefab
+        var rewardPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/RewardPanel.prefab");
+        if (rewardPrefab != null)
+        {
+            so.FindProperty("_rewardPanelPrefab").objectReferenceValue = rewardPrefab;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+        else
+            Debug.LogWarning("[SetupCampaign] Assets/Prefabs/UI/RewardPanel.prefab no encontrado — cablear manualmente.");
+
         Debug.Log("[SetupCampaign] CampaignSceneController cableado — ESTADO 1+2+3.");
     }
 

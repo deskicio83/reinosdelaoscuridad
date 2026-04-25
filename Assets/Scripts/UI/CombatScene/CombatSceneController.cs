@@ -78,14 +78,6 @@ namespace ReinoOscuridad.UI.Combat
 
         // ── Result Panel ───────────────────────────────────────────────────
 
-        [Header("Result Panel")]
-        [SerializeField] private GameObject _resultPanel;
-        [SerializeField] private TMP_Text   _resultTitleText;
-        [SerializeField] private Image[]    _resultStarImages;
-        [SerializeField] private TMP_Text   _resultXPText;
-        [SerializeField] private TMP_Text   _resultDropsText;
-        [SerializeField] private Button     _btnContinuar;
-        [SerializeField] private Button     _btnReintentar;
 
         // ── Colores HP ─────────────────────────────────────────────────────
 
@@ -544,6 +536,8 @@ namespace ReinoOscuridad.UI.Combat
             if (!anyHeroAlive || !anyEnemyAlive)
             {
                 bool victoria = anyHeroAlive && !anyEnemyAlive;
+                int  stars    = victoria && _ctx?.playerTeam != null
+                    ? CalcularEstrellas(_ctx.playerTeam) : 0;
                 FinalizarCombate(new CombatResult
                 {
                     victoria      = victoria,
@@ -551,7 +545,7 @@ namespace ReinoOscuridad.UI.Combat
                     drops         = Array.Empty<string>(),
                     xpGanada      = victoria ? 200 : 0,
                     trofeosDelta  = 0,
-                    gradoObtenido = victoria ? "" : ""
+                    gradoObtenido = victoria ? (stars >= 3 ? "A" : stars == 2 ? "B" : "C") : ""
                 });
                 yield break;
             }
@@ -664,13 +658,12 @@ namespace ReinoOscuridad.UI.Combat
 
         // ── Finalización ───────────────────────────────────────────────────
 
-        private void OnHuirPressed()
+        private async void OnHuirPressed()
         {
             if (_phase == CombatPhase.CombatEnd) return;
             if (UIManager.Instance != null && UIManager.Instance.IsTransitioning) return;
 
-            _phase = CombatPhase.CombatEnd; // marcar ANTES de StopAllCoroutines
-
+            _phase = CombatPhase.CombatEnd;
             if (_atbCoroutine != null) { StopCoroutine(_atbCoroutine); _atbCoroutine = null; }
             StopAllCoroutines();
             DisableAbilityCircles();
@@ -681,14 +674,13 @@ namespace ReinoOscuridad.UI.Combat
                 foreach (var u in _allUnits) u.SetHighlightTargetable(false);
             _selectedAbilityIndex = -1;
 
-            var result = new CombatResult
+            CombatSceneData.SetResult(new CombatResult
             {
                 victoria      = false,
                 danoTotal     = _dañoAcumulado,
                 drops         = Array.Empty<string>(),
                 gradoObtenido = ""
-            };
-            CombatSceneData.SetResult(result);
+            });
             EventBus.Publish(new CombatCompletedData
             {
                 encounterId = _ctx?.encounterID ?? "",
@@ -696,20 +688,21 @@ namespace ReinoOscuridad.UI.Combat
                 expGained   = 0,
                 goldGained  = 0
             });
-            // Delay corto — no hay FloatingDamageText pendiente
-            StartCoroutine(MostrarResultadoConDelay(result, 0.5f));
+
+            await System.Threading.Tasks.Task.Delay(300);
+            if (this == null) return;
+            UIManager.Instance?.NavigateBack();
         }
 
-        private void FinalizarCombate(CombatResult result, float delay = 1.5f)
+        private async void FinalizarCombate(CombatResult result)
         {
             _phase = CombatPhase.CombatEnd;
-            if (_atbCoroutine != null) StopCoroutine(_atbCoroutine);
+            if (_atbCoroutine != null) { StopCoroutine(_atbCoroutine); _atbCoroutine = null; }
             StopAllCoroutines();
             DisableAbilityCircles();
             HideTooltip();
 
             CombatSceneData.SetResult(result);
-
             EventBus.Publish(new CombatCompletedData
             {
                 encounterId = _ctx?.encounterID ?? "",
@@ -718,134 +711,9 @@ namespace ReinoOscuridad.UI.Combat
                 goldGained  = 0
             });
 
-            StartCoroutine(MostrarResultadoConDelay(result, delay));
-        }
-
-        private IEnumerator MostrarResultadoConDelay(CombatResult result, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            if (InputBlocker.Instance != null)
-                InputBlocker.Instance.Show(49);
-            ShowResultPanel(result);
-        }
-
-        private void ShowResultPanel(CombatResult result)
-        {
-            if (_resultPanel == null)
-            {
-                Debug.LogWarning("[CombatScene] ResultPanel no asignado.");
-                _ = UIManager.Instance?.NavigateTo(_ctx?.callerScene ?? "MainMenuScene");
-                return;
-            }
-
-            _resultPanel.SetActive(true);
-
-            if (_resultTitleText != null)
-                _resultTitleText.text = result.victoria ? "VICTORIA" : "DERROTA";
-
-            if (_resultStarImages != null)
-            {
-                int stars = result.victoria ? CalcularEstrellas(_ctx.playerTeam) : 0;
-                for (int i = 0; i < _resultStarImages.Length; i++)
-                {
-                    if (_resultStarImages[i] == null) continue;
-                    _resultStarImages[i].color = i < stars
-                        ? new Color(0.98f, 0.80f, 0.08f)
-                        : result.victoria
-                            ? new Color(0.25f, 0.25f, 0.28f)
-                            : new Color(0.55f, 0.10f, 0.10f);
-                }
-            }
-
-            if (_resultXPText   != null) _resultXPText.text   = $"+{result.xpGanada} XP";
-            if (_resultDropsText != null)
-                _resultDropsText.text = result.drops != null && result.drops.Length > 0
-                    ? "Recompensas:\n* " + string.Join("\n* ", result.drops)
-                    : "Recompensas:\nSin drops";
-
-            // Reconectar botones según victoria / derrota (FIX 6)
-            _btnContinuar?.onClick.RemoveAllListeners();
-            _btnReintentar?.onClick.RemoveAllListeners();
-
-            if (result.victoria)
-            {
-                SetBtnLabel(_btnContinuar,  "Siguiente");
-                SetBtnLabel(_btnReintentar, "Repetir");
-                _btnContinuar?.onClick.AddListener(OnSiguientePressed);
-                _btnReintentar?.onClick.AddListener(OnRepetirVictoriaPressed);
-            }
-            else
-            {
-                SetBtnLabel(_btnReintentar, "Repetir");
-                SetBtnLabel(_btnContinuar,  "Volver");
-                _btnReintentar?.onClick.AddListener(OnRepetirDerrotaPressed);
-                _btnContinuar?.onClick.AddListener(OnVolverPressed);
-            }
-        }
-
-        private static void SetBtnLabel(Button btn, string texto)
-        {
-            if (btn == null) return;
-            var lbl = btn.GetComponentInChildren<TMP_Text>();
-            if (lbl != null) lbl.text = texto;
-        }
-
-        private void OnSiguientePressed()
-        {
-            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
-            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int fase))
-            {
-                CombatSceneData.NextFaseRequest = true;
-                CombatSceneData.NextMundo       = mundo;
-                CombatSceneData.NextFase        = fase + 1; // siguiente fase
-            }
+            await System.Threading.Tasks.Task.Delay(1500);
+            if (this == null) return;
             UIManager.Instance?.NavigateBack();
-        }
-
-        private async void OnRepetirVictoriaPressed()
-        {
-            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
-            if (UIManager.Instance == null) return;
-            CombatSceneData.PrepareRepeat();
-            await UIManager.Instance.NavigateTo("CombatScene");
-        }
-
-        private void OnRepetirDerrotaPressed()
-        {
-            // DERROTA "Repetir" → PanelBatalla de la misma fase
-            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
-            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int fase))
-            {
-                CombatSceneData.NextFaseRequest = true;
-                CombatSceneData.NextMundo       = mundo;
-                CombatSceneData.NextFase        = fase; // misma fase
-            }
-            UIManager.Instance?.NavigateBack();
-        }
-
-        private void OnVolverPressed()
-        {
-            if (InputBlocker.Instance != null) InputBlocker.Instance.Hide();
-            if (TryParseEncounterId(_ctx?.encounterID, out int mundo, out int _))
-            {
-                CombatSceneData.ReturnToPanelFases = true;
-                CombatSceneData.NextMundo          = mundo;
-            }
-            UIManager.Instance?.NavigateBack();
-        }
-
-        private static bool TryParseEncounterId(string id, out int mundo, out int fase)
-        {
-            mundo = 0; fase = 0;
-            if (string.IsNullOrEmpty(id)) return false;
-            var parts = id.Split('_');
-            if (parts.Length < 4) return false;
-            if (!int.TryParse(parts[2], out int mNum)) return false;
-            mundo = mNum - 1;
-            if (parts[3] == "boss") { fase = 6; return true; }
-            if (parts[3].StartsWith("f") && int.TryParse(parts[3].Substring(1), out int fNum))
-            { fase = fNum - 1; return true; }
-            return false;
         }
 
         // ── Refresh UI ─────────────────────────────────────────────────────
