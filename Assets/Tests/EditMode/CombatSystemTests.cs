@@ -77,31 +77,27 @@ public class CombatSystemTests
     [Test]
     public void ElementalAdvantage_FuegoVsNaturaleza()
     {
-        _heroe.elemento   = "fuego";
-        _enemigo.elemento = "naturaleza";
-        var result = _system.CalculateDamage(_heroe, _enemigo, 1f);
-        Assert.IsTrue(result.fueElementalVentaja,
-            "Fuego vs Naturaleza debe ser ventaja");
+        // Testear la tabla elemental directamente — CalculateDamage
+        // puede esquivar antes de llegar al paso elemental (dodge 5% mín).
+        float mult = _system.GetElementalMultiplier("fuego", "naturaleza");
+        Assert.Greater(mult, 1f,
+            "Fuego vs Naturaleza debe ser ventaja (mult > 1)");
     }
 
     [Test]
     public void ElementalDisadvantage_FuegoVsAgua()
     {
-        _heroe.elemento   = "fuego";
-        _enemigo.elemento = "agua";
-        var result = _system.CalculateDamage(_heroe, _enemigo, 1f);
-        Assert.IsTrue(result.fueElementalDesventaja,
-            "Fuego vs Agua debe ser desventaja");
+        float mult = _system.GetElementalMultiplier("fuego", "agua");
+        Assert.Less(mult, 1f,
+            "Fuego vs Agua debe ser desventaja (mult < 1)");
     }
 
     [Test]
     public void ElementalNeutral_FuegoVsRayo()
     {
-        _heroe.elemento   = "fuego";
-        _enemigo.elemento = "rayo";
-        var result = _system.CalculateDamage(_heroe, _enemigo, 1f);
-        Assert.IsFalse(result.fueElementalVentaja);
-        Assert.IsFalse(result.fueElementalDesventaja);
+        float mult = _system.GetElementalMultiplier("fuego", "rayo");
+        Assert.AreEqual(1f, mult, 0.001f,
+            "Fuego vs Rayo debe ser neutro (mult = 1)");
     }
 
     [Test]
