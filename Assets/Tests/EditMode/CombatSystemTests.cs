@@ -132,9 +132,10 @@ public class CombatSystemTests
     [Test]
     public void TryApplyEffect_BleedApplied()
     {
+        // EnemyInstance no tiene campo res — usar valor fijo
         bool applied = _system.TryApplyEffect(
             TipoEfecto.Bleed, _heroe.efectosActivos,
-            _heroe.acc, _enemigo.res);
+            _heroe.acc, 20);
         // El resultado depende de ACC/RES — solo verificamos que no crashea.
         Assert.IsTrue(applied || !applied,
             "TryApplyEffect no debe lanzar excepción");

@@ -79,8 +79,7 @@ public class CombatFlowTests
     {
         yield return new WaitForSeconds(2f);
         var units = Object.FindObjectsByType<ATBUnit>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None);
+            FindObjectsInactive.Exclude);
         Assert.Greater(units.Length, 0,
             "Debe haber al menos 1 ATBUnit");
     }
@@ -90,8 +89,7 @@ public class CombatFlowTests
     {
         yield return new WaitForSeconds(3f);
         var units = Object.FindObjectsByType<ATBUnit>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None);
+            FindObjectsInactive.Exclude);
         bool alguienConATB = units.Any(u => u.atbValue > 0);
         Assert.IsTrue(alguienConATB,
             "Al menos 1 unidad debe tener ATB > 0");
@@ -102,8 +100,7 @@ public class CombatFlowTests
     {
         yield return new WaitForSeconds(2f);
         var units = Object.FindObjectsByType<ATBUnit>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None);
+            FindObjectsInactive.Exclude);
 
         foreach (var unit in units)
         {
