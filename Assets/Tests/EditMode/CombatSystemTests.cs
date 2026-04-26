@@ -70,8 +70,18 @@ public class CombatSystemTests
     {
         _heroe.atk   = 1;
         _enemigo.def = 99999;
-        var result = _system.CalculateDamage(_heroe, _enemigo, 1f);
-        Assert.GreaterOrEqual(result.dañoFinal, 1, "El daño mínimo debe ser 1");
+        // Dodge mín=5%: iterar hasta obtener un golpe no esquivado.
+        for (int i = 0; i < 50; i++)
+        {
+            var result = _system.CalculateDamage(_heroe, _enemigo, 1f);
+            if (!result.fueEsquivado)
+            {
+                Assert.GreaterOrEqual(result.dañoFinal, 1,
+                    "El daño mínimo (sin esquive) debe ser 1");
+                return;
+            }
+        }
+        Assert.Inconclusive("50 intentos todos esquivados");
     }
 
     [Test]

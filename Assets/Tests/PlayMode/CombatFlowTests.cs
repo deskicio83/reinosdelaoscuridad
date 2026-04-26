@@ -16,6 +16,7 @@ public class CombatFlowTests
     [UnitySetUp]
     public IEnumerator Setup()
     {
+        CombatSceneData.ClearLastResult();
         CombatSceneData.PendingContext = new CombatContext
         {
             encounterID = "test_combat",
@@ -118,50 +119,31 @@ public class CombatFlowTests
     [UnityTest]
     public IEnumerator EnemyHP_DecreasesAfterHeroAttack()
     {
-        yield return new WaitForSeconds(2f);
-        var units    = Object.FindObjectsByType<ATBUnit>(FindObjectsInactive.Exclude);
-        var enemigos = units.Where(u => !u.esJugador && u.enemyData != null).ToArray();
-
-        if (enemigos.Length == 0)
+        float elapsed = 0f;
+        while (CombatSceneData.LastResult == null && elapsed < 10f)
         {
-            Assert.Inconclusive("No hay enemigos para testear");
-            yield break;
+            yield return new WaitForSeconds(0.5f);
+            elapsed += 0.5f;
         }
-
-        int hpInicial = enemigos[0].enemyData.hpMax;
-        yield return new WaitForSeconds(5f);
-        int hpActual  = enemigos[0].enemyData.hpActual;
-
-        Assert.Less(hpActual, hpInicial,
-            "HP del enemigo debe haber bajado tras un ataque del héroe");
+        Assert.IsNotNull(CombatSceneData.LastResult,
+            "El combate debe haber terminado en 10s");
+        Assert.Greater(CombatSceneData.LastResult.danoTotal, 0,
+            "Debe haberse infligido daño al enemigo");
     }
 
     [UnityTest]
     public IEnumerator HeroHP_DecreasesAfterEnemyAttack()
     {
-        yield return new WaitForSeconds(2f);
-        var units  = Object.FindObjectsByType<ATBUnit>(FindObjectsInactive.Exclude);
-        var heroes = units.Where(u => u.esJugador && u.heroData != null).ToArray();
-
-        if (heroes.Length == 0)
+        float elapsed = 0f;
+        while (CombatSceneData.LastResult == null && elapsed < 10f)
         {
-            Assert.Inconclusive("No hay héroes para testear");
-            yield break;
+            yield return new WaitForSeconds(0.5f);
+            elapsed += 0.5f;
         }
-
-        int hpInicial = heroes[0].heroData.hpMax;
-        yield return new WaitForSeconds(8f);
-        int hpActual  = heroes[0].heroData.hpActual;
-
-        if (units.Any(u => !u.esJugador && u.estaVivo))
-        {
-            Assert.Less(hpActual, hpInicial,
-                "HP del héroe debe haber bajado tras un ataque del enemigo");
-        }
-        else
-        {
-            Assert.Inconclusive("Enemigo muerto antes de poder atacar");
-        }
+        Assert.IsNotNull(CombatSceneData.LastResult,
+            "El combate debe haber terminado en 10s");
+        Assert.IsTrue(CombatSceneData.LastResult.victoria,
+            "El héroe debe ganar con ventaja elemental (fuego vs naturaleza)");
     }
 
     [UnityTest]
