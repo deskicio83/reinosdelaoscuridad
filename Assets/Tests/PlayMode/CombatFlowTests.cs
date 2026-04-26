@@ -119,9 +119,7 @@ public class CombatFlowTests
     public IEnumerator EnemyHP_DecreasesAfterHeroAttack()
     {
         yield return new WaitForSeconds(2f);
-        var units    = Object.FindObjectsByType<ATBUnit>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None);
+        var units    = Object.FindObjectsByType<ATBUnit>(FindObjectsInactive.Exclude);
         var enemigos = units.Where(u => !u.esJugador && u.enemyData != null).ToArray();
 
         if (enemigos.Length == 0)
@@ -142,9 +140,7 @@ public class CombatFlowTests
     public IEnumerator HeroHP_DecreasesAfterEnemyAttack()
     {
         yield return new WaitForSeconds(2f);
-        var units  = Object.FindObjectsByType<ATBUnit>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None);
+        var units  = Object.FindObjectsByType<ATBUnit>(FindObjectsInactive.Exclude);
         var heroes = units.Where(u => u.esJugador && u.heroData != null).ToArray();
 
         if (heroes.Length == 0)
