@@ -17,6 +17,7 @@ public class CombatFlowTests
     public IEnumerator Setup()
     {
         CombatSceneData.ClearLastResult();
+        CombatSceneData.ForceAutoMode = true;
         CombatSceneData.PendingContext = new CombatContext
         {
             encounterID = "test_combat",

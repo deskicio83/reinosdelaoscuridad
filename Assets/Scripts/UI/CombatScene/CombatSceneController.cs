@@ -159,6 +159,8 @@ namespace ReinoOscuridad.UI.Combat
             await System.Threading.Tasks.Task.Delay(400);
             if (LoadingScreen.Instance != null) LoadingScreen.Instance.Hide();
 
+            if (CombatSceneData.ForceAutoMode) _autoMode = true;
+
             Debug.Log($"[CombatScene] Combate iniciado ATB — encuentro: {_ctx.encounterID}");
 
             _atbCoroutine = StartCoroutine(ATBLoop());

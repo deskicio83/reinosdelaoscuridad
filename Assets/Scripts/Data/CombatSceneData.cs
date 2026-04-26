@@ -13,6 +13,9 @@ namespace ReinoOscuridad.Data
         public static CombatContext LastContext    { get; private set; }
         public static CombatResult  LastResult     { get; private set; }
 
+        // ── Flags de test ─────────────────────────────────────────────────────
+        public static bool ForceAutoMode      { get; set; } = false;
+
         // ── Navegación post-combate ────────────────────────────────────────────
         public static bool NextFaseRequest    { get; set; } = false;
         public static int  NextMundo          { get; set; } = 0;
