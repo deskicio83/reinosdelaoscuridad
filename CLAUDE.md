@@ -25,6 +25,7 @@ Lee solo lo que necesites para la tarea actual:
 | Overlays (32 paneles) | `Docs/Overlays_del_Sistema.docx` |
 | Catálogo de JSONs | `Docs/Catalogo_JSONs_Tecnicos.docx` |
 | Estado actual del proyecto | `Docs/ESTADO_PROYECTO.md` ← actualizar después de cada sesión |
+| Lecciones técnicas acumuladas | `Docs/LECCIONES_TECNICAS.md` ← leer siempre al inicio |
 
 **JSONs del catálogo — fuente de verdad: `Assets/Data/`**  
 `hero_catalog.json` · `gear_catalog.json` · `spells_catalog.json`  
@@ -163,7 +164,10 @@ Si la sesión no requiere pasos manuales, escribir: "Sin pasos manuales en Unity
 
 Este proyecto se implementa en sesiones únicas y acotadas. Cada sesión:
 
-1. Tiene **un solo objetivo** definido antes de empezar
+1. Leer `Docs/ESTADO_PROYECTO.md` para conocer el estado actual.
+1b. Leer `Docs/LECCIONES_TECNICAS.md` — contiene patrones aprendidos y errores a no repetir.
+    Aplicar antes de escribir cualquier código.
+2. Tiene **un solo objetivo** definido antes de empezar
 2. Termina con Unity compilando **sin errores rojos**
 3. Termina con un **commit** siguiendo el formato establecido
 4. Termina actualizando **`Docs/ESTADO_PROYECTO.md`** con lo que se hizo y qué sigue
