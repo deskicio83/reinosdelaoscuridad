@@ -12,9 +12,9 @@
   "heroes": [
     {
       "heroId": "ElBufonFunebre",
-      "exp": 31800,
-      "level": 33,
-      "stars": 4,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 1,
       "skills": [
         {
@@ -31,25 +31,7 @@
         }
       ],
       "bonusStats": null,
-      "equipment": [
-        {
-          "instanceId": "gear_3001",
-          "gearId": "mente_peligrosa_botas_001",
-          "rarity": "memeticamente_unico",
-          "upgradeLevel": 8,
-          "mainStatType": "spd",
-          "substats": [
-            {
-              "type": "cri%",
-              "value": 5.0
-            },
-            {
-              "type": "atk%",
-              "value": 3.0
-            }
-          ]
-        }
-      ],
+      "equipment": [],
       "locked": false,
       "favorite": true,
       "customName": "",
@@ -58,9 +40,9 @@
     },
     {
       "heroId": "SigridLaAudaz",
-      "exp": 31800,
-      "level": 33,
-      "stars": 6,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 2,
       "skills": [
         {
@@ -86,9 +68,9 @@
     },
     {
       "heroId": "OliviaSatina",
-      "exp": 31800,
-      "level": 33,
-      "stars": 6,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 2,
       "skills": [
         {
@@ -105,46 +87,7 @@
         }
       ],
       "bonusStats": null,
-      "equipment": [
-        {
-          "instanceId": "gear_1001",
-          "gearId": "juicio_briliante_escudo_001",
-          "rarity": "mugroso",
-          "upgradeLevel": 0,
-          "mainStatType": "def%",
-          "substats": []
-        },
-        {
-          "instanceId": "gear_1002",
-          "gearId": "rencor_bebe_guantes_001",
-          "rarity": "extranito",
-          "upgradeLevel": 1,
-          "mainStatType": "atk%",
-          "substats": [
-            {
-              "type": "cri%",
-              "value": 2.0
-            }
-          ]
-        },
-        {
-          "instanceId": "gear_1003",
-          "gearId": "santo_rancio_botas_001",
-          "rarity": "absurdamente_escaso",
-          "upgradeLevel": 6,
-          "mainStatType": "hp%",
-          "substats": [
-            {
-              "type": "def%",
-              "value": 4.0
-            },
-            {
-              "type": "spd",
-              "value": 1.0
-            }
-          ]
-        }
-      ],
+      "equipment": [],
       "locked": true,
       "favorite": true,
       "customName": "",
@@ -153,9 +96,9 @@
     },
     {
       "heroId": "SomnarLaRompedoraDeSuenos",
-      "exp": 5000,
-      "level": 15,
-      "stars": 5,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 0,
       "skills": [
         { "skillId": "SomnarLaRompedoraDeSuenos_basic",   "level": 1 },
@@ -172,9 +115,9 @@
     },
     {
       "heroId": "SabioReparador",
-      "exp": 3200,
-      "level": 12,
-      "stars": 5,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 0,
       "skills": [
         { "skillId": "SabioReparador_basic",   "level": 1 },
@@ -210,9 +153,9 @@
     },
     {
       "heroId": "MorvakElMuroDelRecuerdo",
-      "exp": 8500,
-      "level": 18,
-      "stars": 4,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 0,
       "skills": [
         { "skillId": "MorvakElMuroDelRecuerdo_basic",   "level": 1 },
@@ -229,9 +172,9 @@
     },
     {
       "heroId": "AngelDespojado",
-      "exp": 4600,
-      "level": 14,
-      "stars": 5,
+      "exp": 1800,
+      "level": 10,
+      "stars": 3,
       "ascension": 0,
       "skills": [
         { "skillId": "AngelDespojado_basic",   "level": 1 },

@@ -661,19 +661,29 @@ namespace ReinoOscuridad.UI.Combat
 
         private async void OnHuirPressed()
         {
+            Debug.Log($"[Huir] Phase={_phase} isTransitioning={UIManager.Instance?.IsTransitioning}");
+
             if (_phase == CombatPhase.CombatEnd) return;
             if (UIManager.Instance != null && UIManager.Instance.IsTransitioning) return;
 
+            Debug.Log("[Huir] Iniciando huida");
             _phase = CombatPhase.CombatEnd;
-            if (_atbCoroutine != null) { StopCoroutine(_atbCoroutine); _atbCoroutine = null; }
+
+            // Parar todo DESPUÉS de setear la fase:
             StopAllCoroutines();
+            _atbCoroutine = null;
+
+            // Limpiar estado visual:
+            QuitarTodosLosHighlights();
+            _selectedAbilityIndex = -1;
             DisableAbilityCircles();
             HideTooltip();
 
-            if (_activeUnit != null) { _activeUnit.SetActive(false); _activeUnit = null; }
-            if (_allUnits != null)
-                foreach (var u in _allUnits) u.SetHighlightTargetable(false);
-            _selectedAbilityIndex = -1;
+            if (_activeUnit != null)
+            {
+                _activeUnit.SetActive(false);
+                _activeUnit = null;
+            }
 
             CombatSceneData.SetResult(new CombatResult
             {
@@ -690,9 +700,17 @@ namespace ReinoOscuridad.UI.Combat
                 goldGained  = 0
             });
 
+            Debug.Log("[Huir] Navegando de vuelta");
             await System.Threading.Tasks.Task.Delay(300);
             if (this == null) return;
             UIManager.Instance?.NavigateBack();
+        }
+
+        private void QuitarTodosLosHighlights()
+        {
+            if (_allUnits == null) return;
+            foreach (var u in _allUnits)
+                u.SetHighlightTargetable(false);
         }
 
         private async void FinalizarCombate(CombatResult result)

@@ -1055,6 +1055,12 @@ namespace ReinoOscuridad.UI.Campaign
 
         public EnemyInstance[] BuildEnemyTeam(string encounterKey)
         {
+            var (mundo, fase, esBoss, dif) = ParseEncounterKeyForStats(encounterKey);
+            int   nivel = GetNivelEnemigo(mundo, fase, esBoss);
+            float mult  = GetDificultadMultiplier(dif);
+
+            Debug.Log($"[CampaignController] BuildEnemyTeam '{encounterKey}' → mundo={mundo} fase={fase} boss={esBoss} dif={dif} nivel={nivel} mult={mult}");
+
             if (_encounterById != null && _encounterById.TryGetValue(encounterKey, out var enc)
                 && enc.enemies != null && enc.enemies.Count > 0)
             {
@@ -1063,25 +1069,82 @@ namespace ReinoOscuridad.UI.Campaign
                 {
                     EnemyCatalogEntry edata = null;
                     if (_enemyById != null) _enemyById.TryGetValue(eid, out edata);
-                    result.Add(new EnemyInstance
-                    {
-                        enemyId  = eid,
-                        nombre   = edata?.name_es ?? eid,
-                        elemento = edata?.element ?? "none",
-                        hpMax    = 500,
-                        hpActual = 500,
-                        atk      = 120,
-                        def      = 60,
-                        spd      = edata?.spd ?? 80,
-                        estaVivo = true,
-                    });
+                    result.Add(BuildEnemyWithStats(eid, nivel, mult, edata));
                 }
                 return result.ToArray();
             }
             Debug.LogWarning($"[CampaignController] Encounter '{encounterKey}' no encontrado — placeholder.");
-            return new[] { new EnemyInstance { enemyId = "placeholder", nombre = "Esbirro", elemento = "none",
-                                               hpMax = 500, hpActual = 500, atk = 100, def = 50, spd = 80,
-                                               estaVivo = true } };
+            return new[] { BuildEnemyWithStats("placeholder", nivel, mult, null) };
+        }
+
+        // ── Stats escalados por nivel ──────────────────────────────────────────
+
+        private static readonly int[] _nivelBaseMundo = { 1, 8, 16, 24, 32, 40, 48 };
+
+        private static (int mundo, int fase, bool esBoss, string dif)
+            ParseEncounterKeyForStats(string key)
+        {
+            // key: "campaign_mundo_1_f2_normal" o "campaign_mundo_1_boss_normal"
+            var parts = key.Split('_');
+            if (parts.Length < 5)
+                return (0, 1, false, "normal");
+
+            int.TryParse(parts[2], out int mNum);
+            int mundo = Mathf.Max(0, mNum - 1); // 0-based
+
+            bool esBoss = parts[3] == "boss";
+            int  fase   = esBoss ? 7 : (int.TryParse(parts[3].Replace("f", ""), out int fn) ? fn : 1);
+            string dif  = parts.Length > 4 ? parts[4] : "normal";
+
+            return (mundo, fase, esBoss, dif);
+        }
+
+        private static int GetNivelEnemigo(int mundo, int fase, bool esBoss)
+        {
+            int base_ = _nivelBaseMundo[Mathf.Clamp(mundo, 0, 6)];
+            return esBoss ? base_ + 8 : base_ + fase - 1;
+        }
+
+        private static float GetDificultadMultiplier(string dif)
+        {
+            if (dif == "dificil") return 1.5f;
+            if (dif == "heroica") return 2.5f;
+            return 1.0f;
+        }
+
+        private EnemyInstance BuildEnemyWithStats(string enemyId, int nivel,
+            float dificultadMultiplier, EnemyCatalogEntry catalogEntry)
+        {
+            const float BASE_HP  = 1638f; const float MAX_HP  = 6550f;
+            const float BASE_ATK = 226f;  const float MAX_ATK = 905f;
+            const float BASE_DEF = 176f;  const float MAX_DEF = 705f;
+            const float BASE_AGI = 13f;   const float MAX_AGI = 33f;
+
+            float t = Mathf.Clamp01((nivel - 1f) / 59f);
+
+            int hp  = Mathf.RoundToInt((BASE_HP  + (MAX_HP  - BASE_HP)  * t) * dificultadMultiplier);
+            int atk = Mathf.RoundToInt((BASE_ATK + (MAX_ATK - BASE_ATK) * t) * dificultadMultiplier);
+            int def = Mathf.RoundToInt((BASE_DEF + (MAX_DEF - BASE_DEF) * t) * dificultadMultiplier);
+            int agi = Mathf.RoundToInt((BASE_AGI + (MAX_AGI - BASE_AGI) * t) * dificultadMultiplier);
+            int spd = catalogEntry?.spd ?? 80;
+
+            Debug.Log($"[EnemyStats] {enemyId} Nv{nivel}: HP={hp} ATK={atk} DEF={def} SPD={spd}");
+
+            return new EnemyInstance
+            {
+                enemyId       = enemyId,
+                nombre        = catalogEntry?.name_es ?? enemyId,
+                nivel         = nivel,
+                hpActual      = hp,
+                hpMax         = hp,
+                atk           = atk,
+                def           = def,
+                spd           = spd,
+                agi           = agi,
+                elemento      = catalogEntry?.element ?? "oscuridad",
+                estaVivo      = true,
+                efectosActivos = new System.Collections.Generic.List<string>(),
+            };
         }
     }
 }
