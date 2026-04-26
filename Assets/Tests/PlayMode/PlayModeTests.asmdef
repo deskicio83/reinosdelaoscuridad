@@ -2,8 +2,7 @@
     "name": "PlayModeTests",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.TestRunner",
-        "Assembly-CSharp"
+        "UnityEngine.TestRunner"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -15,5 +14,8 @@
     "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestableAssemblies"
+    ]
 }
