@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
@@ -101,3 +102,4 @@ public class CampaignFlowTests
             "Enemigo debe estar vivo al repetir");
     }
 }
+#endif

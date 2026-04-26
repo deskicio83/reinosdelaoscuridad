@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using NUnit.Framework;
 using UnityEngine;
@@ -52,3 +53,4 @@ public class EconomySystemTests
         Assert.AreNotEqual(unidadesEn20min_a4min, unidadesEn20min_a5min);
     }
 }
+#endif

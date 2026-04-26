@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NUnit.Framework;
 
 [TestFixture]
@@ -45,3 +46,4 @@ public class PlayerProgressionTests
         Assert.AreEqual(25, nivelRequerido);
     }
 }
+#endif

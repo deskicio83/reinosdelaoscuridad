@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
@@ -139,3 +140,4 @@ public class CombatSystemTests
             "TryApplyEffect no debe lanzar excepción");
     }
 }
+#endif

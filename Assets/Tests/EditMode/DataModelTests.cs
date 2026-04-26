@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NUnit.Framework;
 using ReinoOscuridad.Data;
 
@@ -114,3 +115,4 @@ public class DataModelTests
         Assert.IsTrue(substat.revelado);
     }
 }
+#endif

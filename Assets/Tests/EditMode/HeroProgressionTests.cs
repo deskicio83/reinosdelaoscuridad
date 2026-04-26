@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NUnit.Framework;
 using UnityEngine;
 
@@ -50,3 +51,4 @@ public class HeroProgressionTests
             "XP requerida debe aumentar con el nivel");
     }
 }
+#endif
