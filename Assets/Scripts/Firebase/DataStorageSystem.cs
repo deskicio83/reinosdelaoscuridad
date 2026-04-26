@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
+using ReinoOscuridad.Utils;
 
 namespace ReinoOscuridad.Firebase
 {
@@ -248,6 +249,23 @@ namespace ReinoOscuridad.Firebase
                 default:
                     return value;
             }
+        }
+
+        // ── Migración de datos entre versiones de APK ─────────────────────────
+
+        /// Comprueba si los datos locales corresponden a la versión actual de PlayerData.
+        /// Si la versión guardada es anterior, limpia los PlayerPrefs del caché dev
+        /// para que BootScene fuerce una recarga limpia desde Firestore.
+        /// Llamar ANTES de inicializar Firebase, al inicio de RunBootSequenceAsync().
+        public static void CheckAndMigrateData()
+        {
+            int savedVersion = PlayerPrefs.GetInt(UIConstants.DATA_VERSION_KEY, 0);
+            if (savedVersion == UIConstants.DATA_VERSION) return;
+
+            Debug.Log($"[DataStorageSystem] Migración: versión guardada={savedVersion} → nueva={UIConstants.DATA_VERSION}. Limpiando caché local.");
+            PlayerPrefs.DeleteKey("dev_playerdata");
+            PlayerPrefs.SetInt(UIConstants.DATA_VERSION_KEY, UIConstants.DATA_VERSION);
+            PlayerPrefs.Save();
         }
 
         // ── Helper privado ────────────────────────────────────────────────────

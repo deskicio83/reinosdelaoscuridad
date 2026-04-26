@@ -50,6 +50,7 @@ namespace ReinoOscuridad.UI.Boot
         private async Task RunBootSequenceAsync()
         {
             ShowLoading("Iniciando...");
+            DataStorageSystem.CheckAndMigrateData();
 
             var status = await FirebaseApp.CheckAndFixDependenciesAsync();
 
