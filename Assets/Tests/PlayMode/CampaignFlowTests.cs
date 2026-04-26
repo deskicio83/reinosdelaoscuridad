@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
@@ -34,7 +33,6 @@ public class CampaignFlowTests
         yield return new WaitForSeconds(1f);
         var controller = Object.FindAnyObjectByType<CampaignSceneController>();
         Assert.IsNotNull(controller, "CampaignSceneController debe existir");
-        // Mundo 0 siempre está desbloqueado.
         bool desbloqueado = controller.IsMundoDesbloqueado(0);
         Assert.IsTrue(desbloqueado, "Mundo 1 debe estar desbloqueado");
     }
@@ -82,8 +80,6 @@ public class CampaignFlowTests
             spd      = 80,
             agi      = 50
         };
-
-        // LastContext tiene setter privado — poblar via SetResult.
         CombatSceneData.PendingContext = new CombatContext
         {
             encounterID = "test",
@@ -102,4 +98,3 @@ public class CampaignFlowTests
             "Enemigo debe estar vivo al repetir");
     }
 }
-#endif

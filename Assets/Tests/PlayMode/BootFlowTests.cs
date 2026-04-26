@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
@@ -70,4 +69,3 @@ public class BootFlowTests
             "No debe haber transición activa tras el boot");
     }
 }
-#endif

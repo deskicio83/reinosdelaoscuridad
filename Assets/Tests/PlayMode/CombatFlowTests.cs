@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,8 +92,8 @@ public class CombatFlowTests
         var units = Object.FindObjectsByType<ATBUnit>(
             FindObjectsInactive.Exclude,
             FindObjectsSortMode.None);
-        bool alguieneConATB = units.Any(u => u.atbValue > 0);
-        Assert.IsTrue(alguieneConATB,
+        bool alguienConATB = units.Any(u => u.atbValue > 0);
+        Assert.IsTrue(alguienConATB,
             "Al menos 1 unidad debe tener ATB > 0");
     }
 
@@ -123,7 +122,7 @@ public class CombatFlowTests
     public IEnumerator EnemyHP_DecreasesAfterHeroAttack()
     {
         yield return new WaitForSeconds(2f);
-        var units   = Object.FindObjectsByType<ATBUnit>(
+        var units    = Object.FindObjectsByType<ATBUnit>(
             FindObjectsInactive.Exclude,
             FindObjectsSortMode.None);
         var enemigos = units.Where(u => !u.esJugador && u.enemyData != null).ToArray();
@@ -179,8 +178,6 @@ public class CombatFlowTests
         var controller = Object.FindAnyObjectByType<CombatSceneController>();
         Assert.IsNotNull(controller,
             "CombatSceneController debe existir");
-        // Si llegamos aquí sin excepción, el catálogo cargó correctamente.
         Assert.Pass("Skills cargadas sin excepción");
     }
 }
-#endif
