@@ -29,15 +29,14 @@ namespace ReinoOscuridad.Systems
 
         private static readonly Dictionary<int, string[]> DESBLOQUEOS = new()
         {
+            { 1,  new[] { "campana", "tienda", "misiones", "esbirros" } },
             { 2,  new[] { "gacha" } },
             { 3,  new[] { "arena" } },
             { 5,  new[] { "clan" } },
             { 7,  new[] { "conjuros" } },
-            { 10, new[] { "torre_normal", "torre_dificil" } },
-            { 15, new[] { "mazmorra" } },
-            { 20, new[] { "world_boss" } },
+            { 10, new[] { "torre_normal", "torre_dificil", "mazmorra", "world_boss" } },
             { 25, new[] { "pase_oscuro" } },
-            { 30, new[] { "altar_corrupcion" } }
+            { 30, new[] { "altar_corrupcion" } },
         };
 
         // ── Catálogo en memoria ────────────────────────────────────────────────

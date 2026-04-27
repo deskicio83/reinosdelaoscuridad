@@ -125,7 +125,11 @@ namespace ReinoOscuridad.Firebase
 
                 if (!snapshot.Exists)
                 {
-                    Debug.Log("[DataStorageSystem] Documento no encontrado — jugador nuevo. Manteniendo datos locales.");
+                    var newData = CreateNewPlayerData(uid);
+                    _pds.UpdatePlayerData(newData);
+                    _pds.MarkDirty();
+                    await SavePlayerDataToFirestore();
+                    Debug.Log("[NewPlayer] Datos iniciales guardados en Firestore.");
                     return;
                 }
 
@@ -249,6 +253,70 @@ namespace ReinoOscuridad.Firebase
                 default:
                     return value;
             }
+        }
+
+        // ── Jugador nuevo ─────────────────────────────────────────────────────
+
+        private static PlayerData CreateNewPlayerData(string uid)
+        {
+            Debug.Log("[NewPlayer] Creando datos iniciales para uid: " + uid);
+            return new PlayerData
+            {
+                uid                  = uid,
+                playerName           = "Invocador",
+                playerLevel          = 1,
+                playerXP             = 0,
+                energia              = 120,
+                energiaMax           = 120,
+                oroNegro             = 500,
+                caosifera            = 50,
+                tutorialCompleted    = true,
+                lastLoginTimestamp   = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                heroes = new List<PlayerHeroData>
+                {
+                    new PlayerHeroData
+                    {
+                        heroId    = "AlondriaGuardianaDeLaPureza",
+                        level     = 5, stars = 3, exp = 0,
+                        skills    = new List<PlayerSkillData>
+                        {
+                            new PlayerSkillData { skillId = "AlondriaGuardianaDeLaPureza_basic",  level = 1 },
+                            new PlayerSkillData { skillId = "AlondriaGuardianaDeLaPureza_strong", level = 1 }
+                        },
+                        equipment = new List<PlayerGearInstance>(),
+                        locked    = false, favorite = true, awaken = false, lado = ""
+                    },
+                    new PlayerHeroData
+                    {
+                        heroId    = "AngelDespojado",
+                        level     = 5, stars = 3, exp = 0,
+                        skills    = new List<PlayerSkillData>
+                        {
+                            new PlayerSkillData { skillId = "AngelDespojado_basic",  level = 1 },
+                            new PlayerSkillData { skillId = "AngelDespojado_strong", level = 1 }
+                        },
+                        equipment = new List<PlayerGearInstance>(),
+                        locked    = false, favorite = false, awaken = false, lado = ""
+                    },
+                    new PlayerHeroData
+                    {
+                        heroId    = "SabioReparador",
+                        level     = 5, stars = 3, exp = 0,
+                        skills    = new List<PlayerSkillData>
+                        {
+                            new PlayerSkillData { skillId = "SabioReparador_basic",  level = 1 },
+                            new PlayerSkillData { skillId = "SabioReparador_strong", level = 1 }
+                        },
+                        equipment = new List<PlayerGearInstance>(),
+                        locked    = false, favorite = false, awaken = false, lado = ""
+                    }
+                },
+                gearInventory = new List<PlayerGearInstance>(),
+                campana       = new CampaignProgressData
+                {
+                    fasesCompletadas = new List<string>()
+                }
+            };
         }
 
         // ── Migración de datos entre versiones de APK ─────────────────────────

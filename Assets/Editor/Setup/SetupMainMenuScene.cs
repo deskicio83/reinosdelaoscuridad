@@ -94,7 +94,7 @@ namespace ReinoOscuridad.Editor.Setup
             var scroll = zonaEdifGO.AddComponent<ScrollRect>();
             scroll.horizontal        = true;
             scroll.vertical          = true;
-            scroll.movementType      = ScrollRect.MovementType.Elastic;
+            scroll.movementType      = ScrollRect.MovementType.Clamped;
             scroll.elasticity        = 0.08f;
             scroll.inertia           = true;
             scroll.decelerationRate  = 0.15f;

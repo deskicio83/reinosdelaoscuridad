@@ -1,5 +1,5 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S27_build — 2026-04-26_
+_Última actualización: S28_newplayer — 2026-04-27_
 
 ---
 
@@ -57,6 +57,7 @@ _Última actualización: S27_build — 2026-04-26_
 | S24_fix2 | Skills catálogo + HP bar enemigo + botón Volver victoria | **CORRECCIÓN 1**: `_heroSkillsByHeroId` dict construido en `CargarCatalogoHabilidades()` (heroId→skills no-pasivas). `BuildHeroSkillList()` añade CASO C: si result vacío tras iterar habilidadesEquipadas, usa fallback por heroId directo del catálogo. Comparación skillId con `StringComparison.OrdinalIgnoreCase`. **CORRECCIÓN 2**: `UpdateHPBar()` — paths distintos por tipo: héroes→"HPBar/Relleno", enemigos→"HPBar_Enemy/Relleno". **CORRECCIÓN 3**: `RewardPanel.cs` — nuevo campo `_btnRepetir` + callback `_onRepetir`. `Show()`/`Initialize()` aceptan `Action onRepetir`. Victoria muestra 3 botones (Repetir+Volver+Siguiente), derrota 2 (Repetir+Volver, oculta Siguiente). `SetupRewardPanelPrefab.cs` — layout 3 columnas: BtnRepetir (0.01→0.32) + BtnVolverMapa (0.34→0.65) + BtnSiguienteFase (0.67→0.99). |
 | S24_fix4 | CombatContext persist + Huir transición + navegación directa RewardPanel + CombatTestRunner | **BUG A**: `CombatSceneData` añade `LastContext` (preservado en `SetResult` antes de limpiar) y `PrepareRepeat()` (restaura PendingContext=LastContext). `OnRepetirVictoriaPressed` usa `PrepareRepeat()` en vez de `_ctx` directo. **BUG B/C**: `UIManager` expone `public bool IsTransitioning => _isTransitioning`. `OnHuirPressed` añade guard `if (IsTransitioning) return`. **FIX RewardPanel**: elimina callbacks `_onSiguienteFase`/`_onRepetir`. `OnSiguiente/Volver/Repetir` usan `CombatSceneData.LastContext` + `PrepareRepeat()` + navegación directa UIManager. `Show(prefab, result, team)` sin callbacks. Añade `TryParseEncounterId` helper privado. **CombatTestRunner**: `Assets/Scripts/Utils/CombatTestRunner.cs` — PASS/FAIL para Context, ATB, HPBar. |
 | S25_tests | Batería completa de tests NUnit — 6 EditMode + 3 PlayMode. Assembly definitions separados. Correcciones de firmas (TryApplyEffect, RemoveEffect, danoTotal, LastContext setter). Fix dodge 5% en CalculateDamage_MinimumDamageIsOne (loop 50 reintentos). Fix HP tests PlayMode (sondeo LastResult en vez de ATBUnit refs — héroe 1-shotea al enemigo en ~0.8s). Resultado final: EditMode 32/32 · PlayMode 18/18. |
+| S28_newplayer | Jugador nuevo + desbloqueos nivel 1 + LockOverlay táctil + scroll centrado | `DataStorageSystem.CreateNewPlayerData()` — jugador nuevo recibe 3 héroes (AlondriaGuardianaDeLaPureza/AngelDespojado/SabioReparador, nivel 5, estrellas 3), 120 energía, 500 oroNegro, 50 caosifera; se guarda inmediatamente en Firestore. `MainMenuController._nivelRequerido` reemplaza array por `Dictionary<string,int>` con claves = nombres reales de GOs (Edificio_Porton/Campana/Cuartel/Mercado/Misiones=1, Altar/Biblioteca=2, Arena=3, Taverna=5, Forja=7, Mazmorra=10). `RefreshEdificiosLock()` reescrito: lookup dinámico via `GetEdificiosEnContent()` + `btn.enabled=false` para táctil. `CentrarScrollEnMundoActual()` coroutine centra el scroll al inicio. `PlayerProgressionSystem.DESBLOQUEOS` añade nivel 1: campana/tienda/misiones/esbirros; mueve mazmorra+world_boss a nivel 10 (antes 15/20). `SetupMainMenuScene`: `MovementType.Clamped` en ScrollRect. |
 | S27_build | Sistema data versioning + BuildAndroid release + APK 82 MB | `UIConstants`: `DATA_VERSION=1` + `DATA_VERSION_KEY="reino_data_version"`. `DataStorageSystem.CheckAndMigrateData()` (estático) — limpia `dev_playerdata` en PlayerPrefs si versión cambia; llamado al inicio de `RunBootSequenceAsync()` ANTES de Firebase init. `BuildAndroid.BuildRelease()` — `BuildOptions.None`, IL2CPP, ARMv7+ARM64, `ManagedStrippingLevel.Minimal`, `OpenGLES3+2`, output `Builds/Android/ReinosOscuridad_v010.apk`. Fix: `PlayModeTests.asmdef includePlatforms:[Editor]` para que no rompa compilación player. **✅ APK generada: 82 MB** — `Builds/Android/ReinosOscuridad_v010.apk` (2026-04-26). |
 | S26_balance | Balance combate + bug Huir + tercer botón victoria | **BLOQUE 1 (stats enemigos)**: `CampaignSceneController.BuildEnemyTeam()` reemplaza stats hardcoded (hp=500,atk=120,def=60) por escalado dinámico. Nuevos métodos: `ParseEncounterKeyForStats()` extrae mundo/fase/boss/dificultad de la key. `GetNivelEnemigo(mundo, fase, esBoss)` con `_nivelBaseMundo={1,8,16,24,32,40,48}`. `GetDificultadMultiplier()` x1/1.5/2.5. `BuildEnemyWithStats()` aplica fórmula stat(nivel)=base+(max-base)*(nivel-1)/59 × mult. `Assets/Data/player_data.json` — todos los héroes a level=10, stars=3, equipment=[]. **BLOQUE 2 (bug Huir)**: `OnHuirPressed()` — nuevo método `QuitarTodosLosHighlights()`, logs `[Huir] Iniciando huida` y `[Huir] Navegando de vuelta`, orden correcto StopAllCoroutines→null→limpieza→result→navigate. **BLOQUE 3 (tercer botón)**: Scripts ya correctos desde S24_fix3 — `SetupRewardPanelPrefab.cs` crea 3 botones (BtnRepetir/BtnVolver/BtnSiguiente), `RewardPanel.cs` tiene los 3 SerializeFields y Show() los gestiona. PENDIENTE: regenerar prefab (`Tools → 8. Setup RewardPanel Prefab`). |
 | S24_fix5 | Flujo post-combate unificado — doble navegación eliminada | **Causa raíz**: CombatScene + RewardPanel navegaban independientemente causando doble carga de escena. **Solución arquitectural**: CombatScene solo llama `NavigateBack()` tras delay. CampaignScene detecta `LastResult` en `Start()` e instancia RewardPanel con callbacks locales. RewardPanel NO navega: solo `Destroy(gameObject)` + invoke callback. **FIX 1 (CombatSceneController)**: Eliminados `_resultPanel` SerializeFields, `ShowResultPanel`, botones inline. Nuevos métodos `FinalizarCombate(CombatResult)` y `OnHuirPressed()` — ambos async void con `Task.Delay` + `NavigateBack()`. **FIX 2 (RewardPanel)**: Reescrito como overlay puro — `Show(result, team, onRepetir, onSiguiente, onVolver)`. No referencia UIManager ni CombatSceneData. **FIX 3 (CampaignSceneController)**: `CheckCombatReturn()` instancia prefab + `rp.Show(...)` con 3 callbacks locales. `_lastTeamUsado` guardado en `TryEnterBatalla()` antes de navegar. **FIX 4 (SetupCampaignScene)**: Cablea `_rewardPanelPrefab` via `AssetDatabase.LoadAssetAtPath`. **FIX 5 (CombatTestRunner)**: `FindObjectsByType<ATBUnit>(FindObjectsInactive.Include)` sin SortMode (Unity 6 correcto). |
@@ -141,6 +142,22 @@ _Última actualización: S27_build — 2026-04-26_
 
 ---
 
+## Diseño — Desbloqueos por nivel
+
+```
+Campaña, Tienda, Misiones y Héroes/Esbirros: nivel 1 (contenido principal)
+Gacha (básico y avanzado): nivel 2
+Arena: nivel 3
+Clan: nivel 5
+Conjuros: nivel 7
+Torre + World Boss + Mazmorra: nivel 10
+Pase Oscuro: nivel 25
+Altar Corrupción: nivel 30
+```
+> Tutorial: cuando se implemente (S33), cambiar tutorialCompleted=false en CreateNewPlayerData().
+
+---
+
 ## Notas técnicas críticas
 
 - **Input System**: SIEMPRE `InputSystemUIInputModule`. NUNCA `StandaloneInputModule`. Verificado en las 4 Scenes del MVP.
@@ -161,8 +178,9 @@ _Última actualización: S27_build — 2026-04-26_
 |---|---|---|
 | S26_balance | ✓ Completado — Ver arriba | — |
 | S27_build | ✓ Completado — data versioning + APK release 82 MB | — |
-| S28 | HeroScene — roster, filtros, upgrade, awaken | Alta |
-| S28 | GachaScene — pull x1/x10, animación, historial | Alta |
+| S28_newplayer | ✓ Completado — jugador nuevo + desbloqueos + LockOverlay táctil | — |
+| S29 | HeroScene — roster, filtros, upgrade, awaken | Alta |
+| S30 | GachaScene — pull x1/x10, animación, historial | Alta |
 | S29 | ShopScene — paquetes IAP RevenueCat | Media |
 | S30 | Google Sign-In SDK integración | Alta (bloquea producción) |
 | Prod | Firestore security rules | Antes de cualquier deploy |

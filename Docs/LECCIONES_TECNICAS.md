@@ -172,6 +172,23 @@ _se descubra un nuevo patrón o se corrija un error._
 
 ---
 
+## Botones y touch en dispositivos reales
+
+- En dispositivos táctiles Android, `Button.interactable = false` no siempre
+  bloquea el touch si hay un overlay encima que no consume completamente el evento.
+  La solución robusta es también desactivar el componente Button:
+  `btn.interactable = false; btn.enabled = false;`
+  Para re-habilitar: `btn.enabled = true; btn.interactable = true;`
+- El overlay (LockOverlay) debe tener `raycastTarget = true` en TODOS sus
+  Image hijos, incluidos los sub-hijos. Usar
+  `GetComponentsInChildren<Image>(true)` con `includeInactive=true`
+  para garantizarlo aunque el overlay esté recién activado.
+- `GameObject.Find("NombreGO")` solo encuentra GOs activos. Para encontrar
+  GOs inactivos usar `FindObjectsByType<T>(FindObjectsInactive.Include)`.
+  ContentEdificios y ZonaEdificios están activos, por lo que `Find` funciona.
+
+---
+
 ## Fuentes (TMP)
 
 - `LiberationSans SDF` (fuente por defecto de Unity)

@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
@@ -12,26 +15,24 @@ namespace ReinoOscuridad.UI.MainMenu
     {
         // ── Desbloqueos por nivel ──────────────────────────────────────────────
 
-        /// Nivel mínimo de jugador para acceder a cada edificio (índices 0-10).
-        /// Orden: Portal · Altar · Campana · Arena · Cuartel · Forja ·
-        ///        Biblioteca · Mercado · Taverna · Mazmorra · Misiones
-        private static readonly int[] NIVEL_REQUERIDO_EDIFICIO =
+        // Nivel mínimo por nombre de GO. Claves = nombres exactos de ContentEdificios.
+        private static readonly Dictionary<string, int> _nivelRequerido = new()
         {
-             1, // 0 Portal     (Campaign)
-             1, // 1 Altar      (Gacha)
-             5, // 2 Campana    (Campaign 2)
-            10, // 3 Arena
-             1, // 4 Cuartel    (Heroes)
-            15, // 5 Forja      (Conjuros)
-            20, // 6 Biblioteca (Gacha avanzado)
-             5, // 7 Mercado    (Shop)
-            25, // 8 Taverna    (Clan)
-            30, // 9 Mazmorra
-            10, // 10 Misiones
+            { "Edificio_Porton",     1  },  // Portal → Campaña
+            { "Edificio_Campana",    1  },  // Campaña 2
+            { "Edificio_Cuartel",    1  },  // Héroes / Esbirros
+            { "Edificio_Mercado",    1  },  // Tienda
+            { "Edificio_Misiones",   1  },  // Misiones
+            { "Edificio_Altar",      2  },  // Gacha
+            { "Edificio_Biblioteca", 2  },  // Gacha avanzado
+            { "Edificio_Arena",      3  },  // Arena
+            { "Edificio_Taverna",    5  },  // Clan
+            { "Edificio_Forja",      7  },  // Conjuros
+            { "Edificio_Mazmorra",   10 },  // Torre + Boss + Mazm
         };
 
         [Header("Desbloqueos por Nivel")]
-        [SerializeField] private GameObject[] _lockOverlays;  // [11] uno por edificio
+        [SerializeField] private GameObject[] _lockOverlays;  // mantenido por compatibilidad Setup
 
         // ── Prefab HUD ────────────────────────────────────────────────────────
 
@@ -89,6 +90,7 @@ namespace ReinoOscuridad.UI.MainMenu
         private void Start()
         {
             InstantiateHUD();
+            StartCoroutine(CentrarScrollEnMundoActual());
             BindButtons();
             RefreshEdificiosLock();
             EventBus.OnPlayerLevelUp += OnPlayerLevelUp;
@@ -106,18 +108,62 @@ namespace ReinoOscuridad.UI.MainMenu
 
         // ── Desbloqueos ───────────────────────────────────────────────────────
 
-        /// Muestra u oculta el overlay de bloqueo de cada edificio según el nivel del jugador.
         public void RefreshEdificiosLock()
         {
-            if (_lockOverlays == null) return;
-            var pds = PlayerDataSystem.Instance;
-            int playerLevel = pds?.GetPlayerData()?.playerLevel ?? 1;
+            int nivel     = PlayerProgressionSystem.Instance?.GetPlayerNivel() ?? 1;
+            var edificios = GetEdificiosEnContent();
 
-            for (int i = 0; i < _lockOverlays.Length && i < NIVEL_REQUERIDO_EDIFICIO.Length; i++)
+            for (int i = 0; i < edificios.Length; i++)
             {
-                if (_lockOverlays[i] == null) continue;
-                _lockOverlays[i].SetActive(playerLevel < NIVEL_REQUERIDO_EDIFICIO[i]);
+                string nombre   = edificios[i].name;
+                bool   bloqueado = _nivelRequerido.TryGetValue(nombre, out int req) && nivel < req;
+
+                var btn = edificios[i].GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.interactable = !bloqueado;
+                    // btn.enabled=false bloquea touch en dispositivos donde interactable no basta
+                    btn.enabled = !bloqueado;
+                }
+
+                var lockOv = edificios[i].transform.Find("LockOverlay")?.gameObject;
+                if (lockOv != null)
+                {
+                    lockOv.SetActive(bloqueado);
+                    var images = lockOv.GetComponentsInChildren<Image>(true);
+                    foreach (var img in images)
+                        img.raycastTarget = true;
+                }
+
+                var nivelTxt = edificios[i].transform
+                    .Find("LockOverlay/NivelReqText")
+                    ?.GetComponent<TMP_Text>();
+                if (nivelTxt != null && _nivelRequerido.TryGetValue(nombre, out int reqNivel))
+                    nivelTxt.text = "Nivel " + reqNivel + " requerido";
             }
+        }
+
+        private GameObject[] GetEdificiosEnContent()
+        {
+            var content = GameObject.Find("ContentEdificios");
+            if (content == null) return System.Array.Empty<GameObject>();
+            var list = new List<GameObject>(content.transform.childCount);
+            for (int i = 0; i < content.transform.childCount; i++)
+                list.Add(content.transform.GetChild(i).gameObject);
+            return list.ToArray();
+        }
+
+        private IEnumerator CentrarScrollEnMundoActual()
+        {
+            yield return null;
+            yield return null;
+            var zonaEdif = GameObject.Find("ZonaEdificios");
+            if (zonaEdif == null) yield break;
+            var sr = zonaEdif.GetComponent<ScrollRect>();
+            if (sr == null) yield break;
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(sr.content);
+            sr.normalizedPosition = new Vector2(0.5f, 0.5f);
         }
 
         // ── HUD ───────────────────────────────────────────────────────────────
@@ -167,65 +213,19 @@ namespace ReinoOscuridad.UI.MainMenu
             _ = UIManager.Instance.NavigateTo("CampaignScene");
         }
 
-        public void GoToHeroes()
-        {
-            Debug.Log("[MainMenuController] Navegando a HeroScene");
-            _ = UIManager.Instance.NavigateTo("HeroScene");
-        }
+        public void GoToHeroes()   => LogProximamente("HeroScene");
+        public void GoToGacha()    => LogProximamente("GachaScene");
+        public void GoToArena()    => LogProximamente("ArenaScene");
+        public void GoToTower()    => LogProximamente("TowerScene");
+        public void GoToWorldBoss()=> LogProximamente("WorldBossScene");
+        public void GoToClan()     => LogProximamente("ClanScene");
+        public void GoToShop()     => LogProximamente("ShopScene");
+        public void GoToMissions() => LogProximamente("MissionScene");
+        public void GoToDungeon()  => LogProximamente("MazmorraScene");
+        public void GoToConjuros() => LogProximamente("ConjuroScene");
 
-        public void GoToGacha()
-        {
-            Debug.Log("[MainMenuController] Navegando a GachaScene");
-            _ = UIManager.Instance.NavigateTo("GachaScene");
-        }
-
-        public void GoToArena()
-        {
-            Debug.Log("[MainMenuController] Navegando a ArenaScene");
-            _ = UIManager.Instance.NavigateTo("ArenaScene");
-        }
-
-        public void GoToTower()
-        {
-            Debug.Log("[MainMenuController] Navegando a TowerScene");
-            _ = UIManager.Instance.NavigateTo("TowerScene");
-        }
-
-        public void GoToWorldBoss()
-        {
-            Debug.Log("[MainMenuController] Navegando a WorldBossScene");
-            _ = UIManager.Instance.NavigateTo("WorldBossScene");
-        }
-
-        public void GoToClan()
-        {
-            Debug.Log("[MainMenuController] Navegando a ClanScene");
-            _ = UIManager.Instance.NavigateTo("ClanScene");
-        }
-
-        public void GoToShop()
-        {
-            Debug.Log("[MainMenuController] Navegando a ShopScene");
-            _ = UIManager.Instance.NavigateTo("ShopScene");
-        }
-
-        public void GoToMissions()
-        {
-            Debug.Log("[MainMenuController] Navegando a MissionScene");
-            _ = UIManager.Instance.NavigateTo("MissionScene");
-        }
-
-        public void GoToDungeon()
-        {
-            Debug.Log("[MainMenuController] Navegando a MazmorraScene");
-            _ = UIManager.Instance.NavigateTo("MazmorraScene");
-        }
-
-        public void GoToConjuros()
-        {
-            Debug.Log("[MainMenuController] Navegando a ConjuroScene");
-            _ = UIManager.Instance.NavigateTo("ConjuroScene");
-        }
+        private static void LogProximamente(string sceneName) =>
+            Debug.Log($"[MainMenuController] {sceneName} — Próximamente (S23+)");
 
         // ── Métodos nuevos S10c ───────────────────────────────────────────────
 
