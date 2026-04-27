@@ -34,6 +34,18 @@ _se descubra un nuevo patrón o se corrija un error._
 - PlayMode tests NO deben tener guards #if UNITY_EDITOR
 - Assembly-CSharp NO es referenciable por nombre
   desde asmdefs custom — crear asmdef propio
+- `PlayModeTests.asmdef` DEBE tener
+  `"includePlatforms": ["Editor"]` en builds de
+  producción Android. Sin eso, Unity compila los tests
+  como player scripts y falla porque
+  `UnityEngine.TestRunner` no existe en el player.
+  El Test Runner del Editor sigue ejecutando PlayMode
+  tests aunque el assembly sea Editor-only.
+- El error "SBP ErrorError" de Addressables en builds
+  CLI suele ser consecuencia de errores de compilación
+  previos (Script Build Pipeline falla → Addressables
+  lo reporta como "SBP ErrorError"). Resolver primero
+  los errores de compilación.
 
 ---
 
