@@ -134,8 +134,8 @@ _Última actualización: S27_build — 2026-04-26_
 | 🟡 Media | TutorialScene | No existe — añadir a Build Settings cuando se cree |
 | 🟡 Media | Energía — feedback visual | Si energía < coste, `OnTeamSelected()` retorna en silencio sin mensaje al jugador |
 | 🟡 Media | MainMenuDebug.cs | Eliminar o desactivar antes de producción |
-| 🟡 Media | RewardPanel prefab — regenerar | `Tools → 8. Setup RewardPanel Prefab` (scripts ya correctos desde S24_fix3; el prefab .asset puede tener layout antiguo de 2 botones). |
-| 🟡 Media | BootScene — paso manual pendiente | `Tools → 9. Setup BootScene` (añade CombatSystem GO a BootScene para que arranque con DDOL desde el primer frame). |
+| ~~🟡 Media~~ | ~~RewardPanel prefab — regenerar~~ | ✅ Ejecutado S27_build — `Tools → 8. Setup RewardPanel Prefab` completado. |
+| ~~🟡 Media~~ | ~~BootScene — paso manual pendiente~~ | ✅ Ejecutado S27_build — `Tools → 9. Setup BootScene` completado. |
 | 🔴 Alta | ACCIÓN MANUAL PENDIENTE — Firestore doc corrupto | Firebase Console → Firestore → colección "players" → documento `jgdMjlq3sdRmFKCRcXz8b7WPDz43` → ELIMINAR. Campo `presenciaMalditaLastCalc` tiene formato objeto anidado donde se espera string. Se recreará limpio en el próximo save. |
 | 🟢 Baja | player_data.json en build | Solo se usa como fallback en Editor; en Android Firebase lo reemplaza. Si Firebase falla, el jugador ve datos vacíos |
 
@@ -160,7 +160,8 @@ _Última actualización: S27_build — 2026-04-26_
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
 | S26_balance | ✓ Completado — Ver arriba | — |
-| S27 | HeroScene — roster, filtros, upgrade, awaken | Alta |
+| S27_build | ✓ Completado — data versioning + APK release 82 MB | — |
+| S28 | HeroScene — roster, filtros, upgrade, awaken | Alta |
 | S28 | GachaScene — pull x1/x10, animación, historial | Alta |
 | S29 | ShopScene — paquetes IAP RevenueCat | Media |
 | S30 | Google Sign-In SDK integración | Alta (bloquea producción) |
