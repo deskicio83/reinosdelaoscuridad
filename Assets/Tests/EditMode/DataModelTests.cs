@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using NUnit.Framework;
 using ReinoOscuridad.Data;
 
@@ -99,6 +100,40 @@ public class DataModelTests
         var restoredEnemy = CombatSceneData.PendingContext.enemyTeam[0];
         Assert.AreEqual(5000, restoredEnemy.hpActual);
         Assert.IsTrue(restoredEnemy.estaVivo);
+    }
+
+    [Test]
+    public void CombatSceneData_PrepareRepeat_RevivesDeadPlayerHero()
+    {
+        // Sprint 0: antes de este fix, playerTeam se reutilizaba por referencia
+        // y un héroe muerto en el intento anterior seguía muerto al "Repetir".
+        var heroeMuerto = new HeroInstance
+        {
+            heroId         = "h1",
+            hpActual       = 0,
+            hpMax          = 8000,
+            estaVivo       = false,
+            atk            = 3000, def = 1000, spd = 120, agi = 100,
+            crit           = 30,   critDmg = 150, acc = 80, res = 20, luk = 50,
+            elemento       = "fuego",
+            efectosActivos = new List<string> { "Bleed", "Burn" },
+            habilidadesEquipadas = new string[0]
+        };
+
+        CombatSceneData.PendingContext = new CombatContext
+        {
+            encounterID = "test",
+            playerTeam  = new[] { heroeMuerto },
+            enemyTeam   = new EnemyInstance[0]
+        };
+        CombatSceneData.SetResult(new CombatResult());
+
+        CombatSceneData.PrepareRepeat();
+
+        var restoredHero = CombatSceneData.PendingContext.playerTeam[0];
+        Assert.IsTrue(restoredHero.estaVivo, "El héroe debe revivir al repetir combate");
+        Assert.AreEqual(8000, restoredHero.hpActual, "El HP debe restaurarse al máximo");
+        Assert.IsEmpty(restoredHero.efectosActivos, "Los efectos activos deben limpiarse");
     }
 
     [Test]

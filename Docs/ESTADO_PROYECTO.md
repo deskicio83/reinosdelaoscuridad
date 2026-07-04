@@ -1,5 +1,39 @@
 # ESTADO DEL PROYECTO — Reino de la Oscuridad
-_Última actualización: S28_newplayer — 2026-04-27_
+_Última actualización: Sprint 0.5 (infraestructura compartida) — 2026-07-04_
+_Roadmap completo por sprints cerrados en `Docs/PLAN_DESARROLLO.md` — leer antes de elegir la próxima sesión._
+
+## Si esta sesión no tiene memoria de lo anterior, leer esto primero
+
+- El repo tiene 2 ramas relevantes en el mismo remoto (`origin` = `github.com/deskicio83/reinosdelaoscuridad`):
+  `main` = proyecto original abandonado, `v2-clean` (rama activa) = reescritura desde cero. NO
+  clonar nada externo — ya está todo en este mismo repo.
+  `Docs/PLAN_DESARROLLO.md` incluye la auditoría de qué rescatar de `main` (sección de Sprint 1/HeroScene).
+- **Preferencias explícitas del usuario (no volver a preguntar)**:
+  - NO añadir comentarios explicativos ni doc-comments al código (`///`, `//` descriptivos) — código
+    limpio sin documentación inline. Esto es una corrección explícita, no inferencia.
+  - Automatizar todo lo posible. El usuario solo quiere participar en: (a) diseño/cambios de GUI,
+    (b) acciones que requieran 100% un humano (cerrar/abrir Unity Editor, decisiones de producto).
+  - Verificación de código (compilar, correr tests) la hago yo vía Unity CLI en modo batch — NUNCA
+    pedir al usuario que abra Test Runner manualmente. Bloqueo conocido: Unity Editor no puede tener
+    el proyecto abierto mientras corro `-batchmode` (conflicto de lock) — pedir que lo cierre primero.
+  - Path de resultados de verificación acordado: `Builds/CI/` (`editmode_results.xml`,
+    `editmode_log.txt`, `playmode_results.xml`, `playmode_log.txt`) — ya cubierto por `.gitignore`
+    (`[Bb]uilds/`). Yo leo los XML y reporto OK/KO, no pido al usuario que los revise.
+  - Sprints son cerrados y secuenciales — no abrir el siguiente sin cerrar el DoD del actual. Si
+    algo resulta "insalvable" a mitad de sprint, se documenta en la sección "Replanificaciones" de
+    `PLAN_DESARROLLO.md` y se ajusta el alcance ahí, no se improvisa en silencio.
+- **Verificación completada 2026-07-04** vía Unity CLI batch mode (`-runTests`, resultados en
+  `Builds/CI/*.xml`): **EditMode 23/23 ✅ · PlayMode 15/15 ✅**. Sprint 0 + la limpieza de tests +
+  la consolidación de EditorUIBuilder quedan confirmados sólidos.
+  - Hallazgo real durante la verificación: `PlayModeTests.asmdef` con `includePlatforms:["Editor"]`
+    (puesto en S27_build) excluía el assembly del dominio de Play Mode → los 15-18 tests PlayMode
+    llevaban desde S27_build sin ejecutarse nunca, en silencio. Fix: `includePlatforms: []` +
+    `defineConstraints: ["UNITY_INCLUDE_TESTS"]` (ver `LECCIONES_TECNICAS.md`). Pendiente de
+    confirmar en una futura sesión que el build de Android release sigue sin romperse con este
+    cambio (no se pudo probar un build Android completo en esta sesión).
+  - Comando de referencia para repetir la verificación (Unity cerrado, sin `-quit` combinado con
+    `-runTests`, con `-assemblyNames` explícito para no mezclar EditMode/PlayMode):
+    `Unity.exe -batchmode -projectPath <repo> -runTests -testPlatform <EditMode|PlayMode> -assemblyNames <EditModeTests|PlayModeTests> -testResults Builds/CI/<...>.xml -logFile Builds/CI/<...>.txt`
 
 ---
 
@@ -57,6 +91,9 @@ _Última actualización: S28_newplayer — 2026-04-27_
 | S24_fix2 | Skills catálogo + HP bar enemigo + botón Volver victoria | **CORRECCIÓN 1**: `_heroSkillsByHeroId` dict construido en `CargarCatalogoHabilidades()` (heroId→skills no-pasivas). `BuildHeroSkillList()` añade CASO C: si result vacío tras iterar habilidadesEquipadas, usa fallback por heroId directo del catálogo. Comparación skillId con `StringComparison.OrdinalIgnoreCase`. **CORRECCIÓN 2**: `UpdateHPBar()` — paths distintos por tipo: héroes→"HPBar/Relleno", enemigos→"HPBar_Enemy/Relleno". **CORRECCIÓN 3**: `RewardPanel.cs` — nuevo campo `_btnRepetir` + callback `_onRepetir`. `Show()`/`Initialize()` aceptan `Action onRepetir`. Victoria muestra 3 botones (Repetir+Volver+Siguiente), derrota 2 (Repetir+Volver, oculta Siguiente). `SetupRewardPanelPrefab.cs` — layout 3 columnas: BtnRepetir (0.01→0.32) + BtnVolverMapa (0.34→0.65) + BtnSiguienteFase (0.67→0.99). |
 | S24_fix4 | CombatContext persist + Huir transición + navegación directa RewardPanel + CombatTestRunner | **BUG A**: `CombatSceneData` añade `LastContext` (preservado en `SetResult` antes de limpiar) y `PrepareRepeat()` (restaura PendingContext=LastContext). `OnRepetirVictoriaPressed` usa `PrepareRepeat()` en vez de `_ctx` directo. **BUG B/C**: `UIManager` expone `public bool IsTransitioning => _isTransitioning`. `OnHuirPressed` añade guard `if (IsTransitioning) return`. **FIX RewardPanel**: elimina callbacks `_onSiguienteFase`/`_onRepetir`. `OnSiguiente/Volver/Repetir` usan `CombatSceneData.LastContext` + `PrepareRepeat()` + navegación directa UIManager. `Show(prefab, result, team)` sin callbacks. Añade `TryParseEncounterId` helper privado. **CombatTestRunner**: `Assets/Scripts/Utils/CombatTestRunner.cs` — PASS/FAIL para Context, ATB, HPBar. |
 | S25_tests | Batería completa de tests NUnit — 6 EditMode + 3 PlayMode. Assembly definitions separados. Correcciones de firmas (TryApplyEffect, RemoveEffect, danoTotal, LastContext setter). Fix dodge 5% en CalculateDamage_MinimumDamageIsOne (loop 50 reintentos). Fix HP tests PlayMode (sondeo LastResult en vez de ATBUnit refs — héroe 1-shotea al enemigo en ~0.8s). Resultado final: EditMode 32/32 · PlayMode 18/18. |
+| Sprint 0.5 | Infraestructura compartida — PooledGridView + resto de Setup Scripts consolidados | `Assets/Scripts/UI/Common/PooledGridView.cs` nuevo — grid con recycling de celdas (solo instancia filas visibles + buffer), `VisibleRowRange()` estático puro testeado en EditMode con catálogo simulado de 250 items (`PooledGridViewTests.cs`, 4 tests). `EditorUIBuilder` terminó de consolidar los 12 Setup Scripts (antes solo 2): añadidos overloads `Child(GameObject,...)` y `SetAnchors(Vector2,Vector2)`, unificada la convención de `Hex()` a exigir siempre `#` (3 archivos lo omitían), y corregida la inconsistencia de `SetAnchors` (3 de 4 copias hacían `return` silencioso si faltaba RectTransform en vez de crearlo). De paso se encontró y arregló un test flaky preexistente (`CombatSystemTests.CritMultiplier_IncreasesWithCritDmg`, no consideraba el dodge mínimo del 5%) durante la verificación por CLI. **Verificado: EditMode 27/27 · PlayMode 15/15.** |
+| Sprint 0 (limpieza) | Mantenimiento — auditoría de tests + consolidación de Editor Setup Scripts | `Assets/Tests/`: eliminados `HeroProgressionTests.cs` y `PlayerProgressionTests.cs` completos (100% tautológicos — ninguno de sus 9 tests llamaba a código real; uno afirmaba Mazmorra desbloqueada en nivel 15, ya desactualizado desde S28 donde se movió a nivel 10). `EconomySystemTests.cs` reducido de 4 a 1 test real (los otros 3 eran aritmética local sin conexión a `EconomySystem`) — `EconomySystem.ENERGY_REGEN_SECONDS` pasó de `private` a `public const` para poder testearlo de verdad. `GearSystemTests.cs` reducido de 3 a 1 (2 eran aritmética desconectada de `GearSystem`). `CombatSystemTests.TryApplyEffect_BleedApplied` (tautología `applied \|\| !applied`) reemplazado por test real de tasa de aplicación. `CombatFlowTests.Skills_LoadedFromCatalog` (solo `Assert.Pass`) y `CampaignFlowTests.CombatContext_NotNullBeforeCombat`/`PrepareRepeat_RestoresEnemyHP` (duplicado del test ya existente en `DataModelTests.cs`) eliminados. **Editor Setup Scripts**: `Child/Anch/Img/Txt/Hex` (duplicados carácter por carácter en `SetupCombatScene.cs` y `SetupCampaignScene.cs`) consolidados en `Assets/Editor/Setup/EditorUIBuilder.cs` nuevo, ambos migrados vía `using static`. Pendiente sin tocar: `SetupHUDPrefab.cs`/`SetupLoadingScreenPrefab.cs`/`SetupMainMenuScene.cs` tienen variante local de `Child`/`Hex` sin consolidar (firma distinta). **Riesgo documentado en LECCIONES_TECNICAS.md**: los 12 Setup Scripts destruyen y reconstruyen la Scene completa en cada ejecución — puede borrar ajustes manuales de GUI sin aviso. |
+| Sprint 0 | Estabilización — auditoría completa + fixes críticos de combate | Auditoría exhaustiva de código (v2-clean), del proyecto original (`main`/deskicio83) y del GDD → roadmap reestructurado en `Docs/PLAN_DESARROLLO.md` (sprints cerrados con DoD + sistemas transversales documentados). Fixes ejecutados: **(1)** `BootSceneController.ProceedAfterLoginAsync()` resella `lastLoginTimestamp` tras el cálculo de energía offline y el daily reset (antes nunca se actualizaba → energía offline duplicable). **(2)** `CombatSceneData.PrepareRepeat()` ahora reconstruye `playerTeam` con HP/efectos reseteados igual que ya hacía con `enemyTeam` (antes "Repetir" arrastraba héroes muertos del intento anterior). **(3)** Singletons DDOL no documentados (`DataStorageSystem`/`AuthSystem`/`GearSystem`/`HeroProgressionSystem`/`PlayerProgressionSystem`/`LoadingScreen`/`CombatSystem`) formalizados en CLAUDE.md con su razón. **(4)** Hallazgo mayor: `CombatSystem.ProcessCombat()` (con todos los efectos de estado) nunca se llamaba desde producción — `CombatSceneController` reimplementaba su propio loop de daño sin efectos. Wireado: `CombatSystem` gana wrappers públicos `TickEffects(HeroInstance/EnemyInstance)`, `TryApplyEffect(TipoEfecto,List,float chance01)`, `HasStun(...)`. `CombatSceneController` gana `TickInicioDeTurno()` (tick DoT/Regen + Stun al inicio de cada turno vía ATB), `AplicarEfectosDeHabilidad()` (mapea `SkillEffect.type`→`TipoEfecto` tras aplicar daño), `TryFinalizeIfCombatOver()` (extraído del código inline de fin de combate). `BuildHeroSkillList()` ya no descarta el campo `effect` del catálogo (bug de pérdida de datos aparte, corregido de paso). **Alcance real cerrado**: solo 5 de ~45 tipos de efecto del catálogo (Bleed/Burn/Poison/Stun/Regen) — el resto (shield, buffs/debuffs de stat, control de turno, utilidad) queda para el Sprint 3 dedicado, documentado en PLAN_DESARROLLO.md. **Pendiente de verificar en próxima sesión con Unity Editor**: compilación, 32 EditMode + 18 PlayMode, smoke test manual de Bleed/Stun en combate real. |
 | S28_newplayer | Jugador nuevo + desbloqueos nivel 1 + LockOverlay táctil + scroll centrado | `DataStorageSystem.CreateNewPlayerData()` — jugador nuevo recibe 3 héroes (AlondriaGuardianaDeLaPureza/AngelDespojado/SabioReparador, nivel 5, estrellas 3), 120 energía, 500 oroNegro, 50 caosifera; se guarda inmediatamente en Firestore. `MainMenuController._nivelRequerido` reemplaza array por `Dictionary<string,int>` con claves = nombres reales de GOs (Edificio_Porton/Campana/Cuartel/Mercado/Misiones=1, Altar/Biblioteca=2, Arena=3, Taverna=5, Forja=7, Mazmorra=10). `RefreshEdificiosLock()` reescrito: lookup dinámico via `GetEdificiosEnContent()` + `btn.enabled=false` para táctil. `CentrarScrollEnMundoActual()` coroutine centra el scroll al inicio. `PlayerProgressionSystem.DESBLOQUEOS` añade nivel 1: campana/tienda/misiones/esbirros; mueve mazmorra+world_boss a nivel 10 (antes 15/20). `SetupMainMenuScene`: `MovementType.Clamped` en ScrollRect. |
 | S27_build | Sistema data versioning + BuildAndroid release + APK 82 MB | `UIConstants`: `DATA_VERSION=1` + `DATA_VERSION_KEY="reino_data_version"`. `DataStorageSystem.CheckAndMigrateData()` (estático) — limpia `dev_playerdata` en PlayerPrefs si versión cambia; llamado al inicio de `RunBootSequenceAsync()` ANTES de Firebase init. `BuildAndroid.BuildRelease()` — `BuildOptions.None`, IL2CPP, ARMv7+ARM64, `ManagedStrippingLevel.Minimal`, `OpenGLES3+2`, output `Builds/Android/ReinosOscuridad_v010.apk`. Fix: `PlayModeTests.asmdef includePlatforms:[Editor]` para que no rompa compilación player. **✅ APK generada: 82 MB** — `Builds/Android/ReinosOscuridad_v010.apk` (2026-04-26). |
 | S26_balance | Balance combate + bug Huir + tercer botón victoria | **BLOQUE 1 (stats enemigos)**: `CampaignSceneController.BuildEnemyTeam()` reemplaza stats hardcoded (hp=500,atk=120,def=60) por escalado dinámico. Nuevos métodos: `ParseEncounterKeyForStats()` extrae mundo/fase/boss/dificultad de la key. `GetNivelEnemigo(mundo, fase, esBoss)` con `_nivelBaseMundo={1,8,16,24,32,40,48}`. `GetDificultadMultiplier()` x1/1.5/2.5. `BuildEnemyWithStats()` aplica fórmula stat(nivel)=base+(max-base)*(nivel-1)/59 × mult. `Assets/Data/player_data.json` — todos los héroes a level=10, stars=3, equipment=[]. **BLOQUE 2 (bug Huir)**: `OnHuirPressed()` — nuevo método `QuitarTodosLosHighlights()`, logs `[Huir] Iniciando huida` y `[Huir] Navegando de vuelta`, orden correcto StopAllCoroutines→null→limpieza→result→navigate. **BLOQUE 3 (tercer botón)**: Scripts ya correctos desde S24_fix3 — `SetupRewardPanelPrefab.cs` crea 3 botones (BtnRepetir/BtnVolver/BtnSiguiente), `RewardPanel.cs` tiene los 3 SerializeFields y Show() los gestiona. PENDIENTE: regenerar prefab (`Tools → 8. Setup RewardPanel Prefab`). |
@@ -174,13 +211,19 @@ Altar Corrupción: nivel 30
 
 ## Próximas sesiones
 
+**Roadmap completo y detallado (sprints cerrados, DoD, dependencias, sistemas transversales) vive
+en `Docs/PLAN_DESARROLLO.md` a partir de ahora — esta tabla es solo un resumen rápido, no la
+fuente de verdad.**
+
 | Sprint | Objetivo | Prioridad |
 |---|---|---|
 | S26_balance | ✓ Completado — Ver arriba | — |
 | S27_build | ✓ Completado — data versioning + APK release 82 MB | — |
 | S28_newplayer | ✓ Completado — jugador nuevo + desbloqueos + LockOverlay táctil | — |
-| S29 | HeroScene — roster, filtros, upgrade, awaken | Alta |
-| S30 | GachaScene — pull x1/x10, animación, historial | Alta |
-| S29 | ShopScene — paquetes IAP RevenueCat | Media |
-| S30 | Google Sign-In SDK integración | Alta (bloquea producción) |
-| Prod | Firestore security rules | Antes de cualquier deploy |
+| Sprint 0 | ✓ Ejecutado — ver fila arriba. Pendiente: verificación manual en Unity (compilación + tests + smoke test) | Alta — verificar antes de Sprint 0.5 |
+| Sprint 0.5 | `PooledScrollList` genérico + `EditorUIBuilder` compartido (infraestructura para HeroScene) | Alta |
+| Sprint 1 | HeroScene — roster pooled, tabs, favoritos | Alta |
+| Sprint 2 | Maestrías + Ascensión | Alta |
+| Sprint 3 | Sistema completo de efectos de estado (~40 tipos restantes del catálogo) | Alta — bloquea Torre/Mazmorra/WorldBoss si sus jefes los usan |
+| Sprint 4+ | Ver `Docs/PLAN_DESARROLLO.md` — Substats de Gear, Shop/IAP, Gacha, Pase Oscuro, Torre, Mazmorra, Conjuros, Arena, Altar, WorldBoss, Clan MVP, Misiones, PM, Tutorial | — |
+| Sprint 18 | Pre-producción: Firestore security rules + Google Sign-In SDK + Account Linking + QA + build store-ready | Bloquea cualquier lanzamiento |

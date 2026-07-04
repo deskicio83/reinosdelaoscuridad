@@ -47,7 +47,27 @@ namespace ReinoOscuridad.Data
                 callerScene     = LastContext.callerScene,
                 combatMode      = LastContext.combatMode,
                 maldicionActiva = LastContext.maldicionActiva,
-                playerTeam      = LastContext.playerTeam,
+                playerTeam      = LastContext.playerTeam
+                    ?.Select(h => new HeroInstance
+                    {
+                        heroId                = h.heroId,
+                        nivel                 = h.nivel,
+                        hpActual              = h.hpMax,
+                        hpMax                 = h.hpMax,
+                        atk                   = h.atk,
+                        def                   = h.def,
+                        spd                   = h.spd,
+                        agi                   = h.agi,
+                        crit                  = h.crit,
+                        critDmg               = h.critDmg,
+                        acc                   = h.acc,
+                        res                   = h.res,
+                        luk                   = h.luk,
+                        elemento              = h.elemento,
+                        estaVivo              = true,
+                        efectosActivos        = new List<string>(),
+                        habilidadesEquipadas  = h.habilidadesEquipadas,
+                    }).ToArray(),
                 enemyTeam       = LastContext.enemyTeam
                     ?.Select(e => new EnemyInstance
                     {

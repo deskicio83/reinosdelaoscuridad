@@ -34,13 +34,13 @@ _se descubra un nuevo patrón o se corrija un error._
 - PlayMode tests NO deben tener guards #if UNITY_EDITOR
 - Assembly-CSharp NO es referenciable por nombre
   desde asmdefs custom — crear asmdef propio
-- `PlayModeTests.asmdef` DEBE tener
-  `"includePlatforms": ["Editor"]` en builds de
-  producción Android. Sin eso, Unity compila los tests
-  como player scripts y falla porque
-  `UnityEngine.TestRunner` no existe en el player.
-  El Test Runner del Editor sigue ejecutando PlayMode
-  tests aunque el assembly sea Editor-only.
+- **CORRECCIÓN (2026-07-04, verificado por CLI)**: `"includePlatforms": ["Editor"]` en
+  `PlayModeTests.asmdef` (puesto en S27_build para no romper el build Android) también excluye el
+  assembly del dominio de Play Mode — con esa línea, `-runTests -testPlatform PlayMode` descubre 0
+  tests ("No tests were executed"). Los PlayMode tests estuvieron rotos en silencio desde S27_build
+  hasta esta sesión, sin que nadie los volviera a correr de punta a punta.
+  **Fix correcto**: `"includePlatforms": []` + `"defineConstraints": ["UNITY_INCLUDE_TESTS"]` — ese
+  símbolo solo existe durante ejecuciones de test (Editor/Play Mode), nunca en un build de Player.
 - El error "SBP ErrorError" de Addressables en builds
   CLI suele ser consecuencia de errores de compilación
   previos (Script Build Pipeline falla → Addressables
@@ -199,6 +199,33 @@ _se descubra un nuevo patrón o se corrija un error._
 - Para botones e iconos usar texto ASCII puro
 
 ---
+
+## Editor Setup Scripts (Tools → Reino Oscuridad)
+
+- Los 12 scripts de `Assets/Editor/Setup/*.cs` **destruyen TODOS los GameObjects de la Scene
+  activa y la reconstruyen desde cero** cada vez que se ejecutan (`FindObjectsByType<GameObject>
+  → DestroyImmediate` seguido de `Build()`). Si se hizo un ajuste manual en el Editor (mover un
+  botón, cambiar un color a mano) y se vuelve a correr el Tool correspondiente, ese ajuste se
+  pierde sin aviso más allá del diálogo de guardar cambios. No correrlos como rutina — solo cuando
+  la intención sea reconstruir la Scene desde el código.
+- `Child/Anch/Img/Txt/Hex/SetAnchors` estaban duplicados (con pequeñas variantes de firma y, en el
+  caso de `SetAnchors`, con comportamiento inconsistente — 3 de 4 copias hacían `return` silencioso
+  si faltaba el `RectTransform` en vez de crearlo) en los 12 Editor Setup Scripts. Consolidados
+  todos en `Assets/Editor/Setup/EditorUIBuilder.cs` (`using static EditorUIBuilder;`), con overloads
+  `Child(Transform, ...)`/`Child(GameObject, ...)` y `Anch(4 floats)`/`SetAnchors(Vector2, Vector2)`
+  para no romper ningún call site existente. Se unificó también la convención de `Hex()` a que
+  siempre requiera el prefijo `#` (3 archivos lo omitían).
+
+## Auditoría de catálogos JSON
+
+- Antes de dar por completo un enum que representa datos de un catálogo (ej. `TipoEfecto`), grepear
+  los valores reales usados en el JSON (`grep -o '"type": "[a-z_]*"' hero_catalog.json | sort -u`).
+  `TipoEfecto` tenía 17 valores pero el catálogo real usa ~45 strings de efecto distintos — el enum
+  llevaba desde el diseño inicial sin actualizarse al ritmo del contenido.
+- Cuando un controller de UI reimplementa su propio loop en vez de llamar al método "grande" de un
+  System (ej. `CombatSceneController` vs `CombatSystem.ProcessCombat()`), verificar con grep que el
+  método grande realmente se sigue usando en algún sitio de producción — si solo aparece en tests,
+  es candidato a estar completamente desconectado sin que ningún error de compilación lo delate.
 
 ## Tests — patrones NUnit en Unity
 

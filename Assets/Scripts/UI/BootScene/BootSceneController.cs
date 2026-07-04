@@ -109,6 +109,14 @@ namespace ReinoOscuridad.UI.Boot
             eco.Initialize();
             GameManager.Instance.NotifySessionStart(pds.GetPlayerData().lastLoginTimestamp);
 
+            // Sella el login actual DESPUÉS de que EconomySystem calculó la energía offline
+            // y GameManager comprobó el daily reset — ambos dependen del timestamp ANTERIOR.
+            // Si no se resella aquí, cerrar y volver a abrir la app permite recalcular
+            // energía offline indefinidamente sobre el mismo timestamp congelado.
+            var pdSellado = pds.GetPlayerData();
+            pdSellado.lastLoginTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            pds.UpdatePlayerData(pdSellado);
+
             ShowLoading("Entrando...");
 
             bool tutorialDone = pds.GetPlayerData().tutorialCompleted;

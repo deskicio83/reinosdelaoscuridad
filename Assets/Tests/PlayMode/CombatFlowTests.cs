@@ -146,14 +146,4 @@ public class CombatFlowTests
         Assert.IsTrue(CombatSceneData.LastResult.victoria,
             "El héroe debe ganar con ventaja elemental (fuego vs naturaleza)");
     }
-
-    [UnityTest]
-    public IEnumerator Skills_LoadedFromCatalog()
-    {
-        yield return new WaitForSeconds(2f);
-        var controller = Object.FindAnyObjectByType<CombatSceneController>();
-        Assert.IsNotNull(controller,
-            "CombatSceneController debe existir");
-        Assert.Pass("Skills cargadas sin excepción");
-    }
 }

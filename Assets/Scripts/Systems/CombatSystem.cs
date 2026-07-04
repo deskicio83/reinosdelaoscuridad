@@ -273,7 +273,15 @@ namespace ReinoOscuridad.Systems
         {
             float chance = Mathf.Clamp(attackerAcc / 100f - defenderRes / 100f,
                                        EFFECT_MIN, EFFECT_MAX);
-            if (UnityEngine.Random.value >= chance) return false;
+            return TryApplyEffect(efecto, efectosActivos, chance);
+        }
+
+        /// Intenta aplicar un efecto con una probabilidad explícita (0–1), tal como
+        /// viene definida en el campo "chance" de un SkillEffect del catálogo.
+        /// Respeta el mismo límite de 3 stacks que la sobrecarga basada en ACC/RES.
+        public bool TryApplyEffect(TipoEfecto efecto, List<string> efectosActivos, float chance01)
+        {
+            if (UnityEngine.Random.value >= Mathf.Clamp01(chance01)) return false;
 
             string id = efecto.ToString();
             int stacks = CountStacks(efectosActivos, id);
@@ -282,6 +290,22 @@ namespace ReinoOscuridad.Systems
             efectosActivos.Add(id);
             return true;
         }
+
+        /// Aplica el tick de efectos periódicos (DoT/Regen) de inicio de turno a un héroe.
+        /// Wrapper público para uso desde controllers de UI (CombatSceneController).
+        public void TickEffects(HeroInstance hero) => TickEffects(new TurnUnit(hero), null);
+
+        /// Aplica el tick de efectos periódicos (DoT/Regen) de inicio de turno a un enemigo.
+        /// Wrapper público para uso desde controllers de UI (CombatSceneController).
+        public void TickEffects(EnemyInstance enemy) => TickEffects(new TurnUnit(enemy), null);
+
+        /// Indica si la unidad tiene el efecto Stun activo (debe saltar su turno).
+        public static bool HasStun(HeroInstance hero) =>
+            hero?.efectosActivos != null && hero.efectosActivos.Contains(TipoEfecto.Stun.ToString());
+
+        /// Indica si la unidad tiene el efecto Stun activo (debe saltar su turno).
+        public static bool HasStun(EnemyInstance enemy) =>
+            enemy?.efectosActivos != null && enemy.efectosActivos.Contains(TipoEfecto.Stun.ToString());
 
         /// Elimina UNA instancia (stack) del efecto de la lista.
         /// Bleed NUNCA puede ser removido → devuelve false.

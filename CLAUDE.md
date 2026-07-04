@@ -80,6 +80,19 @@ IMPORTANTE: No hacer commit si Unity tiene errores de compilación rojos. Resolv
 - `PlayerDataSystem` — fuente de verdad del jugador en memoria
 - `EconomySystem` — monedas y energía
 - `NotificationManager` — push notifications
+- `CombatSystem` — lógica de combate pura, debe sobrevivir a la recarga de CombatScene
+- `AuthSystem` — sesión de Firebase Auth activa durante toda la app
+- `DataStorageSystem` — único punto de acceso a Firestore, debe persistir entre Scenes
+- `GearSystem` — inventario de gear en memoria, consumido desde varias Scenes
+- `HeroProgressionSystem` — cálculo de niveles/awaken, consumido desde varias Scenes
+- `PlayerProgressionSystem` — desbloqueos por nivel, escucha EventBus durante toda la sesión
+- `LoadingScreen` — overlay de transición entre Scenes, debe sobrevivir al cambio de Scene
+
+> Nota (Sprint 0, 2026-07-02): estos últimos 7 ya existían como DDOL en el código antes de estar
+> documentados aquí — la auditoría de Sprint 0 los encontró como desviación no autorizada. Tras
+> revisar cada uno, todos tienen una razón legítima para sobrevivir a la recarga de Scene (estado
+> en memoria o listeners de EventBus de larga duración), así que se formalizan aquí en vez de
+> refactorizarlos. Cualquier singleton NUEVO que no esté en esta lista debe justificarse o no serlo.
 
 **Sistemas:** implementan `ISystem`, se registran en `GameManager.Initialize()`.  
 **Comunicación:** via EventBus central en GameManager — `event Action` / `event Action<T>`.  
@@ -184,3 +197,9 @@ No dejes errores pendientes para la siguiente sesión.
 3. Actualiza `Docs/ESTADO_PROYECTO.md` — marca lo completado y escribe qué sigue
 4. Haz commit: `feat/fix/refactor/config: descripción breve`
 5. Dime qué archivos creaste o modificaste
+
+> Autorización permanente (2026-07-04): revisar/corregir código y hacer commit + push a `v2-clean`
+> en `origin` son parte del flujo normal — no hace falta pedir permiso cada vez para esto.
+> Sí sigue requiriendo confirmación explícita: force-push, `git reset --hard`, reescribir historia
+> (rebase interactivo, amend de commits ya pusheados), borrar ramas, o cualquier operación sobre la
+> rama `main` (es el proyecto original archivado — no tocar sin que se pida explícitamente).

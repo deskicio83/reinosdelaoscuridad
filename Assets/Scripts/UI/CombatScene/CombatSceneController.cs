@@ -343,6 +343,21 @@ namespace ReinoOscuridad.UI.Combat
             _selectedAbilityIndex = -1;
             _pendingTarget        = null;
 
+            TickInicioDeTurno(unit);
+            if (!unit.estaVivo)
+            {
+                if (!TryFinalizeIfCombatOver()) _phase = CombatPhase.Idle;
+                yield break;
+            }
+
+            if (unit.heroData != null && CombatSystem.HasStun(unit.heroData))
+            {
+                unit.ResetATB();
+                unit.SetActive(false);
+                _phase = CombatPhase.Idle;
+                yield break;
+            }
+
             DecrementarCooldowns(unit.unitId);
 
             if (_autoMode)
@@ -387,6 +402,21 @@ namespace ReinoOscuridad.UI.Combat
             _phase = CombatPhase.EnemyTurn;
             _turnoActual++;
             UpdateTurnoLabel();
+
+            TickInicioDeTurno(unit);
+            if (!unit.estaVivo)
+            {
+                if (!TryFinalizeIfCombatOver()) _phase = CombatPhase.Idle;
+                yield break;
+            }
+
+            if (unit.enemyData != null && CombatSystem.HasStun(unit.enemyData))
+            {
+                unit.ResetATB();
+                unit.SetActive(false);
+                _phase = CombatPhase.Idle;
+                yield break;
+            }
 
             yield return new WaitForSeconds(0.5f / _tiempoMultiplier);
 
@@ -458,6 +488,7 @@ namespace ReinoOscuridad.UI.Combat
                             target.enemyData.estaVivo = false;
                             target.estaVivo           = false;
                         }
+                        AplicarEfectosDeHabilidad(attacker, target, abilityIndex);
                     }
                 }
                 else if (!attacker.esJugador && attacker.enemyData != null && target.heroData != null)
@@ -525,31 +556,7 @@ namespace ReinoOscuridad.UI.Combat
 
             yield return new WaitForSeconds(0.2f);
 
-            // Verificar fin de combate
-            bool anyHeroAlive  = false;
-            bool anyEnemyAlive = false;
-            foreach (var u in _allUnits)
-            {
-                if (u.esJugador  && u.estaVivo) anyHeroAlive  = true;
-                if (!u.esJugador && u.estaVivo) anyEnemyAlive = true;
-            }
-
-            if (!anyHeroAlive || !anyEnemyAlive)
-            {
-                bool victoria = anyHeroAlive && !anyEnemyAlive;
-                int  stars    = victoria && _ctx?.playerTeam != null
-                    ? CalcularEstrellas(_ctx.playerTeam) : 0;
-                FinalizarCombate(new CombatResult
-                {
-                    victoria      = victoria,
-                    danoTotal     = _dañoAcumulado,
-                    drops         = Array.Empty<string>(),
-                    xpGanada      = victoria ? 200 : 0,
-                    trofeosDelta  = 0,
-                    gradoObtenido = victoria ? (stars >= 3 ? "A" : stars == 2 ? "B" : "C") : ""
-                });
-                yield break;
-            }
+            if (TryFinalizeIfCombatOver()) yield break;
 
             // Resetear atacante y volver a Idle
             attacker.ResetATB();
@@ -558,6 +565,121 @@ namespace ReinoOscuridad.UI.Combat
                 AplicarCooldown(attacker.unitId, abilityIndex);
             _activeUnit = null;
             _phase = CombatPhase.Idle;
+        }
+
+        /// Aplica el tick de efectos de inicio de turno (Bleed/Burn/Poison/Regen) a <paramref name="unit"/>.
+        /// Si el DoT la mata, sincroniza el estado visual (HP bar, dim de carta) igual que ExecuteAction.
+        private void TickInicioDeTurno(ATBUnit unit)
+        {
+            if (_combatSystem == null) return;
+
+            if (unit.esJugador && unit.heroData != null)
+                _combatSystem.TickEffects(unit.heroData);
+            else if (!unit.esJugador && unit.enemyData != null)
+                _combatSystem.TickEffects(unit.enemyData);
+            else
+                return;
+
+            UpdateHPBar(unit);
+
+            bool murioPorTick = unit.esJugador
+                ? unit.heroData != null && !unit.heroData.estaVivo
+                : unit.enemyData != null && !unit.enemyData.estaVivo;
+
+            if (murioPorTick)
+            {
+                unit.estaVivo = false;
+                unit.SetActive(false);
+                var cardImg = unit.GetComponent<Image>();
+                if (cardImg != null)
+                    cardImg.color = new Color(0.15f, 0.15f, 0.15f, 0.50f);
+            }
+        }
+
+        /// Comprueba si un bando quedó sin unidades vivas y, si es así, finaliza el combate.
+        /// Devuelve true si el combate terminó (el llamador debe hacer yield break).
+        private bool TryFinalizeIfCombatOver()
+        {
+            bool anyHeroAlive  = false;
+            bool anyEnemyAlive = false;
+            foreach (var u in _allUnits)
+            {
+                if (u.esJugador  && u.estaVivo) anyHeroAlive  = true;
+                if (!u.esJugador && u.estaVivo) anyEnemyAlive = true;
+            }
+
+            if (anyHeroAlive && anyEnemyAlive) return false;
+
+            bool victoria = anyHeroAlive && !anyEnemyAlive;
+            int  stars    = victoria && _ctx?.playerTeam != null
+                ? CalcularEstrellas(_ctx.playerTeam) : 0;
+            FinalizarCombate(new CombatResult
+            {
+                victoria      = victoria,
+                danoTotal     = _dañoAcumulado,
+                drops         = Array.Empty<string>(),
+                xpGanada      = victoria ? 200 : 0,
+                trofeosDelta  = 0,
+                gradoObtenido = victoria ? (stars >= 3 ? "A" : stars == 2 ? "B" : "C") : ""
+            });
+            return true;
+        }
+
+        /// Mapea el "type" de un SkillEffect del catálogo a un TipoEfecto de CombatSystem.
+        /// Solo cubre los 5 efectos con lógica de tick/aplicación ya implementada (Sprint 0).
+        /// El resto (shield, buffs de stat, turn_bar, cleanse, etc.) queda fuera de alcance
+        /// hasta el sprint dedicado de "Sistema completo de efectos de estado" — ver PLAN_DESARROLLO.md.
+        private static TipoEfecto? MapEffectType(string jsonType)
+        {
+            switch (jsonType)
+            {
+                case "bleed":          return TipoEfecto.Bleed;
+                case "burn":            return TipoEfecto.Burn;
+                case "poison":          return TipoEfecto.Poison;
+                case "stun":            return TipoEfecto.Stun;
+                case "continuous_heal": return TipoEfecto.Regen;
+                default:                return null;
+            }
+        }
+
+        /// Aplica los SkillEffect (subset soportado) de la habilidad usada por <paramref name="attacker"/>.
+        /// Solo héroes tienen catálogo de habilidades — los enemigos aún no usan skills propias.
+        private void AplicarEfectosDeHabilidad(ATBUnit attacker, ATBUnit target, int abilityIndex)
+        {
+            if (_combatSystem == null || !attacker.esJugador) return;
+            if (!_heroSkillsList.TryGetValue(attacker.unitId, out var skills) || abilityIndex >= skills.Count) return;
+
+            var effects = skills[abilityIndex].effect;
+            if (effects == null) return;
+
+            foreach (var eff in effects)
+            {
+                var tipo = MapEffectType(eff.type);
+                if (tipo == null) continue;
+
+                float chance = eff.chance > 0f ? eff.chance : 1f;
+
+                switch (eff.target)
+                {
+                    case "enemy":
+                        if (target.enemyData != null && target.enemyData.estaVivo)
+                            _combatSystem.TryApplyEffect(tipo.Value, target.enemyData.efectosActivos, chance);
+                        break;
+
+                    case "all_enemy":
+                        foreach (var u in _allUnits)
+                            if (!u.esJugador && u.estaVivo && u.enemyData != null)
+                                _combatSystem.TryApplyEffect(tipo.Value, u.enemyData.efectosActivos, chance);
+                        break;
+
+                    case "self":
+                        if (attacker.heroData != null && attacker.heroData.estaVivo)
+                            _combatSystem.TryApplyEffect(tipo.Value, attacker.heroData.efectosActivos, chance);
+                        break;
+
+                    // "team" y otros targets (buffs de equipo) quedan fuera de alcance — Sprint dedicado.
+                }
+            }
         }
 
         // ── Input del jugador ──────────────────────────────────────────────
@@ -885,8 +1007,12 @@ namespace ReinoOscuridad.UI.Combat
                         type           = def.type,
                         name_es        = def.name_es,
                         name_en        = def.name_en,
+                        hits           = def.hits,
+                        scaleStat      = def.scaleStat,
                         multiplier     = def.multiplier,
+                        flatAdd        = def.flatAdd,
                         cooldown       = CalcularCooldownReal(def, skillLevel),
+                        effect         = def.effect,
                         levelUp        = def.levelUp,
                         description_es = def.description_es,
                         description_en = def.description_en,
@@ -904,8 +1030,12 @@ namespace ReinoOscuridad.UI.Combat
                         type           = def.type,
                         name_es        = def.name_es,
                         name_en        = def.name_en,
+                        hits           = def.hits,
+                        scaleStat      = def.scaleStat,
                         multiplier     = def.multiplier,
+                        flatAdd        = def.flatAdd,
                         cooldown       = def.cooldown,
+                        effect         = def.effect,
                         levelUp        = def.levelUp,
                         description_es = def.description_es,
                         description_en = def.description_en,

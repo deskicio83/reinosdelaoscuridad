@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.Systems;
 using ReinoOscuridad.UI.Boot;
+using static EditorUIBuilder;
 
 /// Editor Script — reconstruye la UI de BootScene.
 /// Preserva los GameObjects de sistemas (GameManager, UIManager, etc.)
@@ -278,14 +279,5 @@ public static class SetupBootScene
         return tmp;
     }
 
-    private static void SetAnchors(GameObject go, Vector2 min, Vector2 max)
-    {
-        var rt = go.GetComponent<RectTransform>();
-        if (rt == null) rt = go.AddComponent<RectTransform>();
-        rt.anchorMin = min;
-        rt.anchorMax = max;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-    }
 }
 #endif

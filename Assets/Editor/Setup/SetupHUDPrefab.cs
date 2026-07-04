@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.HUD;
 using ReinoOscuridad.Data;
+using static EditorUIBuilder;
 
 namespace ReinoOscuridad.Editor.Setup
 {
@@ -44,7 +45,7 @@ namespace ReinoOscuridad.Editor.Setup
             Anch(zonaJ, 0f, 0.90f, 0.35f, 1f);
 
             var avatar = Child(zonaJ, "AvatarPlaceholder");
-            avatar.AddComponent<Image>().color = Hex("444444");
+            avatar.AddComponent<Image>().color = Hex("#444444");
             Anch(avatar, 0.02f, 0.10f, 0.18f, 0.90f);
 
             var nombreGO  = Child(zonaJ, "NombreText");
@@ -61,7 +62,7 @@ namespace ReinoOscuridad.Editor.Setup
             var nivelTMP = nivelGO.AddComponent<TextMeshProUGUI>();
             nivelTMP.text      = "Nv. 15";
             nivelTMP.fontSize  = 14;
-            nivelTMP.color     = Hex("AAAAAA");
+            nivelTMP.color     = Hex("#AAAAAA");
             nivelTMP.alignment = TextAlignmentOptions.Left;
             Anch(nivelGO, 0.20f, 0.05f, 0.98f, 0.50f);
 
@@ -84,7 +85,7 @@ namespace ReinoOscuridad.Editor.Setup
 
             // MailBadge
             var badgeGO  = Child(btnMailGO, "MailBadge");
-            badgeGO.AddComponent<Image>().color = Hex("E53E3E");
+            badgeGO.AddComponent<Image>().color = Hex("#E53E3E");
             Anch(badgeGO, 0.60f, 0.55f, 1f, 1f);
 
             var badgeTextGO  = Child(badgeGO, "BadgeText");
@@ -123,31 +124,6 @@ namespace ReinoOscuridad.Editor.Setup
 
         // ── Helpers ───────────────────────────────────────────────────────────
 
-        static GameObject Child(GameObject parent, string name)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent.transform, false);
-            if (go.GetComponent<RectTransform>() == null)
-                go.AddComponent<RectTransform>();
-            return go;
-        }
-
-        static void Anch(GameObject go, float xMin, float yMin, float xMax, float yMax)
-        {
-            var rt = go.GetComponent<RectTransform>();
-            if (rt == null) rt = go.AddComponent<RectTransform>();
-            rt.anchorMin = new Vector2(xMin, yMin);
-            rt.anchorMax = new Vector2(xMax, yMax);
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-        }
-
-        static Color Hex(string hex)
-        {
-            ColorUtility.TryParseHtmlString("#" + hex, out Color c);
-            return c;
-        }
-
         static GameObject MakePill(GameObject parent, string name,
             float xMin, float xMax, string defaultText, CurrencyType type)
         {
@@ -157,7 +133,7 @@ namespace ReinoOscuridad.Editor.Setup
 
             // Icono
             var iconGO = Child(go, "IconPlaceholder");
-            iconGO.AddComponent<Image>().color = Hex("FFD700");
+            iconGO.AddComponent<Image>().color = Hex("#FFD700");
             Anch(iconGO, 0.02f, 0.15f, 0.28f, 0.85f);
 
             // ValueText

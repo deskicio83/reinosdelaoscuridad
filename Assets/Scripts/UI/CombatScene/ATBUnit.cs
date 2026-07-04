@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using ReinoOscuridad.Data;
 
 namespace ReinoOscuridad.UI.Combat
@@ -19,12 +20,51 @@ namespace ReinoOscuridad.UI.Combat
 
         // ── Refs de UI (cableadas desde SetupCombatScene) ─────────────────────
 
-        [SerializeField] private Image _atbBarRelleno;
-        [SerializeField] private Image _cardHighlight;
+        [SerializeField] private Image    _atbBarRelleno;
+        [SerializeField] private Image    _cardHighlight;
+        [SerializeField] private TMP_Text _atbPercent;
+
+        // ── RectTransform interno para fill por anchorMax ──────────────────────
+
+        private RectTransform _atbRellenoRT;
 
         // ── ATB value ──────────────────────────────────────────────────────────
 
         public float atbValue { get; private set; }
+
+        // ── Ciclo de vida ──────────────────────────────────────────────────────
+
+        private void Awake()
+        {
+            // Auto-wire si los refs serializados no se guardaron en escena
+            if (_atbBarRelleno == null)
+            {
+                var t = transform.Find("ATBBar/ATBRelleno");
+                if (t != null) _atbBarRelleno = t.GetComponent<Image>();
+            }
+            if (_atbPercent == null)
+            {
+                var t = transform.Find("ATBBar/ATBPercent");
+                if (t != null) _atbPercent = t.GetComponent<TMP_Text>();
+            }
+            if (_cardHighlight == null)
+            {
+                var hl = transform.Find("CardHighlight");
+                if (hl == null) hl = transform.Find("Highlight");
+                if (hl != null) _cardHighlight = hl.GetComponent<Image>();
+            }
+
+            // Configurar la barra con enfoque anchorMax (funciona sin sprite)
+            if (_atbBarRelleno != null)
+            {
+                _atbRellenoRT = _atbBarRelleno.rectTransform;
+                _atbBarRelleno.type = Image.Type.Simple;
+                _atbRellenoRT.anchorMin = Vector2.zero;
+                _atbRellenoRT.anchorMax = new Vector2(0f, 1f);
+                _atbRellenoRT.offsetMin = Vector2.zero;
+                _atbRellenoRT.offsetMax = Vector2.zero;
+            }
+        }
 
         // ── Colores ────────────────────────────────────────────────────────────
 
@@ -39,8 +79,10 @@ namespace ReinoOscuridad.UI.Combat
         {
             if (!estaVivo) return;
             atbValue = Mathf.Min(atbValue + ganancia, 100f);
-            if (_atbBarRelleno != null)
-                _atbBarRelleno.fillAmount = atbValue / 100f;
+            if (_atbRellenoRT != null)
+                _atbRellenoRT.anchorMax = new Vector2(atbValue / 100f, 1f);
+            if (_atbPercent != null)
+                _atbPercent.text = Mathf.RoundToInt(atbValue) + "%";
         }
 
         public bool IsReady() => atbValue >= 100f;
@@ -48,8 +90,10 @@ namespace ReinoOscuridad.UI.Combat
         public void ResetATB()
         {
             atbValue = 0f;
-            if (_atbBarRelleno != null)
-                _atbBarRelleno.fillAmount = 0f;
+            if (_atbRellenoRT != null)
+                _atbRellenoRT.anchorMax = new Vector2(0f, 1f);
+            if (_atbPercent != null)
+                _atbPercent.text = "0%";
         }
 
         /// Activa o desactiva el highlight de "turno activo" (morado/rojo según bando).
@@ -70,11 +114,8 @@ namespace ReinoOscuridad.UI.Combat
 
         // ── Accesores para SetupCombatScene ────────────────────────────────────
 
-        public Image AtbBarRelleno => _atbBarRelleno;
-        public Image CardHighlight  => _cardHighlight;
-
-        // Wiring desde Editor Script
-        public void SetAtbBarRelleno(Image img) => _atbBarRelleno = img;
-        public void SetCardHighlight(Image img)  => _cardHighlight  = img;
+        public Image    AtbBarRelleno => _atbBarRelleno;
+        public Image    CardHighlight  => _cardHighlight;
+        public TMP_Text AtbPercent     => _atbPercent;
     }
 }

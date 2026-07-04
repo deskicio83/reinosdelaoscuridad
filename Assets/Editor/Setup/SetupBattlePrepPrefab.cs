@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.Campaign;
+using static EditorUIBuilder;
 
 /// Editor Script — genera el prefab BattlePrepPanel (estilo RAID Shadow Legends).
 /// Menú: Tools → Reino Oscuridad → 7. Setup BattlePrep Prefab
@@ -338,15 +339,6 @@ public static class SetupBattlePrepPrefab
         return go;
     }
 
-    private static void SetAnchors(GameObject go, Vector2 min, Vector2 max)
-    {
-        var rt = go.GetComponent<RectTransform>();
-        if (rt == null) return;
-        rt.anchorMin = min;
-        rt.anchorMax = max;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-    }
 
     private static void EnsureDirectory(string assetPath)
     {

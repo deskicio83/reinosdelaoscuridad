@@ -124,27 +124,115 @@ public class CombatSystemTests
     public void CritMultiplier_IncreasesWithCritDmg()
     {
         // Con crit garantizado, critDmg alto debe dar más daño.
-        _heroe.crit    = 100;
-        _heroe.critDmg = 200;
-        var resultHighCrit = _system.CalculateDamage(_heroe, _enemigo, 1f);
+        // Dodge mín=5%: reintentar hasta obtener un par de golpes no esquivados.
+        _heroe.crit = 100;
 
-        _heroe.critDmg = 50;
-        var resultLowCrit = _system.CalculateDamage(_heroe, _enemigo, 1f);
+        for (int i = 0; i < 50; i++)
+        {
+            _heroe.critDmg = 200;
+            var resultHighCrit = _system.CalculateDamage(_heroe, _enemigo, 1f);
+            if (resultHighCrit.fueEsquivado) continue;
 
-        Assert.GreaterOrEqual(resultHighCrit.dañoFinal, resultLowCrit.dañoFinal,
-            "Mayor critDmg debe producir más daño con crit garantizado");
+            _heroe.critDmg = 50;
+            var resultLowCrit = _system.CalculateDamage(_heroe, _enemigo, 1f);
+            if (resultLowCrit.fueEsquivado) continue;
+
+            Assert.GreaterOrEqual(resultHighCrit.dañoFinal, resultLowCrit.dañoFinal,
+                "Mayor critDmg debe producir más daño con crit garantizado");
+            return;
+        }
+        Assert.Inconclusive("50 intentos todos esquivados");
     }
 
     [Test]
-    public void TryApplyEffect_BleedApplied()
+    public void TryApplyEffect_AccResChance_StaysWithinTheoreticalRate()
     {
-        // EnemyInstance no tiene campo res — usar valor fijo
+        // acc=80, res=20 fijo → chance teórica = clamp(0.8-0.2, 0.10, 0.90) = 0.6
+        const int intentos = 300;
+        int aplicados = 0;
+        for (int i = 0; i < intentos; i++)
+        {
+            var efectos = new List<string>();
+            if (_system.TryApplyEffect(TipoEfecto.Bleed, efectos, _heroe.acc, 20))
+                aplicados++;
+        }
+        float ratio = (float)aplicados / intentos;
+        Assert.That(ratio, Is.InRange(0.4f, 0.8f),
+            $"La tasa de aplicación ({ratio:P0}) debe acercarse a la chance teórica (~60%)");
+    }
+
+    // ── Sprint 0 — wiring de efectos al combate real ────────────────────────
+    // Estos tests cubren la API pública añadida para que CombatSceneController
+    // pueda invocar la lógica de efectos que antes solo se ejecutaba desde
+    // CombatSystem.ProcessCombat() (nunca llamado en producción).
+
+    [Test]
+    public void TryApplyEffect_ExplicitChance_AppliesWhenGuaranteed()
+    {
         bool applied = _system.TryApplyEffect(
-            TipoEfecto.Bleed, _heroe.efectosActivos,
-            _heroe.acc, 20);
-        // El resultado depende de ACC/RES — solo verificamos que no crashea.
-        Assert.IsTrue(applied || !applied,
-            "TryApplyEffect no debe lanzar excepción");
+            TipoEfecto.Stun, _enemigo.efectosActivos, 1f);
+        Assert.IsTrue(applied, "Con chance=1 el efecto debe aplicarse siempre");
+        Assert.IsTrue(_enemigo.efectosActivos.Contains("Stun"));
+    }
+
+    [Test]
+    public void TryApplyEffect_ExplicitChance_NeverAppliesWhenZero()
+    {
+        bool applied = _system.TryApplyEffect(
+            TipoEfecto.Poison, _enemigo.efectosActivos, 0f);
+        Assert.IsFalse(applied, "Con chance=0 el efecto nunca debe aplicarse");
+        Assert.IsFalse(_enemigo.efectosActivos.Contains("Poison"));
+    }
+
+    [Test]
+    public void TryApplyEffect_ExplicitChance_RespectsStackLimit()
+    {
+        // MAX_STACKS = 3 — el cuarto intento con chance=1 no debe añadirse.
+        for (int i = 0; i < 4; i++)
+            _system.TryApplyEffect(TipoEfecto.Burn, _enemigo.efectosActivos, 1f);
+
+        int stacks = _enemigo.efectosActivos.FindAll(e => e == "Burn").Count;
+        Assert.AreEqual(3, stacks, "No debe superar el límite de 3 stacks");
+    }
+
+    [Test]
+    public void TickEffects_HeroInstance_BleedDealsDamageAndIsNotRemovable()
+    {
+        _heroe.efectosActivos.Add("Bleed");
+        int hpAntes = _heroe.hpActual;
+
+        _system.TickEffects(_heroe);
+
+        Assert.Less(_heroe.hpActual, hpAntes,
+            "Bleed debe restar HP en el tick de inicio de turno");
+        Assert.IsTrue(_heroe.efectosActivos.Contains("Bleed"),
+            "El tick no debe consumir/remover el Bleed");
+    }
+
+    [Test]
+    public void TickEffects_EnemyInstance_RegenHealsUpToMax()
+    {
+        _enemigo.hpActual = _enemigo.hpMax - 100;
+        _enemigo.efectosActivos.Add("Regen");
+
+        _system.TickEffects(_enemigo);
+
+        Assert.Greater(_enemigo.hpActual, _enemigo.hpMax - 100,
+            "Regen debe curar HP en el tick");
+        Assert.LessOrEqual(_enemigo.hpActual, _enemigo.hpMax,
+            "Regen no debe superar el HP máximo");
+    }
+
+    [Test]
+    public void HasStun_DetectsStunOnHeroAndEnemy()
+    {
+        Assert.IsFalse(CombatSystem.HasStun(_heroe), "Sin Stun no debe detectarlo");
+
+        _heroe.efectosActivos.Add("Stun");
+        _enemigo.efectosActivos.Add("Stun");
+
+        Assert.IsTrue(CombatSystem.HasStun(_heroe));
+        Assert.IsTrue(CombatSystem.HasStun(_enemigo));
     }
 }
 #endif

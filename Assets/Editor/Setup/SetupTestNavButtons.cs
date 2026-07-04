@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.Utils;
+using static EditorUIBuilder;
 
 /// Editor Script — añade botones de navegación temporal a SampleScene para pruebas.
 /// Menú: Tools → Reino Oscuridad → DEV: Setup Test Nav Buttons
@@ -128,14 +129,5 @@ public static class SetupTestNavButtons
         return go;
     }
 
-    private static void SetAnchors(GameObject go, Vector2 min, Vector2 max)
-    {
-        var rt = go.GetComponent<RectTransform>();
-        if (rt == null) return;
-        rt.anchorMin = min;
-        rt.anchorMax = max;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-    }
 }
 #endif

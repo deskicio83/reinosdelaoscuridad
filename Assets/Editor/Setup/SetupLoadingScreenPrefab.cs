@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.Common;
+using static EditorUIBuilder;
 
 namespace ReinoOscuridad.Editor.Setup
 {
@@ -44,7 +45,7 @@ namespace ReinoOscuridad.Editor.Setup
 
             var imagenCarruselGO = Child(panelCarrusel, "ImagenCarrusel");
             var imagenCarruselImg = imagenCarruselGO.AddComponent<Image>();
-            imagenCarruselImg.color = Hex("1A1A2E"); // placeholder hasta que se asignen sprites
+            imagenCarruselImg.color = Hex("#1A1A2E"); // placeholder hasta que se asignen sprites
             imagenCarruselImg.preserveAspect = true;
             Anch(imagenCarruselGO, 0f, 0f, 1f, 1f);
 
@@ -53,11 +54,11 @@ namespace ReinoOscuridad.Editor.Setup
             Anch(barraProgreso, 0.15f, 0.18f, 0.85f, 0.23f);
 
             var barraFondoGO = Child(barraProgreso, "BarraFondo");
-            barraFondoGO.AddComponent<Image>().color = Hex("1A1A2E");
+            barraFondoGO.AddComponent<Image>().color = Hex("#1A1A2E");
             Anch(barraFondoGO, 0f, 0f, 1f, 1f);
 
             var barraRellenoGO = Child(barraProgreso, "BarraRelleno");
-            barraRellenoGO.AddComponent<Image>().color = Hex("7C3AED");
+            barraRellenoGO.AddComponent<Image>().color = Hex("#7C3AED");
             // anchorMax.x = 0 al inicio (barra vacia); se anima via SetProgress
             Anch(barraRellenoGO, 0f, 0f, 0f, 1f);
             var barraRellenoRT = barraRellenoGO.GetComponent<RectTransform>();
@@ -69,7 +70,7 @@ namespace ReinoOscuridad.Editor.Setup
             textoFraseTMP.text      = "Preparando las mazmorras...";
             textoFraseTMP.fontSize  = 14;
             textoFraseTMP.fontStyle = FontStyles.Italic;
-            textoFraseTMP.color     = Hex("A855F7");
+            textoFraseTMP.color     = Hex("#A855F7");
             textoFraseTMP.alignment = TextAlignmentOptions.Center;
 
             // ── Asignar referencias via SerializedObject ──────────────────────
@@ -90,31 +91,5 @@ namespace ReinoOscuridad.Editor.Setup
                 : "[SetupLoadingScreen] ERROR al guardar LoadingScreen.prefab");
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────────
-
-        static GameObject Child(GameObject parent, string name)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent.transform, false);
-            if (go.GetComponent<RectTransform>() == null)
-                go.AddComponent<RectTransform>();
-            return go;
-        }
-
-        static void Anch(GameObject go, float xMin, float yMin, float xMax, float yMax)
-        {
-            var rt = go.GetComponent<RectTransform>();
-            if (rt == null) rt = go.AddComponent<RectTransform>();
-            rt.anchorMin = new Vector2(xMin, yMin);
-            rt.anchorMax = new Vector2(xMax, yMax);
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-        }
-
-        static Color Hex(string hex)
-        {
-            ColorUtility.TryParseHtmlString("#" + hex, out Color c);
-            return c;
-        }
     }
 }

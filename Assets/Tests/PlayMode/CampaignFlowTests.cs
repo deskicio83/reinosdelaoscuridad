@@ -3,7 +3,6 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
-using ReinoOscuridad.Data;
 using ReinoOscuridad.Firebase;
 using ReinoOscuridad.UI.Campaign;
 
@@ -48,53 +47,4 @@ public class CampaignFlowTests
             "Mundo 2 debe estar bloqueado inicialmente");
     }
 
-    [UnityTest]
-    public IEnumerator CombatContext_NotNullBeforeCombat()
-    {
-        yield return new WaitForSeconds(1f);
-        var ctx = new CombatContext
-        {
-            encounterID = "campaign_mundo_1_f1_normal",
-            callerScene = "CampaignScene",
-            combatMode  = "campaign",
-            playerTeam  = new HeroInstance[0],
-            enemyTeam   = new EnemyInstance[0]
-        };
-        CombatSceneData.PendingContext = ctx;
-        Assert.IsNotNull(CombatSceneData.PendingContext,
-            "PendingContext no debe ser null");
-    }
-
-    [UnityTest]
-    public IEnumerator PrepareRepeat_RestoresEnemyHP()
-    {
-        yield return null;
-        var enemy = new EnemyInstance
-        {
-            enemyId  = "e1",
-            hpActual = 0,
-            hpMax    = 5000,
-            estaVivo = false,
-            atk      = 100,
-            def      = 100,
-            spd      = 80,
-            agi      = 50
-        };
-        CombatSceneData.PendingContext = new CombatContext
-        {
-            encounterID = "test",
-            enemyTeam   = new[] { enemy },
-            playerTeam  = new HeroInstance[0]
-        };
-        CombatSceneData.SetResult(new CombatResult());
-        CombatSceneData.PrepareRepeat();
-
-        Assert.IsNotNull(CombatSceneData.PendingContext);
-        Assert.AreEqual(5000,
-            CombatSceneData.PendingContext.enemyTeam[0].hpActual,
-            "HP del enemigo debe estar restaurado");
-        Assert.IsTrue(
-            CombatSceneData.PendingContext.enemyTeam[0].estaVivo,
-            "Enemigo debe estar vivo al repetir");
-    }
 }

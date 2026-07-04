@@ -18,7 +18,7 @@ namespace ReinoOscuridad.Systems
         // ── Constantes ─────────────────────────────────────────────────────────
 
         /// Segundos por unidad de energía regenerada (4 minutos).
-        private const int ENERGY_REGEN_SECONDS = 240;
+        public const int ENERGY_REGEN_SECONDS = 240;
 
         // ── Estado en memoria ──────────────────────────────────────────────────
 

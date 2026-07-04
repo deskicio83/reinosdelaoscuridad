@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using TMPro;
 using ReinoOscuridad.UI.MainMenu;
 using ReinoOscuridad.Utils;
+using static EditorUIBuilder;
 
 namespace ReinoOscuridad.Editor.Setup
 {
@@ -50,7 +51,7 @@ namespace ReinoOscuridad.Editor.Setup
             var cam = camGO.AddComponent<Camera>();
             cam.orthographic     = true;
             cam.orthographicSize = 5f;
-            cam.backgroundColor  = Hex("0A0A0A");
+            cam.backgroundColor  = Hex("#0A0A0A");
             cam.clearFlags       = CameraClearFlags.SolidColor;
             camGO.AddComponent<AudioListener>();
             camGO.transform.position = new Vector3(0f, 0f, -10f);
@@ -78,7 +79,7 @@ namespace ReinoOscuridad.Editor.Setup
 
             // ── Fondo global ──────────────────────────────────────────────────
             var bgGO = Child(canvasGO, "Background");
-            bgGO.AddComponent<Image>().color = Hex("0D0D1A");
+            bgGO.AddComponent<Image>().color = Hex("#0D0D1A");
             Anch(bgGO, 0f, 0f, 1f, 1f);
 
             // =================================================================
@@ -160,14 +161,14 @@ namespace ReinoOscuridad.Editor.Setup
                 edRT.anchoredPosition = new Vector2(ed.x, ed.y);
 
                 var edImg = edGO.AddComponent<Image>();
-                edImg.color = Hex("4A6FD4");
+                edImg.color = Hex("#4A6FD4");
                 var edBtn = edGO.AddComponent<Button>();
                 edBtn.targetGraphic = edImg;
 
                 var c               = edBtn.colors;
-                c.normalColor       = Hex("4A6FD4");
-                c.highlightedColor  = Hex("6A8FF4");
-                c.pressedColor      = Hex("3A5FB4");
+                c.normalColor       = Hex("#4A6FD4");
+                c.highlightedColor  = Hex("#6A8FF4");
+                c.pressedColor      = Hex("#3A5FB4");
                 edBtn.colors = c;
 
                 var lblGO  = Child(edGO, "Label");
@@ -217,7 +218,7 @@ namespace ReinoOscuridad.Editor.Setup
                 if (lockSprite != null)
                     lockIconImg.sprite = lockSprite;
                 else
-                    lockIconImg.color = Hex("374151");
+                    lockIconImg.color = Hex("#374151");
                 lockIconImg.raycastTarget = false;
 
                 // NivelReqText — "Nivel N requerido"
@@ -264,7 +265,7 @@ namespace ReinoOscuridad.Editor.Setup
                 var ac    = accesos[i];
                 var acGO  = Child(zonaAccGO, ac.name);
                 var acImg = acGO.AddComponent<Image>();
-                acImg.color = Hex("22224A");
+                acImg.color = Hex("#22224A");
                 var acBtn = acGO.AddComponent<Button>();
                 acBtn.targetGraphic = acImg;
                 Anch(acGO, ac.x0, 0.08f, ac.x1, 0.92f);
@@ -320,14 +321,14 @@ namespace ReinoOscuridad.Editor.Setup
                 var sd    = subDefs[i];
                 var sdGO  = Child(abanicoGO, sd.name);
                 var sdImg = sdGO.AddComponent<Image>();
-                sdImg.color = Hex("3A3A7E");
+                sdImg.color = Hex("#3A3A7E");
                 var sdBtn = sdGO.AddComponent<Button>();
                 sdBtn.targetGraphic = sdImg;
 
                 var sdC              = sdBtn.colors;
-                sdC.normalColor      = Hex("3A3A7E");
-                sdC.highlightedColor = Hex("5A5ABE");
-                sdC.pressedColor     = Hex("2A2A5E");
+                sdC.normalColor      = Hex("#3A3A7E");
+                sdC.highlightedColor = Hex("#5A5ABE");
+                sdC.pressedColor     = Hex("#2A2A5E");
                 sdBtn.colors = sdC;
 
                 Anch(sdGO, sd.x0 + 0.02f, sd.y0 + 0.04f, sd.x1 - 0.02f, sd.y1 - 0.04f);
@@ -444,29 +445,5 @@ namespace ReinoOscuridad.Editor.Setup
             EditorBuildSettings.scenes = updated;
         }
 
-        static GameObject Child(GameObject parent, string name)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent.transform, false);
-            if (go.GetComponent<RectTransform>() == null)
-                go.AddComponent<RectTransform>();
-            return go;
-        }
-
-        static void Anch(GameObject go, float xMin, float yMin, float xMax, float yMax)
-        {
-            var rt = go.GetComponent<RectTransform>();
-            if (rt == null) rt = go.AddComponent<RectTransform>();
-            rt.anchorMin = new Vector2(xMin, yMin);
-            rt.anchorMax = new Vector2(xMax, yMax);
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-        }
-
-        static Color Hex(string hex)
-        {
-            ColorUtility.TryParseHtmlString("#" + hex, out Color c);
-            return c;
-        }
     }
 }
