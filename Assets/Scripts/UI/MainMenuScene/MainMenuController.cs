@@ -213,7 +213,12 @@ namespace ReinoOscuridad.UI.MainMenu
             _ = UIManager.Instance.NavigateTo("CampaignScene");
         }
 
-        public void GoToHeroes()   => LogProximamente("HeroScene");
+        public void GoToHeroes()
+        {
+            Debug.Log("[MainMenuController] Navegando a HeroScene");
+            _ = UIManager.Instance.NavigateTo("HeroScene");
+        }
+
         public void GoToGacha()    => LogProximamente("GachaScene");
         public void GoToArena()    => LogProximamente("ArenaScene");
         public void GoToTower()    => LogProximamente("TowerScene");

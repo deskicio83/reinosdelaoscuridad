@@ -69,6 +69,9 @@ namespace ReinoOscuridad.Systems
         public void OnSessionStart() { }
         public void OnSessionEnd()   { }
 
+        public HeroData GetHeroData(string heroId) =>
+            _heroes != null && _heroes.TryGetValue(heroId, out var data) ? data : null;
+
         // ── API pública — Stats ────────────────────────────────────────────────
 
         /// Construye una HeroInstance con los stats finales para el nivel indicado.

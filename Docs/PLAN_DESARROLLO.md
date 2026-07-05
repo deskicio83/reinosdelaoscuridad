@@ -181,6 +181,25 @@ tras salir/reentrar a la Scene.
 
 ---
 
+## SPRINT 1 — Estado: núcleo implementado 2026-07-05, pendiente verificación visual
+
+**Implementado**: `HeroScene.unity` generada vía `Assets/Editor/Setup/SetupHeroScene.cs`.
+`HeroSceneController` (`Assets/Scripts/UI/HeroScene/`) — roster con `PooledGridView`, detalle con
+tabs Info/Habilidades/Equipo (un panel visible a la vez), favoritos persistentes (mutación directa
+sobre `PlayerHeroData` + `PlayerDataSystem.MarkDirty()`). `HeroProgressionSystem.GetHeroData(heroId)`
+nuevo (getter público, evita re-parsear el catálogo). `MainMenuController.GoToHeroes()` navega de
+verdad. Equipo tab es de solo lectura por ahora (equipar/desequipar queda fuera de este sprint).
+
+**Verificado automáticamente** (EditMode 30/30 incl. 3 tests de `SortRoster`, PlayMode 18/18 incl. 3
+de `HeroFlowTests`: Scene carga, roster se puebla con al menos 1 carta, click abre el detalle).
+
+**NO verificado — requiere ojo humano en Unity Editor**: cómo se ve de verdad el layout (tamaños de
+carta, overlap de texto, si el grid se ve bien con el roster real del jugador, si el toggle
+compacta/expandida del proyecto original haría falta aquí). Ver instrucciones en el chat de la
+sesión que implementó esto.
+
+---
+
 ## SPRINT 2 — Maestrías + Ascensión
 
 **Depende de**: Sprint 1 cerrado.
