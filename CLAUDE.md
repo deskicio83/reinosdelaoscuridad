@@ -203,3 +203,7 @@ No dejes errores pendientes para la siguiente sesión.
 > Sí sigue requiriendo confirmación explícita: force-push, `git reset --hard`, reescribir historia
 > (rebase interactivo, amend de commits ya pusheados), borrar ramas, o cualquier operación sobre la
 > rama `main` (es el proyecto original archivado — no tocar sin que se pida explícitamente).
+>
+> Autorización permanente (2026-07-05): si Unity Editor está abierto y bloquea una verificación
+> automatizada por CLI (`-runTests`), matar el proceso directamente en vez de pedir que se cierre
+> manualmente. Solo el proceso principal (el que tiene `-projectpath`), no los `AssetImportWorker*`.

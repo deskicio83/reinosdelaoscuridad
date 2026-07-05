@@ -33,6 +33,22 @@ namespace ReinoOscuridad.UI.HeroScene
             }
         }
 
+        public void BindBuySlot(string label, Action onClick)
+        {
+            _heroId = null;
+
+            if (_portrait != null) _portrait.sprite = null;
+            if (_nombre != null) _nombre.text = label;
+            if (_nivel != null) _nivel.text = string.Empty;
+            if (_favoritoIcon != null) _favoritoIcon.SetActive(false);
+
+            if (_button != null)
+            {
+                _button.onClick.RemoveAllListeners();
+                _button.onClick.AddListener(() => onClick?.Invoke());
+            }
+        }
+
         public Image Portrait => _portrait;
         public TMP_Text Nombre => _nombre;
         public TMP_Text Nivel => _nivel;

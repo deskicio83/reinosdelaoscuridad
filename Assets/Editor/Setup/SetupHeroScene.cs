@@ -84,19 +84,35 @@ public static class SetupHeroScene
         Img(header, Hex("#0D0D1A"), 0.95f);
 
         var btnVolverGO = Child(header.transform, "BtnVolver");
-        Anch(btnVolverGO, 0.01f, 0.15f, 0.10f, 0.85f);
+        Anch(btnVolverGO, 0.01f, 0.15f, 0.09f, 0.85f);
         Img(btnVolverGO, Hex("#1A1020"));
         var btnVolver = btnVolverGO.AddComponent<Button>();
         Txt(Child(btnVolverGO.transform, "Label"), "< Volver", 12f, Hex("#A855F7"), bold: true);
 
         var tituloGO = Child(header.transform, "Titulo");
-        Anch(tituloGO, 0.30f, 0.10f, 0.70f, 0.90f);
-        Txt(tituloGO, "ESBIRRATORIO", 18f, Color.white, bold: true);
+        Anch(tituloGO, 0.11f, 0.10f, 0.28f, 0.90f);
+        Txt(tituloGO, "ESBIRRATORIO", 14f, Color.white, TextAlignmentOptions.Left, bold: true);
+
+        var capacidadGO = Child(header.transform, "CapacidadTexto");
+        Anch(capacidadGO, 0.30f, 0.10f, 0.46f, 0.90f);
+        var capacidadTxt = Txt(capacidadGO, "Esbirros: 0/20", 11f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
+
+        var btnFiltrosGO = Child(header.transform, "BtnFiltros");
+        Anch(btnFiltrosGO, 0.48f, 0.15f, 0.60f, 0.85f);
+        Img(btnFiltrosGO, Hex("#1A1020"));
+        var btnFiltros = btnFiltrosGO.AddComponent<Button>();
+        Txt(Child(btnFiltrosGO.transform, "Label"), "Filtros", 11f, Hex("#A855F7"), bold: true);
+
+        var btnVistaGO = Child(header.transform, "BtnVista");
+        Anch(btnVistaGO, 0.62f, 0.15f, 0.80f, 0.85f);
+        Img(btnVistaGO, Hex("#1A1020"));
+        var btnVista = btnVistaGO.AddComponent<Button>();
+        var btnVistaLabel = Txt(Child(btnVistaGO.transform, "Label"), "Vista compacta", 10f, Hex("#A855F7"), bold: true);
 
         // ── ZonaRoster ───────────────────────────────────────────────────────
 
         var zonaRoster = Child(canvasTr, "ZonaRoster");
-        Anch(zonaRoster, 0.02f, 0.05f, 0.62f, 0.88f);
+        Anch(zonaRoster, 0.02f, 0.05f, 0.50f, 0.88f);
         Img(zonaRoster, Hex("#0D0D1A"), 0.6f);
 
         var scrollGO = Child(zonaRoster.transform, "ScrollRoster");
@@ -125,10 +141,62 @@ public static class SetupHeroScene
         // Template de carta (oculto, PooledGridView instancia clones)
         var cardTemplate = BuildCardTemplate(canvasTr);
 
+        // ── PanelFiltros (overlay sobre ZonaRoster) ───────────────────────────
+
+        var panelFiltros = Child(canvasTr, "PanelFiltros");
+        Anch(panelFiltros, 0.02f, 0.60f, 0.50f, 0.87f);
+        Img(panelFiltros, Hex("#1A1020"), 0.97f);
+        panelFiltros.SetActive(false);
+
+        var filtroElementoContainerGO = Child(panelFiltros.transform, "FiltrosElemento");
+        Anch(filtroElementoContainerGO, 0.02f, 0.55f, 0.98f, 0.95f);
+        var filtroHLG = filtroElementoContainerGO.AddComponent<HorizontalLayoutGroup>();
+        filtroHLG.childControlWidth = true;
+        filtroHLG.childControlHeight = true;
+        filtroHLG.childForceExpandWidth = true;
+        filtroHLG.spacing = 4f;
+
+        var filtroElementoTemplate = BuildFiltroElementoTemplate(canvasTr);
+
+        var btnSoloFavGO = Child(panelFiltros.transform, "BtnSoloFavoritos");
+        Anch(btnSoloFavGO, 0.02f, 0.05f, 0.48f, 0.48f);
+        Img(btnSoloFavGO, Hex("#0D0D1A"));
+        var btnSoloFav = btnSoloFavGO.AddComponent<Button>();
+        var btnSoloFavLabel = Txt(Child(btnSoloFavGO.transform, "Label"), "Favoritos: NO", 10f, Color.white, bold: true);
+
+        var btnOrdenarGO = Child(panelFiltros.transform, "BtnOrdenar");
+        Anch(btnOrdenarGO, 0.52f, 0.05f, 0.98f, 0.48f);
+        Img(btnOrdenarGO, Hex("#0D0D1A"));
+        var btnOrdenar = btnOrdenarGO.AddComponent<Button>();
+        var btnOrdenarLabel = Txt(Child(btnOrdenarGO.transform, "Label"), "Orden: nivel", 10f, Color.white, bold: true);
+
+        // ── Popup comprar huecos (overlay centrado) ───────────────────────────
+
+        var popupComprar = Child(canvasTr, "PopupComprarHuecos");
+        Anch(popupComprar, 0.30f, 0.35f, 0.70f, 0.65f);
+        Img(popupComprar, Hex("#1A1020"), 0.98f);
+        popupComprar.SetActive(false);
+
+        var popupTextoGO = Child(popupComprar.transform, "Texto");
+        Anch(popupTextoGO, 0.05f, 0.40f, 0.95f, 0.92f);
+        var popupTexto = Txt(popupTextoGO, "Comprar 10 huecos", 13f, Color.white);
+
+        var btnConfirmarGO = Child(popupComprar.transform, "BtnConfirmar");
+        Anch(btnConfirmarGO, 0.05f, 0.08f, 0.48f, 0.32f);
+        Img(btnConfirmarGO, Hex("#166534"));
+        var btnConfirmar = btnConfirmarGO.AddComponent<Button>();
+        Txt(Child(btnConfirmarGO.transform, "Label"), "Confirmar", 11f, Color.white, bold: true);
+
+        var btnCancelarGO = Child(popupComprar.transform, "BtnCancelar");
+        Anch(btnCancelarGO, 0.52f, 0.08f, 0.95f, 0.32f);
+        Img(btnCancelarGO, Hex("#0D0D1A"));
+        var btnCancelar = btnCancelarGO.AddComponent<Button>();
+        Txt(Child(btnCancelarGO.transform, "Label"), "Cancelar", 11f, Color.white, bold: true);
+
         // ── ZonaDetalle ──────────────────────────────────────────────────────
 
         var zonaDetalle = Child(canvasTr, "ZonaDetalle");
-        Anch(zonaDetalle, 0.64f, 0.05f, 0.98f, 0.88f);
+        Anch(zonaDetalle, 0.52f, 0.05f, 0.98f, 0.88f);
         Img(zonaDetalle, Hex("#0D0D1A"), 0.6f);
         zonaDetalle.SetActive(false);
 
@@ -152,7 +220,7 @@ public static class SetupHeroScene
         Anch(btnFavGO, 0.05f, 0.60f, 0.35f, 0.67f);
         Img(btnFavGO, Hex("#1A1020"));
         var btnFav = btnFavGO.AddComponent<Button>();
-        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "☆ Marcar favorito", 11f, Hex("#A855F7"), bold: true);
+        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "Marcar favorito", 11f, Hex("#A855F7"), bold: true);
 
         // Tabs
         var tabBar = Child(zonaDetalle.transform, "TabBar");
@@ -222,6 +290,24 @@ public static class SetupHeroScene
         so.FindProperty("_viewport").objectReferenceValue = viewportRT;
         so.FindProperty("_cardTemplate").objectReferenceValue = cardTemplate;
 
+        so.FindProperty("_capacidadTexto").objectReferenceValue = capacidadTxt;
+        so.FindProperty("_btnVistaToggle").objectReferenceValue = btnVista;
+        so.FindProperty("_btnVistaToggleLabel").objectReferenceValue = btnVistaLabel;
+
+        so.FindProperty("_btnFiltros").objectReferenceValue = btnFiltros;
+        so.FindProperty("_panelFiltros").objectReferenceValue = panelFiltros;
+        so.FindProperty("_filtrosElementoContainer").objectReferenceValue = filtroElementoContainerGO.GetComponent<RectTransform>();
+        so.FindProperty("_filtroElementoBtnTemplate").objectReferenceValue = filtroElementoTemplate;
+        so.FindProperty("_btnSoloFavoritos").objectReferenceValue = btnSoloFav;
+        so.FindProperty("_btnSoloFavoritosLabel").objectReferenceValue = btnSoloFavLabel;
+        so.FindProperty("_btnOrdenar").objectReferenceValue = btnOrdenar;
+        so.FindProperty("_btnOrdenarLabel").objectReferenceValue = btnOrdenarLabel;
+
+        so.FindProperty("_popupComprarHuecos").objectReferenceValue = popupComprar;
+        so.FindProperty("_popupComprarTexto").objectReferenceValue = popupTexto;
+        so.FindProperty("_btnConfirmarCompra").objectReferenceValue = btnConfirmar;
+        so.FindProperty("_btnCancelarCompra").objectReferenceValue = btnCancelar;
+
         so.FindProperty("_detailPanel").objectReferenceValue = zonaDetalle;
         so.FindProperty("_detailPortrait").objectReferenceValue = portraitImg;
         so.FindProperty("_detailNombre").objectReferenceValue = nombreTxt;
@@ -242,6 +328,23 @@ public static class SetupHeroScene
 
         so.FindProperty("_btnVolver").objectReferenceValue = btnVolver;
         so.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    private static GameObject BuildFiltroElementoTemplate(Transform canvasTr)
+    {
+        var go = Child(canvasTr, "FiltroElementoTemplate");
+        var layout = go.AddComponent<LayoutElement>();
+        layout.preferredWidth = 60f;
+        layout.preferredHeight = 24f;
+        Img(go, Hex("#0D0D1A"));
+        go.AddComponent<Button>();
+
+        var labelGO = Child(go.transform, "Label");
+        Anch(labelGO, 0f, 0f, 1f, 1f);
+        Txt(labelGO, "elemento", 8f, Color.white, bold: true);
+
+        go.SetActive(false);
+        return go;
     }
 
     private static GameObject BuildCardTemplate(Transform canvasTr)
