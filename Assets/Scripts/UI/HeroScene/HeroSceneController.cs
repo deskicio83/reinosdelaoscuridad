@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
@@ -28,15 +29,17 @@ namespace ReinoOscuridad.UI.HeroScene
         public const int SLOT_INCREMENTO = 10;
         public const int SLOT_MAXIMO = 200;
 
-        public const int COLUMNS_EXPANDIDA = 3;
-        public const int COLUMNS_COMPACTA = 5;
+        public const int COLUMNS = 3;
         public const float CARD_ASPECT = 1.2f;
         public const int MAX_ESTRELLAS = 6;
 
         public static readonly string[] ELEMENTOS =
             { "fuego", "agua", "tierra", "naturaleza", "luz", "oscuridad", "rayo", "hielo" };
 
+        private static readonly string[] GEAR_SLOTS = { "weapon", "helmet", "armor", "boots", "ring", "necklace" };
+
         private const string ART_HEROSCENE = "Assets/Addressables/Art/HeroScene/";
+        private const string ART_SKILLICON = "Assets/Addressables/SkillIcon/";
 
         private static readonly Dictionary<string, string> ELEMENTO_ICON_PATHS = new Dictionary<string, string>
         {
@@ -50,20 +53,14 @@ namespace ReinoOscuridad.UI.HeroScene
         private const string ICON_TAB_INFO = ART_HEROSCENE + "TabMenuBar/IconInfo.png";
         private const string ICON_TAB_HABILIDADES = ART_HEROSCENE + "TabMenuBar/IconHabilidad.png";
         private const string ICON_TAB_EQUIPO = ART_HEROSCENE + "TabMenuBar/IconEquipo.png";
-        private const string ICON_VISTA_GRANDE = ART_HEROSCENE + "TabMenuBar/BtnCompactOne.png";
-        private const string ICON_VISTA_COMPACTA = ART_HEROSCENE + "TabMenuBar/BtnCompactAll.png";
 
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RectTransform _content;
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private GameObject _cardTemplate;
-        [SerializeField] private Vector2 _cellSpacingExpandida = new Vector2(12f, 12f);
-        [SerializeField] private Vector2 _cellSpacingCompacta = new Vector2(6f, 6f);
+        [SerializeField] private Vector2 _cellSpacing = new Vector2(10f, 10f);
 
         [SerializeField] private TMP_Text _capacidadTexto;
-        [SerializeField] private Button _btnVistaToggle;
-        [SerializeField] private TMP_Text _btnVistaToggleLabel;
-        [SerializeField] private Image _iconVista;
 
         [SerializeField] private Button _btnFiltros;
         [SerializeField] private GameObject _panelFiltros;
@@ -79,6 +76,7 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private Button _btnConfirmarCompra;
         [SerializeField] private Button _btnCancelarCompra;
 
+        // ── Zona media (retrato + datos rápidos) ─────────────────────────────
         [SerializeField] private GameObject _detailPanel;
         [SerializeField] private Image _detailPortrait;
         [SerializeField] private TMP_Text _detailNombre;
@@ -86,24 +84,29 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private RectTransform _estrellasContainer;
         [SerializeField] private Image _iconElemento;
         [SerializeField] private TMP_Text _detailClaseElemento;
-        [SerializeField] private TMP_Text _detailStats;
         [SerializeField] private Button _btnFavorito;
         [SerializeField] private TMP_Text _btnFavoritoLabel;
         [SerializeField] private Button _btnBloquear;
         [SerializeField] private TMP_Text _btnBloquearLabel;
-        [SerializeField] private Button _btnEliminar;
 
+        // ── Zona de navegación (tabs + contenido) ────────────────────────────
         [SerializeField] private Button _btnTabInfo;
         [SerializeField] private Button _btnTabHabilidades;
         [SerializeField] private Button _btnTabEquipo;
+        [SerializeField] private Button _btnTabMaestrias;
+        [SerializeField] private Button _btnTabMiscelaneo;
         [SerializeField] private Image _iconTabInfo;
         [SerializeField] private Image _iconTabHabilidades;
         [SerializeField] private Image _iconTabEquipo;
         [SerializeField] private GameObject _panelInfo;
         [SerializeField] private GameObject _panelHabilidades;
         [SerializeField] private GameObject _panelEquipo;
+        [SerializeField] private GameObject _panelMaestrias;
+        [SerializeField] private GameObject _panelMiscelaneo;
         [SerializeField] private RectTransform _habilidadesContent;
-        [SerializeField] private TMP_Text _equipoContent;
+        [SerializeField] private RectTransform _equipoSlotsContent;
+        [SerializeField] private Button _btnEliminar;
+        [SerializeField] private TMP_Text _detailStats;
 
         [SerializeField] private Button _btnVolver;
 
@@ -115,7 +118,6 @@ namespace ReinoOscuridad.UI.HeroScene
         private List<PlayerHeroData> _rosterFiltrado;
         private readonly HeroFilterState _filtro = new HeroFilterState();
         private string _selectedHeroId;
-        private bool _vistaCompacta;
         private int _detailLoadToken;
 
         private static readonly string[] ORDEN_CICLO = { "nivel", "estrellas", "nombre" };
@@ -136,12 +138,13 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_btnTabInfo != null) _btnTabInfo.onClick.AddListener(() => ShowTab(0));
             if (_btnTabHabilidades != null) _btnTabHabilidades.onClick.AddListener(() => ShowTab(1));
             if (_btnTabEquipo != null) _btnTabEquipo.onClick.AddListener(() => ShowTab(2));
+            if (_btnTabMaestrias != null) _btnTabMaestrias.onClick.AddListener(() => ShowTab(3));
+            if (_btnTabMiscelaneo != null) _btnTabMiscelaneo.onClick.AddListener(() => ShowTab(4));
             if (_btnFavorito != null) _btnFavorito.onClick.AddListener(OnFavoritoToggled);
             if (_btnBloquear != null) _btnBloquear.onClick.AddListener(OnBloquearToggled);
             if (_btnEliminar != null) _btnEliminar.onClick.AddListener(OnEliminarClicked);
             if (_btnVolver != null) _btnVolver.onClick.AddListener(() => UIManager.Instance.NavigateBack());
 
-            if (_btnVistaToggle != null) _btnVistaToggle.onClick.AddListener(OnVistaToggle);
             if (_btnFiltros != null) _btnFiltros.onClick.AddListener(OnFiltrosToggle);
             if (_btnSoloFavoritos != null) _btnSoloFavoritos.onClick.AddListener(OnSoloFavoritosToggle);
             if (_btnOrdenar != null) _btnOrdenar.onClick.AddListener(OnOrdenarCiclar);
@@ -156,11 +159,9 @@ namespace ReinoOscuridad.UI.HeroScene
             LoadIconAsync(ICON_TAB_HABILIDADES, _iconTabHabilidades);
             LoadIconAsync(ICON_TAB_EQUIPO, _iconTabEquipo);
 
-            var pd = _pds?.GetPlayerData();
-            _vistaCompacta = pd?.heroSceneCompactView ?? false;
-            RefreshVistaToggleLabel();
             RefreshOrdenarLabel();
 
+            var pd = _pds?.GetPlayerData();
             _rosterCompleto = pd?.heroes ?? new List<PlayerHeroData>();
 
             StartCoroutine(InitializeGridAfterLayout());
@@ -183,14 +184,12 @@ namespace ReinoOscuridad.UI.HeroScene
             bool mostrarCompra = maxHeroSpaces < SLOT_MAXIMO;
             int itemCount = _rosterFiltrado.Count + (mostrarCompra ? 1 : 0);
 
-            int columns = _vistaCompacta ? COLUMNS_COMPACTA : COLUMNS_EXPANDIDA;
-            var spacing = _vistaCompacta ? _cellSpacingCompacta : _cellSpacingExpandida;
-            var cellSize = ComputeCellSize(columns, spacing);
+            var cellSize = ComputeCellSize(COLUMNS, _cellSpacing);
 
             _gridView = _content.GetComponent<PooledGridView>();
             if (_gridView == null) _gridView = _content.gameObject.AddComponent<PooledGridView>();
 
-            _gridView.Init(_cardTemplate, _content, _viewport, _scrollRect, columns, cellSize, spacing,
+            _gridView.Init(_cardTemplate, _content, _viewport, _scrollRect, COLUMNS, cellSize, _cellSpacing,
                 BindCard, itemCount);
 
             RefreshCapacidadTexto(_rosterCompleto.Count, maxHeroSpaces);
@@ -199,7 +198,7 @@ namespace ReinoOscuridad.UI.HeroScene
         private Vector2 ComputeCellSize(int columns, Vector2 spacing)
         {
             float viewportWidth = _viewport != null ? _viewport.rect.width : 0f;
-            if (viewportWidth <= 0f) viewportWidth = 400f;
+            if (viewportWidth <= 0f) viewportWidth = 260f;
 
             float width = (viewportWidth - spacing.x * (columns - 1)) / columns;
             width = Mathf.Max(40f, width);
@@ -287,31 +286,6 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             _selectedHeroId = heroId;
             ShowDetail(heroId);
-        }
-
-        // ── Vista compacta / expandida ───────────────────────────────────────
-
-        private void OnVistaToggle()
-        {
-            _vistaCompacta = !_vistaCompacta;
-
-            var pd = _pds?.GetPlayerData();
-            if (pd != null)
-            {
-                pd.heroSceneCompactView = _vistaCompacta;
-                _pds.MarkDirty();
-            }
-
-            RefreshVistaToggleLabel();
-            ApplyFilters();
-        }
-
-        private void RefreshVistaToggleLabel()
-        {
-            if (_btnVistaToggleLabel != null)
-                _btnVistaToggleLabel.text = _vistaCompacta ? "Grande" : "Compacta";
-
-            LoadIconAsync(_vistaCompacta ? ICON_VISTA_COMPACTA : ICON_VISTA_GRANDE, _iconVista);
         }
 
         // ── Filtros ──────────────────────────────────────────────────────────
@@ -472,7 +446,7 @@ namespace ReinoOscuridad.UI.HeroScene
 
             RefreshFavoritoButton(playerHero.favorite);
             RefreshBloquearButton(playerHero.locked);
-            BuildHabilidades(catalogData);
+            BuildHabilidades(playerHero, catalogData);
             BuildEquipo(playerHero);
 
             ShowTab(0);
@@ -502,7 +476,7 @@ namespace ReinoOscuridad.UI.HeroScene
         private void RefreshFavoritoButton(bool favorito)
         {
             if (_btnFavoritoLabel != null)
-                _btnFavoritoLabel.text = favorito ? "* Favorito" : "Marcar favorito";
+                _btnFavoritoLabel.text = favorito ? "* Favorito" : "Favorito";
         }
 
         private void OnFavoritoToggled()
@@ -570,7 +544,9 @@ namespace ReinoOscuridad.UI.HeroScene
             ApplyFilters();
         }
 
-        private void BuildHabilidades(HeroData catalogData)
+        // ── Habilidades ──────────────────────────────────────────────────────
+
+        private void BuildHabilidades(PlayerHeroData playerHero, HeroData catalogData)
         {
             if (_habilidadesContent == null) return;
 
@@ -586,36 +562,83 @@ namespace ReinoOscuridad.UI.HeroScene
             {
                 if (skill.type == "passive") continue;
 
+                int skillLevel = playerHero.skills?
+                    .FirstOrDefault(s => string.Equals(s.skillId, skill.skillId, StringComparison.OrdinalIgnoreCase))
+                    ?.level ?? 0;
+
                 var entryGO = new GameObject("Skill_" + skill.skillId, typeof(RectTransform));
                 entryGO.transform.SetParent(_habilidadesContent, false);
-                entryGO.AddComponent<LayoutElement>().preferredHeight = 60f;
+                entryGO.AddComponent<LayoutElement>().preferredHeight = 130f;
+
+                var iconGO = new GameObject("Icono", typeof(RectTransform));
+                iconGO.transform.SetParent(entryGO.transform, false);
+                var iconRT = iconGO.GetComponent<RectTransform>();
+                iconRT.anchorMin = new Vector2(0f, 0.5f);
+                iconRT.anchorMax = new Vector2(0f, 0.5f);
+                iconRT.pivot = new Vector2(0f, 0.5f);
+                iconRT.sizeDelta = new Vector2(84f, 84f);
+                iconRT.anchoredPosition = new Vector2(4f, 0f);
+                var iconImg = iconGO.AddComponent<Image>();
+                iconImg.color = Color.white;
+                LoadIconAsync(ART_SKILLICON + $"{playerHero.heroId}_{skill.type}.png", iconImg);
 
                 var txtGO = new GameObject("Texto", typeof(RectTransform));
                 txtGO.transform.SetParent(entryGO.transform, false);
                 var rt = txtGO.GetComponent<RectTransform>();
                 rt.anchorMin = Vector2.zero;
                 rt.anchorMax = Vector2.one;
-                rt.offsetMin = Vector2.zero;
-                rt.offsetMax = Vector2.zero;
+                rt.offsetMin = new Vector2(96f, 4f);
+                rt.offsetMax = new Vector2(-4f, -4f);
 
                 var txt = txtGO.AddComponent<TextMeshProUGUI>();
-                txt.text = $"{skill.name_es} ({skill.type}) — CD: {skill.cooldown}\n{skill.description_es}";
-                txt.fontSize = 12f;
+                txt.fontSize = 11f;
                 txt.color = Color.white;
+                txt.textWrappingMode = TextWrappingModes.Normal;
+                txt.text = BuildHabilidadRichText(skill, skillLevel);
             }
         }
 
+        private static string BuildHabilidadRichText(HeroSkillDef skill, int skillLevel)
+        {
+            var sb = new StringBuilder();
+            sb.Append($"<b>{skill.name_es}</b>  ({skill.type})  CD:{skill.cooldown}\n");
+            sb.Append(skill.description_es).Append('\n');
+
+            if (skill.levelUp != null)
+            {
+                foreach (var lu in skill.levelUp)
+                {
+                    bool desbloqueado = skillLevel >= lu.lvl;
+                    string linea = $"Nv.{lu.lvl}: {lu.change} {lu.value}";
+                    sb.Append(desbloqueado
+                        ? $"<b>{linea}</b>\n"
+                        : $"<color=#666666>{linea}</color>\n");
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        // ── Equipo ───────────────────────────────────────────────────────────
+
         private void BuildEquipo(PlayerHeroData playerHero)
         {
-            if (_equipoContent == null) return;
+            if (_equipoSlotsContent == null) return;
+
+            foreach (Transform child in _equipoSlotsContent)
+            {
+                child.SetParent(null);
+                Destroy(child.gameObject);
+            }
 
             var gearSystem = GearSystem.Instance;
-            string[] slots = { "weapon", "helmet", "armor", "boots", "ring", "necklace" };
-            var lines = new List<string>();
 
-            foreach (var slot in slots)
+            for (int i = 0; i < GEAR_SLOTS.Length; i++)
             {
+                string slot = GEAR_SLOTS[i];
+                int slotIndex = i;
                 GearInstance equipped = null;
+
                 if (gearSystem != null && playerHero.equipment != null)
                 {
                     foreach (var g in playerHero.equipment)
@@ -625,12 +648,59 @@ namespace ReinoOscuridad.UI.HeroScene
                     }
                 }
 
-                lines.Add(equipped != null
-                    ? $"{slot}: {equipped.rareza} · {equipped.mainStat} {equipped.mainStatValue}"
-                    : $"{slot}: vacío");
+                var rowGO = new GameObject("Slot_" + slot, typeof(RectTransform));
+                rowGO.transform.SetParent(_equipoSlotsContent, false);
+                rowGO.AddComponent<LayoutElement>().preferredHeight = 46f;
+                var rowImg = rowGO.AddComponent<Image>();
+                rowImg.color = new Color(1f, 1f, 1f, 0.04f);
+                var rowBtn = rowGO.AddComponent<Button>();
+                rowBtn.targetGraphic = rowImg;
+                rowBtn.onClick.AddListener(() => OnSlotEquipoClicked(playerHero, slot, slotIndex));
+
+                var txtGO = new GameObject("Texto", typeof(RectTransform));
+                txtGO.transform.SetParent(rowGO.transform, false);
+                var rt = txtGO.GetComponent<RectTransform>();
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = new Vector2(8f, 0f);
+                rt.offsetMax = new Vector2(-8f, 0f);
+
+                var txt = txtGO.AddComponent<TextMeshProUGUI>();
+                txt.fontSize = 11f;
+                txt.color = Color.white;
+                txt.text = equipped != null
+                    ? $"{slot}: {equipped.rareza} · {equipped.mainStat} {equipped.mainStatValue}  (toca para cambiar)"
+                    : $"{slot}: vacío  (toca para equipar)";
+            }
+        }
+
+        private void OnSlotEquipoClicked(PlayerHeroData playerHero, string slot, int slotIndex)
+        {
+            var pd = _pds?.GetPlayerData();
+            var gearSystem = GearSystem.Instance;
+            if (pd == null || gearSystem == null) return;
+
+            var disponibles = (pd.gearInventory ?? new List<PlayerGearInstance>())
+                .Select(g => gearSystem.GetGear(g.instanceId))
+                .Where(g => g != null && g.slot == slot)
+                .OrderByDescending(g => g.mainStatValue)
+                .ToList();
+
+            if (disponibles.Count == 0)
+            {
+                AbrirPopupConfirmacion($"No tienes piezas disponibles para el slot '{slot}' en el inventario.", null);
+                return;
             }
 
-            _equipoContent.text = string.Join("\n", lines);
+            var mejor = disponibles[0];
+            AbrirPopupConfirmacion(
+                $"Equipar {mejor.rareza} · {mejor.mainStat} {mejor.mainStatValue}\nen el slot {slot}?\n" +
+                $"(se equipa automáticamente la mejor pieza disponible)",
+                () =>
+                {
+                    gearSystem.EquipGear(mejor.instanceId, playerHero.heroId, slotIndex);
+                    BuildEquipo(playerHero);
+                });
         }
 
         private void ShowTab(int index)
@@ -638,6 +708,8 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_panelInfo != null) _panelInfo.SetActive(index == 0);
             if (_panelHabilidades != null) _panelHabilidades.SetActive(index == 1);
             if (_panelEquipo != null) _panelEquipo.SetActive(index == 2);
+            if (_panelMaestrias != null) _panelMaestrias.SetActive(index == 3);
+            if (_panelMiscelaneo != null) _panelMiscelaneo.SetActive(index == 4);
         }
     }
 }

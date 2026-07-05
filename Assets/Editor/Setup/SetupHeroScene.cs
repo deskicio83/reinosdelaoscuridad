@@ -15,9 +15,11 @@ using static EditorUIBuilder;
 /// Menu: Tools -> Reino Oscuridad -> 9. Setup HeroScene
 ///
 /// LAYOUT (1280x720):
-///   HeaderBar    (x 0.00-1.00, y 0.90-1.00): BtnVolver + Titulo
-///   ZonaRoster   (x 0.02-0.62, y 0.05-0.88): ScrollRect vertical con PooledGridView
-///   ZonaDetalle  (x 0.64-0.98, y 0.05-0.88): retrato + tabs Info/Habilidades/Equipo
+///   HeaderBar    (x 0.00-1.00, y 0.90-1.00): BtnVolver + Titulo + Capacidad + Filtros
+///   ZonaRoster   (x 0.02-0.32, y 0.05-0.88): ScrollRect vertical con PooledGridView (3 columnas)
+///   DetailWrapper(x 0.34-0.98, y 0.05-0.88), oculto hasta seleccionar un heroe:
+///     ZonaMedio  (local 0.00-0.42): retrato rectangular + nivel/estrellas + elemento + favorito/bloquear
+///     ZonaNav    (local 0.44-1.00): 5 tabs (Info/Habilidades/Equipo/Maestrias/Miscelaneo) + contenido
 public static class SetupHeroScene
 {
     private const string SCENE_PATH = "Assets/Scenes/HeroScene.unity";
@@ -99,27 +101,16 @@ public static class SetupHeroScene
         var capacidadTxt = Txt(capacidadGO, "Esbirros: 0/20", 10f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
 
         var btnFiltrosGO = Child(header.transform, "BtnFiltros");
-        Anch(btnFiltrosGO, 0.365f, 0.15f, 0.43f, 0.85f);
+        Anch(btnFiltrosGO, 0.365f, 0.15f, 0.46f, 0.85f);
         var btnFiltrosImg = Img(btnFiltrosGO, Hex("#1A1020"));
         var btnFiltros = btnFiltrosGO.AddComponent<Button>();
         btnFiltros.targetGraphic = btnFiltrosImg;
         Txt(Child(btnFiltrosGO.transform, "Label"), "Filtros", 10f, Hex("#A855F7"), bold: true);
 
-        var btnVistaGO = Child(header.transform, "BtnVista");
-        Anch(btnVistaGO, 0.44f, 0.15f, 0.50f, 0.85f);
-        var btnVistaImg = Img(btnVistaGO, Hex("#1A1020"));
-        var btnVista = btnVistaGO.AddComponent<Button>();
-        btnVista.targetGraphic = btnVistaImg;
-        var iconVistaGO = Child(btnVistaGO.transform, "Icon");
-        Anch(iconVistaGO, 0.55f, 0.1f, 0.95f, 0.9f);
-        var iconVista = Img(iconVistaGO, Color.white);
-        var btnVistaLabel = Txt(Child(btnVistaGO.transform, "Label"), "Compacta", 8f, Hex("#A855F7"), TextAlignmentOptions.Left, bold: true);
-        Anch(btnVistaLabel.rectTransform.gameObject, 0.03f, 0.1f, 0.52f, 0.9f);
-
         // ── ZonaRoster ───────────────────────────────────────────────────────
 
         var zonaRoster = Child(canvasTr, "ZonaRoster");
-        Anch(zonaRoster, 0.02f, 0.05f, 0.50f, 0.88f);
+        Anch(zonaRoster, 0.02f, 0.05f, 0.32f, 0.88f);
         Img(zonaRoster, Hex("#0D0D1A"), 0.6f);
 
         var scrollGO = Child(zonaRoster.transform, "ScrollRoster");
@@ -131,7 +122,7 @@ public static class SetupHeroScene
         var viewportGO = Child(scrollGO.transform, "Viewport");
         Anch(viewportGO, 0f, 0f, 1f, 1f);
         Img(viewportGO, Color.white, 0.01f);
-        var mask = viewportGO.AddComponent<RectMask2D>();
+        viewportGO.AddComponent<RectMask2D>();
         var viewportRT = viewportGO.GetComponent<RectTransform>();
 
         var contentGO = Child(viewportGO.transform, "ContentRoster");
@@ -145,13 +136,12 @@ public static class SetupHeroScene
         scrollRect.viewport = viewportRT;
         scrollRect.content = contentRT;
 
-        // Template de carta (oculto, PooledGridView instancia clones)
         var cardTemplate = BuildCardTemplate(canvasTr);
 
         // ── PanelFiltros (overlay sobre ZonaRoster) ───────────────────────────
 
         var panelFiltros = Child(canvasTr, "PanelFiltros");
-        Anch(panelFiltros, 0.02f, 0.60f, 0.50f, 0.87f);
+        Anch(panelFiltros, 0.02f, 0.60f, 0.32f, 0.87f);
         Img(panelFiltros, Hex("#1A1020"), 0.97f);
         panelFiltros.SetActive(false);
 
@@ -161,7 +151,7 @@ public static class SetupHeroScene
         filtroHLG.childControlWidth = true;
         filtroHLG.childControlHeight = true;
         filtroHLG.childForceExpandWidth = true;
-        filtroHLG.spacing = 4f;
+        filtroHLG.spacing = 3f;
 
         var filtroElementoTemplate = BuildFiltroElementoTemplate(canvasTr);
 
@@ -169,15 +159,15 @@ public static class SetupHeroScene
         Anch(btnSoloFavGO, 0.02f, 0.05f, 0.48f, 0.48f);
         Img(btnSoloFavGO, Hex("#0D0D1A"));
         var btnSoloFav = btnSoloFavGO.AddComponent<Button>();
-        var btnSoloFavLabel = Txt(Child(btnSoloFavGO.transform, "Label"), "Favoritos: NO", 10f, Color.white, bold: true);
+        var btnSoloFavLabel = Txt(Child(btnSoloFavGO.transform, "Label"), "Favoritos: NO", 9f, Color.white, bold: true);
 
         var btnOrdenarGO = Child(panelFiltros.transform, "BtnOrdenar");
         Anch(btnOrdenarGO, 0.52f, 0.05f, 0.98f, 0.48f);
         Img(btnOrdenarGO, Hex("#0D0D1A"));
         var btnOrdenar = btnOrdenarGO.AddComponent<Button>();
-        var btnOrdenarLabel = Txt(Child(btnOrdenarGO.transform, "Label"), "Orden: nivel", 10f, Color.white, bold: true);
+        var btnOrdenarLabel = Txt(Child(btnOrdenarGO.transform, "Label"), "Orden: nivel", 9f, Color.white, bold: true);
 
-        // ── Popup comprar huecos (overlay centrado) ───────────────────────────
+        // ── Popup comprar huecos / confirmacion generica (overlay centrado) ──
 
         var popupComprar = Child(canvasTr, "PopupComprarHuecos");
         Anch(popupComprar, 0.30f, 0.35f, 0.70f, 0.65f);
@@ -200,138 +190,14 @@ public static class SetupHeroScene
         var btnCancelar = btnCancelarGO.AddComponent<Button>();
         Txt(Child(btnCancelarGO.transform, "Label"), "Cancelar", 11f, Color.white, bold: true);
 
-        // ── ZonaDetalle ──────────────────────────────────────────────────────
+        // ── DetailWrapper (ZonaMedio + ZonaNav) ───────────────────────────────
 
-        var zonaDetalle = Child(canvasTr, "ZonaDetalle");
-        Anch(zonaDetalle, 0.52f, 0.05f, 0.98f, 0.88f);
-        Img(zonaDetalle, Hex("#0D0D1A"), 0.6f);
-        zonaDetalle.SetActive(false);
+        var detailWrapper = Child(canvasTr, "DetailWrapper");
+        Anch(detailWrapper, 0.34f, 0.05f, 0.98f, 0.88f);
+        detailWrapper.SetActive(false);
 
-        var portraitGO = Child(zonaDetalle.transform, "Portrait");
-        Anch(portraitGO, 0.05f, 0.68f, 0.35f, 0.97f);
-        var portraitImg = Img(portraitGO, Color.white);
+        var (zonaMedioResult, zonaNavResult) = BuildZonasDetalle(detailWrapper.transform);
 
-        var nombreGO = Child(zonaDetalle.transform, "Nombre");
-        Anch(nombreGO, 0.38f, 0.86f, 0.98f, 0.97f);
-        var nombreTxt = Txt(nombreGO, "—", 16f, Color.white, TextAlignmentOptions.Left, bold: true);
-
-        var nivelGO = Child(zonaDetalle.transform, "Nivel");
-        Anch(nivelGO, 0.38f, 0.78f, 0.60f, 0.86f);
-        var nivelTxt = Txt(nivelGO, "—", 12f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
-
-        var estrellasContainerGO = Child(zonaDetalle.transform, "Estrellas");
-        Anch(estrellasContainerGO, 0.62f, 0.79f, 0.98f, 0.85f);
-        var estrellasHLG = estrellasContainerGO.AddComponent<HorizontalLayoutGroup>();
-        estrellasHLG.childControlWidth = true;
-        estrellasHLG.childControlHeight = true;
-        estrellasHLG.spacing = 2f;
-        estrellasHLG.childAlignment = TextAnchor.MiddleLeft;
-
-        var iconElementoGO = Child(zonaDetalle.transform, "IconElemento");
-        Anch(iconElementoGO, 0.38f, 0.70f, 0.44f, 0.78f);
-        var iconElemento = Img(iconElementoGO, Color.white);
-        iconElementoGO.SetActive(false);
-
-        var claseGO = Child(zonaDetalle.transform, "ClaseElemento");
-        Anch(claseGO, 0.46f, 0.70f, 0.98f, 0.78f);
-        var claseTxt = Txt(claseGO, "—", 12f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
-
-        var btnFavGO = Child(zonaDetalle.transform, "BtnFavorito");
-        Anch(btnFavGO, 0.05f, 0.60f, 0.34f, 0.67f);
-        var btnFavImg = Img(btnFavGO, Hex("#1A1020"));
-        var btnFav = btnFavGO.AddComponent<Button>();
-        btnFav.targetGraphic = btnFavImg;
-        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "Marcar favorito", 10f, Hex("#A855F7"), bold: true);
-
-        var btnBloquearGO = Child(zonaDetalle.transform, "BtnBloquear");
-        Anch(btnBloquearGO, 0.36f, 0.60f, 0.65f, 0.67f);
-        var btnBloquearImg = Img(btnBloquearGO, Hex("#1A1020"));
-        var btnBloquear = btnBloquearGO.AddComponent<Button>();
-        btnBloquear.targetGraphic = btnBloquearImg;
-        var btnBloquearLabel = Txt(Child(btnBloquearGO.transform, "Label"), "Bloquear", 10f, Hex("#A855F7"), bold: true);
-
-        var btnEliminarGO = Child(zonaDetalle.transform, "BtnEliminar");
-        Anch(btnEliminarGO, 0.67f, 0.60f, 0.96f, 0.67f);
-        var btnEliminarImg = Img(btnEliminarGO, Hex("#3F1A1A"));
-        var btnEliminar = btnEliminarGO.AddComponent<Button>();
-        btnEliminar.targetGraphic = btnEliminarImg;
-        Txt(Child(btnEliminarGO.transform, "Label"), "Eliminar", 10f, Hex("#EF4444"), bold: true);
-
-        // Tabs
-        var tabBar = Child(zonaDetalle.transform, "TabBar");
-        Anch(tabBar, 0.05f, 0.60f, 0.98f, 0.67f);
-
-        var btnTabInfoGO = Child(tabBar.transform, "BtnInfo");
-        Anch(btnTabInfoGO, 0.00f, 0f, 0.32f, 1f);
-        var btnTabInfoImg = Img(btnTabInfoGO, Hex("#1A1020"));
-        var btnTabInfo = btnTabInfoGO.AddComponent<Button>();
-        btnTabInfo.targetGraphic = btnTabInfoImg;
-        var iconTabInfoGO = Child(btnTabInfoGO.transform, "Icon");
-        Anch(iconTabInfoGO, 0.08f, 0.15f, 0.30f, 0.85f);
-        var iconTabInfo = Img(iconTabInfoGO, Color.white);
-        var lblTabInfo = Txt(Child(btnTabInfoGO.transform, "Label"), "Info", 10f, Color.white, TextAlignmentOptions.Left, bold: true);
-        Anch(lblTabInfo.rectTransform.gameObject, 0.34f, 0.1f, 0.98f, 0.9f);
-
-        var btnTabHabGO = Child(tabBar.transform, "BtnHabilidades");
-        Anch(btnTabHabGO, 0.34f, 0f, 0.66f, 1f);
-        var btnTabHabImg = Img(btnTabHabGO, Hex("#1A1020"));
-        var btnTabHab = btnTabHabGO.AddComponent<Button>();
-        btnTabHab.targetGraphic = btnTabHabImg;
-        var iconTabHabGO = Child(btnTabHabGO.transform, "Icon");
-        Anch(iconTabHabGO, 0.06f, 0.15f, 0.28f, 0.85f);
-        var iconTabHab = Img(iconTabHabGO, Color.white);
-        var lblTabHab = Txt(Child(btnTabHabGO.transform, "Label"), "Habil.", 9f, Color.white, TextAlignmentOptions.Left, bold: true);
-        Anch(lblTabHab.rectTransform.gameObject, 0.32f, 0.1f, 0.98f, 0.9f);
-
-        var btnTabEqGO = Child(tabBar.transform, "BtnEquipo");
-        Anch(btnTabEqGO, 0.68f, 0f, 1.00f, 1f);
-        var btnTabEqImg = Img(btnTabEqGO, Hex("#1A1020"));
-        var btnTabEq = btnTabEqGO.AddComponent<Button>();
-        btnTabEq.targetGraphic = btnTabEqImg;
-        var iconTabEqGO = Child(btnTabEqGO.transform, "Icon");
-        Anch(iconTabEqGO, 0.08f, 0.15f, 0.30f, 0.85f);
-        var iconTabEq = Img(iconTabEqGO, Color.white);
-        var lblTabEq = Txt(Child(btnTabEqGO.transform, "Label"), "Equipo", 10f, Color.white, TextAlignmentOptions.Left, bold: true);
-        Anch(lblTabEq.rectTransform.gameObject, 0.34f, 0.1f, 0.98f, 0.9f);
-
-        // Panel Info
-        var panelInfo = Child(zonaDetalle.transform, "PanelInfo");
-        Anch(panelInfo, 0.05f, 0.03f, 0.98f, 0.58f);
-        var detailStatsTxt = Txt(panelInfo, "—", 13f, Color.white, TextAlignmentOptions.TopLeft);
-
-        // Panel Habilidades
-        var panelHab = Child(zonaDetalle.transform, "PanelHabilidades");
-        Anch(panelHab, 0.05f, 0.03f, 0.98f, 0.58f);
-        panelHab.SetActive(false);
-
-        var habScrollGO = Child(panelHab.transform, "ScrollHabilidades");
-        Anch(habScrollGO, 0f, 0f, 1f, 1f);
-        var habScroll = habScrollGO.AddComponent<ScrollRect>();
-        habScroll.horizontal = false;
-        var habViewportGO = Child(habScrollGO.transform, "Viewport");
-        Anch(habViewportGO, 0f, 0f, 1f, 1f);
-        Img(habViewportGO, Color.white, 0.01f);
-        habViewportGO.AddComponent<RectMask2D>();
-        var habContentGO = Child(habViewportGO.transform, "Content");
-        var habContentRT = habContentGO.GetComponent<RectTransform>();
-        habContentRT.anchorMin = new Vector2(0f, 1f);
-        habContentRT.anchorMax = new Vector2(1f, 1f);
-        habContentRT.pivot = new Vector2(0.5f, 1f);
-        var habVLG = habContentGO.AddComponent<VerticalLayoutGroup>();
-        habVLG.childControlWidth = true;
-        habVLG.childControlHeight = false;
-        habVLG.childForceExpandHeight = false;
-        habContentGO.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        habScroll.viewport = habViewportGO.GetComponent<RectTransform>();
-        habScroll.content = habContentRT;
-
-        // Panel Equipo
-        var panelEq = Child(zonaDetalle.transform, "PanelEquipo");
-        Anch(panelEq, 0.05f, 0.03f, 0.98f, 0.58f);
-        panelEq.SetActive(false);
-        var equipoTxt = Txt(panelEq, "—", 13f, Color.white, TextAlignmentOptions.TopLeft);
-
-        // Los popups/overlays deben renderizar por encima de todo lo demás.
         popupComprar.transform.SetAsLastSibling();
 
         // ── Wiring ───────────────────────────────────────────────────────────
@@ -344,9 +210,6 @@ public static class SetupHeroScene
         so.FindProperty("_cardTemplate").objectReferenceValue = cardTemplate;
 
         so.FindProperty("_capacidadTexto").objectReferenceValue = capacidadTxt;
-        so.FindProperty("_btnVistaToggle").objectReferenceValue = btnVista;
-        so.FindProperty("_btnVistaToggleLabel").objectReferenceValue = btnVistaLabel;
-        so.FindProperty("_iconVista").objectReferenceValue = iconVista;
 
         so.FindProperty("_btnFiltros").objectReferenceValue = btnFiltros;
         so.FindProperty("_panelFiltros").objectReferenceValue = panelFiltros;
@@ -362,34 +225,251 @@ public static class SetupHeroScene
         so.FindProperty("_btnConfirmarCompra").objectReferenceValue = btnConfirmar;
         so.FindProperty("_btnCancelarCompra").objectReferenceValue = btnCancelar;
 
-        so.FindProperty("_detailPanel").objectReferenceValue = zonaDetalle;
-        so.FindProperty("_detailPortrait").objectReferenceValue = portraitImg;
-        so.FindProperty("_detailNombre").objectReferenceValue = nombreTxt;
-        so.FindProperty("_detailNivel").objectReferenceValue = nivelTxt;
-        so.FindProperty("_estrellasContainer").objectReferenceValue = estrellasContainerGO.GetComponent<RectTransform>();
-        so.FindProperty("_iconElemento").objectReferenceValue = iconElemento;
-        so.FindProperty("_detailClaseElemento").objectReferenceValue = claseTxt;
-        so.FindProperty("_detailStats").objectReferenceValue = detailStatsTxt;
-        so.FindProperty("_btnFavorito").objectReferenceValue = btnFav;
-        so.FindProperty("_btnFavoritoLabel").objectReferenceValue = btnFavLabel;
-        so.FindProperty("_btnBloquear").objectReferenceValue = btnBloquear;
-        so.FindProperty("_btnBloquearLabel").objectReferenceValue = btnBloquearLabel;
-        so.FindProperty("_btnEliminar").objectReferenceValue = btnEliminar;
+        so.FindProperty("_detailPanel").objectReferenceValue = detailWrapper;
+        so.FindProperty("_detailPortrait").objectReferenceValue = zonaMedioResult.Portrait;
+        so.FindProperty("_detailNombre").objectReferenceValue = zonaMedioResult.Nombre;
+        so.FindProperty("_detailNivel").objectReferenceValue = zonaMedioResult.Nivel;
+        so.FindProperty("_estrellasContainer").objectReferenceValue = zonaMedioResult.EstrellasContainer;
+        so.FindProperty("_iconElemento").objectReferenceValue = zonaMedioResult.IconElemento;
+        so.FindProperty("_detailClaseElemento").objectReferenceValue = zonaMedioResult.ClaseElemento;
+        so.FindProperty("_btnFavorito").objectReferenceValue = zonaMedioResult.BtnFavorito;
+        so.FindProperty("_btnFavoritoLabel").objectReferenceValue = zonaMedioResult.BtnFavoritoLabel;
+        so.FindProperty("_btnBloquear").objectReferenceValue = zonaMedioResult.BtnBloquear;
+        so.FindProperty("_btnBloquearLabel").objectReferenceValue = zonaMedioResult.BtnBloquearLabel;
 
-        so.FindProperty("_btnTabInfo").objectReferenceValue = btnTabInfo;
-        so.FindProperty("_btnTabHabilidades").objectReferenceValue = btnTabHab;
-        so.FindProperty("_btnTabEquipo").objectReferenceValue = btnTabEq;
-        so.FindProperty("_iconTabInfo").objectReferenceValue = iconTabInfo;
-        so.FindProperty("_iconTabHabilidades").objectReferenceValue = iconTabHab;
-        so.FindProperty("_iconTabEquipo").objectReferenceValue = iconTabEq;
-        so.FindProperty("_panelInfo").objectReferenceValue = panelInfo;
-        so.FindProperty("_panelHabilidades").objectReferenceValue = panelHab;
-        so.FindProperty("_panelEquipo").objectReferenceValue = panelEq;
-        so.FindProperty("_habilidadesContent").objectReferenceValue = habContentRT;
-        so.FindProperty("_equipoContent").objectReferenceValue = equipoTxt;
+        so.FindProperty("_btnTabInfo").objectReferenceValue = zonaNavResult.BtnTabInfo;
+        so.FindProperty("_btnTabHabilidades").objectReferenceValue = zonaNavResult.BtnTabHabilidades;
+        so.FindProperty("_btnTabEquipo").objectReferenceValue = zonaNavResult.BtnTabEquipo;
+        so.FindProperty("_btnTabMaestrias").objectReferenceValue = zonaNavResult.BtnTabMaestrias;
+        so.FindProperty("_btnTabMiscelaneo").objectReferenceValue = zonaNavResult.BtnTabMiscelaneo;
+        so.FindProperty("_iconTabInfo").objectReferenceValue = zonaNavResult.IconTabInfo;
+        so.FindProperty("_iconTabHabilidades").objectReferenceValue = zonaNavResult.IconTabHabilidades;
+        so.FindProperty("_iconTabEquipo").objectReferenceValue = zonaNavResult.IconTabEquipo;
+        so.FindProperty("_panelInfo").objectReferenceValue = zonaNavResult.PanelInfo;
+        so.FindProperty("_panelHabilidades").objectReferenceValue = zonaNavResult.PanelHabilidades;
+        so.FindProperty("_panelEquipo").objectReferenceValue = zonaNavResult.PanelEquipo;
+        so.FindProperty("_panelMaestrias").objectReferenceValue = zonaNavResult.PanelMaestrias;
+        so.FindProperty("_panelMiscelaneo").objectReferenceValue = zonaNavResult.PanelMiscelaneo;
+        so.FindProperty("_habilidadesContent").objectReferenceValue = zonaNavResult.HabilidadesContent;
+        so.FindProperty("_equipoSlotsContent").objectReferenceValue = zonaNavResult.EquipoSlotsContent;
+        so.FindProperty("_btnEliminar").objectReferenceValue = zonaNavResult.BtnEliminar;
+        so.FindProperty("_detailStats").objectReferenceValue = zonaNavResult.DetailStats;
 
         so.FindProperty("_btnVolver").objectReferenceValue = btnVolver;
         so.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    private struct ZonaMedioResult
+    {
+        public Image Portrait;
+        public TMP_Text Nombre;
+        public TMP_Text Nivel;
+        public RectTransform EstrellasContainer;
+        public Image IconElemento;
+        public TMP_Text ClaseElemento;
+        public Button BtnFavorito;
+        public TMP_Text BtnFavoritoLabel;
+        public Button BtnBloquear;
+        public TMP_Text BtnBloquearLabel;
+    }
+
+    private struct ZonaNavResult
+    {
+        public Button BtnTabInfo, BtnTabHabilidades, BtnTabEquipo, BtnTabMaestrias, BtnTabMiscelaneo;
+        public Image IconTabInfo, IconTabHabilidades, IconTabEquipo;
+        public GameObject PanelInfo, PanelHabilidades, PanelEquipo, PanelMaestrias, PanelMiscelaneo;
+        public RectTransform HabilidadesContent;
+        public RectTransform EquipoSlotsContent;
+        public Button BtnEliminar;
+        public TMP_Text DetailStats;
+    }
+
+    private static (ZonaMedioResult, ZonaNavResult) BuildZonasDetalle(Transform wrapperTr)
+    {
+        // ── ZonaMedio (local 0.00-0.42 del wrapper) ───────────────────────────
+
+        var zonaMedio = Child(wrapperTr, "ZonaMedio");
+        Anch(zonaMedio, 0.00f, 0.00f, 0.40f, 1.00f);
+        Img(zonaMedio, Hex("#0D0D1A"), 0.6f);
+
+        var portraitGO = Child(zonaMedio.transform, "Portrait");
+        Anch(portraitGO, 0.10f, 0.32f, 0.90f, 0.97f);
+        var portraitImg = Img(portraitGO, Color.white);
+
+        var nombreGO = Child(zonaMedio.transform, "Nombre");
+        Anch(nombreGO, 0.05f, 0.24f, 0.95f, 0.31f);
+        var nombreTxt = Txt(nombreGO, "—", 13f, Color.white, bold: true);
+
+        var nivelGO = Child(zonaMedio.transform, "Nivel");
+        Anch(nivelGO, 0.05f, 0.17f, 0.45f, 0.23f);
+        var nivelTxt = Txt(nivelGO, "—", 11f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
+
+        var estrellasContainerGO = Child(zonaMedio.transform, "Estrellas");
+        Anch(estrellasContainerGO, 0.48f, 0.18f, 0.95f, 0.23f);
+        var estrellasHLG = estrellasContainerGO.AddComponent<HorizontalLayoutGroup>();
+        estrellasHLG.childControlWidth = true;
+        estrellasHLG.childControlHeight = true;
+        estrellasHLG.spacing = 2f;
+        estrellasHLG.childAlignment = TextAnchor.MiddleLeft;
+
+        var iconElementoGO = Child(zonaMedio.transform, "IconElemento");
+        Anch(iconElementoGO, 0.05f, 0.10f, 0.16f, 0.16f);
+        var iconElemento = Img(iconElementoGO, Color.white);
+        iconElementoGO.SetActive(false);
+
+        var claseGO = Child(zonaMedio.transform, "ClaseElemento");
+        Anch(claseGO, 0.20f, 0.10f, 0.95f, 0.16f);
+        var claseTxt = Txt(claseGO, "—", 10f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
+
+        var btnFavGO = Child(zonaMedio.transform, "BtnFavorito");
+        Anch(btnFavGO, 0.05f, 0.01f, 0.48f, 0.08f);
+        var btnFavImg = Img(btnFavGO, Hex("#1A1020"));
+        var btnFav = btnFavGO.AddComponent<Button>();
+        btnFav.targetGraphic = btnFavImg;
+        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "Favorito", 9f, Hex("#A855F7"), bold: true);
+
+        var btnBloquearGO = Child(zonaMedio.transform, "BtnBloquear");
+        Anch(btnBloquearGO, 0.52f, 0.01f, 0.95f, 0.08f);
+        var btnBloquearImg = Img(btnBloquearGO, Hex("#1A1020"));
+        var btnBloquear = btnBloquearGO.AddComponent<Button>();
+        btnBloquear.targetGraphic = btnBloquearImg;
+        var btnBloquearLabel = Txt(Child(btnBloquearGO.transform, "Label"), "Bloquear", 9f, Hex("#A855F7"), bold: true);
+
+        var zonaMedioResult = new ZonaMedioResult
+        {
+            Portrait = portraitImg,
+            Nombre = nombreTxt,
+            Nivel = nivelTxt,
+            EstrellasContainer = estrellasContainerGO.GetComponent<RectTransform>(),
+            IconElemento = iconElemento,
+            ClaseElemento = claseTxt,
+            BtnFavorito = btnFav,
+            BtnFavoritoLabel = btnFavLabel,
+            BtnBloquear = btnBloquear,
+            BtnBloquearLabel = btnBloquearLabel,
+        };
+
+        // ── ZonaNav (local 0.44-1.00 del wrapper) ─────────────────────────────
+
+        var zonaNav = Child(wrapperTr, "ZonaNav");
+        Anch(zonaNav, 0.44f, 0.00f, 1.00f, 1.00f);
+        Img(zonaNav, Hex("#0D0D1A"), 0.6f);
+
+        var tabBar = Child(zonaNav.transform, "TabBar");
+        Anch(tabBar, 0.02f, 0.90f, 0.98f, 0.99f);
+
+        var (btnTabInfo, iconTabInfo) = BuildTabButton(tabBar.transform, "BtnInfo", 0.00f, 0.19f, "Info");
+        var (btnTabHab, iconTabHab) = BuildTabButton(tabBar.transform, "BtnHabilidades", 0.20f, 0.39f, "Habil.");
+        var (btnTabEq, iconTabEq) = BuildTabButton(tabBar.transform, "BtnEquipo", 0.40f, 0.59f, "Equipo");
+        var (btnTabMae, _) = BuildTabButton(tabBar.transform, "BtnMaestrias", 0.60f, 0.79f, "Maestr.");
+        var (btnTabMisc, _) = BuildTabButton(tabBar.transform, "BtnMiscelaneo", 0.80f, 0.99f, "Misc.");
+
+        // Panel Info
+        var panelInfo = Child(zonaNav.transform, "PanelInfo");
+        Anch(panelInfo, 0.05f, 0.03f, 0.98f, 0.88f);
+        var detailStatsTxt = Txt(panelInfo, "—", 13f, Color.white, TextAlignmentOptions.TopLeft);
+
+        // Panel Habilidades
+        var panelHab = Child(zonaNav.transform, "PanelHabilidades");
+        Anch(panelHab, 0.05f, 0.03f, 0.98f, 0.88f);
+        panelHab.SetActive(false);
+        var habContentRT = BuildScrollContent(panelHab.transform, out var habScroll);
+
+        // Panel Equipo
+        var panelEq = Child(zonaNav.transform, "PanelEquipo");
+        Anch(panelEq, 0.05f, 0.03f, 0.98f, 0.88f);
+        panelEq.SetActive(false);
+        var equipoContentRT = BuildScrollContent(panelEq.transform, out var eqScroll);
+
+        // Panel Maestrias (stub)
+        var panelMae = Child(zonaNav.transform, "PanelMaestrias");
+        Anch(panelMae, 0.05f, 0.03f, 0.98f, 0.88f);
+        panelMae.SetActive(false);
+        Txt(panelMae, "Maestrías — próximamente", 12f, Hex("#AAAAAA"), TextAlignmentOptions.TopLeft);
+
+        // Panel Miscelaneo
+        var panelMisc = Child(zonaNav.transform, "PanelMiscelaneo");
+        Anch(panelMisc, 0.05f, 0.03f, 0.98f, 0.88f);
+        panelMisc.SetActive(false);
+
+        var btnEliminarGO = Child(panelMisc.transform, "BtnEliminar");
+        Anch(btnEliminarGO, 0.0f, 0.85f, 0.6f, 0.97f);
+        var btnEliminarImg = Img(btnEliminarGO, Hex("#3F1A1A"));
+        var btnEliminar = btnEliminarGO.AddComponent<Button>();
+        btnEliminar.targetGraphic = btnEliminarImg;
+        Txt(Child(btnEliminarGO.transform, "Label"), "Eliminar esbirro", 10f, Hex("#EF4444"), bold: true);
+
+        var zonaNavResult = new ZonaNavResult
+        {
+            BtnTabInfo = btnTabInfo,
+            BtnTabHabilidades = btnTabHab,
+            BtnTabEquipo = btnTabEq,
+            BtnTabMaestrias = btnTabMae,
+            BtnTabMiscelaneo = btnTabMisc,
+            IconTabInfo = iconTabInfo,
+            IconTabHabilidades = iconTabHab,
+            IconTabEquipo = iconTabEq,
+            PanelInfo = panelInfo,
+            PanelHabilidades = panelHab,
+            PanelEquipo = panelEq,
+            PanelMaestrias = panelMae,
+            PanelMiscelaneo = panelMisc,
+            HabilidadesContent = habContentRT,
+            EquipoSlotsContent = equipoContentRT,
+            BtnEliminar = btnEliminar,
+            DetailStats = detailStatsTxt,
+        };
+
+        return (zonaMedioResult, zonaNavResult);
+    }
+
+    private static (Button, Image) BuildTabButton(Transform parent, string name, float x0, float x1, string label)
+    {
+        var go = Child(parent, name);
+        Anch(go, x0, 0f, x1, 1f);
+        var img = Img(go, Hex("#1A1020"));
+        var btn = go.AddComponent<Button>();
+        btn.targetGraphic = img;
+
+        var iconGO = Child(go.transform, "Icon");
+        Anch(iconGO, 0.06f, 0.15f, 0.34f, 0.85f);
+        var icon = Img(iconGO, Color.white);
+
+        var lbl = Txt(Child(go.transform, "Label"), label, 8f, Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(lbl.rectTransform.gameObject, 0.36f, 0.1f, 0.98f, 0.9f);
+
+        return (btn, icon);
+    }
+
+    private static RectTransform BuildScrollContent(Transform parent, out ScrollRect scroll)
+    {
+        var scrollGO = Child(parent, "Scroll");
+        Anch(scrollGO, 0f, 0f, 1f, 1f);
+        scroll = scrollGO.AddComponent<ScrollRect>();
+        scroll.horizontal = false;
+
+        var viewportGO = Child(scrollGO.transform, "Viewport");
+        Anch(viewportGO, 0f, 0f, 1f, 1f);
+        Img(viewportGO, Color.white, 0.01f);
+        viewportGO.AddComponent<RectMask2D>();
+
+        var contentGO = Child(viewportGO.transform, "Content");
+        var contentRT = contentGO.GetComponent<RectTransform>();
+        contentRT.anchorMin = new Vector2(0f, 1f);
+        contentRT.anchorMax = new Vector2(1f, 1f);
+        contentRT.pivot = new Vector2(0.5f, 1f);
+
+        var vlg = contentGO.AddComponent<VerticalLayoutGroup>();
+        vlg.childControlWidth = true;
+        vlg.childControlHeight = false;
+        vlg.childForceExpandHeight = false;
+        vlg.spacing = 4f;
+        contentGO.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        scroll.viewport = viewportGO.GetComponent<RectTransform>();
+        scroll.content = contentRT;
+
+        return contentRT;
     }
 
     private static GameObject BuildFiltroElementoTemplate(Transform canvasTr)
