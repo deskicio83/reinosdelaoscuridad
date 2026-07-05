@@ -1,13 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using TMPro;
 using ReinoOscuridad.Core;
 using ReinoOscuridad.Data;
 using ReinoOscuridad.Systems;
-using ReinoOscuridad.Utils;
 using ReinoOscuridad.UI.Common;
 
 namespace ReinoOscuridad.UI.HeroScene
@@ -26,8 +28,30 @@ namespace ReinoOscuridad.UI.HeroScene
         public const int SLOT_INCREMENTO = 10;
         public const int SLOT_MAXIMO = 200;
 
+        public const int COLUMNS_EXPANDIDA = 3;
+        public const int COLUMNS_COMPACTA = 5;
+        public const float CARD_ASPECT = 1.2f;
+        public const int MAX_ESTRELLAS = 6;
+
         public static readonly string[] ELEMENTOS =
             { "fuego", "agua", "tierra", "naturaleza", "luz", "oscuridad", "rayo", "hielo" };
+
+        private const string ART_HEROSCENE = "Assets/Addressables/Art/HeroScene/";
+
+        private static readonly Dictionary<string, string> ELEMENTO_ICON_PATHS = new Dictionary<string, string>
+        {
+            { "fuego", ART_HEROSCENE + "Elemento/Fuego.png" },
+            { "agua", ART_HEROSCENE + "Elemento/Agua.png" },
+            { "naturaleza", ART_HEROSCENE + "Elemento/Naturaleza.png" },
+            { "luz", ART_HEROSCENE + "Elemento/Luz.png" },
+            { "oscuridad", ART_HEROSCENE + "Elemento/Oscuridad.png" },
+        };
+
+        private const string ICON_TAB_INFO = ART_HEROSCENE + "TabMenuBar/IconInfo.png";
+        private const string ICON_TAB_HABILIDADES = ART_HEROSCENE + "TabMenuBar/IconHabilidad.png";
+        private const string ICON_TAB_EQUIPO = ART_HEROSCENE + "TabMenuBar/IconEquipo.png";
+        private const string ICON_VISTA_GRANDE = ART_HEROSCENE + "TabMenuBar/BtnCompactOne.png";
+        private const string ICON_VISTA_COMPACTA = ART_HEROSCENE + "TabMenuBar/BtnCompactAll.png";
 
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RectTransform _content;
@@ -39,6 +63,7 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private TMP_Text _capacidadTexto;
         [SerializeField] private Button _btnVistaToggle;
         [SerializeField] private TMP_Text _btnVistaToggleLabel;
+        [SerializeField] private Image _iconVista;
 
         [SerializeField] private Button _btnFiltros;
         [SerializeField] private GameObject _panelFiltros;
@@ -57,15 +82,23 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private GameObject _detailPanel;
         [SerializeField] private Image _detailPortrait;
         [SerializeField] private TMP_Text _detailNombre;
-        [SerializeField] private TMP_Text _detailNivelEstrellas;
+        [SerializeField] private TMP_Text _detailNivel;
+        [SerializeField] private RectTransform _estrellasContainer;
+        [SerializeField] private Image _iconElemento;
         [SerializeField] private TMP_Text _detailClaseElemento;
         [SerializeField] private TMP_Text _detailStats;
         [SerializeField] private Button _btnFavorito;
         [SerializeField] private TMP_Text _btnFavoritoLabel;
+        [SerializeField] private Button _btnBloquear;
+        [SerializeField] private TMP_Text _btnBloquearLabel;
+        [SerializeField] private Button _btnEliminar;
 
         [SerializeField] private Button _btnTabInfo;
         [SerializeField] private Button _btnTabHabilidades;
         [SerializeField] private Button _btnTabEquipo;
+        [SerializeField] private Image _iconTabInfo;
+        [SerializeField] private Image _iconTabHabilidades;
+        [SerializeField] private Image _iconTabEquipo;
         [SerializeField] private GameObject _panelInfo;
         [SerializeField] private GameObject _panelHabilidades;
         [SerializeField] private GameObject _panelEquipo;
@@ -83,6 +116,7 @@ namespace ReinoOscuridad.UI.HeroScene
         private readonly HeroFilterState _filtro = new HeroFilterState();
         private string _selectedHeroId;
         private bool _vistaCompacta;
+        private int _detailLoadToken;
 
         private static readonly string[] ORDEN_CICLO = { "nivel", "estrellas", "nombre" };
 
@@ -103,6 +137,8 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_btnTabHabilidades != null) _btnTabHabilidades.onClick.AddListener(() => ShowTab(1));
             if (_btnTabEquipo != null) _btnTabEquipo.onClick.AddListener(() => ShowTab(2));
             if (_btnFavorito != null) _btnFavorito.onClick.AddListener(OnFavoritoToggled);
+            if (_btnBloquear != null) _btnBloquear.onClick.AddListener(OnBloquearToggled);
+            if (_btnEliminar != null) _btnEliminar.onClick.AddListener(OnEliminarClicked);
             if (_btnVolver != null) _btnVolver.onClick.AddListener(() => UIManager.Instance.NavigateBack());
 
             if (_btnVistaToggle != null) _btnVistaToggle.onClick.AddListener(OnVistaToggle);
@@ -116,23 +152,28 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_popupComprarHuecos != null) _popupComprarHuecos.SetActive(false);
 
             BuildFiltroElementoButtons();
+            LoadIconAsync(ICON_TAB_INFO, _iconTabInfo);
+            LoadIconAsync(ICON_TAB_HABILIDADES, _iconTabHabilidades);
+            LoadIconAsync(ICON_TAB_EQUIPO, _iconTabEquipo);
 
             var pd = _pds?.GetPlayerData();
             _vistaCompacta = pd?.heroSceneCompactView ?? false;
             RefreshVistaToggleLabel();
             RefreshOrdenarLabel();
 
-            BuildRoster();
+            _rosterCompleto = pd?.heroes ?? new List<PlayerHeroData>();
+
+            StartCoroutine(InitializeGridAfterLayout());
+        }
+
+        private IEnumerator InitializeGridAfterLayout()
+        {
+            yield return null;
+            yield return null;
+            ApplyFilters();
         }
 
         // ── Roster / grid ────────────────────────────────────────────────────
-
-        private void BuildRoster()
-        {
-            var pd = _pds?.GetPlayerData();
-            _rosterCompleto = pd?.heroes ?? new List<PlayerHeroData>();
-            ApplyFilters();
-        }
 
         private void ApplyFilters()
         {
@@ -142,9 +183,9 @@ namespace ReinoOscuridad.UI.HeroScene
             bool mostrarCompra = maxHeroSpaces < SLOT_MAXIMO;
             int itemCount = _rosterFiltrado.Count + (mostrarCompra ? 1 : 0);
 
-            var cellSize = _vistaCompacta ? new Vector2(80f, 100f) : new Vector2(140f, 170f);
+            int columns = _vistaCompacta ? COLUMNS_COMPACTA : COLUMNS_EXPANDIDA;
             var spacing = _vistaCompacta ? _cellSpacingCompacta : _cellSpacingExpandida;
-            int columns = _vistaCompacta ? 6 : 4;
+            var cellSize = ComputeCellSize(columns, spacing);
 
             _gridView = _content.GetComponent<PooledGridView>();
             if (_gridView == null) _gridView = _content.gameObject.AddComponent<PooledGridView>();
@@ -153,6 +194,16 @@ namespace ReinoOscuridad.UI.HeroScene
                 BindCard, itemCount);
 
             RefreshCapacidadTexto(_rosterCompleto.Count, maxHeroSpaces);
+        }
+
+        private Vector2 ComputeCellSize(int columns, Vector2 spacing)
+        {
+            float viewportWidth = _viewport != null ? _viewport.rect.width : 0f;
+            if (viewportWidth <= 0f) viewportWidth = 400f;
+
+            float width = (viewportWidth - spacing.x * (columns - 1)) / columns;
+            width = Mathf.Max(40f, width);
+            return new Vector2(width, width * CARD_ASPECT);
         }
 
         public static List<PlayerHeroData> SortRoster(List<PlayerHeroData> roster)
@@ -214,9 +265,22 @@ namespace ReinoOscuridad.UI.HeroScene
             var playerHero = _rosterFiltrado[index];
             var catalogData = GetCatalogData(playerHero.heroId);
             string nombre = catalogData?.displayName_es ?? playerHero.heroId;
-            var portrait = PlaceholderAssets.GetHeroPortrait(catalogData?.element);
+            string portraitAddress = playerHero.awaken
+                ? catalogData?.portraitAddressableAwaken
+                : catalogData?.portraitAddressable;
 
-            view.Bind(playerHero.heroId, nombre, playerHero.level, portrait, playerHero.favorite, OnCardClicked);
+            view.Bind(playerHero.heroId, nombre, playerHero.level, portraitAddress, playerHero.favorite,
+                playerHero.locked, OnCardClicked);
+        }
+
+        private void LoadIconAsync(string address, Image target)
+        {
+            if (target == null || string.IsNullOrEmpty(address)) return;
+            Addressables.LoadAssetAsync<Sprite>(address).Completed += handle =>
+            {
+                if (handle.Status == AsyncOperationStatus.Succeeded && target != null)
+                    target.sprite = handle.Result;
+            };
         }
 
         private void OnCardClicked(string heroId)
@@ -245,7 +309,9 @@ namespace ReinoOscuridad.UI.HeroScene
         private void RefreshVistaToggleLabel()
         {
             if (_btnVistaToggleLabel != null)
-                _btnVistaToggleLabel.text = _vistaCompacta ? "Vista grande" : "Vista compacta";
+                _btnVistaToggleLabel.text = _vistaCompacta ? "Grande" : "Compacta";
+
+            LoadIconAsync(_vistaCompacta ? ICON_VISTA_COMPACTA : ICON_VISTA_GRANDE, _iconVista);
         }
 
         // ── Filtros ──────────────────────────────────────────────────────────
@@ -306,6 +372,25 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_capacidadTexto != null) _capacidadTexto.text = $"Esbirros: {actuales}/{maximo}";
         }
 
+        // ── Popup de confirmación genérico ───────────────────────────────────
+
+        private void AbrirPopupConfirmacion(string mensaje, Action onConfirm)
+        {
+            if (_popupComprarTexto != null) _popupComprarTexto.text = mensaje;
+
+            if (_btnConfirmarCompra != null)
+            {
+                _btnConfirmarCompra.onClick.RemoveAllListeners();
+                _btnConfirmarCompra.onClick.AddListener(() =>
+                {
+                    onConfirm?.Invoke();
+                    if (_popupComprarHuecos != null) _popupComprarHuecos.SetActive(false);
+                });
+            }
+
+            if (_popupComprarHuecos != null) _popupComprarHuecos.SetActive(true);
+        }
+
         // ── Compra de huecos ─────────────────────────────────────────────────
 
         private void OnBuySlotClicked()
@@ -314,24 +399,15 @@ namespace ReinoOscuridad.UI.HeroScene
             if (pd == null) return;
 
             var (oro, caosifera) = GetSlotExpansionCost(pd.maxHeroSpaces);
-
-            if (_popupComprarTexto != null)
-                _popupComprarTexto.text = $"Comprar {SLOT_INCREMENTO} huecos\n{oro} oro negro + {caosifera} caosífera";
-
-            if (_btnConfirmarCompra != null)
-            {
-                _btnConfirmarCompra.onClick.RemoveAllListeners();
-                _btnConfirmarCompra.onClick.AddListener(() => ConfirmarCompraHuecos(oro, caosifera));
-            }
-
-            if (_popupComprarHuecos != null) _popupComprarHuecos.SetActive(true);
+            AbrirPopupConfirmacion(
+                $"Comprar {SLOT_INCREMENTO} huecos\n{oro} oro negro + {caosifera} caosífera",
+                () => ConfirmarCompraHuecos(oro, caosifera));
         }
 
         private void ConfirmarCompraHuecos(int costoOro, int costoCaosifera)
         {
             var pd = _pds?.GetPlayerData();
             if (pd == null || _eco == null) return;
-
             if (pd.maxHeroSpaces >= SLOT_MAXIMO) return;
 
             if (!_eco.ConsumeGold(costoOro)) return;
@@ -343,8 +419,6 @@ namespace ReinoOscuridad.UI.HeroScene
 
             pd.maxHeroSpaces = Mathf.Min(SLOT_MAXIMO, pd.maxHeroSpaces + SLOT_INCREMENTO);
             _pds.MarkDirty();
-
-            if (_popupComprarHuecos != null) _popupComprarHuecos.SetActive(false);
             ApplyFilters();
         }
 
@@ -360,9 +434,35 @@ namespace ReinoOscuridad.UI.HeroScene
 
             if (_detailPanel != null) _detailPanel.SetActive(true);
 
-            if (_detailPortrait != null) _detailPortrait.sprite = PlaceholderAssets.GetHeroPortrait(catalogData?.element);
+            _detailLoadToken++;
+            int myToken = _detailLoadToken;
+            if (_detailPortrait != null) _detailPortrait.sprite = null;
+
+            string fullAddress = playerHero.awaken ? catalogData?.fullAddressableAwaken : catalogData?.fullAddressable;
+            if (_detailPortrait != null && !string.IsNullOrEmpty(fullAddress))
+            {
+                Addressables.LoadAssetAsync<Sprite>(fullAddress).Completed += handle =>
+                {
+                    if (myToken != _detailLoadToken) return;
+                    if (handle.Status == AsyncOperationStatus.Succeeded && _detailPortrait != null)
+                        _detailPortrait.sprite = handle.Result;
+                };
+            }
+
+            if (_iconElemento != null)
+            {
+                _iconElemento.gameObject.SetActive(false);
+                string elemento = catalogData?.element?.ToLowerInvariant();
+                if (!string.IsNullOrEmpty(elemento) && ELEMENTO_ICON_PATHS.TryGetValue(elemento, out var iconPath))
+                {
+                    _iconElemento.gameObject.SetActive(true);
+                    LoadIconAsync(iconPath, _iconElemento);
+                }
+            }
+
             if (_detailNombre != null) _detailNombre.text = catalogData?.displayName_es ?? heroId;
-            if (_detailNivelEstrellas != null) _detailNivelEstrellas.text = $"Nv. {playerHero.level}  ·  {playerHero.stars}*";
+            if (_detailNivel != null) _detailNivel.text = $"Nv. {playerHero.level}";
+            BuildEstrellas(playerHero.stars);
             if (_detailClaseElemento != null) _detailClaseElemento.text = $"{catalogData?.classStandard}  ·  {catalogData?.element}";
 
             if (_detailStats != null && instance != null)
@@ -371,10 +471,32 @@ namespace ReinoOscuridad.UI.HeroScene
                     $"CRIT: {instance.crit}%  CRIT DMG: {instance.critDmg}%\nACC: {instance.acc}  RES: {instance.res}";
 
             RefreshFavoritoButton(playerHero.favorite);
+            RefreshBloquearButton(playerHero.locked);
             BuildHabilidades(catalogData);
             BuildEquipo(playerHero);
 
             ShowTab(0);
+        }
+
+        private void BuildEstrellas(int stars)
+        {
+            if (_estrellasContainer == null) return;
+
+            foreach (Transform child in _estrellasContainer)
+            {
+                child.SetParent(null);
+                Destroy(child.gameObject);
+            }
+
+            int total = Mathf.Clamp(stars, 0, MAX_ESTRELLAS);
+            for (int i = 0; i < total; i++)
+            {
+                var go = new GameObject("Estrella" + i, typeof(RectTransform));
+                go.transform.SetParent(_estrellasContainer, false);
+                go.AddComponent<LayoutElement>().preferredWidth = 12f;
+                var img = go.AddComponent<Image>();
+                img.color = new Color(0.96f, 0.62f, 0.04f);
+            }
         }
 
         private void RefreshFavoritoButton(bool favorito)
@@ -394,6 +516,57 @@ namespace ReinoOscuridad.UI.HeroScene
             _pds?.MarkDirty();
 
             RefreshFavoritoButton(playerHero.favorite);
+            ApplyFilters();
+        }
+
+        private void RefreshBloquearButton(bool bloqueado)
+        {
+            if (_btnBloquearLabel != null)
+                _btnBloquearLabel.text = bloqueado ? "Bloqueado" : "Bloquear";
+        }
+
+        private void OnBloquearToggled()
+        {
+            if (string.IsNullOrEmpty(_selectedHeroId)) return;
+
+            var playerHero = _rosterCompleto.FirstOrDefault(h => h.heroId == _selectedHeroId);
+            if (playerHero == null) return;
+
+            playerHero.locked = !playerHero.locked;
+            _pds?.MarkDirty();
+
+            RefreshBloquearButton(playerHero.locked);
+            ApplyFilters();
+        }
+
+        private void OnEliminarClicked()
+        {
+            if (string.IsNullOrEmpty(_selectedHeroId)) return;
+
+            var playerHero = _rosterCompleto.FirstOrDefault(h => h.heroId == _selectedHeroId);
+            if (playerHero == null) return;
+
+            if (playerHero.locked)
+            {
+                AbrirPopupConfirmacion("Este esbirro está bloqueado.\nDesbloquéalo antes de eliminarlo.", null);
+                return;
+            }
+
+            var catalogData = GetCatalogData(playerHero.heroId);
+            string nombre = catalogData?.displayName_es ?? playerHero.heroId;
+
+            AbrirPopupConfirmacion($"¿Eliminar a {nombre} permanentemente?\nSe perderá su progreso y equipo.",
+                () => ConfirmarEliminarHeroe(playerHero));
+        }
+
+        private void ConfirmarEliminarHeroe(PlayerHeroData playerHero)
+        {
+            _rosterCompleto.Remove(playerHero);
+            _pds?.MarkDirty();
+
+            _selectedHeroId = null;
+            if (_detailPanel != null) _detailPanel.SetActive(false);
+
             ApplyFilters();
         }
 

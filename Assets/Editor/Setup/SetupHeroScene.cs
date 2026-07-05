@@ -84,30 +84,37 @@ public static class SetupHeroScene
         Img(header, Hex("#0D0D1A"), 0.95f);
 
         var btnVolverGO = Child(header.transform, "BtnVolver");
-        Anch(btnVolverGO, 0.01f, 0.15f, 0.09f, 0.85f);
-        Img(btnVolverGO, Hex("#1A1020"));
+        Anch(btnVolverGO, 0.005f, 0.15f, 0.085f, 0.85f);
+        var btnVolverImg = Img(btnVolverGO, Hex("#1A1020"));
         var btnVolver = btnVolverGO.AddComponent<Button>();
-        Txt(Child(btnVolverGO.transform, "Label"), "< Volver", 12f, Hex("#A855F7"), bold: true);
+        btnVolver.targetGraphic = btnVolverImg;
+        Txt(Child(btnVolverGO.transform, "Label"), "< Volver", 11f, Hex("#A855F7"), bold: true);
 
         var tituloGO = Child(header.transform, "Titulo");
-        Anch(tituloGO, 0.11f, 0.10f, 0.28f, 0.90f);
-        Txt(tituloGO, "ESBIRRATORIO", 14f, Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(tituloGO, 0.095f, 0.10f, 0.22f, 0.90f);
+        Txt(tituloGO, "ESBIRRATORIO", 12f, Color.white, TextAlignmentOptions.Left, bold: true);
 
         var capacidadGO = Child(header.transform, "CapacidadTexto");
-        Anch(capacidadGO, 0.30f, 0.10f, 0.46f, 0.90f);
-        var capacidadTxt = Txt(capacidadGO, "Esbirros: 0/20", 11f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
+        Anch(capacidadGO, 0.23f, 0.10f, 0.355f, 0.90f);
+        var capacidadTxt = Txt(capacidadGO, "Esbirros: 0/20", 10f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
 
         var btnFiltrosGO = Child(header.transform, "BtnFiltros");
-        Anch(btnFiltrosGO, 0.48f, 0.15f, 0.60f, 0.85f);
-        Img(btnFiltrosGO, Hex("#1A1020"));
+        Anch(btnFiltrosGO, 0.365f, 0.15f, 0.43f, 0.85f);
+        var btnFiltrosImg = Img(btnFiltrosGO, Hex("#1A1020"));
         var btnFiltros = btnFiltrosGO.AddComponent<Button>();
-        Txt(Child(btnFiltrosGO.transform, "Label"), "Filtros", 11f, Hex("#A855F7"), bold: true);
+        btnFiltros.targetGraphic = btnFiltrosImg;
+        Txt(Child(btnFiltrosGO.transform, "Label"), "Filtros", 10f, Hex("#A855F7"), bold: true);
 
         var btnVistaGO = Child(header.transform, "BtnVista");
-        Anch(btnVistaGO, 0.62f, 0.15f, 0.80f, 0.85f);
-        Img(btnVistaGO, Hex("#1A1020"));
+        Anch(btnVistaGO, 0.44f, 0.15f, 0.50f, 0.85f);
+        var btnVistaImg = Img(btnVistaGO, Hex("#1A1020"));
         var btnVista = btnVistaGO.AddComponent<Button>();
-        var btnVistaLabel = Txt(Child(btnVistaGO.transform, "Label"), "Vista compacta", 10f, Hex("#A855F7"), bold: true);
+        btnVista.targetGraphic = btnVistaImg;
+        var iconVistaGO = Child(btnVistaGO.transform, "Icon");
+        Anch(iconVistaGO, 0.55f, 0.1f, 0.95f, 0.9f);
+        var iconVista = Img(iconVistaGO, Color.white);
+        var btnVistaLabel = Txt(Child(btnVistaGO.transform, "Label"), "Compacta", 8f, Hex("#A855F7"), TextAlignmentOptions.Left, bold: true);
+        Anch(btnVistaLabel.rectTransform.gameObject, 0.03f, 0.1f, 0.52f, 0.9f);
 
         // ── ZonaRoster ───────────────────────────────────────────────────────
 
@@ -208,19 +215,47 @@ public static class SetupHeroScene
         Anch(nombreGO, 0.38f, 0.86f, 0.98f, 0.97f);
         var nombreTxt = Txt(nombreGO, "—", 16f, Color.white, TextAlignmentOptions.Left, bold: true);
 
-        var nivelGO = Child(zonaDetalle.transform, "NivelEstrellas");
-        Anch(nivelGO, 0.38f, 0.78f, 0.98f, 0.86f);
+        var nivelGO = Child(zonaDetalle.transform, "Nivel");
+        Anch(nivelGO, 0.38f, 0.78f, 0.60f, 0.86f);
         var nivelTxt = Txt(nivelGO, "—", 12f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
 
+        var estrellasContainerGO = Child(zonaDetalle.transform, "Estrellas");
+        Anch(estrellasContainerGO, 0.62f, 0.79f, 0.98f, 0.85f);
+        var estrellasHLG = estrellasContainerGO.AddComponent<HorizontalLayoutGroup>();
+        estrellasHLG.childControlWidth = true;
+        estrellasHLG.childControlHeight = true;
+        estrellasHLG.spacing = 2f;
+        estrellasHLG.childAlignment = TextAnchor.MiddleLeft;
+
+        var iconElementoGO = Child(zonaDetalle.transform, "IconElemento");
+        Anch(iconElementoGO, 0.38f, 0.70f, 0.44f, 0.78f);
+        var iconElemento = Img(iconElementoGO, Color.white);
+        iconElementoGO.SetActive(false);
+
         var claseGO = Child(zonaDetalle.transform, "ClaseElemento");
-        Anch(claseGO, 0.38f, 0.70f, 0.98f, 0.78f);
+        Anch(claseGO, 0.46f, 0.70f, 0.98f, 0.78f);
         var claseTxt = Txt(claseGO, "—", 12f, Hex("#AAAAAA"), TextAlignmentOptions.Left);
 
         var btnFavGO = Child(zonaDetalle.transform, "BtnFavorito");
-        Anch(btnFavGO, 0.05f, 0.60f, 0.35f, 0.67f);
-        Img(btnFavGO, Hex("#1A1020"));
+        Anch(btnFavGO, 0.05f, 0.60f, 0.34f, 0.67f);
+        var btnFavImg = Img(btnFavGO, Hex("#1A1020"));
         var btnFav = btnFavGO.AddComponent<Button>();
-        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "Marcar favorito", 11f, Hex("#A855F7"), bold: true);
+        btnFav.targetGraphic = btnFavImg;
+        var btnFavLabel = Txt(Child(btnFavGO.transform, "Label"), "Marcar favorito", 10f, Hex("#A855F7"), bold: true);
+
+        var btnBloquearGO = Child(zonaDetalle.transform, "BtnBloquear");
+        Anch(btnBloquearGO, 0.36f, 0.60f, 0.65f, 0.67f);
+        var btnBloquearImg = Img(btnBloquearGO, Hex("#1A1020"));
+        var btnBloquear = btnBloquearGO.AddComponent<Button>();
+        btnBloquear.targetGraphic = btnBloquearImg;
+        var btnBloquearLabel = Txt(Child(btnBloquearGO.transform, "Label"), "Bloquear", 10f, Hex("#A855F7"), bold: true);
+
+        var btnEliminarGO = Child(zonaDetalle.transform, "BtnEliminar");
+        Anch(btnEliminarGO, 0.67f, 0.60f, 0.96f, 0.67f);
+        var btnEliminarImg = Img(btnEliminarGO, Hex("#3F1A1A"));
+        var btnEliminar = btnEliminarGO.AddComponent<Button>();
+        btnEliminar.targetGraphic = btnEliminarImg;
+        Txt(Child(btnEliminarGO.transform, "Label"), "Eliminar", 10f, Hex("#EF4444"), bold: true);
 
         // Tabs
         var tabBar = Child(zonaDetalle.transform, "TabBar");
@@ -228,21 +263,36 @@ public static class SetupHeroScene
 
         var btnTabInfoGO = Child(tabBar.transform, "BtnInfo");
         Anch(btnTabInfoGO, 0.00f, 0f, 0.32f, 1f);
-        Img(btnTabInfoGO, Hex("#1A1020"));
+        var btnTabInfoImg = Img(btnTabInfoGO, Hex("#1A1020"));
         var btnTabInfo = btnTabInfoGO.AddComponent<Button>();
-        Txt(Child(btnTabInfoGO.transform, "Label"), "Info", 11f, Color.white, bold: true);
+        btnTabInfo.targetGraphic = btnTabInfoImg;
+        var iconTabInfoGO = Child(btnTabInfoGO.transform, "Icon");
+        Anch(iconTabInfoGO, 0.08f, 0.15f, 0.30f, 0.85f);
+        var iconTabInfo = Img(iconTabInfoGO, Color.white);
+        var lblTabInfo = Txt(Child(btnTabInfoGO.transform, "Label"), "Info", 10f, Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(lblTabInfo.rectTransform.gameObject, 0.34f, 0.1f, 0.98f, 0.9f);
 
         var btnTabHabGO = Child(tabBar.transform, "BtnHabilidades");
         Anch(btnTabHabGO, 0.34f, 0f, 0.66f, 1f);
-        Img(btnTabHabGO, Hex("#1A1020"));
+        var btnTabHabImg = Img(btnTabHabGO, Hex("#1A1020"));
         var btnTabHab = btnTabHabGO.AddComponent<Button>();
-        Txt(Child(btnTabHabGO.transform, "Label"), "Habilidades", 10f, Color.white, bold: true);
+        btnTabHab.targetGraphic = btnTabHabImg;
+        var iconTabHabGO = Child(btnTabHabGO.transform, "Icon");
+        Anch(iconTabHabGO, 0.06f, 0.15f, 0.28f, 0.85f);
+        var iconTabHab = Img(iconTabHabGO, Color.white);
+        var lblTabHab = Txt(Child(btnTabHabGO.transform, "Label"), "Habil.", 9f, Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(lblTabHab.rectTransform.gameObject, 0.32f, 0.1f, 0.98f, 0.9f);
 
         var btnTabEqGO = Child(tabBar.transform, "BtnEquipo");
         Anch(btnTabEqGO, 0.68f, 0f, 1.00f, 1f);
-        Img(btnTabEqGO, Hex("#1A1020"));
+        var btnTabEqImg = Img(btnTabEqGO, Hex("#1A1020"));
         var btnTabEq = btnTabEqGO.AddComponent<Button>();
-        Txt(Child(btnTabEqGO.transform, "Label"), "Equipo", 11f, Color.white, bold: true);
+        btnTabEq.targetGraphic = btnTabEqImg;
+        var iconTabEqGO = Child(btnTabEqGO.transform, "Icon");
+        Anch(iconTabEqGO, 0.08f, 0.15f, 0.30f, 0.85f);
+        var iconTabEq = Img(iconTabEqGO, Color.white);
+        var lblTabEq = Txt(Child(btnTabEqGO.transform, "Label"), "Equipo", 10f, Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(lblTabEq.rectTransform.gameObject, 0.34f, 0.1f, 0.98f, 0.9f);
 
         // Panel Info
         var panelInfo = Child(zonaDetalle.transform, "PanelInfo");
@@ -281,6 +331,9 @@ public static class SetupHeroScene
         panelEq.SetActive(false);
         var equipoTxt = Txt(panelEq, "—", 13f, Color.white, TextAlignmentOptions.TopLeft);
 
+        // Los popups/overlays deben renderizar por encima de todo lo demás.
+        popupComprar.transform.SetAsLastSibling();
+
         // ── Wiring ───────────────────────────────────────────────────────────
 
         var controller = canvasGO.AddComponent<HeroSceneController>();
@@ -293,6 +346,7 @@ public static class SetupHeroScene
         so.FindProperty("_capacidadTexto").objectReferenceValue = capacidadTxt;
         so.FindProperty("_btnVistaToggle").objectReferenceValue = btnVista;
         so.FindProperty("_btnVistaToggleLabel").objectReferenceValue = btnVistaLabel;
+        so.FindProperty("_iconVista").objectReferenceValue = iconVista;
 
         so.FindProperty("_btnFiltros").objectReferenceValue = btnFiltros;
         so.FindProperty("_panelFiltros").objectReferenceValue = panelFiltros;
@@ -311,15 +365,23 @@ public static class SetupHeroScene
         so.FindProperty("_detailPanel").objectReferenceValue = zonaDetalle;
         so.FindProperty("_detailPortrait").objectReferenceValue = portraitImg;
         so.FindProperty("_detailNombre").objectReferenceValue = nombreTxt;
-        so.FindProperty("_detailNivelEstrellas").objectReferenceValue = nivelTxt;
+        so.FindProperty("_detailNivel").objectReferenceValue = nivelTxt;
+        so.FindProperty("_estrellasContainer").objectReferenceValue = estrellasContainerGO.GetComponent<RectTransform>();
+        so.FindProperty("_iconElemento").objectReferenceValue = iconElemento;
         so.FindProperty("_detailClaseElemento").objectReferenceValue = claseTxt;
         so.FindProperty("_detailStats").objectReferenceValue = detailStatsTxt;
         so.FindProperty("_btnFavorito").objectReferenceValue = btnFav;
         so.FindProperty("_btnFavoritoLabel").objectReferenceValue = btnFavLabel;
+        so.FindProperty("_btnBloquear").objectReferenceValue = btnBloquear;
+        so.FindProperty("_btnBloquearLabel").objectReferenceValue = btnBloquearLabel;
+        so.FindProperty("_btnEliminar").objectReferenceValue = btnEliminar;
 
         so.FindProperty("_btnTabInfo").objectReferenceValue = btnTabInfo;
         so.FindProperty("_btnTabHabilidades").objectReferenceValue = btnTabHab;
         so.FindProperty("_btnTabEquipo").objectReferenceValue = btnTabEq;
+        so.FindProperty("_iconTabInfo").objectReferenceValue = iconTabInfo;
+        so.FindProperty("_iconTabHabilidades").objectReferenceValue = iconTabHab;
+        so.FindProperty("_iconTabEquipo").objectReferenceValue = iconTabEq;
         so.FindProperty("_panelInfo").objectReferenceValue = panelInfo;
         so.FindProperty("_panelHabilidades").objectReferenceValue = panelHab;
         so.FindProperty("_panelEquipo").objectReferenceValue = panelEq;
@@ -354,8 +416,13 @@ public static class SetupHeroScene
         rt.anchorMin = rt.anchorMax = new Vector2(0f, 1f);
         rt.pivot = new Vector2(0f, 1f);
         rt.sizeDelta = new Vector2(140f, 170f);
-        Img(cardGO, Hex("#1A1020"));
+        var cardImg = Img(cardGO, Hex("#1A1020"));
         var btn = cardGO.AddComponent<Button>();
+        btn.targetGraphic = cardImg;
+        var colors = btn.colors;
+        colors.pressedColor = Hex("#A855F7");
+        colors.highlightedColor = Hex("#2A1A3A");
+        btn.colors = colors;
 
         var portraitGO = Child(cardGO.transform, "Portrait");
         Anch(portraitGO, 0.08f, 0.30f, 0.92f, 0.95f);
@@ -374,12 +441,18 @@ public static class SetupHeroScene
         Img(favGO, Hex("#F59E0B"));
         favGO.SetActive(false);
 
+        var lockGO = Child(cardGO.transform, "LockIcon");
+        Anch(lockGO, 0.02f, 0.85f, 0.25f, 0.98f);
+        Img(lockGO, Hex("#64748B"));
+        lockGO.SetActive(false);
+
         var view = cardGO.AddComponent<HeroCardView>();
         var so = new SerializedObject(view);
         so.FindProperty("_portrait").objectReferenceValue = portraitImg;
         so.FindProperty("_nombre").objectReferenceValue = nombreTxt;
         so.FindProperty("_nivel").objectReferenceValue = nivelTxt;
         so.FindProperty("_favoritoIcon").objectReferenceValue = favGO;
+        so.FindProperty("_lockIcon").objectReferenceValue = lockGO;
         so.FindProperty("_button").objectReferenceValue = btn;
         so.ApplyModifiedPropertiesWithoutUndo();
 

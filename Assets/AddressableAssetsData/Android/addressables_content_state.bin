@@ -1,0 +1,9 @@
+ACS@AddressablesContentState?IdÇKhttp://schemas.datacontract.org/2004/07/UnityEditor.AddressableAssets.Build	i)http://www.w3.org/2001/XMLSchema-instance	z3http://schemas.microsoft.com/2003/10/Serialization/@cachedBundles?Idà?Sizeà@CachedBundleState?Idà@bundleFileId?Idàòg{UnityEngine.AddressableAssets.Addressables.RuntimePath}/Android/localization-locales_assets_all.bundle@data.typeòa:AssetBundleRequestOptions?Idà	aXhttp://schemas.datacontract.org/2004/07/UnityEngine.ResourceManagement.ResourceProviders^AssetLoadModeôRequestedAssetAndDependencies^
+BundleName?Idàô 173cc94202058fa6ec83604f593736c2^
+BundleSizeã^ChunkedTransferÖ^"ClearOtherCachedVersionsWhenLoadedÖ^Crcçîµï+^Hash?Idàô b90d344505d9e5e623bccf1b21d8066b^RedirectLimitâˇ^
+RetryCountÅ^TimeoutÅ^UseCrcForCachedBundleá^!UseUnityWebRequestForLocalBundlesÖ@CachedBundleState?Idà@bundleFileId?Idà	òï{UnityEngine.AddressableAssets.Addressables.RuntimePath}/Android/20ad3ba546fd99580a11b8a438f0b583_monoscripts_e665304966aad5b936426be982d836c3.bundle@data.typeòa:AssetBundleRequestOptions?Idà
+	aXhttp://schemas.datacontract.org/2004/07/UnityEngine.ResourceManagement.ResourceProviders^AssetLoadModeôRequestedAssetAndDependencies^
+BundleName?Idàô,20ad3ba546fd99580a11b8a438f0b583_monoscripts^
+BundleSizeã8^ChunkedTransferÖ^"ClearOtherCachedVersionsWhenLoadedÖ^CrcçZøu^Hash?Idàô e665304966aad5b936426be982d836c3^RedirectLimitâˇ^
+RetryCountÅ^TimeoutÅ^UseCrcForCachedBundleá^!UseUnityWebRequestForLocalBundlesÖ@cachedInfos?Idà?SizeÄ@editorVersion?Idàô
+6000.4.0f1@playerVersion?Idàô0.1.0@remoteCatalogLoadPath?Idà
