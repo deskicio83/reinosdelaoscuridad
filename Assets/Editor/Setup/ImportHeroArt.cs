@@ -16,6 +16,7 @@ public static class ImportHeroArt
         "Assets/Addressables/Heroes/FullAwaken",
         "Assets/Addressables/Heroes/BorderGear",
         "Assets/Addressables/SkillIcon",
+        "Assets/Addressables/Art/HeroScene",
         "Assets/Addressables/Art/HeroScene/Elemento",
         "Assets/Addressables/Art/HeroScene/Clase",
         "Assets/Addressables/Art/HeroScene/Faccion",

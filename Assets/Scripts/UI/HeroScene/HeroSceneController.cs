@@ -53,6 +53,12 @@ namespace ReinoOscuridad.UI.HeroScene
         private const string ICON_TAB_INFO = ART_HEROSCENE + "TabMenuBar/IconInfo.png";
         private const string ICON_TAB_HABILIDADES = ART_HEROSCENE + "TabMenuBar/IconHabilidad.png";
         private const string ICON_TAB_EQUIPO = ART_HEROSCENE + "TabMenuBar/IconEquipo.png";
+        private const string ICON_FILTROS = ART_HEROSCENE + "HeroFilter.png";
+        private const string ICON_CORAZON_LLENO = ART_HEROSCENE + "CorazonLleno.png";
+        private const string ICON_CANDADO_CERRADO = ART_HEROSCENE + "CandadoCerrado.png";
+
+        private static readonly Color32 COLOR_FILTRO_ACTIVO = new Color32(0xA8, 0x55, 0xF7, 0xFF);
+        private static readonly Color32 COLOR_FILTRO_INACTIVO = new Color32(0x0D, 0x0D, 0x1A, 0xFF);
 
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RectTransform _content;
@@ -63,6 +69,7 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private TMP_Text _capacidadTexto;
 
         [SerializeField] private Button _btnFiltros;
+        [SerializeField] private Image _iconFiltros;
         [SerializeField] private GameObject _panelFiltros;
         [SerializeField] private RectTransform _filtrosElementoContainer;
         [SerializeField] private GameObject _filtroElementoBtnTemplate;
@@ -88,6 +95,8 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private TMP_Text _btnFavoritoLabel;
         [SerializeField] private Button _btnBloquear;
         [SerializeField] private TMP_Text _btnBloquearLabel;
+        [SerializeField] private Image _iconFavoritoOverlay;
+        [SerializeField] private Image _iconBloqueoOverlay;
 
         // ── Zona de navegación (tabs + contenido) ────────────────────────────
         [SerializeField] private Button _btnTabInfo;
@@ -117,6 +126,7 @@ namespace ReinoOscuridad.UI.HeroScene
         private List<PlayerHeroData> _rosterCompleto;
         private List<PlayerHeroData> _rosterFiltrado;
         private readonly HeroFilterState _filtro = new HeroFilterState();
+        private readonly List<(string elemento, Image img)> _filtroElementoButtons = new List<(string, Image)>();
         private string _selectedHeroId;
         private int _detailLoadToken;
 
@@ -158,8 +168,12 @@ namespace ReinoOscuridad.UI.HeroScene
             LoadIconAsync(ICON_TAB_INFO, _iconTabInfo);
             LoadIconAsync(ICON_TAB_HABILIDADES, _iconTabHabilidades);
             LoadIconAsync(ICON_TAB_EQUIPO, _iconTabEquipo);
+            LoadIconAsync(ICON_FILTROS, _iconFiltros);
+            LoadIconAsync(ICON_CORAZON_LLENO, _iconFavoritoOverlay);
+            LoadIconAsync(ICON_CANDADO_CERRADO, _iconBloqueoOverlay);
 
             RefreshOrdenarLabel();
+            RefreshFiltroActiveStates();
 
             var pd = _pds?.GetPlayerData();
             _rosterCompleto = pd?.heroes ?? new List<PlayerHeroData>();
@@ -193,6 +207,7 @@ namespace ReinoOscuridad.UI.HeroScene
                 BindCard, itemCount);
 
             RefreshCapacidadTexto(_rosterCompleto.Count, maxHeroSpaces);
+            RefreshFiltroActiveStates();
         }
 
         private Vector2 ComputeCellSize(int columns, Vector2 spacing)
@@ -294,6 +309,7 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_filtrosElementoContainer == null || _filtroElementoBtnTemplate == null) return;
 
+            _filtroElementoButtons.Clear();
             foreach (var elemento in ELEMENTOS)
             {
                 var go = Instantiate(_filtroElementoBtnTemplate, _filtrosElementoContainer);
@@ -304,6 +320,9 @@ namespace ReinoOscuridad.UI.HeroScene
                 var btn = go.GetComponent<Button>();
                 if (btn != null)
                     btn.onClick.AddListener(() => OnFiltroElementoClicked(elemento));
+
+                var img = btn != null ? btn.targetGraphic as Image : go.GetComponent<Image>();
+                if (img != null) _filtroElementoButtons.Add((elemento, img));
             }
         }
 
@@ -326,6 +345,18 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_btnSoloFavoritosLabel != null)
                 _btnSoloFavoritosLabel.text = _filtro.soloFavoritos ? "Favoritos: SI" : "Favoritos: NO";
             ApplyFilters();
+        }
+
+        private void RefreshFiltroActiveStates()
+        {
+            foreach (var (elemento, img) in _filtroElementoButtons)
+            {
+                bool activo = string.Equals(_filtro.elemento, elemento, StringComparison.OrdinalIgnoreCase);
+                img.color = activo ? COLOR_FILTRO_ACTIVO : COLOR_FILTRO_INACTIVO;
+            }
+
+            if (_btnSoloFavoritos != null && _btnSoloFavoritos.targetGraphic is Image favImg)
+                favImg.color = _filtro.soloFavoritos ? COLOR_FILTRO_ACTIVO : COLOR_FILTRO_INACTIVO;
         }
 
         private void OnOrdenarCiclar()
@@ -477,6 +508,8 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_btnFavoritoLabel != null)
                 _btnFavoritoLabel.text = favorito ? "* Favorito" : "Favorito";
+            if (_iconFavoritoOverlay != null)
+                _iconFavoritoOverlay.gameObject.SetActive(favorito);
         }
 
         private void OnFavoritoToggled()
@@ -497,6 +530,8 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_btnBloquearLabel != null)
                 _btnBloquearLabel.text = bloqueado ? "Bloqueado" : "Bloquear";
+            if (_iconBloqueoOverlay != null)
+                _iconBloqueoOverlay.gameObject.SetActive(bloqueado);
         }
 
         private void OnBloquearToggled()
@@ -566,36 +601,51 @@ namespace ReinoOscuridad.UI.HeroScene
                     .FirstOrDefault(s => string.Equals(s.skillId, skill.skillId, StringComparison.OrdinalIgnoreCase))
                     ?.level ?? 0;
 
+                // Fila auto-dimensionada: HorizontalLayoutGroup posiciona icono+texto,
+                // ContentSizeFitter en la fila y en el texto hacen que la altura se
+                // adapte al contenido real (evita que texto largo se solape con la
+                // siguiente habilidad).
                 var entryGO = new GameObject("Skill_" + skill.skillId, typeof(RectTransform));
                 entryGO.transform.SetParent(_habilidadesContent, false);
-                entryGO.AddComponent<LayoutElement>().preferredHeight = 130f;
+                var entryHLG = entryGO.AddComponent<HorizontalLayoutGroup>();
+                entryHLG.childControlWidth = true;
+                entryHLG.childControlHeight = false;
+                entryHLG.childForceExpandWidth = false;
+                entryHLG.childForceExpandHeight = false;
+                entryHLG.spacing = 8f;
+                entryHLG.padding = new RectOffset(4, 4, 6, 6);
+                var entryCSF = entryGO.AddComponent<ContentSizeFitter>();
+                entryCSF.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+                entryCSF.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
                 var iconGO = new GameObject("Icono", typeof(RectTransform));
                 iconGO.transform.SetParent(entryGO.transform, false);
-                var iconRT = iconGO.GetComponent<RectTransform>();
-                iconRT.anchorMin = new Vector2(0f, 0.5f);
-                iconRT.anchorMax = new Vector2(0f, 0.5f);
-                iconRT.pivot = new Vector2(0f, 0.5f);
-                iconRT.sizeDelta = new Vector2(84f, 84f);
-                iconRT.anchoredPosition = new Vector2(4f, 0f);
+                var iconLayout = iconGO.AddComponent<LayoutElement>();
+                iconLayout.preferredWidth = 84f;
+                iconLayout.preferredHeight = 84f;
+                iconLayout.flexibleWidth = 0f;
+                iconLayout.flexibleHeight = 0f;
                 var iconImg = iconGO.AddComponent<Image>();
                 iconImg.color = Color.white;
                 LoadIconAsync(ART_SKILLICON + $"{playerHero.heroId}_{skill.type}.png", iconImg);
 
                 var txtGO = new GameObject("Texto", typeof(RectTransform));
                 txtGO.transform.SetParent(entryGO.transform, false);
-                var rt = txtGO.GetComponent<RectTransform>();
-                rt.anchorMin = Vector2.zero;
-                rt.anchorMax = Vector2.one;
-                rt.offsetMin = new Vector2(96f, 4f);
-                rt.offsetMax = new Vector2(-4f, -4f);
+                var txtLayout = txtGO.AddComponent<LayoutElement>();
+                txtLayout.flexibleWidth = 1f;
 
                 var txt = txtGO.AddComponent<TextMeshProUGUI>();
                 txt.fontSize = 11f;
                 txt.color = Color.white;
                 txt.textWrappingMode = TextWrappingModes.Normal;
                 txt.text = BuildHabilidadRichText(skill, skillLevel);
+
+                var txtCSF = txtGO.AddComponent<ContentSizeFitter>();
+                txtCSF.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+                txtCSF.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_habilidadesContent);
         }
 
         private static string BuildHabilidadRichText(HeroSkillDef skill, int skillLevel)
