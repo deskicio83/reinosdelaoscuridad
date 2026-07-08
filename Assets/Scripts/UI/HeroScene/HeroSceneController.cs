@@ -21,6 +21,7 @@ namespace ReinoOscuridad.UI.HeroScene
         public bool soloFavoritos;
         public bool soloBloqueados;
         public string ordenarPor = "nivel";
+        public bool ordenAscendente;
     }
 
     public class HeroSceneController : MonoBehaviour
@@ -54,8 +55,6 @@ namespace ReinoOscuridad.UI.HeroScene
         private const string ICON_TAB_HABILIDADES = ART_HEROSCENE + "TabMenuBar/IconHabilidad.png";
         private const string ICON_TAB_EQUIPO = ART_HEROSCENE + "TabMenuBar/IconEquipo.png";
         private const string ICON_FILTROS = ART_HEROSCENE + "HeroFilter.png";
-        private const string ICON_CORAZON_LLENO = ART_HEROSCENE + "CorazonLleno.png";
-        private const string ICON_CANDADO_CERRADO = ART_HEROSCENE + "CandadoCerrado.png";
 
         private static readonly Color32 COLOR_FILTRO_ACTIVO = new Color32(0xA8, 0x55, 0xF7, 0xFF);
         private static readonly Color32 COLOR_FILTRO_INACTIVO = new Color32(0x0D, 0x0D, 0x1A, 0xFF);
@@ -77,6 +76,8 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private TMP_Text _btnSoloFavoritosLabel;
         [SerializeField] private Button _btnOrdenar;
         [SerializeField] private TMP_Text _btnOrdenarLabel;
+        [SerializeField] private Button _btnOrdenDireccion;
+        [SerializeField] private TMP_Text _btnOrdenDireccionLabel;
 
         [SerializeField] private GameObject _popupComprarHuecos;
         [SerializeField] private TMP_Text _popupComprarTexto;
@@ -95,8 +96,6 @@ namespace ReinoOscuridad.UI.HeroScene
         [SerializeField] private TMP_Text _btnFavoritoLabel;
         [SerializeField] private Button _btnBloquear;
         [SerializeField] private TMP_Text _btnBloquearLabel;
-        [SerializeField] private Image _iconFavoritoOverlay;
-        [SerializeField] private Image _iconBloqueoOverlay;
 
         // ── Zona de navegación (tabs + contenido) ────────────────────────────
         [SerializeField] private Button _btnTabInfo;
@@ -158,6 +157,7 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_btnFiltros != null) _btnFiltros.onClick.AddListener(OnFiltrosToggle);
             if (_btnSoloFavoritos != null) _btnSoloFavoritos.onClick.AddListener(OnSoloFavoritosToggle);
             if (_btnOrdenar != null) _btnOrdenar.onClick.AddListener(OnOrdenarCiclar);
+            if (_btnOrdenDireccion != null) _btnOrdenDireccion.onClick.AddListener(OnOrdenDireccionToggle);
             if (_btnCancelarCompra != null) _btnCancelarCompra.onClick.AddListener(() => _popupComprarHuecos?.SetActive(false));
 
             if (_detailPanel != null) _detailPanel.SetActive(false);
@@ -169,10 +169,9 @@ namespace ReinoOscuridad.UI.HeroScene
             LoadIconAsync(ICON_TAB_HABILIDADES, _iconTabHabilidades);
             LoadIconAsync(ICON_TAB_EQUIPO, _iconTabEquipo);
             LoadIconAsync(ICON_FILTROS, _iconFiltros);
-            LoadIconAsync(ICON_CORAZON_LLENO, _iconFavoritoOverlay);
-            LoadIconAsync(ICON_CANDADO_CERRADO, _iconBloqueoOverlay);
 
             RefreshOrdenarLabel();
+            RefreshOrdenDireccionLabel();
             RefreshFiltroActiveStates();
 
             var pd = _pds?.GetPlayerData();
@@ -240,21 +239,25 @@ namespace ReinoOscuridad.UI.HeroScene
                 query = query.Where(h => string.Equals(catalogLookup(h.heroId)?.element, filter.elemento,
                     StringComparison.OrdinalIgnoreCase));
 
+            bool asc = filter.ordenAscendente;
+            var ordered = query.OrderByDescending(h => h.favorite);
+
             switch (filter.ordenarPor)
             {
                 case "estrellas":
-                    query = query.OrderByDescending(h => h.favorite).ThenByDescending(h => h.stars).ThenBy(h => h.heroId);
+                    ordered = asc ? ordered.ThenBy(h => h.stars) : ordered.ThenByDescending(h => h.stars);
                     break;
                 case "nombre":
-                    query = query.OrderByDescending(h => h.favorite)
-                        .ThenBy(h => catalogLookup?.Invoke(h.heroId)?.displayName_es ?? h.heroId);
+                    ordered = asc
+                        ? ordered.ThenBy(h => catalogLookup?.Invoke(h.heroId)?.displayName_es ?? h.heroId)
+                        : ordered.ThenByDescending(h => catalogLookup?.Invoke(h.heroId)?.displayName_es ?? h.heroId);
                     break;
                 default:
-                    query = query.OrderByDescending(h => h.favorite).ThenByDescending(h => h.level).ThenBy(h => h.heroId);
+                    ordered = asc ? ordered.ThenBy(h => h.level) : ordered.ThenByDescending(h => h.level);
                     break;
             }
 
-            return query.ToList();
+            return ordered.ThenBy(h => h.heroId).ToList();
         }
 
         public static (int oro, int caosifera) GetSlotExpansionCost(int currentMax)
@@ -372,6 +375,19 @@ namespace ReinoOscuridad.UI.HeroScene
             if (_btnOrdenarLabel != null) _btnOrdenarLabel.text = "Orden: " + _filtro.ordenarPor;
         }
 
+        private void OnOrdenDireccionToggle()
+        {
+            _filtro.ordenAscendente = !_filtro.ordenAscendente;
+            RefreshOrdenDireccionLabel();
+            ApplyFilters();
+        }
+
+        private void RefreshOrdenDireccionLabel()
+        {
+            if (_btnOrdenDireccionLabel != null)
+                _btnOrdenDireccionLabel.text = _filtro.ordenAscendente ? "Direccion: Ascendente" : "Direccion: Descendente";
+        }
+
         private void RefreshCapacidadTexto(int actuales, int maximo)
         {
             if (_capacidadTexto != null) _capacidadTexto.text = $"Esbirros: {actuales}/{maximo}";
@@ -483,15 +499,22 @@ namespace ReinoOscuridad.UI.HeroScene
             ShowTab(0);
         }
 
+        private static void ClearChildren(Transform parent)
+        {
+            if (parent == null) return;
+            for (int i = parent.childCount - 1; i >= 0; i--)
+            {
+                var child = parent.GetChild(i);
+                child.SetParent(null);
+                Destroy(child.gameObject);
+            }
+        }
+
         private void BuildEstrellas(int stars)
         {
             if (_estrellasContainer == null) return;
 
-            foreach (Transform child in _estrellasContainer)
-            {
-                child.SetParent(null);
-                Destroy(child.gameObject);
-            }
+            ClearChildren(_estrellasContainer);
 
             int total = Mathf.Clamp(stars, 0, MAX_ESTRELLAS);
             for (int i = 0; i < total; i++)
@@ -508,8 +531,6 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_btnFavoritoLabel != null)
                 _btnFavoritoLabel.text = favorito ? "* Favorito" : "Favorito";
-            if (_iconFavoritoOverlay != null)
-                _iconFavoritoOverlay.gameObject.SetActive(favorito);
         }
 
         private void OnFavoritoToggled()
@@ -530,8 +551,6 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_btnBloquearLabel != null)
                 _btnBloquearLabel.text = bloqueado ? "Bloqueado" : "Bloquear";
-            if (_iconBloqueoOverlay != null)
-                _iconBloqueoOverlay.gameObject.SetActive(bloqueado);
         }
 
         private void OnBloquearToggled()
@@ -585,11 +604,7 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_habilidadesContent == null) return;
 
-            foreach (Transform child in _habilidadesContent)
-            {
-                child.SetParent(null);
-                Destroy(child.gameObject);
-            }
+            ClearChildren(_habilidadesContent);
 
             if (catalogData?.skills == null) return;
 
@@ -675,11 +690,7 @@ namespace ReinoOscuridad.UI.HeroScene
         {
             if (_equipoSlotsContent == null) return;
 
-            foreach (Transform child in _equipoSlotsContent)
-            {
-                child.SetParent(null);
-                Destroy(child.gameObject);
-            }
+            ClearChildren(_equipoSlotsContent);
 
             var gearSystem = GearSystem.Instance;
 

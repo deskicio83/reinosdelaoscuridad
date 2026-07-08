@@ -144,36 +144,57 @@ public static class SetupHeroScene
 
         var cardTemplate = BuildCardTemplate(canvasTr);
 
-        // ── PanelFiltros (overlay sobre ZonaRoster) ───────────────────────────
+        // ── PanelFiltros (overlay sobre ZonaRoster, lista vertical única) ─────
 
         var panelFiltros = Child(canvasTr, "PanelFiltros");
-        Anch(panelFiltros, 0.02f, 0.60f, 0.32f, 0.87f);
+        Anch(panelFiltros, 0.02f, 0.15f, 0.32f, 0.87f);
         Img(panelFiltros, Hex("#1A1020"), 0.97f);
         panelFiltros.SetActive(false);
 
-        var filtroElementoContainerGO = Child(panelFiltros.transform, "FiltrosElemento");
-        Anch(filtroElementoContainerGO, 0.02f, 0.55f, 0.98f, 0.95f);
-        var filtroHLG = filtroElementoContainerGO.AddComponent<HorizontalLayoutGroup>();
-        filtroHLG.childControlWidth = true;
-        filtroHLG.childControlHeight = true;
-        filtroHLG.childForceExpandWidth = true;
-        filtroHLG.spacing = 3f;
+        var filtrosListGO = Child(panelFiltros.transform, "FiltrosList");
+        Anch(filtrosListGO, 0.04f, 0.02f, 0.96f, 0.98f);
+        var filtrosVLG = filtrosListGO.AddComponent<VerticalLayoutGroup>();
+        filtrosVLG.childControlWidth = true;
+        filtrosVLG.childControlHeight = true;
+        filtrosVLG.childForceExpandWidth = true;
+        filtrosVLG.childForceExpandHeight = false;
+        filtrosVLG.spacing = 4f;
+        filtrosVLG.padding = new RectOffset(2, 2, 4, 4);
 
-        var filtroElementoTemplate = BuildFiltroElementoTemplate(canvasTr);
-
-        var btnSoloFavGO = Child(panelFiltros.transform, "BtnSoloFavoritos");
-        Anch(btnSoloFavGO, 0.02f, 0.05f, 0.48f, 0.48f);
-        var btnSoloFavImg = Img(btnSoloFavGO, Hex("#0D0D1A"));
-        var btnSoloFav = btnSoloFavGO.AddComponent<Button>();
-        btnSoloFav.targetGraphic = btnSoloFavImg;
-        var btnSoloFavLabel = Txt(Child(btnSoloFavGO.transform, "Label"), "Favoritos: NO", 9f, Color.white, bold: true);
-
-        var btnOrdenarGO = Child(panelFiltros.transform, "BtnOrdenar");
-        Anch(btnOrdenarGO, 0.52f, 0.05f, 0.98f, 0.48f);
+        var btnOrdenarGO = Child(filtrosListGO.transform, "BtnOrdenar");
+        btnOrdenarGO.AddComponent<LayoutElement>().preferredHeight = 24f;
         var btnOrdenarImg = Img(btnOrdenarGO, Hex("#0D0D1A"));
         var btnOrdenar = btnOrdenarGO.AddComponent<Button>();
         btnOrdenar.targetGraphic = btnOrdenarImg;
-        var btnOrdenarLabel = Txt(Child(btnOrdenarGO.transform, "Label"), "Orden: nivel", 9f, Color.white, bold: true);
+        var btnOrdenarLabel = Txt(Child(btnOrdenarGO.transform, "Label"), "Orden: nivel", 9f, Color.white,
+            TextAlignmentOptions.Left, bold: true);
+        Anch(btnOrdenarLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
+
+        var btnOrdenDireccionGO = Child(filtrosListGO.transform, "BtnOrdenDireccion");
+        btnOrdenDireccionGO.AddComponent<LayoutElement>().preferredHeight = 24f;
+        var btnOrdenDireccionImg = Img(btnOrdenDireccionGO, Hex("#0D0D1A"));
+        var btnOrdenDireccion = btnOrdenDireccionGO.AddComponent<Button>();
+        btnOrdenDireccion.targetGraphic = btnOrdenDireccionImg;
+        var btnOrdenDireccionLabel = Txt(Child(btnOrdenDireccionGO.transform, "Label"), "Direccion: Descendente", 9f,
+            Color.white, TextAlignmentOptions.Left, bold: true);
+        Anch(btnOrdenDireccionLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
+
+        var btnSoloFavGO = Child(filtrosListGO.transform, "BtnSoloFavoritos");
+        btnSoloFavGO.AddComponent<LayoutElement>().preferredHeight = 24f;
+        var btnSoloFavImg = Img(btnSoloFavGO, Hex("#0D0D1A"));
+        var btnSoloFav = btnSoloFavGO.AddComponent<Button>();
+        btnSoloFav.targetGraphic = btnSoloFavImg;
+        var btnSoloFavLabel = Txt(Child(btnSoloFavGO.transform, "Label"), "Favoritos: NO", 9f, Color.white,
+            TextAlignmentOptions.Left, bold: true);
+        Anch(btnSoloFavLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
+
+        var elementoHeaderGO = Child(filtrosListGO.transform, "ElementoHeader");
+        elementoHeaderGO.AddComponent<LayoutElement>().preferredHeight = 18f;
+        Txt(elementoHeaderGO, "Elemento", 9f, Hex("#888888"), TextAlignmentOptions.Left, bold: true);
+
+        // Los botones de elemento se instancian dentro de la misma lista vertical
+        // (HeroSceneController.BuildFiltroElementoButtons los añade como filas más).
+        var filtroElementoTemplate = BuildFiltroElementoTemplate(canvasTr);
 
         // ── Popup comprar huecos / confirmacion generica (overlay centrado) ──
 
@@ -222,12 +243,14 @@ public static class SetupHeroScene
         so.FindProperty("_btnFiltros").objectReferenceValue = btnFiltros;
         so.FindProperty("_iconFiltros").objectReferenceValue = iconFiltros;
         so.FindProperty("_panelFiltros").objectReferenceValue = panelFiltros;
-        so.FindProperty("_filtrosElementoContainer").objectReferenceValue = filtroElementoContainerGO.GetComponent<RectTransform>();
+        so.FindProperty("_filtrosElementoContainer").objectReferenceValue = filtrosListGO.GetComponent<RectTransform>();
         so.FindProperty("_filtroElementoBtnTemplate").objectReferenceValue = filtroElementoTemplate;
         so.FindProperty("_btnSoloFavoritos").objectReferenceValue = btnSoloFav;
         so.FindProperty("_btnSoloFavoritosLabel").objectReferenceValue = btnSoloFavLabel;
         so.FindProperty("_btnOrdenar").objectReferenceValue = btnOrdenar;
         so.FindProperty("_btnOrdenarLabel").objectReferenceValue = btnOrdenarLabel;
+        so.FindProperty("_btnOrdenDireccion").objectReferenceValue = btnOrdenDireccion;
+        so.FindProperty("_btnOrdenDireccionLabel").objectReferenceValue = btnOrdenDireccionLabel;
 
         so.FindProperty("_popupComprarHuecos").objectReferenceValue = popupComprar;
         so.FindProperty("_popupComprarTexto").objectReferenceValue = popupTexto;
@@ -245,8 +268,6 @@ public static class SetupHeroScene
         so.FindProperty("_btnFavoritoLabel").objectReferenceValue = zonaMedioResult.BtnFavoritoLabel;
         so.FindProperty("_btnBloquear").objectReferenceValue = zonaMedioResult.BtnBloquear;
         so.FindProperty("_btnBloquearLabel").objectReferenceValue = zonaMedioResult.BtnBloquearLabel;
-        so.FindProperty("_iconFavoritoOverlay").objectReferenceValue = zonaMedioResult.IconFavoritoOverlay;
-        so.FindProperty("_iconBloqueoOverlay").objectReferenceValue = zonaMedioResult.IconBloqueoOverlay;
 
         so.FindProperty("_btnTabInfo").objectReferenceValue = zonaNavResult.BtnTabInfo;
         so.FindProperty("_btnTabHabilidades").objectReferenceValue = zonaNavResult.BtnTabHabilidades;
@@ -282,8 +303,6 @@ public static class SetupHeroScene
         public TMP_Text BtnFavoritoLabel;
         public Button BtnBloquear;
         public TMP_Text BtnBloquearLabel;
-        public Image IconFavoritoOverlay;
-        public Image IconBloqueoOverlay;
     }
 
     private struct ZonaNavResult
@@ -308,19 +327,6 @@ public static class SetupHeroScene
         var portraitGO = Child(zonaMedio.transform, "Portrait");
         Anch(portraitGO, 0.10f, 0.32f, 0.90f, 0.97f);
         var portraitImg = Img(portraitGO, Color.white);
-
-        // Overlays de favorito/bloqueo — esquinas superiores del retrato, ocultos hasta togglear.
-        var iconFavOverlayGO = Child(portraitGO.transform, "IconFavoritoOverlay");
-        Anch(iconFavOverlayGO, 0.76f, 0.80f, 0.98f, 0.98f);
-        var iconFavOverlay = Img(iconFavOverlayGO, Color.white);
-        iconFavOverlay.preserveAspect = true;
-        iconFavOverlayGO.SetActive(false);
-
-        var iconLockOverlayGO = Child(portraitGO.transform, "IconBloqueoOverlay");
-        Anch(iconLockOverlayGO, 0.02f, 0.80f, 0.24f, 0.98f);
-        var iconLockOverlay = Img(iconLockOverlayGO, Color.white);
-        iconLockOverlay.preserveAspect = true;
-        iconLockOverlayGO.SetActive(false);
 
         var nombreGO = Child(zonaMedio.transform, "Nombre");
         Anch(nombreGO, 0.05f, 0.24f, 0.95f, 0.31f);
@@ -373,8 +379,6 @@ public static class SetupHeroScene
             BtnFavoritoLabel = btnFavLabel,
             BtnBloquear = btnBloquear,
             BtnBloquearLabel = btnBloquearLabel,
-            IconFavoritoOverlay = iconFavOverlay,
-            IconBloqueoOverlay = iconLockOverlay,
         };
 
         // ── ZonaNav (local 0.44-1.00 del wrapper) ─────────────────────────────
@@ -504,15 +508,15 @@ public static class SetupHeroScene
     {
         var go = Child(canvasTr, "FiltroElementoTemplate");
         var layout = go.AddComponent<LayoutElement>();
-        layout.preferredWidth = 60f;
         layout.preferredHeight = 24f;
+        layout.flexibleWidth = 1f;
         var btnImg = Img(go, Hex("#0D0D1A"));
         var btn = go.AddComponent<Button>();
         btn.targetGraphic = btnImg;
 
         var labelGO = Child(go.transform, "Label");
-        Anch(labelGO, 0f, 0f, 1f, 1f);
-        Txt(labelGO, "elemento", 8f, Color.white, bold: true);
+        Anch(labelGO, 0.06f, 0f, 0.98f, 1f);
+        Txt(labelGO, "elemento", 9f, Color.white, TextAlignmentOptions.Left, bold: true);
 
         go.SetActive(false);
         return go;
@@ -547,12 +551,14 @@ public static class SetupHeroScene
 
         var favGO = Child(cardGO.transform, "FavoritoIcon");
         Anch(favGO, 0.75f, 0.85f, 0.98f, 0.98f);
-        Img(favGO, Hex("#F59E0B"));
+        var favImg = Img(favGO, Color.white);
+        favImg.preserveAspect = true;
         favGO.SetActive(false);
 
         var lockGO = Child(cardGO.transform, "LockIcon");
         Anch(lockGO, 0.02f, 0.85f, 0.25f, 0.98f);
-        Img(lockGO, Hex("#64748B"));
+        var lockImg = Img(lockGO, Color.white);
+        lockImg.preserveAspect = true;
         lockGO.SetActive(false);
 
         var view = cardGO.AddComponent<HeroCardView>();

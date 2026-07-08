@@ -107,6 +107,21 @@ public class HeroSceneControllerTests
     }
 
     [Test]
+    public void FilterAndSort_Ascendente_InvierteOrden()
+    {
+        var roster = new List<PlayerHeroData>
+        {
+            new PlayerHeroData { heroId = "bajo", level = 10 },
+            new PlayerHeroData { heroId = "alto", level = 50 },
+        };
+
+        var filtro = new HeroFilterState { ordenarPor = "nivel", ordenAscendente = true };
+        var resultado = HeroSceneController.FilterAndSort(roster, filtro, null);
+
+        Assert.AreEqual("bajo", resultado[0].heroId, "Ascendente: menor nivel debe ir primero");
+    }
+
+    [Test]
     public void GetSlotExpansionCost_IncreasesWithEachExpansion()
     {
         var (oro1, caos1) = HeroSceneController.GetSlotExpansionCost(20);

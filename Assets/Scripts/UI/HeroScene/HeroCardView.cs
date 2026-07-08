@@ -9,6 +9,9 @@ namespace ReinoOscuridad.UI.HeroScene
 {
     public class HeroCardView : MonoBehaviour
     {
+        private const string ICON_CORAZON_LLENO = "Assets/Addressables/Art/HeroScene/CorazonLleno.png";
+        private const string ICON_CANDADO_CERRADO = "Assets/Addressables/Art/HeroScene/CandadoCerrado.png";
+
         [SerializeField] private Image _portrait;
         [SerializeField] private TMP_Text _nombre;
         [SerializeField] private TMP_Text _nivel;
@@ -21,6 +24,37 @@ namespace ReinoOscuridad.UI.HeroScene
         private int _loadToken;
         private AsyncOperationHandle<Sprite> _portraitHandle;
         private bool _hasPortraitHandle;
+        private AsyncOperationHandle<Sprite> _favIconHandle;
+        private bool _hasFavIconHandle;
+        private AsyncOperationHandle<Sprite> _lockIconHandle;
+        private bool _hasLockIconHandle;
+
+        private void Awake()
+        {
+            var favImg = _favoritoIcon != null ? _favoritoIcon.GetComponent<Image>() : null;
+            if (favImg != null)
+            {
+                Addressables.LoadAssetAsync<Sprite>(ICON_CORAZON_LLENO).Completed += handle =>
+                {
+                    if (handle.Status == AsyncOperationStatus.Succeeded && favImg != null)
+                        favImg.sprite = handle.Result;
+                    _favIconHandle = handle;
+                    _hasFavIconHandle = true;
+                };
+            }
+
+            var lockImg = _lockIcon != null ? _lockIcon.GetComponent<Image>() : null;
+            if (lockImg != null)
+            {
+                Addressables.LoadAssetAsync<Sprite>(ICON_CANDADO_CERRADO).Completed += handle =>
+                {
+                    if (handle.Status == AsyncOperationStatus.Succeeded && lockImg != null)
+                        lockImg.sprite = handle.Result;
+                    _lockIconHandle = handle;
+                    _hasLockIconHandle = true;
+                };
+            }
+        }
 
         public void Bind(string heroId, string nombre, int nivel, string portraitAddress, bool favorito,
             bool bloqueado, Action<string> onClick)
@@ -87,7 +121,12 @@ namespace ReinoOscuridad.UI.HeroScene
             }
         }
 
-        private void OnDestroy() => ReleasePortraitHandle();
+        private void OnDestroy()
+        {
+            ReleasePortraitHandle();
+            if (_hasFavIconHandle) Addressables.Release(_favIconHandle);
+            if (_hasLockIconHandle) Addressables.Release(_lockIconHandle);
+        }
 
         public Image Portrait => _portrait;
         public TMP_Text Nombre => _nombre;
