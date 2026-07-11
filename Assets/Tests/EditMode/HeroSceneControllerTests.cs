@@ -107,6 +107,22 @@ public class HeroSceneControllerTests
     }
 
     [Test]
+    public void FilterAndSort_ByEstrellas_OnlyReturnsMatchingCount()
+    {
+        var roster = new List<PlayerHeroData>
+        {
+            new PlayerHeroData { heroId = "a", stars = 3 },
+            new PlayerHeroData { heroId = "b", stars = 5 },
+        };
+
+        var filtro = new HeroFilterState { estrellas = 5 };
+        var resultado = HeroSceneController.FilterAndSort(roster, filtro, null);
+
+        Assert.AreEqual(1, resultado.Count);
+        Assert.AreEqual("b", resultado[0].heroId);
+    }
+
+    [Test]
     public void FilterAndSort_Ascendente_InvierteOrden()
     {
         var roster = new List<PlayerHeroData>

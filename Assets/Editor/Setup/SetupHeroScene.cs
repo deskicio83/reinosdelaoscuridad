@@ -149,19 +149,17 @@ public static class SetupHeroScene
         var panelFiltros = Child(canvasTr, "PanelFiltros");
         Anch(panelFiltros, 0.02f, 0.15f, 0.32f, 0.87f);
         Img(panelFiltros, Hex("#1A1020"), 0.97f);
+        var panelFiltrosCanvasGroup = panelFiltros.AddComponent<CanvasGroup>();
         panelFiltros.SetActive(false);
 
-        var filtrosListGO = Child(panelFiltros.transform, "FiltrosList");
-        Anch(filtrosListGO, 0.04f, 0.02f, 0.96f, 0.98f);
-        var filtrosVLG = filtrosListGO.AddComponent<VerticalLayoutGroup>();
-        filtrosVLG.childControlWidth = true;
-        filtrosVLG.childControlHeight = true;
-        filtrosVLG.childForceExpandWidth = true;
-        filtrosVLG.childForceExpandHeight = false;
-        filtrosVLG.spacing = 4f;
-        filtrosVLG.padding = new RectOffset(2, 2, 4, 4);
+        // Lista con scroll — evita que se desborde del panel al añadir más filas
+        // de filtro en el futuro (estrellas, facción, etc.).
+        var filtrosContentRT = BuildScrollContent(panelFiltros.transform, out _);
+        var filtrosListTr = filtrosContentRT.transform;
+        var filtrosVLG = filtrosContentRT.GetComponent<VerticalLayoutGroup>();
+        filtrosVLG.padding = new RectOffset(4, 4, 4, 4);
 
-        var btnOrdenarGO = Child(filtrosListGO.transform, "BtnOrdenar");
+        var btnOrdenarGO = Child(filtrosListTr, "BtnOrdenar");
         btnOrdenarGO.AddComponent<LayoutElement>().preferredHeight = 24f;
         var btnOrdenarImg = Img(btnOrdenarGO, Hex("#0D0D1A"));
         var btnOrdenar = btnOrdenarGO.AddComponent<Button>();
@@ -170,7 +168,7 @@ public static class SetupHeroScene
             TextAlignmentOptions.Left, bold: true);
         Anch(btnOrdenarLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
 
-        var btnOrdenDireccionGO = Child(filtrosListGO.transform, "BtnOrdenDireccion");
+        var btnOrdenDireccionGO = Child(filtrosListTr, "BtnOrdenDireccion");
         btnOrdenDireccionGO.AddComponent<LayoutElement>().preferredHeight = 24f;
         var btnOrdenDireccionImg = Img(btnOrdenDireccionGO, Hex("#0D0D1A"));
         var btnOrdenDireccion = btnOrdenDireccionGO.AddComponent<Button>();
@@ -179,7 +177,7 @@ public static class SetupHeroScene
             Color.white, TextAlignmentOptions.Left, bold: true);
         Anch(btnOrdenDireccionLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
 
-        var btnSoloFavGO = Child(filtrosListGO.transform, "BtnSoloFavoritos");
+        var btnSoloFavGO = Child(filtrosListTr, "BtnSoloFavoritos");
         btnSoloFavGO.AddComponent<LayoutElement>().preferredHeight = 24f;
         var btnSoloFavImg = Img(btnSoloFavGO, Hex("#0D0D1A"));
         var btnSoloFav = btnSoloFavGO.AddComponent<Button>();
@@ -188,13 +186,22 @@ public static class SetupHeroScene
             TextAlignmentOptions.Left, bold: true);
         Anch(btnSoloFavLabel.rectTransform.gameObject, 0.06f, 0f, 0.98f, 1f);
 
-        var elementoHeaderGO = Child(filtrosListGO.transform, "ElementoHeader");
+        var elementoHeaderGO = Child(filtrosListTr, "ElementoHeader");
         elementoHeaderGO.AddComponent<LayoutElement>().preferredHeight = 18f;
         Txt(elementoHeaderGO, "Elemento", 9f, Hex("#888888"), TextAlignmentOptions.Left, bold: true);
 
-        // Los botones de elemento se instancian dentro de la misma lista vertical
+        // Los botones de elemento se instancian dentro de la misma lista con scroll
         // (HeroSceneController.BuildFiltroElementoButtons los añade como filas más).
         var filtroElementoTemplate = BuildFiltroElementoTemplate(canvasTr);
+
+        var estrellasHeaderGO = Child(filtrosListTr, "EstrellasHeader");
+        estrellasHeaderGO.AddComponent<LayoutElement>().preferredHeight = 18f;
+        Txt(estrellasHeaderGO, "Estrellas", 9f, Hex("#888888"), TextAlignmentOptions.Left, bold: true);
+
+        // Los botones de estrellas se instancian dentro de la misma lista con scroll
+        // (HeroSceneController.BuildFiltroEstrellasButtons los añade como filas más).
+        var filtroEstrellasTemplate = BuildFiltroElementoTemplate(canvasTr);
+        filtroEstrellasTemplate.name = "FiltroEstrellasTemplate";
 
         // ── Popup comprar huecos / confirmacion generica (overlay centrado) ──
 
@@ -243,8 +250,10 @@ public static class SetupHeroScene
         so.FindProperty("_btnFiltros").objectReferenceValue = btnFiltros;
         so.FindProperty("_iconFiltros").objectReferenceValue = iconFiltros;
         so.FindProperty("_panelFiltros").objectReferenceValue = panelFiltros;
-        so.FindProperty("_filtrosElementoContainer").objectReferenceValue = filtrosListGO.GetComponent<RectTransform>();
+        so.FindProperty("_panelFiltrosCanvasGroup").objectReferenceValue = panelFiltrosCanvasGroup;
+        so.FindProperty("_filtrosElementoContainer").objectReferenceValue = filtrosContentRT;
         so.FindProperty("_filtroElementoBtnTemplate").objectReferenceValue = filtroElementoTemplate;
+        so.FindProperty("_filtroEstrellasBtnTemplate").objectReferenceValue = filtroEstrellasTemplate;
         so.FindProperty("_btnSoloFavoritos").objectReferenceValue = btnSoloFav;
         so.FindProperty("_btnSoloFavoritosLabel").objectReferenceValue = btnSoloFavLabel;
         so.FindProperty("_btnOrdenar").objectReferenceValue = btnOrdenar;
@@ -285,7 +294,9 @@ public static class SetupHeroScene
         so.FindProperty("_habilidadesContent").objectReferenceValue = zonaNavResult.HabilidadesContent;
         so.FindProperty("_equipoSlotsContent").objectReferenceValue = zonaNavResult.EquipoSlotsContent;
         so.FindProperty("_btnEliminar").objectReferenceValue = zonaNavResult.BtnEliminar;
-        so.FindProperty("_detailStats").objectReferenceValue = zonaNavResult.DetailStats;
+        so.FindProperty("_detailStatsLeft").objectReferenceValue = zonaNavResult.DetailStatsLeft;
+        so.FindProperty("_detailStatsRight").objectReferenceValue = zonaNavResult.DetailStatsRight;
+        so.FindProperty("_detailLore").objectReferenceValue = zonaNavResult.DetailLore;
 
         so.FindProperty("_btnVolver").objectReferenceValue = btnVolver;
         so.ApplyModifiedPropertiesWithoutUndo();
@@ -313,7 +324,9 @@ public static class SetupHeroScene
         public RectTransform HabilidadesContent;
         public RectTransform EquipoSlotsContent;
         public Button BtnEliminar;
-        public TMP_Text DetailStats;
+        public TMP_Text DetailStatsLeft;
+        public TMP_Text DetailStatsRight;
+        public TMP_Text DetailLore;
     }
 
     private static (ZonaMedioResult, ZonaNavResult) BuildZonasDetalle(Transform wrapperTr)
@@ -399,7 +412,27 @@ public static class SetupHeroScene
         // Panel Info
         var panelInfo = Child(zonaNav.transform, "PanelInfo");
         Anch(panelInfo, 0.05f, 0.03f, 0.98f, 0.88f);
-        var detailStatsTxt = Txt(panelInfo, "—", 13f, Color.white, TextAlignmentOptions.TopLeft);
+
+        var statsGridGO = Child(panelInfo.transform, "StatsGrid");
+        Anch(statsGridGO, 0f, 0.60f, 1f, 1f);
+
+        var statsLeftGO = Child(statsGridGO.transform, "StatsLeft");
+        Anch(statsLeftGO, 0f, 0f, 0.48f, 1f);
+        var statsLeftTxt = Txt(statsLeftGO, "—", 12f, Color.white, TextAlignmentOptions.TopLeft);
+
+        var statsRightGO = Child(statsGridGO.transform, "StatsRight");
+        Anch(statsRightGO, 0.52f, 0f, 1f, 1f);
+        var statsRightTxt = Txt(statsRightGO, "—", 12f, Color.white, TextAlignmentOptions.TopLeft);
+
+        var loreHeaderGO = Child(panelInfo.transform, "LoreHeader");
+        Anch(loreHeaderGO, 0f, 0.53f, 1f, 0.58f);
+        Txt(loreHeaderGO, "Historia", 10f, Hex("#888888"), TextAlignmentOptions.Left, bold: true);
+
+        var loreGO = Child(panelInfo.transform, "Lore");
+        Anch(loreGO, 0f, 0f, 1f, 0.52f);
+        var loreTxt = Txt(loreGO, "—", 10f, Hex("#CCCCCC"), TextAlignmentOptions.TopLeft);
+        loreTxt.textWrappingMode = TextWrappingModes.Normal;
+        loreTxt.overflowMode = TextOverflowModes.Ellipsis;
 
         // Panel Habilidades
         var panelHab = Child(zonaNav.transform, "PanelHabilidades");
@@ -449,7 +482,9 @@ public static class SetupHeroScene
             HabilidadesContent = habContentRT,
             EquipoSlotsContent = equipoContentRT,
             BtnEliminar = btnEliminar,
-            DetailStats = detailStatsTxt,
+            DetailStatsLeft = statsLeftTxt,
+            DetailStatsRight = statsRightTxt,
+            DetailLore = loreTxt,
         };
 
         return (zonaMedioResult, zonaNavResult);
@@ -467,7 +502,7 @@ public static class SetupHeroScene
         Anch(iconGO, 0.06f, 0.15f, 0.34f, 0.85f);
         var icon = Img(iconGO, Color.white);
 
-        var lbl = Txt(Child(go.transform, "Label"), label, 8f, Color.white, TextAlignmentOptions.Left, bold: true);
+        var lbl = Txt(Child(go.transform, "Label"), label, 11f, Color.white, TextAlignmentOptions.Left, bold: true);
         Anch(lbl.rectTransform.gameObject, 0.36f, 0.1f, 0.98f, 0.9f);
 
         return (btn, icon);
@@ -561,6 +596,24 @@ public static class SetupHeroScene
         lockImg.preserveAspect = true;
         lockGO.SetActive(false);
 
+        var estrellaBadgeGO = Child(cardGO.transform, "EstrellaBadge");
+        Anch(estrellaBadgeGO, 0.08f, 0.235f, 0.55f, 0.295f);
+        Img(estrellaBadgeGO, Color.black, 0.45f);
+
+        var estrellaIconGO = Child(estrellaBadgeGO.transform, "Icon");
+        Anch(estrellaIconGO, 0.06f, 0.15f, 0.36f, 0.85f);
+        var estrellaIcon = Img(estrellaIconGO, Color.white);
+        estrellaIcon.preserveAspect = true;
+
+        var estrellaTxtGO = Child(estrellaBadgeGO.transform, "Texto");
+        Anch(estrellaTxtGO, 0.4f, 0f, 0.98f, 1f);
+        var estrellaTxt = Txt(estrellaTxtGO, "x0", 8f, Color.white, TextAlignmentOptions.Left, bold: true);
+
+        var borderGO = Child(cardGO.transform, "BorderIcon");
+        Anch(borderGO, 0f, 0f, 1f, 1f);
+        var borderImg = Img(borderGO, Color.white);
+        borderImg.raycastTarget = false;
+
         var view = cardGO.AddComponent<HeroCardView>();
         var so = new SerializedObject(view);
         so.FindProperty("_portrait").objectReferenceValue = portraitImg;
@@ -568,6 +621,9 @@ public static class SetupHeroScene
         so.FindProperty("_nivel").objectReferenceValue = nivelTxt;
         so.FindProperty("_favoritoIcon").objectReferenceValue = favGO;
         so.FindProperty("_lockIcon").objectReferenceValue = lockGO;
+        so.FindProperty("_estrellaIcon").objectReferenceValue = estrellaIcon;
+        so.FindProperty("_estrellaTexto").objectReferenceValue = estrellaTxt;
+        so.FindProperty("_borderIcon").objectReferenceValue = borderImg;
         so.FindProperty("_button").objectReferenceValue = btn;
         so.ApplyModifiedPropertiesWithoutUndo();
 
